@@ -25,7 +25,9 @@ public class KhachHangDAO {
             stmt = con.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.println(rs);
+            while (rs.next()) {
+                System.out.println(rs.getString("soDienThoai"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

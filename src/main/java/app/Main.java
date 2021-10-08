@@ -7,8 +7,6 @@ import DAO.KhachHangDAO;
 
 public class Main {
 	public static void main(String[] args) {
-//		ConnectDB connectDB = new ConnectDB();
-//		System.out.println(connectDB);
 		try{
             ConnectDB.getInstance().connect();
         }catch(SQLException e){
