@@ -22,6 +22,8 @@ public class Register_GUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUserName;
 	private JTextField textPassword;
+	public JButton btnDangKy;
+	public JButton btnDangNhap;
 
 
 	/**
@@ -88,20 +90,18 @@ public class Register_GUI extends JFrame {
 		panel.add(textPassword);
 		textPassword.setColumns(10);
 		
-		JLabel lblCoTaiKhoan = new JLabel("\u0110\u00E3 c\u00F3 t\u00E0i kho\u1EA3n ?");
-		lblCoTaiKhoan.setForeground(new Color(255, 255, 255));
-		lblCoTaiKhoan.setBounds(238, 187, 117, 14);
-		panel.add(lblCoTaiKhoan);
-		
-		JLabel lblDangNhapNgay = new JLabel(" \u0110\u0103ng nh\u1EADp ngay");
-		lblDangNhapNgay.setBounds(335, 187, 104, 14);
-		panel.add(lblDangNhapNgay);
-		lblDangNhapNgay.setForeground(new Color(0, 191, 255));
-		
-		JButton btnDangKy = new JButton("\u0110\u0103ng k\u00FD");
-		btnDangKy.setBounds(180, 212, 130, 41);
+		btnDangKy = new JButton("\u0110\u0103ng k\u00FD");
+		btnDangKy.setBounds(103, 181, 130, 41);
 		panel.add(btnDangKy);
 		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		btnDangNhap = new JButton("Đăng nhập");
+		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnDangNhap.setBounds(260, 181, 130, 41);
+		panel.add(btnDangNhap);
 	}
-
+	
+	public JPanel getContentPane() {
+		return this.contentPane;
+	}
 }

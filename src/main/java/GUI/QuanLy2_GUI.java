@@ -70,5 +70,7 @@ public class QuanLy2_GUI extends JFrame {
 		setContentPane(contentPane);
 	}
 	
-
+	public JPanel getContentPane() {
+		return this.contentPane;
+	}
 }

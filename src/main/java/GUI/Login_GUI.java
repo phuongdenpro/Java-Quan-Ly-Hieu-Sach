@@ -1,7 +1,9 @@
 package GUI;
 import java.awt.Graphics;  
 import java.awt.Image;  
-import java.awt.Toolkit;  
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -22,6 +24,8 @@ public class Login_GUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUserName;
 	private JTextField textPassword;
+	public JButton btnDangNhap;
+	public JButton btnDangKy;
 
 	/**
 	 * Launch the application.
@@ -51,7 +55,9 @@ public class Login_GUI extends JFrame {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenSize.width, screenSize.height);
 		
-		contentPane = TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
+		contentPane = 
+//				new JPanel(); 
+				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
 //		new JPanel() {  
 //			public void paintComponent(Graphics g) {  
 //				Image img = Toolkit.getDefaultToolkit().getImage(  
@@ -66,7 +72,7 @@ public class Login_GUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(424, 176, 479, 276);
+		panel.setBounds(424, 176, 479, 255);
 		panel.setBackground(new Color(0, 0, 0, 150));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -89,21 +95,25 @@ public class Login_GUI extends JFrame {
 		panel.add(textPassword);
 		textPassword.setColumns(10);
 		
-		JLabel lblChuaCoTaiKhoan = new JLabel("Ch\u01B0a c\u00F3 t\u00E0i kho\u1EA3n ?");
-		lblChuaCoTaiKhoan.setForeground(new Color(255, 255, 255));
-		lblChuaCoTaiKhoan.setBounds(238, 187, 117, 14);
-		panel.add(lblChuaCoTaiKhoan);
 		
-		JLabel lblDangKyNgay = new JLabel(" \u0110\u0103ng k\u00FD ngay");
-		lblDangKyNgay.setBounds(351, 187, 88, 14);
-		panel.add(lblDangKyNgay);
-		lblDangKyNgay.setForeground(new Color(0, 191, 255));
-		
-		JButton btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
-		btnDangNhap.setBounds(180, 212, 130, 41);
+		btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
+		btnDangNhap.setBounds(105, 195, 130, 41);
 		panel.add(btnDangNhap);
 		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		btnDangKy = new JButton("Đăng ký");
+		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnDangKy.setBounds(259, 195, 130, 41);
+		panel.add(btnDangKy);
+		btnDangNhap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(txtUserName.getText());
+//				contentPane = new TrangChu_GUI().getContentPane();
+			}
+		});
 	}
 	
-	
+	public JPanel getContentPane() {
+		return this.contentPane;
+	}
 }

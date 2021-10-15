@@ -53,6 +53,9 @@ public class TrangChu_GUI extends JFrame {
 	private Container panelContent;
 
 	public ImageIcon icon_book = new ImageIcon("data/images/book.png");
+	public JMenuItem mntmQuanLy;
+	public JMenuItem mntmGioHang;
+	public JMenuItem mntmDangXuat;
 	/**
 	 * Launch the application.
 	 */
@@ -145,13 +148,13 @@ public class TrangChu_GUI extends JFrame {
 		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmQuanLy = new JMenuItem("Đi tới trang quản lý");
+		mntmQuanLy = new JMenuItem("Đi tới trang quản lý");
 		mnNewMenu.add(mntmQuanLy);
 		
-		JMenuItem mntmGioHang = new JMenuItem("Giỏ hàng");
+		mntmGioHang = new JMenuItem("Giỏ hàng");
 		mnNewMenu.add(mntmGioHang);
 		
-		JMenuItem mntmDangXuat = new JMenuItem("Đăng xuất");
+		mntmDangXuat = new JMenuItem("Đăng xuất");
 		mnNewMenu.add(mntmDangXuat);
 		
 		return panelHeader;
@@ -265,5 +268,9 @@ public class TrangChu_GUI extends JFrame {
 		Image newimg = image.getScaledInstance((int)dimension.getWidth(), (int)dimension.getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		icon = new ImageIcon(newimg);  // transform it back
 		return icon;
+	}
+	
+	public JPanel getContentPane() {
+		return this.contentPane;
 	}
 }

@@ -35,6 +35,8 @@ public class GioHang_GUI extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private int numberOfItem = 5;
+	public JButton btnDatHang;
+	public JButton btnTroVe;
 
 	/**
 	 * Launch the application.
@@ -114,7 +116,7 @@ public class GioHang_GUI extends JFrame {
 		panel_1.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnDatHang = new JButton("Đặt hàng");
+		btnDatHang = new JButton("Đặt hàng");
 		btnDatHang.setPreferredSize(new Dimension(150, 23));
 		pnThongTin.add(btnDatHang);
 		btnDatHang.addActionListener(new ActionListener() {
@@ -123,6 +125,10 @@ public class GioHang_GUI extends JFrame {
 				JOptionPane.showConfirmDialog(null, "Xác nhận đặt hàng ?");
 			}
 		});
+		
+		btnTroVe = new JButton("Tiếp tục mua hàng");
+		btnTroVe.setPreferredSize(new Dimension(150, 23));
+		pnThongTin.add(btnTroVe);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(200);
 		panelContent.add(horizontalStrut_1);
@@ -212,5 +218,9 @@ public class GioHang_GUI extends JFrame {
 		panel_6.add(btnNewButton);
 		
 		return pnItem;
+	}
+	
+	public JPanel getContentPane() {
+		return this.contentPane;
 	}
 }
