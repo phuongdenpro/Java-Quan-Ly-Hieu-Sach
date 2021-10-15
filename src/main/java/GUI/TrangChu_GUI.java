@@ -155,7 +155,7 @@ public class TrangChu_GUI extends JFrame {
 	
 	public static ImageIcon resizeIcon(ImageIcon icon, JLabel lbl) {
 		Image image = icon.getImage(); // transform it 
-		Image newimg = image.getScaledInstance(lbl.getWidth(), lbl.getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		Image newimg = image.getScaledInstance(199, 100,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		icon = new ImageIcon(newimg);  // transform it back
 		return icon;
 	}
