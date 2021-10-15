@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -41,8 +43,14 @@ public class Login_GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public Login_GUI() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 600);
+		
+		setLocationRelativeTo(null);
+		setBounds(0, 0, 1300, 700);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(screenSize.width, screenSize.height);
+		
 		contentPane = TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
 //		new JPanel() {  
 //			public void paintComponent(Graphics g) {  
@@ -58,7 +66,7 @@ public class Login_GUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(249, 126, 479, 276);
+		panel.setBounds(424, 176, 479, 276);
 		panel.setBackground(new Color(0, 0, 0, 150));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -80,12 +88,6 @@ public class Login_GUI extends JFrame {
 		textPassword.setBounds(41, 129, 398, 41);
 		panel.add(textPassword);
 		textPassword.setColumns(10);
-		
-		JCheckBox chckbxLaNhanVien = new JCheckBox("L\u00E0 nh\u00E2n vi\u00EAn");
-		chckbxLaNhanVien.setForeground(new Color(255, 255, 255));
-		chckbxLaNhanVien.setBackground(new Color(105, 105, 105));
-		chckbxLaNhanVien.setBounds(41, 183, 97, 23);
-		panel.add(chckbxLaNhanVien);
 		
 		JLabel lblChuaCoTaiKhoan = new JLabel("Ch\u01B0a c\u00F3 t\u00E0i kho\u1EA3n ?");
 		lblChuaCoTaiKhoan.setForeground(new Color(255, 255, 255));

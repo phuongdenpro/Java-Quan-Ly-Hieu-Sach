@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -42,8 +44,13 @@ public class Register_GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public Register_GUI() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 600);
+		setLocationRelativeTo(null);
+		setBounds(0, 0, 1000, 600);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(screenSize.width, screenSize.height);
 		contentPane = new JPanel() {  
 			public void paintComponent(Graphics g) {  
 				Image img = Toolkit.getDefaultToolkit().getImage(  
@@ -58,7 +65,7 @@ public class Register_GUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(249, 126, 479, 276);
+		panel.setBounds(438, 197, 479, 276);
 		panel.setBackground(new Color(0, 0, 0, 150));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -76,7 +83,7 @@ public class Register_GUI extends JFrame {
 		panel.add(txtUserName);
 		txtUserName.setColumns(10);
 		
-		textPassword = new JTextField();
+		textPassword = new JPasswordField();
 		textPassword.setBounds(41, 129, 398, 41);
 		panel.add(textPassword);
 		textPassword.setColumns(10);
