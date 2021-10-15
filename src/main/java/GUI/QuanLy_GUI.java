@@ -16,6 +16,8 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.Box;
 import java.awt.Insets;
 import java.awt.FlowLayout;
@@ -118,7 +120,7 @@ public class QuanLy_GUI extends JFrame {
 		JLabel lbIcon2 = new JLabel();
 		lbIcon2.setBounds(10, 11, 120, 139);
 		pnItem2.add(lbIcon2);
-		icon_manage_order = TrangChu_GUI.resizeIcon(icon_manage_order, lbIcon2);
+		icon_manage_order = TrangChu_GUI.resizeIcon(icon_manage_order, new Dimension(200, 90));
 		lbIcon2.setIcon(icon_manage_order);
 		
 		JLabel lblQLHD = new JLabel("H\u00F3a \u0111\u01A1n");
