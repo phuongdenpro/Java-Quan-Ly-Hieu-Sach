@@ -93,10 +93,13 @@ public class TrangChu_GUI extends JFrame {
 		
 		
 		panelContent = new JPanel();
+		panelContent.setBackground(Color.WHITE);
 		
 		panelContent.setLayout(new BoxLayout(panelContent, BoxLayout.Y_AXIS));
 		
 		JScrollPane pane = new JScrollPane(panelContent);
+		pane.getVerticalScrollBar().setUnitIncrement(20);
+		pane.setBorder(null);
 		contentPane.add(pane);
 //		panelContent.add(pane);
 		
@@ -131,6 +134,7 @@ public class TrangChu_GUI extends JFrame {
 		textField.setColumns(20);
 		
 		JButton btnNewButton = new JButton("T\u00ECm ki\u1EBFm");
+		btnNewButton.setBackground(Color.WHITE);
 		btnNewButton.setPreferredSize(new Dimension(100, 19));
 		panel_1.add(btnNewButton);
 		
@@ -142,19 +146,24 @@ public class TrangChu_GUI extends JFrame {
 		panelHeader.add(panel_3);
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(Color.WHITE);
 		menuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		panel_3.add(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
 		
+		ImageIcon icon_quanly = new ImageIcon("data/image/businessman.png");
 		mntmQuanLy = new JMenuItem("Đi tới trang quản lý");
+		mntmQuanLy.setIcon(icon_quanly);
 		mnNewMenu.add(mntmQuanLy);
 		
 		mntmGioHang = new JMenuItem("Giỏ hàng");
+		mntmGioHang.setIcon(icon_quanly);
 		mnNewMenu.add(mntmGioHang);
 		
 		mntmDangXuat = new JMenuItem("Đăng xuất");
+		mntmDangXuat.setIcon(icon_quanly);
 		mnNewMenu.add(mntmDangXuat);
 		
 		return panelHeader;
@@ -186,8 +195,8 @@ public class TrangChu_GUI extends JFrame {
 		pnCategory.add(panel_10, BorderLayout.CENTER);
 		
 		JPanel panel_9 = new JPanel();
-		GridLayout gridLayout = new GridLayout(0, 5); 
-		gridLayout.setHgap(10);
+		GridLayout gridLayout = new GridLayout(0, 5, 10, 5); 
+//		gridLayout.setHgap(10);
 		panel_9.setLayout(gridLayout);
 		panel_10.add(panel_9);
 		
@@ -207,7 +216,7 @@ public class TrangChu_GUI extends JFrame {
 	
 
 	public JPanel item() {
-		JPanel pnItem = new JPanel();
+		JPanel pnItem = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 //		pnItem.setBackground(color);
 //		pnItem.setSize(new Dimension(200, 300));
 		pnItem.setPreferredSize(new Dimension(200, 200));
@@ -237,6 +246,7 @@ public class TrangChu_GUI extends JFrame {
 		pnInfo.add(lbGia);
 		
 		JButton btnThemVaoGio = new JButton("Thêm vào giỏ");
+		btnThemVaoGio.setBackground(Color.WHITE);
 		pnInfo.add(btnThemVaoGio);
 		
 		btnThemVaoGio.addActionListener(new ActionListener() {
@@ -257,7 +267,7 @@ public class TrangChu_GUI extends JFrame {
 		return new JPanel() {  
 			public void paintComponent(Graphics g) {  
 				Image img = Toolkit.getDefaultToolkit().getImage(  
-						Login_GUI.class.getResource(filepath));  
+						DangNhap_GUI.class.getResource(filepath));  
 				g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
             }  
 		};

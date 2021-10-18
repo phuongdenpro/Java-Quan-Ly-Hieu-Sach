@@ -104,7 +104,7 @@ public class QuanLy_GUI extends JFrame {
 		JLabel lbIcon1 = new JLabel();
 		lbIcon1.setBounds(10, 11, 120, 139);
 		pnItem1.add(lbIcon1);
-		icon_manage_product = TrangChu_GUI.resizeIcon(icon_manage_product, lbIcon1);
+//		icon_manage_product = TrangChu_GUI.resizeIcon(icon_manage_product, lbIcon1);
 		lbIcon1.setIcon(icon_manage_product);
 		
 		JLabel lblSanPham = new JLabel("S\u1EA3n ph\u1EA9m");
@@ -137,7 +137,7 @@ public class QuanLy_GUI extends JFrame {
 		JLabel lbIcon3 = new JLabel("New label");
 		lbIcon3.setBounds(10, 11, 120, 139);
 		pnItem3.add(lbIcon3);
-		icon_manage_user = TrangChu_GUI.resizeIcon(icon_manage_user, lbIcon3);
+//		icon_manage_user = TrangChu_GUI.resizeIcon(icon_manage_user, lbIcon3);
 		lbIcon3.setIcon(icon_manage_user);
 		
 		JLabel lblQLKH = new JLabel("Kh\u00E1ch h\u00E0ng");
@@ -154,7 +154,7 @@ public class QuanLy_GUI extends JFrame {
 		JLabel lbIcon4 = new JLabel("New label");
 		lbIcon4.setBounds(10, 11, 120, 139);
 		pnItem4.add(lbIcon4);
-		icon_manage_staff = TrangChu_GUI.resizeIcon(icon_manage_staff, lbIcon4);
+//		icon_manage_staff = TrangChu_GUI.resizeIcon(icon_manage_staff, lbIcon4);
 		lbIcon4.setIcon(icon_manage_staff);
 		
 		JLabel lblNewLabel_2_3 = new JLabel("Nh\u00E2n vi\u00EAn");
@@ -170,7 +170,7 @@ public class QuanLy_GUI extends JFrame {
 		JLabel lbIcon5 = new JLabel("New label");
 		lbIcon5.setBounds(10, 11, 120, 139);
 		pnItem5.add(lbIcon5);
-		icon_manage_chart = TrangChu_GUI.resizeIcon(icon_manage_chart, lbIcon5);
+//		icon_manage_chart = TrangChu_GUI.resizeIcon(icon_manage_chart, lbIcon5);
 		lbIcon5.setIcon(icon_manage_chart);
 		
 		JLabel lblThongKe = new JLabel("Th\u1ED1ng k\u00EA");
@@ -186,7 +186,7 @@ public class QuanLy_GUI extends JFrame {
 		JLabel lbIcon6 = new JLabel("New label");
 		lbIcon6.setBounds(10, 11, 120, 139);
 		pnItem6.add(lbIcon6);
-		icon_manage_back = TrangChu_GUI.resizeIcon(icon_manage_back, lbIcon6);
+//		icon_manage_back = TrangChu_GUI.resizeIcon(icon_manage_back, lbIcon6);
 		lbIcon6.setIcon(icon_manage_back);
 		
 		JLabel lblTroVe = new JLabel("Tr\u1EDF v\u1EC1");

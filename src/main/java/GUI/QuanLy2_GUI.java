@@ -17,6 +17,8 @@ public class QuanLy2_GUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
+	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
 
 	/**
 	 * Launch the application.
@@ -39,7 +41,7 @@ public class QuanLy2_GUI extends JFrame {
 	 */
 	public QuanLy2_GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1350, 600);
+		setBounds(0, 0, 1350, 700);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -64,10 +66,13 @@ public class QuanLy2_GUI extends JFrame {
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("T\u1EA1o t\u00E0i kho\u1EA3n m\u1EDBi");
 		mnNewMenu_4.add(mntmNewMenuItem);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		
+		contentPane = thongKeGUI.getContentPane();
+//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+//		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
 	}
 	
 	public JPanel getContentPane() {

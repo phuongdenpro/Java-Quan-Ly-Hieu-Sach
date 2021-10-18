@@ -1,3 +1,6 @@
-/META-INF/
+/ConnectDB/
+/entity/
+/DAO/
 /GUI/
 /app/
+/META-INF/
