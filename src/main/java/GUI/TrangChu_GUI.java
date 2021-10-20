@@ -56,6 +56,7 @@ public class TrangChu_GUI extends JFrame {
 	public JMenuItem mntmQuanLy;
 	public JMenuItem mntmGioHang;
 	public JMenuItem mntmDangXuat;
+	public JLabel lblHelp;
 	/**
 	 * Launch the application.
 	 */
@@ -78,7 +79,7 @@ public class TrangChu_GUI extends JFrame {
 	public TrangChu_GUI() {
 		setTitle("Trang chủ");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -144,6 +145,15 @@ public class TrangChu_GUI extends JFrame {
 		panel_3.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel_3.setBackground(Color.WHITE);
 		panelHeader.add(panel_3);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_3.add(panel_2);
+		
+		ImageIcon icon_help = new ImageIcon("data/images/question.png");
+		lblHelp = new JLabel("trợ giúp        ");
+		lblHelp.setIcon(icon_help);
+		panel_2.add(lblHelp);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);

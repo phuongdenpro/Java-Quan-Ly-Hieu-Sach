@@ -4,6 +4,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,20 +18,35 @@ public class QuanLyHieuSach extends JFrame{
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
 	private GioHang_GUI gioHangGUI = new GioHang_GUI();
-	private QuanLy2_GUI quanLyGUI = new QuanLy2_GUI();
+	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
+	private TroGiup_GUI troGiupGUI = new TroGiup_GUI();
 	
 	private JPanel contentPane = new JPanel();
-
+	
 	public QuanLyHieuSach() {
 		renderGUI();
 		setVisible(true);
+		
+		addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+	        	if(quanLyGUI.isVisible() == false) {
+	        		System.exit(0);
+	        	}else
+	        		setVisible(false);
+	        }
+	        
+	        @Override
+	        public void windowClosed(WindowEvent e) {
+	        }
+	    });
 	}
 	
 	public void renderGUI() {
 		
 		this.setTitle("Hiệu sách");
 		
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenSize.width, screenSize.height);
 		this.setLocationRelativeTo(null);
@@ -47,7 +66,7 @@ public class QuanLyHieuSach extends JFrame{
         this.revalidate();
         this.repaint();
         
-        System.out.print("-> "+tab);
+        System.out.println("-> "+tab);
 		if(tab.equals("dangnhap")) {
 			handleLogin();
 			loginGUI.requestFocus();
@@ -56,9 +75,12 @@ public class QuanLyHieuSach extends JFrame{
 		}else if(tab.equals("trangchu")) {
 			handleMenu();
 		}else if(tab.equals("giohang")) {
+			handleMenu();
 			handleGioHang();
 		}else if(tab.equals("quanly")) {
-//			handleGioHang();
+			handleQuanLy();
+		}else if(tab.equals("trogiup")) {
+			handleTroGiup();
 		}
 		
 	}
@@ -71,9 +93,40 @@ public class QuanLyHieuSach extends JFrame{
 		});
 		trangChuGUI.mntmQuanLy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				quanLyGUI.main(null);
+				quanLyGUI.setVisible(true);
+				handleQuanLy();
 //				setV
 //				renderMain(quanLyGUI.getContentPane(), "quanly");
+			}
+		});
+		trangChuGUI.lblHelp.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				renderMain(troGiupGUI.getContenPane(), "trogiup");
+//				System.out.println(quanLyGUI.get());
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			
+		});
+	}
+
+	
+	public void handleTroGiup() {
+		troGiupGUI.btnTroVe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				renderMain(trangChuGUI.getContentPane(), "trangchu");
 			}
 		});
 	}
@@ -83,6 +136,39 @@ public class QuanLyHieuSach extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				renderMain(trangChuGUI.getContentPane(), "trangchu");
 			}
+		});
+		gioHangGUI.mntmGioHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				renderMain(gioHangGUI.getContentPane(), "giohang");
+			}
+		});
+		gioHangGUI.mntmQuanLy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				quanLyGUI.a
+				quanLyGUI.main(null);
+//				setV
+//				renderMain(quanLyGUI.getContentPane(), "quanly");
+			}
+		});
+		gioHangGUI.lblHelp.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				renderMain(troGiupGUI.getContenPane(), "trogiup");
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			
 		});
 	}
 	
@@ -118,6 +204,22 @@ public class QuanLyHieuSach extends JFrame{
 		});
 	}
 	
+	public void handleQuanLy() {
+		quanLyGUI.addWindowListener(new WindowAdapter() {
+	        //for closing
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+	            if(isVisible() == false) {
+	            	System.exit(0);
+	            }
+	        }
+	        //for closed
+
+	        @Override
+	        public void windowClosed(WindowEvent e) {
+	        }
+	    });
+	}
 	
 	
 	public static void main(String[] args) {
