@@ -61,7 +61,7 @@ public class TrangChu_GUI extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+			public void run() { 
 				try {
 					TrangChu_GUI frame = new TrangChu_GUI();
 					frame.setVisible(true);
