@@ -144,8 +144,8 @@ public class QuanLyHieuSach extends JFrame{
 		});
 		gioHangGUI.mntmQuanLy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				quanLyGUI.a
-				quanLyGUI.main(null);
+				quanLyGUI.setVisible(true);
+				handleQuanLy();
 //				setV
 //				renderMain(quanLyGUI.getContentPane(), "quanly");
 			}

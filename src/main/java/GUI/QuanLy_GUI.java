@@ -2,10 +2,14 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -19,7 +23,8 @@ public class QuanLy_GUI extends JFrame {
 	private JPanel contentPane;
 	
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
-
+	private SanPham_GUI sanPhamGUI = new SanPham_GUI();
+	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
 	/**
 	 * Launch the application.
 	 */
@@ -67,11 +72,72 @@ public class QuanLy_GUI extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("T\u1EA1o t\u00E0i kho\u1EA3n m\u1EDBi");
 		mnNewMenu_4.add(mntmNewMenuItem);
 		
+		mnNewMenu.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				renderMain(thongKeGUI.getContentPane(), "thongke");
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) {}
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {}
+		});
+		
+		
+		mnNewMenu_1.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				renderMain(hoaDonGUI.getContentPane(), "hoadon");
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) {}
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {}
+		});
+		
+		mnNewMenu_2.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				renderMain(sanPhamGUI.getContentPane(), "sanpham");
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) {}
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {}
+		});
 		
 		contentPane = thongKeGUI.getContentPane();
 //		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 //		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		renderMain(contentPane, "thongke");
+		
+	}
+	
+	public void renderMain(JPanel contentPane, String tab) {
+		this.remove(this.contentPane);
+        this.revalidate();
+        this.repaint();
+        this.contentPane = contentPane;
+        this.setContentPane(contentPane);
+        this.revalidate();
+        this.repaint();
+        
+        System.out.println("-> "+tab);
+		if(tab.equals("thongke")) {
+			
+		}
 		
 	}
 	
