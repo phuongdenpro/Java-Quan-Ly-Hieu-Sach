@@ -94,12 +94,9 @@ public class GioHang_GUI extends JFrame {
 		panelContent.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-<<<<<<< HEAD
-		JLabel lblNewLabel = new JLabel("Giá»� hÃ ng");
-=======
+
 		JLabel lblNewLabel = new JLabel("Giỏ hàng");
 		lblNewLabel.setBorder(new EmptyBorder(10, 0, 0, 0));
->>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblNewLabel.setForeground(new Color(0, 206, 209));
@@ -127,17 +124,13 @@ public class GioHang_GUI extends JFrame {
 		panel_1.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-<<<<<<< HEAD
-		btnDatHang = new JButton("Ä�áº·t hÃ ng");
-		btnDatHang.setPreferredSize(new Dimension(150, 23));
-=======
+
 		ImageIcon icon_dathang = new ImageIcon("data/images/shopping-cart32.png");
 		btnDatHang = new JButton("Đặt hàng", icon_dathang);
 		btnDatHang.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnDatHang.setIconTextGap(8);
 		btnDatHang.setBackground(Color.WHITE);
 		btnDatHang.setPreferredSize(new Dimension(200, 40));
->>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
 		pnThongTin.add(btnDatHang);
 		btnDatHang.addActionListener(new ActionListener() {
 			
@@ -146,17 +139,12 @@ public class GioHang_GUI extends JFrame {
 			}
 		});
 		
-<<<<<<< HEAD
-		btnTroVe = new JButton("Tiáº¿p tá»¥c mua hÃ ng");
-		btnTroVe.setPreferredSize(new Dimension(150, 23));
-=======
 		ImageIcon icon_tieptucmuahang = new ImageIcon("data/images/cart.png");
 		btnTroVe = new JButton("Tiếp tục mua hàng", icon_tieptucmuahang);
 		btnTroVe.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnTroVe.setIconTextGap(8);
 		btnTroVe.setBackground(Color.WHITE);
 		btnTroVe.setPreferredSize(new Dimension(250, 40));
->>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
 		pnThongTin.add(btnTroVe);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(200);
@@ -310,13 +298,9 @@ public class GioHang_GUI extends JFrame {
 		panel_6.setBackground(Color.WHITE);
 		pnItem.add(panel_6);
 		
-<<<<<<< HEAD
-		JButton btnNewButton = new JButton("XÃ³a");
-=======
 		ImageIcon icon_delete = new ImageIcon("data/images/trash.png");
 		JButton btnNewButton = new JButton("Xóa", icon_delete);
 		btnNewButton.setBackground(Color.WHITE);
->>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
 		btnNewButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		btnNewButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(btnNewButton);
