@@ -64,7 +64,8 @@ public class GioHang_GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GioHang_GUI() {
-		setTitle("Giá»� hÃ ng");
+//		Giỏ hàng
+		setTitle("Giỏ hàng");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -135,7 +136,7 @@ public class GioHang_GUI extends JFrame {
 		btnDatHang.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showConfirmDialog(null, "XÃ¡c nháº­n Ä‘áº·t hÃ ng ?");
+				JOptionPane.showConfirmDialog(null, "Xác nhận đặt hàng ?");
 			}
 		});
 		
@@ -244,7 +245,7 @@ public class GioHang_GUI extends JFrame {
 		pnItem.add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("Conan - táº­p 1");
+		JLabel lblNewLabel_1 = new JLabel("Conan - tập 1");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_3.add(lblNewLabel_1);
@@ -254,11 +255,11 @@ public class GioHang_GUI extends JFrame {
 		panel_3.add(pnDonGia);
 		pnDonGia.setLayout(new BoxLayout(pnDonGia, BoxLayout.X_AXIS));
 		
-		JLabel lblDonGia = new JLabel("Ä�Æ¡n giÃ¡:    ");
+		JLabel lblDonGia = new JLabel("Đơn giá:    ");
 		lblDonGia.setBackground(Color.WHITE);
 		pnDonGia.add(lblDonGia);
 		
-		JLabel donGia = new JLabel("14.000Ä‘");
+		JLabel donGia = new JLabel("14.000đ");
 //		lblTongTien.setForeground(new Color(0, 206, 209));
 		donGia.setBackground(Color.WHITE);
 		pnDonGia.add(donGia);
@@ -268,7 +269,7 @@ public class GioHang_GUI extends JFrame {
 		panel_3.add(panel_1_1);
 		panel_1_1.setLayout(new BoxLayout(panel_1_1, BoxLayout.X_AXIS));
 		
-		JLabel lblNewLabel_3 = new JLabel("Sá»‘ lÆ°á»£ng:  ");
+		JLabel lblNewLabel_3 = new JLabel("Số lượng:  ");
 		panel_1_1.add(lblNewLabel_3);
 		
 		textField = new JTextField();
@@ -281,11 +282,11 @@ public class GioHang_GUI extends JFrame {
 		panel_3.add(panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		JLabel lblNewLabel_4 = new JLabel("Tá»•ng tiá»�n:  ");
+		JLabel lblNewLabel_4 = new JLabel("Tổng tiền:  ");
 		lblNewLabel_4.setBackground(Color.WHITE);
 		panel_4.add(lblNewLabel_4);
 		
-		JLabel lblTongTien = new JLabel("14.000Ä‘");
+		JLabel lblTongTien = new JLabel("14.000đ");
 		lblTongTien.setForeground(new Color(0, 206, 209));
 		lblTongTien.setBackground(Color.WHITE);
 		panel_4.add(lblTongTien);
