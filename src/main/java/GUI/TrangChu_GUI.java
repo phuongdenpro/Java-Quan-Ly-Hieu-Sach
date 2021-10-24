@@ -52,14 +52,12 @@ public class TrangChu_GUI extends JFrame {
 	private JTextField textField_1;
 	private Container panelContent;
 
-	public ImageIcon icon_book = new ImageIcon("data/images/book.png");
+	
 	public JMenuItem mntmQuanLy;
 	public JMenuItem mntmGioHang;
 	public JMenuItem mntmDangXuat;
 	public JLabel lblHelp;
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() { 
@@ -73,9 +71,6 @@ public class TrangChu_GUI extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TrangChu_GUI() {
 		setTitle("Trang chủ");
 		setResizable(false);
@@ -102,7 +97,6 @@ public class TrangChu_GUI extends JFrame {
 		pane.getVerticalScrollBar().setUnitIncrement(20);
 		pane.setBorder(null);
 		contentPane.add(pane);
-//		panelContent.add(pane);
 		
 		this.categoryGUI();
 		this.categoryGUI();
@@ -163,17 +157,11 @@ public class TrangChu_GUI extends JFrame {
 		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
 		
-		ImageIcon icon_quanly = new ImageIcon("data/image/businessman.png");
-		mntmQuanLy = new JMenuItem("Đi tới trang quản lý");
-		mntmQuanLy.setIcon(icon_quanly);
-		mnNewMenu.add(mntmQuanLy);
 		
 		mntmGioHang = new JMenuItem("Giỏ hàng");
-		mntmGioHang.setIcon(icon_quanly);
 		mnNewMenu.add(mntmGioHang);
 		
 		mntmDangXuat = new JMenuItem("Đăng xuất");
-		mntmDangXuat.setIcon(icon_quanly);
 		mnNewMenu.add(mntmDangXuat);
 		
 		return panelHeader;

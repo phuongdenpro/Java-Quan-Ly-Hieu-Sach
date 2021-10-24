@@ -8,21 +8,20 @@ import java.sql.*;
 
 import entity.KhachHang;
 
-public class KhachHangDAO {
-    private static KhachHangDAO instance = new KhachHangDAO();
+public class KhachHangDAO extends ConnectDB{
 
-    public static KhachHangDAO getInstance() {
-        return instance;
-    }
+    public KhachHangDAO() throws SQLException {
+		super();
+		
+	}
 
     public ArrayList<KhachHang> getListKhachHang() {
         ArrayList<KhachHang> dataList = new ArrayList<KhachHang>();
-        ConnectDB.getInstance();
         Statement stmt = null;
         try {
-            Connection con = ConnectDB.getConnection();
+
             String sql = "SELECT * FROM dbo.KhachHang";
-            stmt = con.createStatement();
+            stmt = this.conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {

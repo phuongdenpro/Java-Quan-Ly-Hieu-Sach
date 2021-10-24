@@ -46,7 +46,7 @@ public class TaoTaiKhoan_GUI extends JFrame {
 	public TaoTaiKhoan_GUI() {
 		setTitle("Tạo tài khoản");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 400, 300);
 		
@@ -134,4 +134,7 @@ public class TaoTaiKhoan_GUI extends JFrame {
 		panel_3.add(btnNewButton);
 	}
 
+	public JPanel getContentPane() {
+		 return this.contentPane;
+	 }
 }

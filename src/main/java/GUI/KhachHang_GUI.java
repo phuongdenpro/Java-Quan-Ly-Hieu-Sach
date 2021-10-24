@@ -222,4 +222,7 @@ public class KhachHang_GUI extends JFrame {
 		
 	}
 
+	public JPanel getContentPane() {
+		 return this.contentPane;
+	 }
 }

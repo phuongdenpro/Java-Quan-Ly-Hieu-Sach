@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Popup;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -22,9 +23,15 @@ public class QuanLy_GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
+	private QuanLyHieuSach quanLyHieuSach = new QuanLyHieuSach();
+//	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
+	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
 	private SanPham_GUI sanPhamGUI = new SanPham_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
+	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
+	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -45,39 +52,54 @@ public class QuanLy_GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public QuanLy_GUI() {
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Quản lý hiệu sách");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
 		setBounds(0, 0, 1350, 700);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Trang ch\u1EE7");
-		menuBar.add(mnNewMenu);
+		JMenu mnTrangChu = new JMenu("Trang ch\u1EE7");
+		menuBar.add(mnTrangChu);
 		
-		JMenu mnNewMenu_1 = new JMenu("Qu\u1EA3n l\u00FD h\u00F3a \u0111\u01A1n");
-		menuBar.add(mnNewMenu_1);
+		JMenu mnHoaDon = new JMenu("Hóa đơn");
+		menuBar.add(mnHoaDon);
 		
-		JMenu mnNewMenu_2 = new JMenu("Qu\u1EA3n l\u00FD s\u1EA3n ph\u1EA9m");
-		menuBar.add(mnNewMenu_2);
+		JMenu mnDonDatHang = new JMenu("Đơn đặt hàng");
+		menuBar.add(mnDonDatHang);
 		
-		JMenu mnNewMenu_3 = new JMenu("Qu\u1EA3n l\u00FD kh\u00E1ch h\u00E0ng");
-		menuBar.add(mnNewMenu_3);
+		JMenu mnSanPham = new JMenu("Sản phẩm");
+		menuBar.add(mnSanPham);
 		
-		JMenu mnNewMenu_4 = new JMenu("Qu\u1EA3n l\u00FD nh\u00E2n vi\u00EAn");
-		menuBar.add(mnNewMenu_4);
+		JMenu mnKhachHang = new JMenu("Khách hàng");
+		menuBar.add(mnKhachHang);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Qu\u1EA3n l\u00FD nh\u00E2n vi\u00EAn");
-		mnNewMenu_4.add(mntmNewMenuItem_1);
+		JMenuItem mntmQuanLyKH = new JMenuItem("Quản lý khách hàng");
+		mnKhachHang.add(mntmQuanLyKH);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("T\u1EA1o t\u00E0i kho\u1EA3n m\u1EDBi");
-		mnNewMenu_4.add(mntmNewMenuItem);
+		JMenuItem mntmMuaHang = new JMenuItem("Mua hàng");
+		mnKhachHang.add(mntmMuaHang);
 		
-		mnNewMenu.addMenuListener(new MenuListener() {
+		JMenu mnNhanVien = new JMenu("Nhân viên");
+		menuBar.add(mnNhanVien);
+		
+		JMenuItem mntmQuanLyNhanVien = new JMenuItem("Quản lý nhân viên");
+		mnNhanVien.add(mntmQuanLyNhanVien);
+		
+		JMenuItem mntmThongKe = new JMenuItem("Thống kê");
+		mnNhanVien.add(mntmThongKe);
+		
+		JMenuItem mntmTaoTaiKhoan = new JMenuItem("Tạo tài khoản");
+		mnNhanVien.add(mntmTaoTaiKhoan);
+		
+		
+		mnTrangChu.addMenuListener(new MenuListener() {
 			
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-				renderMain(thongKeGUI.getContentPane(), "thongke");
+				renderMain(TrangChaoMungGUI.getContentPane(), "chaomung");
 			}
 			
 			@Override
@@ -87,8 +109,7 @@ public class QuanLy_GUI extends JFrame {
 			public void menuCanceled(MenuEvent e) {}
 		});
 		
-		
-		mnNewMenu_1.addMenuListener(new MenuListener() {
+		mnHoaDon.addMenuListener(new MenuListener() {
 			
 			@Override
 			public void menuSelected(MenuEvent e) {
@@ -103,7 +124,23 @@ public class QuanLy_GUI extends JFrame {
 			public void menuCanceled(MenuEvent e) {}
 		});
 		
-		mnNewMenu_2.addMenuListener(new MenuListener() {
+		
+		mnDonDatHang.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				// TODO Auto-generated method stub
+//				renderMain(hoaDonGUI.getContentPane(), "hoadon");
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) {}
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {}
+		});
+		
+		mnSanPham.addMenuListener(new MenuListener() {
 			
 			@Override
 			public void menuSelected(MenuEvent e) {
@@ -118,11 +155,56 @@ public class QuanLy_GUI extends JFrame {
 			public void menuCanceled(MenuEvent e) {}
 		});
 		
-		contentPane = thongKeGUI.getContentPane();
-//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		contentPane.setLayout(new BorderLayout(0, 0));
-		renderMain(contentPane, "thongke");
+		mntmQuanLyKH.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain(khachHangGUI.getContentPane(), "khachhang");
+			}
+		});
 		
+		mntmMuaHang.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				renderMain(muaHang.getContentPane(), "muahang");
+				quanLyHieuSach.setVisible(true);
+//				trangChuGUI.setVisible(true);
+			}
+		});
+		
+		mntmQuanLyNhanVien.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				renderMain(muaHang.getContentPane(), "muahang");
+				
+			}
+		});
+		
+		mntmThongKe.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain(thongKeGUI.getContentPane(), "thongke");
+			}
+		});
+		
+		mntmTaoTaiKhoan.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+//				taoTaiKhoanGUI.main(null);
+				taoTaiKhoanGUI.setVisible(true);
+				taoTaiKhoanGUI.setLocationRelativeTo(mntmTaoTaiKhoan);
+//				renderMain(muaHang.getContentPane(), "muahang");
+			}
+		});
+
+		
+		contentPane = TrangChaoMungGUI.getContentPane();
+		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
 	}
 	
 	public void renderMain(JPanel contentPane, String tab) {

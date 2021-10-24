@@ -206,17 +206,10 @@ public class GioHang_GUI extends JFrame {
 		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
 		
-		ImageIcon icon_quanly = new ImageIcon("data/image/businessman.png");
-		mntmQuanLy = new JMenuItem("Đi tới trang quản lý");
-		mntmQuanLy.setIcon(icon_quanly);
-		mnNewMenu.add(mntmQuanLy);
-		
 		mntmGioHang = new JMenuItem("Giỏ hàng");
-		mntmGioHang.setIcon(icon_quanly);
 		mnNewMenu.add(mntmGioHang);
 		
 		mntmDangXuat = new JMenuItem("Đăng xuất");
-		mntmDangXuat.setIcon(icon_quanly);
 		mnNewMenu.add(mntmDangXuat);
 		
 		return panelHeader;
