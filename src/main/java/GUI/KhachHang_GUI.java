@@ -31,6 +31,7 @@ import javax.swing.Box;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.border.CompoundBorder;
+import javax.swing.ScrollPaneConstants;
 
 public class KhachHang_GUI extends JFrame {
 
@@ -265,18 +266,9 @@ public class KhachHang_GUI extends JFrame {
 		DefaultTableModel modelDSKH = new DefaultTableModel(cols_dskh, 0);
 		table = new JTable(modelDSKH);
 		JScrollPane scrTableKhachhang = new JScrollPane(table);
+		scrTableKhachhang.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrTableKhachhang.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		pnTableKh.add(scrTableKhachhang);
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
-		
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
-		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
 		
 		modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
