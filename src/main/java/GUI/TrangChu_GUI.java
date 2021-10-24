@@ -17,6 +17,12 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
+
+import DAO.LoaiSanPhamDAO;
+import DAO.SanPhamDAO;
+import entity.LoaiSanPham;
+import entity.SanPham;
+
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -24,6 +30,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -57,6 +65,9 @@ public class TrangChu_GUI extends JFrame {
 	public JMenuItem mntmGioHang;
 	public JMenuItem mntmDangXuat;
 	public JLabel lblHelp;
+	
+	private LoaiSanPhamDAO loaiSPDao;
+	private ArrayList<LoaiSanPham> dslsp = new ArrayList<LoaiSanPham>();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -71,7 +82,7 @@ public class TrangChu_GUI extends JFrame {
 		});
 	}
 
-	public TrangChu_GUI() {
+	public TrangChu_GUI() throws SQLException {
 		setTitle("Trang chủ");
 		setResizable(false);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,11 +109,22 @@ public class TrangChu_GUI extends JFrame {
 		pane.setBorder(null);
 		contentPane.add(pane);
 		
-		this.categoryGUI();
-		this.categoryGUI();
-		this.categoryGUI();
+		
+		
+		loaiSPDao = new LoaiSanPhamDAO();
+		dslsp = loaiSPDao.getDanhSachLoaiSanPham();
+		
+		for(int i=0; i<dslsp.size(); i++) {
+			this.categoryGUI(dslsp.get(i));
+		}
+		
+		
 		
 	}
+	
+//	public void renderData() {
+//		
+//	}
 
 	public JPanel headerGUI() {
 		JPanel panelHeader = new JPanel();
@@ -167,7 +189,7 @@ public class TrangChu_GUI extends JFrame {
 		return panelHeader;
 	}
 	
-	public void categoryGUI() {
+	public void categoryGUI(LoaiSanPham loaiSanPham) {
 		JPanel pnCategory = new JPanel();
 		
 //		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -183,7 +205,7 @@ public class TrangChu_GUI extends JFrame {
 		JPanel panel_5 = new JPanel();
 		pnCategory.add(panel_5, BorderLayout.NORTH);
 		
-		JLabel lblTruyen = new JLabel("Truy\u1EC7n", SwingConstants.CENTER);
+		JLabel lblTruyen = new JLabel(loaiSanPham.getTenLoai(), SwingConstants.CENTER);
 		lblTruyen.setForeground(new Color(0, 206, 209));
 		lblTruyen.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblTruyen.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 206, 209)));
@@ -199,21 +221,15 @@ public class TrangChu_GUI extends JFrame {
 		panel_10.add(panel_9);
 		
 //		panel_9.setLayout(new GridLayout(0, 4));
+		ArrayList<SanPham> dsSanPham = loaiSanPham.getSanPhams();
+		for(int i=0; i<dsSanPham.size(); i++) {
+			panel_9.add(this.item(dsSanPham.get(i)));
+		}
 		
-		panel_9.add(this.item());
-		
-		panel_9.add(this.item());
-		panel_9.add(this.item());
-		panel_9.add(this.item());
-		panel_9.add(this.item());
-		panel_9.add(this.item());
-		panel_9.add(this.item());
-		panel_9.add(this.item());
-//		panel_9.add(this.item(Color.YELLOW));
 	}
 	
 
-	public JPanel item() {
+	public JPanel item(SanPham sanPham) {
 		JPanel pnItem = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 //		pnItem.setBackground(color);
 //		pnItem.setSize(new Dimension(200, 300));
@@ -223,7 +239,7 @@ public class TrangChu_GUI extends JFrame {
 		JLabel lbIcon = new JLabel();
 		lbIcon.setAlignmentX(CENTER_ALIGNMENT);
 		lbIcon.setPreferredSize(new Dimension(200, 100));
-		ImageIcon imageProduct = new ImageIcon("data/product/conan_tap_1.jpg");
+		ImageIcon imageProduct = new ImageIcon("data/product/default.png");
 		imageProduct = TrangChu_GUI.resizeIcon(imageProduct, new Dimension(199, 100));
 		lbIcon.setIcon(imageProduct);
 		pnItem.add(lbIcon);
@@ -234,13 +250,13 @@ public class TrangChu_GUI extends JFrame {
 		pnInfo.setLayout(new GridLayout(3, 0));
 		pnItem.add(pnInfo);
 		
-		JLabel lbTenSanPham = new JLabel("Truyện conan");
+		JLabel lbTenSanPham = new JLabel(sanPham.getTenSp());
 		
 //		lbTenSanPham.setPreferredSize(new Dimension(200, 20));
 		lbTenSanPham.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
 		pnInfo.add(lbTenSanPham);
 		
-		JLabel lbGia = new JLabel("15.000đ");
+		JLabel lbGia = new JLabel(String.valueOf(sanPham.getGiaSp()));
 		pnInfo.add(lbGia);
 		
 		JButton btnThemVaoGio = new JButton("Thêm vào giỏ");

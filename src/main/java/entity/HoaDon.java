@@ -2,20 +2,17 @@ package entity;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 public class HoaDon {
-	private String maHD;
+	private int maHD;
 	private double tongTien;
 	private Date ngayMua;
 	public NhanVienBanHang nhanVienBanHang;
 	public KhachHang khachHang;
-	public List<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
-	public DonDatHang donDatHang;
+	public ArrayList<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
 	
-	public HoaDon(String maHD, double tongTien, Date ngayMua, NhanVienBanHang nhanVienBanHang, KhachHang khachHang,
-			ArrayList<ChiTietHoaDon> chiTietHoaDons, DonDatHang donDatHang) {
+	public HoaDon(int maHD, double tongTien, Date ngayMua, NhanVienBanHang nhanVienBanHang, KhachHang khachHang,
+			ArrayList<ChiTietHoaDon> chiTietHoaDons) {
 		super();
 		this.maHD = maHD;
 		this.tongTien = tongTien;
@@ -23,14 +20,13 @@ public class HoaDon {
 		this.nhanVienBanHang = nhanVienBanHang;
 		this.khachHang = khachHang;
 		this.chiTietHoaDons = chiTietHoaDons;
-		this.donDatHang = donDatHang;
 	}
 
-	public String getMaHD() {
+	public int getMaHD() {
 		return maHD;
 	}
 
-	public void setMaHD(String maHD) {
+	public void setMaHD(int maHD) {
 		this.maHD = maHD;
 	}
 
@@ -66,7 +62,7 @@ public class HoaDon {
 		this.khachHang = khachHang;
 	}
 
-	public List<ChiTietHoaDon> getChiTietHoaDons() {
+	public ArrayList<ChiTietHoaDon> getChiTietHoaDons() {
 		return chiTietHoaDons;
 	}
 
@@ -74,13 +70,12 @@ public class HoaDon {
 		this.chiTietHoaDons = chiTietHoaDons;
 	}
 
-	public DonDatHang getDonDatHang() {
-		return donDatHang;
+	@Override
+	public String toString() {
+		return "HoaDon [maHD=" + maHD + ", tongTien=" + tongTien + ", ngayMua=" + ngayMua + ", nhanVienBanHang="
+				+ nhanVienBanHang + ", khachHang=" + khachHang + ", chiTietHoaDons=" + chiTietHoaDons + "]";
 	}
-
-	public void setDonDatHang(DonDatHang donDatHang) {
-		this.donDatHang = donDatHang;
-	}
+	
 	
 	
 }

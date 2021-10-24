@@ -2,32 +2,29 @@ package entity;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DonDatHang {
-	private String maDDH;
+	private int maDDH;
 	private double tongTien;
 	private Date ngayDat;
 	public KhachHang khachHang;
-	public List<ChiTietDonDatHang> chiTietDonDatHangs = new ArrayList<ChiTietDonDatHang>();
-	public HoaDon hoaDon;
+	public ArrayList<ChiTietDonDatHang> chiTietDonDatHangs = new ArrayList<ChiTietDonDatHang>();
 	
-	public DonDatHang(String maDDH, double tongTien, Date ngayDat, KhachHang khachHang,
-			ArrayList<ChiTietDonDatHang> chiTietDonDatHangs, HoaDon hoaDon) {
+	public DonDatHang(int maDDH, double tongTien, Date ngayDat, KhachHang khachHang,
+			ArrayList<ChiTietDonDatHang> chiTietDonDatHangs) {
 		super();
 		this.maDDH = maDDH;
 		this.tongTien = tongTien;
 		this.ngayDat = ngayDat;
 		this.khachHang = khachHang;
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
-		this.hoaDon = hoaDon;
 	}
 
-	public String getMaDDH() {
+	public int getMaDDH() {
 		return maDDH;
 	}
 
-	public void setMaDDH(String maDDH) {
+	public void setMaDDH(int maDDH) {
 		this.maDDH = maDDH;
 	}
 
@@ -55,7 +52,7 @@ public class DonDatHang {
 		this.khachHang = khachHang;
 	}
 
-	public List<ChiTietDonDatHang> getChiTietDonDatHangs() {
+	public ArrayList<ChiTietDonDatHang> getChiTietDonDatHangs() {
 		return chiTietDonDatHangs;
 	}
 
@@ -63,12 +60,10 @@ public class DonDatHang {
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
 	}
 
-	public HoaDon getHoaDon() {
-		return hoaDon;
-	}
-
-	public void setHoaDon(HoaDon hoaDon) {
-		this.hoaDon = hoaDon;
+	@Override
+	public String toString() {
+		return "DonDatHang [maDDH=" + maDDH + ", tongTien=" + tongTien + ", ngayDat=" + ngayDat + ", khachHang="
+				+ khachHang + ", chiTietDonDatHangs=" + chiTietDonDatHangs + "]";
 	}
 	
 	

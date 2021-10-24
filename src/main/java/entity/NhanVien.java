@@ -55,6 +55,12 @@ public class NhanVien {
 	public void setTaiKhoan(TaiKhoan taiKhoan) {
 		this.taiKhoan = taiKhoan;
 	}
+
+	@Override
+	public String toString() {
+		return "NhanVien [maNv=" + maNv + ", tenNv=" + tenNv + ", soDienThoai=" + soDienThoai + ", diaChi=" + diaChi
+				+ ", taiKhoan=" + taiKhoan + "]";
+	}
 	
 	
 }

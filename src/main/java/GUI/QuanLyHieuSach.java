@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,14 +17,16 @@ import javax.swing.JPanel;
 public class QuanLyHieuSach extends JFrame{
 //	private DangNhap_GUI loginGUI = new DangNhap_GUI();
 //	private DangKy_GUI dangKyGUI = new DangKy_GUI();
-	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
+	private TrangChu_GUI trangChuGUI;
 	private GioHang_GUI gioHangGUI = new GioHang_GUI();
 //	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
 	private TroGiup_GUI troGiupGUI = new TroGiup_GUI();
 	
 	private JPanel contentPane = new JPanel();
 	
-	public QuanLyHieuSach() {
+	public QuanLyHieuSach() throws SQLException {
+		
+		trangChuGUI = new TrangChu_GUI();
 		renderGUI();
 //		setVisible(true);
 		
@@ -213,7 +216,7 @@ public class QuanLyHieuSach extends JFrame{
 //	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		QuanLyHieuSach quanLyHieuSach = new QuanLyHieuSach();
 //		try{
 //            ConnectDB.getInstance().connect();

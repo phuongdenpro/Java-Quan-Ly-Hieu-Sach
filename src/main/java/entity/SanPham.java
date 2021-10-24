@@ -1,19 +1,20 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SanPham {
-	private String maSp;
+	private int maSp;
 	private String tenSp;
 	private double giaSp;
 	public LoaiSanPham loaiSanPham;
 	public NhaCungCap nhaCungCap;
-	public List<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
-	public List<ChiTietDonDatHang> chiTietDonDatHangs = new ArrayList<ChiTietDonDatHang>();
+	public ArrayList<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
+	public ArrayList<ChiTietDonDatHang> chiTietDonDatHangs = new ArrayList<ChiTietDonDatHang>();
 	
-	public SanPham(String maSp, String tenSp, double giaSp, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap,
-			List<ChiTietHoaDon> chiTietHoaDons, List<ChiTietDonDatHang> chiTietDonDatHangs) {
+	public SanPham(int maSp, String tenSp, double giaSp, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap,
+			ArrayList<ChiTietHoaDon> chiTietHoaDons, ArrayList<ChiTietDonDatHang> chiTietDonDatHangs) {
 		super();
 		this.maSp = maSp;
 		this.tenSp = tenSp;
@@ -23,12 +24,29 @@ public class SanPham {
 		this.chiTietHoaDons = chiTietHoaDons;
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
 	}
+	
+	public SanPham(ResultSet rs) throws SQLException {
+		this.maSp = rs.getInt("maSP");
+		this.tenSp = rs.getString("tenSP");
+		this.giaSp = rs.getDouble("giaSp");
+		try {
+			this.loaiSanPham = new LoaiSanPham(rs);
+		}catch (Exception e) {
+			
+		}
+			
+		try {
+			this.nhaCungCap = new NhaCungCap(rs);
+		}catch (Exception e) {
+			
+		}	
+	}
 
-	public String getMaSp() {
+	public int getMaSp() {
 		return maSp;
 	}
 
-	public void setMaSp(String maSp) {
+	public void setMaSp(int maSp) {
 		this.maSp = maSp;
 	}
 
@@ -64,20 +82,27 @@ public class SanPham {
 		this.nhaCungCap = nhaCungCap;
 	}
 
-	public List<ChiTietHoaDon> getChiTietHoaDons() {
+	public ArrayList<ChiTietHoaDon> getChiTietHoaDons() {
 		return chiTietHoaDons;
 	}
 
-	public void setChiTietHoaDons(List<ChiTietHoaDon> chiTietHoaDons) {
+	public void setChiTietHoaDons(ArrayList<ChiTietHoaDon> chiTietHoaDons) {
 		this.chiTietHoaDons = chiTietHoaDons;
 	}
 
-	public List<ChiTietDonDatHang> getChiTietDonDatHangs() {
+	public ArrayList<ChiTietDonDatHang> getChiTietDonDatHangs() {
 		return chiTietDonDatHangs;
 	}
 
-	public void setChiTietDonDatHangs(List<ChiTietDonDatHang> chiTietDonDatHangs) {
+	public void setChiTietDonDatHangs(ArrayList<ChiTietDonDatHang> chiTietDonDatHangs) {
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
+	}
+
+	@Override
+	public String toString() {
+		return "SanPham [maSp=" + maSp + ", tenSp=" + tenSp + ", giaSp=" + giaSp + ", loaiSanPham=" + loaiSanPham
+				+ ", nhaCungCap=" + nhaCungCap + ", chiTietHoaDons=" + chiTietHoaDons + ", chiTietDonDatHangs="
+				+ chiTietDonDatHangs + "]";
 	}
 	
 	

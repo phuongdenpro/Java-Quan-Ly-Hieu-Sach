@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,7 +24,7 @@ public class QuanLy_GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	private QuanLyHieuSach quanLyHieuSach = new QuanLyHieuSach();
+	private QuanLyHieuSach quanLyHieuSach;
 //	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
 	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
@@ -50,8 +51,12 @@ public class QuanLy_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public QuanLy_GUI() {
+	public QuanLy_GUI() throws SQLException {
+		quanLyHieuSach = new QuanLyHieuSach();
+		
+		
 		setTitle("Quản lý hiệu sách");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
