@@ -36,5 +36,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/mssql-jdbc-8.4.1.jre14.jar"/>
+	<classpathentry kind="lib" path="C:/Users/butle/eclipse-workspace/swingx-1.6.1.jar/swingx-1.6.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
