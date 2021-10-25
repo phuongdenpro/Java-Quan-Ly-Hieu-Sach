@@ -51,4 +51,7 @@ public class ConnectDB {
     	System.out.println(resultSetToString(rs));
     }
 
+    public static void main(String[] args) throws SQLException {
+    	ConnectDB connectDB = new ConnectDB();
+	}
 }

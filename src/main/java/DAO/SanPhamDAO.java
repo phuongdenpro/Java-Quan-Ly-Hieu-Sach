@@ -72,6 +72,31 @@ public class SanPhamDAO extends ConnectDB{
         return dataList;
     }
     
+    public SanPham getSanPham(int maSP) {
+        PreparedStatement stmt = null;
+        try {
+
+            String sql = "SELECT * FROM dbo.SanPham where maSP = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, maSP);
+            ResultSet rs = stmt.executeQuery();
+            if(!rs.next())
+            	return null;
+            
+            SanPham sp = new SanPham(rs);
+            return sp;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    
     public static void main(String[] args) throws SQLException {
     	SanPhamDAO sanPhamDao = new SanPhamDAO();
 //    	System.out.println(sanPhamDao.getListSanPham());

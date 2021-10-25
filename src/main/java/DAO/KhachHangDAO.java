@@ -66,4 +66,29 @@ public class KhachHangDAO extends ConnectDB{
         }
         return false;
     }
+    
+    public KhachHang getKhachHang(int maKH) {
+        PreparedStatement stmt = null;
+        try {
+
+            String sql = "SELECT * FROM dbo.KhachHang where maKH = ?";
+            stmt = this.conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+            if(!rs.next())
+            	return null;
+            
+            KhachHang kh = new KhachHang(rs);
+            return kh;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }
