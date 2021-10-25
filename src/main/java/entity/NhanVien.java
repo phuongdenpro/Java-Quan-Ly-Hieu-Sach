@@ -6,14 +6,24 @@ public class NhanVien {
 	private String soDienThoai;
 	private String diaChi;
 	public TaiKhoan taiKhoan;
+	private String email;
 	
-	public NhanVien(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan) {
+	public NhanVien(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan,String email) {
 		super();
 		this.maNv = maNv;
 		this.tenNv = tenNv;
 		this.soDienThoai = soDienThoai;
 		this.diaChi = diaChi;
 		this.taiKhoan = taiKhoan;
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public int getMaNv() {
@@ -59,7 +69,7 @@ public class NhanVien {
 	@Override
 	public String toString() {
 		return "NhanVien [maNv=" + maNv + ", tenNv=" + tenNv + ", soDienThoai=" + soDienThoai + ", diaChi=" + diaChi
-				+ ", taiKhoan=" + taiKhoan + "]";
+				+ ", taiKhoan=" + taiKhoan + ",Email=" +email+ "]";
 	}
 	
 	
