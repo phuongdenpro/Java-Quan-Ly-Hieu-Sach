@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import util.Placeholder;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -145,7 +147,8 @@ public class KhachHang_GUI extends JFrame {
 		txtTenKh = new JTextField();
 		txtTenKh.setPreferredSize(new Dimension(7, 30));
 		txtTenKh.setColumns(20);
-		PromptSupport.setPrompt("tên khách hàng", txtTenKh);
+		//PromptSupport.setPrompt("tên khách hàng", txtTenKh);
+		new Placeholder().placeholder(txtTenKh, "tên khách hàng");
 		pnTenKh.add(txtTenKh);
 		
 		JPanel pnEmail = new JPanel();
@@ -160,7 +163,8 @@ public class KhachHang_GUI extends JFrame {
 		txtEmail = new JTextField();
 		txtEmail.setPreferredSize(new Dimension(7, 30));
 		txtEmail.setColumns(20);
-		PromptSupport.setPrompt("Example@gmail.com", txtEmail);
+		//PromptSupport.setPrompt("Example@gmail.com", txtEmail);
+		new Placeholder().placeholder(txtEmail, "Example@gmail.com");
 		pnEmail.add(txtEmail);
 		
 		JPanel pnSoDienThoai = new JPanel();
@@ -175,7 +179,8 @@ public class KhachHang_GUI extends JFrame {
 		txtSdt = new JTextField();
 		txtSdt.setPreferredSize(new Dimension(7, 30));
 		txtSdt.setColumns(20);
-		PromptSupport.setPrompt("09xx xxx xxx ", txtSdt);
+		//PromptSupport.setPrompt("09xx xxx xxx ", txtSdt);
+		new Placeholder().placeholder(txtSdt, "09xx xxx xxx");
 		pnSoDienThoai.add(txtSdt);
 		
 		JPanel pnDiaChi = new JPanel();
@@ -190,7 +195,8 @@ public class KhachHang_GUI extends JFrame {
 		txtDiaChi = new JTextField();
 		txtDiaChi.setPreferredSize(new Dimension(7, 30));
 		txtDiaChi.setColumns(20);
-		PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
+		//PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
+		new Placeholder().placeholder(txtDiaChi, "Số nhà, tên đường, tỉnh thành");
 		pnDiaChi.add(txtDiaChi);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -249,7 +255,8 @@ public class KhachHang_GUI extends JFrame {
 		txtNhapLieu = new JTextField();
 		txtNhapLieu.setPreferredSize(new Dimension(7, 25));
 		pnTimKiem.add(txtNhapLieu);
-		PromptSupport.setPrompt("nhập liệu tìm kiếm", txtNhapLieu);
+		//PromptSupport.setPrompt("nhập liệu tìm kiếm", txtNhapLieu);
+		new Placeholder().placeholder(txtNhapLieu, "nhập liệu tìm kiếm");
 		txtNhapLieu.setColumns(30);
 		
 		JButton btnTimKiem = new JButton("Tìm kiếm");
