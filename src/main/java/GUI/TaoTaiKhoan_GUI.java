@@ -5,9 +5,12 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -16,13 +19,15 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
+import util.Placeholder;
+
 public class TaoTaiKhoan_GUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtHoTen;
+	private JTextField txtTenTk;
+	private JTextField txtMatKhau;
+	private JTextField txtSdt;
 
 	/**
 	 * Launch the application.
@@ -55,83 +60,92 @@ public class TaoTaiKhoan_GUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.NORTH);
+		JPanel pnTieuDe = new JPanel();
+		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 		
-		JLabel lblNewLabel = new JLabel("Tạo tài khoản nhân viên");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_1.add(lblNewLabel);
+		JLabel lblTieuDe = new JLabel("Tạo tài khoản nhân viên");
+		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnTieuDe.add(lblTieuDe);
 		
-		JPanel panel = new JPanel();
-		contentPane.add(panel);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JPanel pnThongTin = new JPanel();
+		Border compoud = BorderFactory.createCompoundBorder(
+				BorderFactory.createBevelBorder(BevelBorder.RAISED),
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		pnThongTin.setBorder(compoud);
+		contentPane.add(pnThongTin);
+		pnThongTin.setLayout(new BoxLayout(pnThongTin, BoxLayout.Y_AXIS));
 		
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
-		panel_2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		JPanel pnHoTen = new JPanel();
+		pnThongTin.add(pnHoTen);
+		pnHoTen.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblNewLabel_1 = new JLabel("Họ tên NV");
-		lblNewLabel_1.setPreferredSize(new Dimension(100, 14));
-		panel_2.add(lblNewLabel_1);
+		JLabel lblHoTen = new JLabel("Họ tên NV");
+		lblHoTen.setPreferredSize(new Dimension(100, 14));
+		pnHoTen.add(lblHoTen);
 		
-		textField = new JTextField();
-		textField.setPreferredSize(new Dimension(7, 25));
-		panel_2.add(textField);
-		textField.setColumns(20);
+		txtHoTen = new JTextField();
+		txtHoTen.setPreferredSize(new Dimension(7, 25));
+		new Placeholder().placeholder(txtHoTen, "Họ và tên");
+		pnHoTen.add(txtHoTen);
+		txtHoTen.setColumns(20);
 		
-		JPanel panel_2_2 = new JPanel();
-		panel.add(panel_2_2);
-		panel_2_2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		JPanel pnSdt = new JPanel();
+		pnThongTin.add(pnSdt);
+		pnSdt.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblNewLabel_1_2 = new JLabel("Số điện thoại");
-		lblNewLabel_1_2.setPreferredSize(new Dimension(100, 14));
-		panel_2_2.add(lblNewLabel_1_2);
+		JLabel lblSdt = new JLabel("Số điện thoại");
+		lblSdt.setPreferredSize(new Dimension(100, 14));
+		pnSdt.add(lblSdt);
 		
-		textField_3 = new JTextField();
-		textField_3.setPreferredSize(new Dimension(7, 25));
-		textField_3.setColumns(20);
-		panel_2_2.add(textField_3);
+		txtSdt = new JTextField();
+		txtSdt.setPreferredSize(new Dimension(7, 25));
+		txtSdt.setColumns(20);
+		new Placeholder().placeholder(txtSdt,"09xx xxx xxx");
+		pnSdt.add(txtSdt);
 		
-		JPanel panel_2_1 = new JPanel();
-		panel.add(panel_2_1);
-		panel_2_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		JPanel pnTenTaiKhoan = new JPanel();
+		pnThongTin.add(pnTenTaiKhoan);
+		pnTenTaiKhoan.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Tên tài khoản");
-		lblNewLabel_1_1.setPreferredSize(new Dimension(100, 14));
-		panel_2_1.add(lblNewLabel_1_1);
+		JLabel lblTenTk = new JLabel("Tên tài khoản");
+		lblTenTk.setPreferredSize(new Dimension(100, 14));
+		pnTenTaiKhoan.add(lblTenTk);
 		
-		textField_1 = new JTextField();
-		textField_1.setPreferredSize(new Dimension(7, 25));
-		textField_1.setColumns(20);
-		panel_2_1.add(textField_1);
+		txtTenTk = new JTextField();
+		txtTenTk.setPreferredSize(new Dimension(7, 25));
+		txtTenTk.setColumns(20);
+		new Placeholder().placeholder(txtTenTk, "tên tài khoản");
+		pnTenTaiKhoan.add(txtTenTk);
 		
-		JPanel panel_2_1_1 = new JPanel();
-		panel.add(panel_2_1_1);
-		panel_2_1_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		JPanel pnMatKhau = new JPanel();
+		pnThongTin.add(pnMatKhau);
+		pnMatKhau.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Mật khẩu");
-		lblNewLabel_1_1_1.setPreferredSize(new Dimension(100, 14));
-		panel_2_1_1.add(lblNewLabel_1_1_1);
+		JLabel lblMatKhau = new JLabel("Mật khẩu");
+		lblMatKhau.setPreferredSize(new Dimension(100, 14));
+		pnMatKhau.add(lblMatKhau);
 		
-		textField_2 = new JTextField();
-		textField_2.setPreferredSize(new Dimension(7, 25));
-		textField_2.setColumns(20);
-		panel_2_1_1.add(textField_2);
+		txtMatKhau = new JTextField();
+		txtMatKhau.setPreferredSize(new Dimension(7, 25));
+		txtMatKhau.setColumns(20);
+		new Placeholder().placeholder(txtMatKhau, "**********");
+		pnMatKhau.add(txtMatKhau);
 		
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
+		JPanel pnChucNang = new JPanel();
+		pnThongTin.add(pnChucNang);
 		
-		JButton btnToTiKhon = new JButton("Tạo tài khoản");
-		btnToTiKhon.setPreferredSize(new Dimension(150, 30));
-		btnToTiKhon.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnToTiKhon.setBackground(new Color(0, 250, 154));
-		panel_3.add(btnToTiKhon);
+		JButton btnTaoTk = new JButton("Tạo tài khoản");
+		btnTaoTk.setPreferredSize(new Dimension(150, 30));
+		btnTaoTk.setBorder(new EmptyBorder(0, 0, 0, 0));
+		btnTaoTk.setBackground(new Color(0, 250, 154));
+		btnTaoTk.setToolTipText("Tạo tài khoản mới");
+		pnChucNang.add(btnTaoTk);
 		
-		JButton btnNewButton = new JButton("Hủy");
-		btnNewButton.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnNewButton.setPreferredSize(new Dimension(70, 30));
-		btnNewButton.setBackground(new Color(255, 99, 71));
-		panel_3.add(btnNewButton);
+		JButton btnHuy = new JButton("Hủy");
+		btnHuy.setBorder(new EmptyBorder(0, 0, 0, 0));
+		btnHuy.setPreferredSize(new Dimension(70, 30));
+		btnHuy.setBackground(new Color(255, 99, 71));
+		pnChucNang.add(btnHuy);
 	}
 
 	public JPanel getContentPane() {

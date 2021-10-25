@@ -4,8 +4,8 @@ public class NhanVienQLSanPham extends NhanVien {
 	private int caLamViec;
 
 	public NhanVienQLSanPham(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan,
-			int caLamViec) {
-		super(maNv, tenNv, soDienThoai, diaChi, taiKhoan);
+			String email,int caLamViec) {
+		super(maNv, tenNv, soDienThoai, diaChi, taiKhoan,email);
 		this.caLamViec = caLamViec;
 	}
 
