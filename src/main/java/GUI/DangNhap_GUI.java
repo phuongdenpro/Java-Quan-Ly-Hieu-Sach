@@ -28,6 +28,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import DAO.TaiKhoanDAO;
+import util.Placeholder;
+
 import javax.swing.SwingConstants;
 
 public class DangNhap_GUI extends JFrame {
@@ -69,15 +71,8 @@ public class DangNhap_GUI extends JFrame {
 		setSize(screenSize.width, screenSize.height);
 		
 		contentPane = 
-				new JPanel(); 
-//				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
-//		new JPanel() {  
-//			public void paintComponent(Graphics g) {  
-//				Image img = Toolkit.getDefaultToolkit().getImage(  
-//						Login_GUI.class.getResource("/images/bg3.jpg"));  
-//				g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
-//            }  
-//		};
+//				new JPanel(); 
+				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
 		
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -103,23 +98,7 @@ public class DangNhap_GUI extends JFrame {
 		txtUserName.setBounds(41, 77, 398, 41);
 		panel.add(txtUserName);
 		txtUserName.setColumns(10);
-		txtUserName.setForeground(Color.GRAY);
-		txtUserName.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtUserName.getText().equals("Tài khoản")) {
-		        	txtUserName.setText("");
-		        	txtUserName.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtUserName.getText().isEmpty()) {
-		        	txtUserName.setForeground(Color.GRAY);
-		        	txtUserName.setText("Tài khoản");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtUserName, "Tài khoản");
 		
 		txtPassword = new JPasswordField("Mật khẩu");
 		txtPassword.setBorder(new LineBorder(Color.LIGHT_GRAY));
@@ -127,28 +106,14 @@ public class DangNhap_GUI extends JFrame {
 		txtPassword.setBounds(41, 129, 398, 41);
 		panel.add(txtPassword);
 		txtPassword.setColumns(10);
-		txtPassword.setForeground(Color.GRAY);
-		txtPassword.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtPassword.getText().equals("Mật khẩu")) {
-		        	txtPassword.setText("");
-		        	txtPassword.setEchoChar('*');
-		        	txtPassword.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtPassword.getText().isEmpty()) {
-		        	txtPassword.setForeground(Color.GRAY);
-		        	txtPassword.setEchoChar((char)0);
-		        	txtPassword.setText("Mật khẩu");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtPassword, "Mật khẩu");
 		
 		btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
-		btnDangNhap.setBackground(Color.WHITE);
+		btnDangNhap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnDangNhap.setBackground(new Color(0, 206, 209));
 		btnDangNhap.setBounds(105, 207, 130, 41);
 		panel.add(btnDangNhap);
 		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));

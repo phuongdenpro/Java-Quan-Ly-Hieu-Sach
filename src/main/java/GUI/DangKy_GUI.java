@@ -74,8 +74,8 @@ public class DangKy_GUI extends JFrame {
 		setSize(screenSize.width, screenSize.height);
 		
 		contentPane = 
-				new JPanel(); 
-//				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
+//				new JPanel(); 
+				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
 		
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -141,7 +141,11 @@ public class DangKy_GUI extends JFrame {
 		new Placeholder().placeholder(txtRePassword, "Nhập lại mật khẩu");
 		
 		btnDangKy = new JButton("Đăng ký");
-		btnDangKy.setBackground(Color.WHITE);
+		btnDangKy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnDangKy.setBackground(new Color(0, 206, 209));
 		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnDangKy.setBounds(105, 411, 130, 41);
 		panel.add(btnDangKy);
