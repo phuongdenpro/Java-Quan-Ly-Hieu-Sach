@@ -42,6 +42,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class SanPham_GUI extends JFrame implements ActionListener, MouseListener{
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	private JButton btnTim, btnThem, btnXoaTrang, btnXoa, btnSua;
 	String[] cols = { "STT", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn vị tính", "Gía nhập", "Gía bán", "Mô tả",
 			"Mã loại" };
@@ -63,11 +64,21 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 	private JRadioButton radTenSanPham;
 	private static JComboBox cboListMaloai;
 
+=======
+	
+	private JPanel contentPane;
+	private static JList lstTheloai;
+
+	private JTable tblProduct;
+
+	private DefaultTableModel dtmProduct;
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 	
 
 
 
 	public SanPham_GUI() {
+<<<<<<< HEAD
 		
 		setTitle("Thống kê");
 		setResizable(false);
@@ -264,8 +275,242 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 
 		
 		table.addMouseListener(this);
+=======
+		setTitle("Quản lý sản phẩm");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(800, 550);
+		setLocationRelativeTo(null);
+	
+		//pn chính
+		contentPane = new JPanel();
+		setContentPane(contentPane);
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
+		
+		JPanel pnBorder=new JPanel();
+		contentPane.add(pnBorder);
+		pnBorder.setLayout(new BorderLayout());
+	
+		JPanel pnNorth=new JPanel();
+	
+		JLabel lblTitle=new JLabel("Quản lý sản phẩm");
+	
+		Font ftTitle=new Font("arial", Font.BOLD, 32);
+	
+		lblTitle.setFont(ftTitle);
+	
+		lblTitle.setForeground(Color.BLUE);
+	
+		pnNorth.add(lblTitle);
+	
+		pnBorder.add(pnNorth,BorderLayout.NORTH);
+	
+		//Khai báo pn chứa list thể loại và list sản phẩm
+		JPanel pnListTheloai=new JPanel();
+	
+		JPanel pnListProduct=new JPanel();
+	
+		JSplitPane slitPane=new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnListTheloai, pnListProduct);
+	
+		pnBorder.add(slitPane,BorderLayout.CENTER);
+	
+		pnListTheloai.setLayout(new BorderLayout());
+		listmodeTheloai = new DefaultListModel<String>();
+		listmodeTheloai.addElement("Truyện conan");
+		listmodeTheloai.addElement("Truyện doraemon");
+		listmodeTheloai.addElement("Sách giáo khoa");
+		listmodeTheloai.addElement("Sách khoa học");
+		listmodeTheloai.addElement("Truyện 7 viên ngọc rồng");
+		listmodeTheloai.addElement("Sách bài tập");
+		listmodeTheloai.addElement("Truyện cổ tích");
+		
+	
+		lstTheloai=new JList(listmodeTheloai);
+	
+		TitledBorder cateborder=new TitledBorder(BorderFactory.createLineBorder(Color.RED), "Danh mục sản phẩm");
+	
+		lstTheloai.setBorder(cateborder);
+		
+	
+		pnListTheloai.setPreferredSize(new Dimension(300, 0));
+	
+		pnListTheloai.add(lstTheloai,BorderLayout.CENTER);
+	
+		JPanel pnListCateSouth=new JPanel();
+	
+		btnCateNew =new JButton("Tạo");
+	
+		pnListCateSouth.add(btnCateNew);
+	
+		btnCateUpdate =new JButton("Sửa");
+	
+		pnListCateSouth.add(btnCateUpdate);
+	
+		btnCateRemove =new JButton("Xóa");
+	
+		pnListCateSouth.add(btnCateRemove);
+	
+		pnListTheloai.add(pnListCateSouth,BorderLayout.SOUTH);
+	
+		
+		//pn sản phẩm
+		pnListProduct.setLayout(new BorderLayout());
+	
+		JPanel pnProductTitle=new JPanel();
+	
+		JLabel lblProductTitle=new JLabel("Thông tin chi tiết");
+	
+		pnProductTitle.add(lblProductTitle);
+	
+		pnListProduct.add(pnProductTitle,BorderLayout.NORTH);
+	
+		
+		JPanel pnProductTable=new JPanel(); //Khai báo pn chưa table
+	
+		pnProductTable.setLayout(new BorderLayout());
+	
+		pnListProduct.add(pnProductTable,BorderLayout.CENTER);
+	
+		//Bảng thông tin 
+		dtmProduct =new DefaultTableModel();
+	
+		dtmProduct.addColumn("Mã sản phẩm");
+	
+		dtmProduct.addColumn("Tên sản phẩm");
+	
+		dtmProduct.addColumn("Đơn giá");
+	
+		dtmProduct.addColumn("Số lượng");
+	
+		dtmProduct.addColumn("Mô tả");
+	
+		tblProduct=new JTable(dtmProduct);
+	
+		JScrollPane sctblproduct=new JScrollPane(tblProduct );
+	
+		pnProductTable.add(sctblproduct,BorderLayout.CENTER);
+		
+		//pn chi tiết sản phẩm
+		JPanel pnProductDetail=new JPanel();
+	
+		pnListProduct.add(pnProductDetail,BorderLayout.SOUTH);
+	
+		pnProductDetail.setLayout(new BoxLayout(pnProductDetail, BoxLayout.Y_AXIS ));
+	
+		JPanel pnCateList=new JPanel();
+	
+		JLabel lblCateId=new JLabel("Thể loại:");
+		cboList=new JComboBox();
+	
+		pnCateList.add(lblCateId);
+	
+		pnCateList.add(cboList);
+	
+		pnProductDetail.add(pnCateList);
+	
+		JPanel pnProductId=new JPanel();
+	
+		JLabel lblProId=new JLabel("Mã sản phẩm:");
+	
+		txtId=new JTextField(20);
+	
+		pnProductId.add(lblProId);
+	
+		pnProductId.add(txtId);
+	
+		pnProductDetail.add(pnProductId);
+	
+		JPanel pnProductName=new JPanel();
+	
+		JLabel lblProName=new JLabel("Tên sản phẩm:");
+	
+		txtName=new JTextField(20);
+	
+		pnProductName.add(lblProName);
+	
+		pnProductName.add(txtName);
+	
+		pnProductDetail.add(pnProductName);
+	
+		JPanel pnProductUnitPrice=new JPanel();
+	
+		JLabel lblUnitPrice=new JLabel("Đơn giá:");
+	
+		txtUnitprice=new JTextField(20);
+	
+		pnProductUnitPrice.add(lblUnitPrice);
+	
+		pnProductUnitPrice.add(txtUnitprice);
+	
+		pnProductDetail.add(pnProductUnitPrice);
+	
+		JPanel pnProductQuantity=new JPanel();
+	
+		JLabel lblQuantity=new JLabel("Số lượng:");
+	
+		txtQuantity=new JTextField(20);
+	
+		pnProductQuantity.add(lblQuantity);
+	
+		pnProductQuantity.add(txtQuantity);
+	
+		pnProductDetail.add(pnProductQuantity);
+	
+		JPanel pnProductDescription=new JPanel();
+	
+		JLabel lblDescription=new JLabel("Mô tả:");
+	
+		txtDescription=new JTextArea(4, 22);
+	
+		JScrollPane scare=new JScrollPane(txtDescription);
+	
+		pnProductDescription.add(lblDescription);
+	
+		pnProductDescription.add(scare);
+	
+		pnProductDetail.add(pnProductDescription);
+	
+		JPanel pnButton=new JPanel();
+	
+		btnNew=new JButton("Tạo mới");
+	
+		btnSave=new JButton("Lưu");
+	
+		btnRemove=new JButton("Xóa");
+	
+		pnButton.add(btnNew);
+	
+		pnButton.add(btnSave);
+	
+		pnButton.add(btnRemove);
+	
+		pnProductDetail.add(pnButton);
+	
+		cboList.setPreferredSize(txtName.getPreferredSize());
+		cboList.setPreferredSize(txtId.getPreferredSize());
+		cboList.setPreferredSize(txtUnitprice.getPreferredSize());
+		cboList.setPreferredSize(txtQuantity.getPreferredSize());
+	
+	
+		lblCateId.setPreferredSize(lblProName.getPreferredSize());
+	
+		lblDescription.setPreferredSize(lblProName.getPreferredSize());
+	
+		lblQuantity.setPreferredSize(lblProName.getPreferredSize());
+	
+		lblUnitPrice.setPreferredSize(lblProName.getPreferredSize());
+	
+		lblProId.setPreferredSize(lblProName.getPreferredSize());
+	
+		Container con=getContentPane();
+	
+		con.add(pnBorder);
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 
 
+	}
+//	
+	public JPanel getContentPane() {
+		return this.contentPane;
 	}
 			
 	public static void main(String[] args) {

@@ -1,15 +1,13 @@
 package entity;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 public class NhanVienBanHang extends NhanVien {
 	private int caLamViec;
-	public List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+	public ArrayList<HoaDon> hoaDons = new ArrayList<HoaDon>();
 	
 	public NhanVienBanHang(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan, int caLamViec,
-			List<HoaDon> hoaDons) {
+			ArrayList<HoaDon> hoaDons) {
 		super(maNv, tenNv, soDienThoai, diaChi, taiKhoan);
 		this.caLamViec = caLamViec;
 		this.hoaDons = hoaDons;
@@ -23,13 +21,18 @@ public class NhanVienBanHang extends NhanVien {
 		this.caLamViec = caLamViec;
 	}
 
-	public List<HoaDon> getHoaDons() {
+	public ArrayList<HoaDon> getHoaDons() {
 		return hoaDons;
 	}
 
-	public void setHoaDons(List<HoaDon> hoaDons) {
+	public void setHoaDons(ArrayList<HoaDon> hoaDons) {
 		this.hoaDons = hoaDons;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "NhanVienBanHang [caLamViec=" + caLamViec + ", hoaDons=" + hoaDons + ", taiKhoan=" + taiKhoan + "]";
+	}
+
 	
 }

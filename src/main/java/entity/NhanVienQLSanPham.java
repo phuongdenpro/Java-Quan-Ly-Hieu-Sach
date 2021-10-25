@@ -16,6 +16,11 @@ public class NhanVienQLSanPham extends NhanVien {
 	public void setCaLamViec(int caLamViec) {
 		this.caLamViec = caLamViec;
 	}
-	
 
+	@Override
+	public String toString() {
+		return "NhanVienQLSanPham [caLamViec=" + caLamViec + ", taiKhoan=" + taiKhoan + "]";
+	}
+	
+	
 }

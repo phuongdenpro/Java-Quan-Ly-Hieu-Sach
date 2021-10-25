@@ -1,19 +1,18 @@
 package entity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class KhachHang {
 	private int maKh;
 	private String hoTen;
 	private String soDienThoai;
 	private String diaChi;
-	public List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+	public ArrayList<HoaDon> hoaDons = new ArrayList<HoaDon>();
 	public TaiKhoan taiKhoan;
-	public List<DonDatHang> donDatHangs = new ArrayList<DonDatHang>();
+	public ArrayList<DonDatHang> donDatHangs = new ArrayList<DonDatHang>();
 	
-	public KhachHang(int maKh, String hoTen, String soDienThoai, String diaChi, List<HoaDon> hoaDons, TaiKhoan taiKhoan,
-			List<DonDatHang> donDatHangs) {
+	public KhachHang(int maKh, String hoTen, String soDienThoai, String diaChi, ArrayList<HoaDon> hoaDons,
+			TaiKhoan taiKhoan, ArrayList<DonDatHang> donDatHangs) {
 		super();
 		this.maKh = maKh;
 		this.hoTen = hoTen;
@@ -22,6 +21,12 @@ public class KhachHang {
 		this.hoaDons = hoaDons;
 		this.taiKhoan = taiKhoan;
 		this.donDatHangs = donDatHangs;
+	}
+	
+	public KhachHang(String hoTen, String soDienThoai, String diaChi) {
+		this.hoTen = hoTen;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
 	}
 
 	public int getMaKh() {
@@ -56,11 +61,11 @@ public class KhachHang {
 		this.diaChi = diaChi;
 	}
 
-	public List<HoaDon> getHoaDons() {
+	public ArrayList<HoaDon> getHoaDons() {
 		return hoaDons;
 	}
 
-	public void setHoaDons(List<HoaDon> hoaDons) {
+	public void setHoaDons(ArrayList<HoaDon> hoaDons) {
 		this.hoaDons = hoaDons;
 	}
 
@@ -72,12 +77,18 @@ public class KhachHang {
 		this.taiKhoan = taiKhoan;
 	}
 
-	public List<DonDatHang> getDonDatHangs() {
+	public ArrayList<DonDatHang> getDonDatHangs() {
 		return donDatHangs;
 	}
 
-	public void setDonDatHangs(List<DonDatHang> donDatHangs) {
+	public void setDonDatHangs(ArrayList<DonDatHang> donDatHangs) {
 		this.donDatHangs = donDatHangs;
+	}
+
+	@Override
+	public String toString() {
+		return "KhachHang [maKh=" + maKh + ", hoTen=" + hoTen + ", soDienThoai=" + soDienThoai + ", diaChi=" + diaChi
+				+ ", hoaDons=" + hoaDons + ", taiKhoan=" + taiKhoan + ", donDatHangs=" + donDatHangs + "]";
 	}
 	
 	

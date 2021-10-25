@@ -64,7 +64,8 @@ public class GioHang_GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GioHang_GUI() {
-		setTitle("Giá»� hÃ ng");
+//		Giỏ hàng
+		setTitle("Giỏ hàng");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -94,6 +95,7 @@ public class GioHang_GUI extends JFrame {
 		panelContent.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
+<<<<<<< HEAD
 //<<<<<<< HEAD
 		JLabel lblNewLabel = new JLabel("Giá»� hÃ ng");
 //=======
@@ -104,6 +106,15 @@ public class GioHang_GUI extends JFrame {
 		lblNewLabel1.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblNewLabel1.setForeground(new Color(0, 206, 209));
 		panel.add(lblNewLabel1, BorderLayout.NORTH);
+=======
+
+		JLabel lblNewLabel = new JLabel("Giỏ hàng");
+		lblNewLabel.setBorder(new EmptyBorder(10, 0, 0, 0));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblNewLabel.setForeground(new Color(0, 206, 209));
+		panel.add(lblNewLabel, BorderLayout.NORTH);
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.CENTER);
@@ -127,36 +138,49 @@ public class GioHang_GUI extends JFrame {
 		panel_1.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+<<<<<<< HEAD
 //<<<<<<< HEAD
 		btnDatHang = new JButton("Ä�áº·t hÃ ng");
 		btnDatHang.setPreferredSize(new Dimension(150, 23));
 //=======
+=======
+
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		ImageIcon icon_dathang = new ImageIcon("data/images/shopping-cart32.png");
 		btnDatHang = new JButton("Đặt hàng", icon_dathang);
 		btnDatHang.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnDatHang.setIconTextGap(8);
 		btnDatHang.setBackground(Color.WHITE);
 		btnDatHang.setPreferredSize(new Dimension(200, 40));
+<<<<<<< HEAD
 //>>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
+=======
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		pnThongTin.add(btnDatHang);
 		btnDatHang.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showConfirmDialog(null, "XÃ¡c nháº­n Ä‘áº·t hÃ ng ?");
+				JOptionPane.showConfirmDialog(null, "Xác nhận đặt hàng ?");
 			}
 		});
 		
+<<<<<<< HEAD
 //<<<<<<< HEAD
 		btnTroVe = new JButton("Tiáº¿p tá»¥c mua hÃ ng");
 		btnTroVe.setPreferredSize(new Dimension(150, 23));
 //=======
+=======
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		ImageIcon icon_tieptucmuahang = new ImageIcon("data/images/cart.png");
 		btnTroVe = new JButton("Tiếp tục mua hàng", icon_tieptucmuahang);
 		btnTroVe.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnTroVe.setIconTextGap(8);
 		btnTroVe.setBackground(Color.WHITE);
 		btnTroVe.setPreferredSize(new Dimension(250, 40));
+<<<<<<< HEAD
 //>>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
+=======
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		pnThongTin.add(btnTroVe);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(200);
@@ -217,17 +241,10 @@ public class GioHang_GUI extends JFrame {
 		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
 		
-		ImageIcon icon_quanly = new ImageIcon("data/image/businessman.png");
-		mntmQuanLy = new JMenuItem("Đi tới trang quản lý");
-		mntmQuanLy.setIcon(icon_quanly);
-		mnNewMenu.add(mntmQuanLy);
-		
 		mntmGioHang = new JMenuItem("Giỏ hàng");
-		mntmGioHang.setIcon(icon_quanly);
 		mnNewMenu.add(mntmGioHang);
 		
 		mntmDangXuat = new JMenuItem("Đăng xuất");
-		mntmDangXuat.setIcon(icon_quanly);
 		mnNewMenu.add(mntmDangXuat);
 		
 		return panelHeader;
@@ -256,7 +273,7 @@ public class GioHang_GUI extends JFrame {
 		pnItem.add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("Conan - táº­p 1");
+		JLabel lblNewLabel_1 = new JLabel("Conan - tập 1");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_3.add(lblNewLabel_1);
@@ -266,11 +283,11 @@ public class GioHang_GUI extends JFrame {
 		panel_3.add(pnDonGia);
 		pnDonGia.setLayout(new BoxLayout(pnDonGia, BoxLayout.X_AXIS));
 		
-		JLabel lblDonGia = new JLabel("Ä�Æ¡n giÃ¡:    ");
+		JLabel lblDonGia = new JLabel("Đơn giá:    ");
 		lblDonGia.setBackground(Color.WHITE);
 		pnDonGia.add(lblDonGia);
 		
-		JLabel donGia = new JLabel("14.000Ä‘");
+		JLabel donGia = new JLabel("14.000đ");
 //		lblTongTien.setForeground(new Color(0, 206, 209));
 		donGia.setBackground(Color.WHITE);
 		pnDonGia.add(donGia);
@@ -280,7 +297,7 @@ public class GioHang_GUI extends JFrame {
 		panel_3.add(panel_1_1);
 		panel_1_1.setLayout(new BoxLayout(panel_1_1, BoxLayout.X_AXIS));
 		
-		JLabel lblNewLabel_3 = new JLabel("Sá»‘ lÆ°á»£ng:  ");
+		JLabel lblNewLabel_3 = new JLabel("Số lượng:  ");
 		panel_1_1.add(lblNewLabel_3);
 		
 		textField = new JTextField();
@@ -293,11 +310,11 @@ public class GioHang_GUI extends JFrame {
 		panel_3.add(panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		JLabel lblNewLabel_4 = new JLabel("Tá»•ng tiá»�n:  ");
+		JLabel lblNewLabel_4 = new JLabel("Tổng tiền:  ");
 		lblNewLabel_4.setBackground(Color.WHITE);
 		panel_4.add(lblNewLabel_4);
 		
-		JLabel lblTongTien = new JLabel("14.000Ä‘");
+		JLabel lblTongTien = new JLabel("14.000đ");
 		lblTongTien.setForeground(new Color(0, 206, 209));
 		lblTongTien.setBackground(Color.WHITE);
 		panel_4.add(lblTongTien);
@@ -310,6 +327,7 @@ public class GioHang_GUI extends JFrame {
 		panel_6.setBackground(Color.WHITE);
 		pnItem.add(panel_6);
 		
+<<<<<<< HEAD
 //<<<<<<< HEAD
 		JButton btnNewButton = new JButton("XÃ³a");
 //=======
@@ -320,6 +338,14 @@ public class GioHang_GUI extends JFrame {
 		btnNewButton1.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		btnNewButton1.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(btnNewButton1);
+=======
+		ImageIcon icon_delete = new ImageIcon("data/images/trash.png");
+		JButton btnNewButton = new JButton("Xóa", icon_delete);
+		btnNewButton.setBackground(Color.WHITE);
+		btnNewButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		btnNewButton.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(btnNewButton);
+>>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		
 		return pnItem;
 	}

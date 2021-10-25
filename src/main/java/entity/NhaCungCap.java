@@ -1,23 +1,31 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 public class NhaCungCap {
 	private int maNCC;
 	private String tenNCC;
 	private String diaChi;
 	private String soDienThoai;
-	public List<SanPham> sanPhams = new ArrayList<SanPham>();
+	public ArrayList<SanPham> sanPhams = new ArrayList<SanPham>();
 	
-	public NhaCungCap(int maNCC, String tenNCC, String diaChi, String soDienThoai, List<SanPham> sanPhams) {
+	public NhaCungCap(int maNCC, String tenNCC, String diaChi, String soDienThoai, ArrayList<SanPham> sanPhams) {
 		super();
 		this.maNCC = maNCC;
 		this.tenNCC = tenNCC;
 		this.diaChi = diaChi;
 		this.soDienThoai = soDienThoai;
 		this.sanPhams = sanPhams;
+	}
+	
+	public NhaCungCap(ResultSet rs) throws SQLException {
+		this.maNCC = rs.getInt("maNCC");
+		this.tenNCC = rs.getString("tenNCC");
+		this.diaChi = rs.getString("diaChi");
+		this.soDienThoai = rs.getString("soDienThoai");
+//		this.sanPhams = sanPhams;
 	}
 
 	public int getMaNCC() {
@@ -52,12 +60,18 @@ public class NhaCungCap {
 		this.soDienThoai = soDienThoai;
 	}
 
-	public List<SanPham> getSanPhams() {
+	public ArrayList<SanPham> getSanPhams() {
 		return sanPhams;
 	}
 
-	public void setSanPhams(List<SanPham> sanPhams) {
+	public void setSanPhams(ArrayList<SanPham> sanPhams) {
 		this.sanPhams = sanPhams;
+	}
+
+	@Override
+	public String toString() {
+		return "NhaCungCap [maNCC=" + maNCC + ", tenNCC=" + tenNCC + ", diaChi=" + diaChi + ", soDienThoai="
+				+ soDienThoai + ", sanPhams=" + sanPhams + "]";
 	}
 	
 	

@@ -51,7 +51,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		
 		pnMain = new JPanel();
 		pnMain.setBounds(0, 0, 584, 411);
-		getContentPane().add(pnMain);
+		setContentPane(pnMain);
 
 		JLabel lbTitle = new JLabel("Quản Lý Hóa Đơn");
 		lbTitle.setBounds(585, 11, 348, 30);
@@ -215,7 +215,9 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		
 	}
 
-	
+	public JPanel getContentPane() {
+		return this.pnMain;
+	}
 
 	public static void main(String[] args) {
 		new HoaDon_GUI().setVisible(true);

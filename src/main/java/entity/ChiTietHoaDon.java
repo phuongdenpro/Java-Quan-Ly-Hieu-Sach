@@ -55,6 +55,12 @@ public class ChiTietHoaDon {
 	public void setSanPham(SanPham sanPham) {
 		this.sanPham = sanPham;
 	}
+
+	@Override
+	public String toString() {
+		return "ChiTietHoaDon [id=" + id + ", soLuong=" + soLuong + ", donGia=" + donGia + ", hoaDon=" + hoaDon
+				+ ", sanPham=" + sanPham + "]";
+	}
 	
 	
 }

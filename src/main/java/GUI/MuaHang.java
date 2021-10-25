@@ -8,78 +8,86 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class QuanLyHieuSach extends JFrame{
-	private DangNhap_GUI loginGUI = new DangNhap_GUI();
-	private DangKy_GUI dangKyGUI = new DangKy_GUI();
-	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
+public class MuaHang extends JFrame{
+//	private DangNhap_GUI loginGUI = new DangNhap_GUI();
+//	private DangKy_GUI dangKyGUI = new DangKy_GUI();
+	private TrangChu_GUI trangChuGUI;
 	private GioHang_GUI gioHangGUI = new GioHang_GUI();
-	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
+//	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
 	private TroGiup_GUI troGiupGUI = new TroGiup_GUI();
 	
 	private JPanel contentPane = new JPanel();
 	
-	public QuanLyHieuSach() {
-		renderGUI();
-		setVisible(true);
+	public MuaHang() throws SQLException {
 		
-		addWindowListener(new WindowAdapter() {
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-	        	if(quanLyGUI.isVisible() == false) {
-	        		System.exit(0);
-	        	}else
-	        		setVisible(false);
-	        }
-	        
-	        @Override
-	        public void windowClosed(WindowEvent e) {
-	        }
-	    });
+		trangChuGUI = new TrangChu_GUI();
+		renderGUI();
+//		setVisible(true);
+		
+//		addWindowListener(new WindowAdapter() {
+//	        @Override
+//	        public void windowClosing(WindowEvent e) {
+//	        	if(quanLyGUI.isVisible() == false) {
+//	        		System.exit(0);
+//	        	}else
+//	        		setVisible(false);
+//	        }
+//	        
+//	        @Override
+//	        public void windowClosed(WindowEvent e) {
+//	        }
+//	    });
 	}
 	
 	public void renderGUI() {
 		
 		this.setTitle("Hiệu sách");
 		
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenSize.width, screenSize.height);
 		this.setLocationRelativeTo(null);
 			
 		//		
-		this.renderMain(loginGUI.getContentPane(), "dangnhap");
+		this.renderMain(trangChuGUI.getContentPane(), "trangchu");
 //		contentPane
-		
+		handleMenu();
+		handleGioHang();
 	}
 	
 	public void renderMain(JPanel contentPane, String tab) {
-		this.remove(this.contentPane);
+//		this.remove(this.contentPane);
         this.revalidate();
         this.repaint();
-        this.contentPane = contentPane;
-        this.add(this.contentPane);
+//        this.contentPane = contentPane;
+//        this.add(this.contentPane);
+        this.setContentPane(contentPane);
         this.revalidate();
         this.repaint();
         
         System.out.println("-> "+tab);
-		if(tab.equals("dangnhap")) {
-			handleLogin();
-			loginGUI.requestFocus();
-		}else if(tab.equals("dangky")) {
-			handleRegister();
-		}else if(tab.equals("trangchu")) {
-			handleMenu();
+//		if(tab.equals("dangnhap")) {
+//			handleLogin();
+//			loginGUI.requestFocus();
+//		}else if(tab.equals("dangky")) {
+//			handleRegister();
+//		}else 
+		if(tab.equals("trangchu")) {
+			
 		}else if(tab.equals("giohang")) {
-			handleMenu();
-			handleGioHang();
-		}else if(tab.equals("quanly")) {
-			handleQuanLy();
-		}else if(tab.equals("trogiup")) {
+//			handleMenu();
+			
+		}
+//		else if(tab.equals("quanly")) {
+//			handleQuanLy();
+//		}
+		else if(tab.equals("trogiup")) {
 			handleTroGiup();
 		}
 		
@@ -89,14 +97,6 @@ public class QuanLyHieuSach extends JFrame{
 		trangChuGUI.mntmGioHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				renderMain(gioHangGUI.getContentPane(), "giohang");
-			}
-		});
-		trangChuGUI.mntmQuanLy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				quanLyGUI.setVisible(true);
-				handleQuanLy();
-//				setV
-//				renderMain(quanLyGUI.getContentPane(), "quanly");
 			}
 		});
 		trangChuGUI.lblHelp.addMouseListener(new MouseListener() {
@@ -137,19 +137,13 @@ public class QuanLyHieuSach extends JFrame{
 				renderMain(trangChuGUI.getContentPane(), "trangchu");
 			}
 		});
+		
 		gioHangGUI.mntmGioHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				renderMain(gioHangGUI.getContentPane(), "giohang");
 			}
 		});
-		gioHangGUI.mntmQuanLy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				quanLyGUI.a
-				quanLyGUI.main(null);
-//				setV
-//				renderMain(quanLyGUI.getContentPane(), "quanly");
-			}
-		});
+		
 		gioHangGUI.lblHelp.addMouseListener(new MouseListener() {
 
 			@Override
@@ -172,58 +166,28 @@ public class QuanLyHieuSach extends JFrame{
 		});
 	}
 	
-	public void handleLogin() {
-		loginGUI.btnDangNhap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("hi");
-				renderMain(trangChuGUI.getContentPane(), "trangchu");
-			}
-		});
-		
-		loginGUI.btnDangKy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				System.out.println("hi");
-				renderMain(dangKyGUI.getContentPane(), "dangky");
-			}
-		});
-	}
-	
-	public void handleRegister() {
-		dangKyGUI.btnDangNhap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				renderMain(loginGUI.getContentPane(), "login");
-			}
-		});
-		
-		dangKyGUI.btnDangKy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				renderMain(loginGUI.getContentPane(), "login");
-			}
-		});
-	}
-	
-	public void handleQuanLy() {
-		quanLyGUI.addWindowListener(new WindowAdapter() {
-	        //for closing
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-	            if(isVisible() == false) {
-	            	System.exit(0);
-	            }
-	        }
-	        //for closed
 
-	        @Override
-	        public void windowClosed(WindowEvent e) {
-	        }
-	    });
-	}
+//	
+//	public void handleQuanLy() {
+//		quanLyGUI.addWindowListener(new WindowAdapter() {
+//	        //for closing
+//	        @Override
+//	        public void windowClosing(WindowEvent e) {
+//	            if(isVisible() == false) {
+//	            	System.exit(0);
+//	            }
+//	        }
+//	        //for closed
+//
+//	        @Override
+//	        public void windowClosed(WindowEvent e) {
+//	        }
+//	    });
+//	}
 	
 	
-	public static void main(String[] args) {
-		QuanLyHieuSach quanLyHieuSach = new QuanLyHieuSach();
+	public static void main(String[] args) throws SQLException {
+		MuaHang quanLyHieuSach = new MuaHang();
 //		try{
 //            ConnectDB.getInstance().connect();
 //        }catch(SQLException e){
