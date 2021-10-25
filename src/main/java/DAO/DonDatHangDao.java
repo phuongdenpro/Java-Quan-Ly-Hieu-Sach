@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import ConnectDB.ConnectDB;
+import entity.DonDatHang;
 import entity.KhachHang;
 import entity.SanPham;
 
@@ -18,7 +19,7 @@ public class DonDatHangDao extends ConnectDB{
     
     public boolean themSanPhamVaoDonDatHang(SanPham sp, int soLuong, int maKH) {
         PreparedStatement stmt = null;
-        System.out.println(maKH);
+
         try {
         	
 
@@ -86,11 +87,46 @@ public class DonDatHangDao extends ConnectDB{
         return false;
     }
     
+    public DonDatHang getDonDatHang(int maKH) {
+    	PreparedStatement stmt = null;
+
+        try {
+        	
+
+            String sql = "SELECT * FROM dbo.DonDatHang where maKH = ? and tinhTrang = 0";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, maKH);
+            ResultSet rsDDH = stmt.executeQuery();
+            
+//          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
+            if(!rsDDH.next()) {
+            	return null;
+            }
+            printResultSet(rsDDH);
+            DonDatHang ddh = new DonDatHang(rsDDH);
+            
+            ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
+            
+            return ddh;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return null;
+    }
+    
     public static void main(String[] args) throws SQLException {
 //    	KhachHang kh = new KhachHangDAO().getKhachHang(1);
 //    	SanPham sp = new SanPhamDAO().getSanPham(17);
     	DonDatHangDao DDHDao = new DonDatHangDao();
 //    	
 //    	System.out.println(DDHDao.themSanPhamVaoDonDatHang(sp, 1, 1));
+    	System.out.println(DDHDao.getDonDatHang(1));
 	}
 }

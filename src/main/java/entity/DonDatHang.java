@@ -1,23 +1,38 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DonDatHang {
 	private int maDDH;
 	private double tongTien;
 	private Date ngayDat;
+	private int tinhTrang;
 	public KhachHang khachHang;
 	public ArrayList<ChiTietDonDatHang> chiTietDonDatHangs = new ArrayList<ChiTietDonDatHang>();
 	
-	public DonDatHang(int maDDH, double tongTien, Date ngayDat, KhachHang khachHang,
+	public DonDatHang(int maDDH, double tongTien, Date ngayDat, int tinhTrang, KhachHang khachHang,
 			ArrayList<ChiTietDonDatHang> chiTietDonDatHangs) {
 		super();
 		this.maDDH = maDDH;
 		this.tongTien = tongTien;
 		this.ngayDat = ngayDat;
+		this.tinhTrang = tinhTrang;
 		this.khachHang = khachHang;
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
+	}
+	
+	public DonDatHang(ResultSet rs) throws SQLException {
+		this.maDDH = rs.getInt("maDDH");
+		this.tinhTrang = rs.getInt("tinhTrang");
+		try {
+			this.khachHang = new KhachHang(rs);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+//		this.chiTietDonDatHangs = chiTietDonDatHangs;
 	}
 
 	public int getMaDDH() {
@@ -60,10 +75,20 @@ public class DonDatHang {
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "DonDatHang [maDDH=" + maDDH + ", tongTien=" + tongTien + ", ngayDat=" + ngayDat + ", khachHang="
-				+ khachHang + ", chiTietDonDatHangs=" + chiTietDonDatHangs + "]";
+		return "DonDatHang [maDDH=" + maDDH + ", tongTien=" + tongTien + ", ngayDat=" + ngayDat + ", tinhTrang="
+				+ tinhTrang + ", khachHang=" + khachHang + ", chiTietDonDatHangs=" + chiTietDonDatHangs + "]";
+	}
+
+	public int getTinhTrang() {
+		return tinhTrang;
+	}
+
+	public void setTinhTrang(int tinhTrang) {
+		this.tinhTrang = tinhTrang;
 	}
 	
 	

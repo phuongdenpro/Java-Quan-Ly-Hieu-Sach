@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -14,6 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import DAO.DonDatHangDao;
+import DAO.KhachHangDAO;
+import entity.ChiTietDonDatHang;
+import entity.DonDatHang;
 import entity.KhachHang;
 
 import java.awt.Component;
@@ -47,10 +53,10 @@ public class GioHang_GUI extends JFrame {
 	public JMenuItem mntmGioHang;
 	public JMenuItem mntmDangXuat;
 	public JLabel lblHelp;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtMaKH;
+	private JTextField txtTenKH;
+	private JTextField txtSoDienThoai;
+	private JTextField txtDiaChi;
 	/**
 	 * Launch the application.
 	 */
@@ -58,7 +64,8 @@ public class GioHang_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GioHang_GUI frame = new GioHang_GUI();
+					KhachHang kh = new KhachHangDAO().getKhachHang(1);
+					GioHang_GUI frame = new GioHang_GUI(kh);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -127,61 +134,61 @@ public class GioHang_GUI extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel_4.add(panel_6);
 		
-		JLabel lblNewLabel_6 = new JLabel("Mã khách hàng");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_6.setPreferredSize(new Dimension(150, 20));
-		panel_6.add(lblNewLabel_6);
+		JLabel lblMaKH = new JLabel("Mã khách hàng");
+		lblMaKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMaKH.setPreferredSize(new Dimension(150, 20));
+		panel_6.add(lblMaKH);
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setPreferredSize(new Dimension(30, 20));
-		panel_6.add(textField_2);
-		textField_2.setColumns(20);
+		txtMaKH = new JTextField(String.valueOf(this.khachHang.getMaKh()));
+		txtMaKH.setEditable(false);
+		txtMaKH.setPreferredSize(new Dimension(30, 20));
+		panel_6.add(txtMaKH);
+		txtMaKH.setColumns(20);
 		
 		JPanel panel_6_1 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_6_1.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
 		panel_4.add(panel_6_1);
 		
-		JLabel lblNewLabel_6_1 = new JLabel("Tên khách hàng");
-		lblNewLabel_6_1.setPreferredSize(new Dimension(150, 20));
-		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_6_1.add(lblNewLabel_6_1);
+		JLabel lblTenKH = new JLabel("Tên khách hàng");
+		lblTenKH.setPreferredSize(new Dimension(150, 20));
+		lblTenKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_6_1.add(lblTenKH);
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		textField_3.setColumns(20);
-		panel_6_1.add(textField_3);
+		txtTenKH = new JTextField(this.khachHang.getHoTen());
+		txtTenKH.setEditable(false);
+		txtTenKH.setColumns(20);
+		panel_6_1.add(txtTenKH);
 		
 		JPanel panel_6_1_1 = new JPanel();
 		FlowLayout flowLayout_2 = (FlowLayout) panel_6_1_1.getLayout();
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
 		panel_4.add(panel_6_1_1);
 		
-		JLabel lblNewLabel_6_1_1 = new JLabel("Số điện thoại");
-		lblNewLabel_6_1_1.setPreferredSize(new Dimension(150, 20));
-		lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_6_1_1.add(lblNewLabel_6_1_1);
+		JLabel lblSoDienThoai = new JLabel("Số điện thoại");
+		lblSoDienThoai.setPreferredSize(new Dimension(150, 20));
+		lblSoDienThoai.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_6_1_1.add(lblSoDienThoai);
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setColumns(20);
-		panel_6_1_1.add(textField_4);
+		txtSoDienThoai = new JTextField(this.khachHang.getSoDienThoai());
+		txtSoDienThoai.setEditable(false);
+		txtSoDienThoai.setColumns(20);
+		panel_6_1_1.add(txtSoDienThoai);
 		
 		JPanel panel_6_1_1_1 = new JPanel();
 		FlowLayout flowLayout_3 = (FlowLayout) panel_6_1_1_1.getLayout();
 		flowLayout_3.setAlignment(FlowLayout.LEFT);
 		panel_4.add(panel_6_1_1_1);
 		
-		JLabel lblNewLabel_6_1_1_1 = new JLabel("Địa chỉ");
-		lblNewLabel_6_1_1_1.setPreferredSize(new Dimension(150, 20));
-		lblNewLabel_6_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_6_1_1_1.add(lblNewLabel_6_1_1_1);
+		JLabel lblDiaChi = new JLabel("Địa chỉ");
+		lblDiaChi.setPreferredSize(new Dimension(150, 20));
+		lblDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_6_1_1_1.add(lblDiaChi);
 		
-		textField_5 = new JTextField();
-		textField_5.setEditable(false);
-		textField_5.setColumns(20);
-		panel_6_1_1_1.add(textField_5);
+		txtDiaChi = new JTextField(this.khachHang.getDiaChi());
+		txtDiaChi.setEditable(false);
+		txtDiaChi.setColumns(20);
+		panel_6_1_1_1.add(txtDiaChi);
 		
 		JPanel pnThongTin = new JPanel();
 		panel_4.add(pnThongTin);
@@ -224,12 +231,21 @@ public class GioHang_GUI extends JFrame {
 		panel_2.add(pnItems);
 		pnItems.setLayout(new GridLayout(0, 1, 0, 5));
 		
-		pnItems.add(this.itemGUI());
-		pnItems.add(this.itemGUI());
-		pnItems.add(this.itemGUI());
-		pnItems.add(this.itemGUI());
-		pnItems.add(this.itemGUI());
+		DonDatHang donDatHang = null;
+		try {
+			donDatHang = new DonDatHangDao().getDonDatHang(this.khachHang.getMaKh());
+			ArrayList<ChiTietDonDatHang> chiTietDDH = donDatHang.getChiTietDonDatHangs();
+			chiTietDDH.forEach(chiTiet -> {
+				pnItems.add(this.itemGUI(chiTiet));
+			});
+			
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+				
 
 		ImageIcon icon_dathang = new ImageIcon("data/images/shopping-cart32.png");
 		
@@ -303,7 +319,7 @@ public class GioHang_GUI extends JFrame {
 		return panelHeader;
 	}
 	
-	public JPanel itemGUI() {
+	public JPanel itemGUI(ChiTietDonDatHang chiTietDDH) {
 		JPanel pnItem = new JPanel();
 		pnItem.setPreferredSize(new Dimension(700, 100));
 		pnItem.setBackground(Color.WHITE);
@@ -317,7 +333,7 @@ public class GioHang_GUI extends JFrame {
 		JLabel lbIcon = new JLabel();
 		lbIcon.setAlignmentX(0.5f);
 		panel_2_1.add(lbIcon);
-		ImageIcon imageProduct = new ImageIcon("data/product/conan_tap_1.jpg");
+		ImageIcon imageProduct = new ImageIcon("data/product/default.png");
 		imageProduct = TrangChu_GUI.resizeIcon(imageProduct, new Dimension(150, 90));
 		lbIcon.setIcon(imageProduct);
 		
@@ -326,7 +342,7 @@ public class GioHang_GUI extends JFrame {
 		pnItem.add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("Conan - tập 1");
+		JLabel lblNewLabel_1 = new JLabel(chiTietDDH.getSanPham().getTenSp());
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_3.add(lblNewLabel_1);
@@ -340,7 +356,7 @@ public class GioHang_GUI extends JFrame {
 		lblDonGia.setBackground(Color.WHITE);
 		pnDonGia.add(lblDonGia);
 		
-		JLabel donGia = new JLabel("14.000đ");
+		JLabel donGia = new JLabel(String.valueOf(chiTietDDH.getDonGia()));
 //		lblTongTien.setForeground(new Color(0, 206, 209));
 		donGia.setBackground(Color.WHITE);
 		pnDonGia.add(donGia);
@@ -354,7 +370,7 @@ public class GioHang_GUI extends JFrame {
 		panel_1_1.add(lblNewLabel_3);
 		
 		textField = new JTextField();
-		textField.setText("1");
+		textField.setText(String.valueOf(chiTietDDH.getSoLuong()));
 		textField.setColumns(10);
 		panel_1_1.add(textField);
 		
@@ -367,7 +383,7 @@ public class GioHang_GUI extends JFrame {
 		lblNewLabel_4.setBackground(Color.WHITE);
 		panel_4.add(lblNewLabel_4);
 		
-		JLabel lblTongTien = new JLabel("14.000đ");
+		JLabel lblTongTien = new JLabel(String.valueOf(chiTietDDH.getDonGia()*chiTietDDH.getSoLuong()));
 		lblTongTien.setForeground(new Color(0, 206, 209));
 		lblTongTien.setBackground(Color.WHITE);
 		panel_4.add(lblTongTien);

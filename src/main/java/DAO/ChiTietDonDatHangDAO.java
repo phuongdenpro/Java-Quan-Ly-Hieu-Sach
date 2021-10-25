@@ -1,9 +1,12 @@
 package DAO;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import ConnectDB.ConnectDB;
+import entity.ChiTietDonDatHang;
 import entity.SanPham;
 
 public class ChiTietDonDatHangDAO extends ConnectDB{
@@ -36,6 +39,34 @@ public class ChiTietDonDatHangDAO extends ConnectDB{
             }
         }
         return true;
+	}
+	
+	public ArrayList<ChiTietDonDatHang> getDSChiTietDDH(int maDDH){
+		ArrayList<ChiTietDonDatHang> dsDDH = new ArrayList<ChiTietDonDatHang>();
+		PreparedStatement stmt = null;
+        try {
+
+            String sql = "SELECT * FROM dbo.ChiTietDonDatHang where maDDH = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, maDDH);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+            	printResultSet(rs);
+                ChiTietDonDatHang chiTietDDH = new ChiTietDonDatHang(rs);
+                dsDDH.add(chiTietDDH);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dsDDH;
 	}
 
 }
