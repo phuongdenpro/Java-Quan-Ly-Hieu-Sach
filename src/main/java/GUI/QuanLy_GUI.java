@@ -12,19 +12,29 @@ import javax.swing.Popup;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
+import DAO.KhachHangDAO;
+import DAO.NhanVienDAO;
+import DAO.TaiKhoanDAO;
+import entity.KhachHang;
+import entity.NhanVien;
+import entity.TaiKhoan;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class QuanLy_GUI extends JFrame {
-
+	
+	private KhachHang khachHang = null;
+	private NhanVien nhanVien = null;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	private MuaHang quanLyHieuSach;
+	private MuaHang muaHangGUI;
 //	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
 	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
 	private DangNhap_GUI dangNhapGUI = new DangNhap_GUI();
@@ -35,7 +45,7 @@ public class QuanLy_GUI extends JFrame {
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
 	private JMenuBar menuBar;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -57,7 +67,7 @@ public class QuanLy_GUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public QuanLy_GUI() throws SQLException {
-		quanLyHieuSach = new MuaHang();
+		
 		
 		
 		setTitle("Quản lý hiệu sách");
@@ -187,7 +197,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				renderMain(muaHang.getContentPane(), "muahang");
-				quanLyHieuSach.setVisible(true);
+				muaHangGUI.setVisible(true);
 //				trangChuGUI.setVisible(true);
 			}
 		});
@@ -245,6 +255,14 @@ public class QuanLy_GUI extends JFrame {
 				try {
 					if(dangNhapGUI.checkPassword()) {
 						System.out.println("dang nhap thanh cong");
+						TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan(dangNhapGUI.getTxtUserName().getText());
+						khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
+						System.out.println(khachHang);
+						
+						nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+						System.out.println(nhanVien);
+						
+						muaHangGUI = new MuaHang(khachHang);
 						renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
 						menuBar.setVisible(true);
 					}else {

@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import entity.KhachHang;
+
 
 public class MuaHang extends JFrame{
 //	private DangNhap_GUI loginGUI = new DangNhap_GUI();
@@ -28,21 +30,11 @@ public class MuaHang extends JFrame{
 		
 		trangChuGUI = new TrangChu_GUI();
 		renderGUI();
-//		setVisible(true);
-		
-//		addWindowListener(new WindowAdapter() {
-//	        @Override
-//	        public void windowClosing(WindowEvent e) {
-//	        	if(quanLyGUI.isVisible() == false) {
-//	        		System.exit(0);
-//	        	}else
-//	        		setVisible(false);
-//	        }
-//	        
-//	        @Override
-//	        public void windowClosed(WindowEvent e) {
-//	        }
-//	    });
+	}
+	
+	public MuaHang(KhachHang khachHang) throws SQLException {
+		trangChuGUI = new TrangChu_GUI(khachHang);
+		renderGUI();
 	}
 	
 	public void renderGUI() {

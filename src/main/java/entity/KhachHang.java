@@ -32,6 +32,11 @@ public class KhachHang {
 	}
 	
 	public KhachHang(ResultSet rs) throws SQLException {
+		try {
+			this.maKh = rs.getInt("maKH");
+		}catch (Exception e) {
+			
+		}
 		this.hoTen = rs.getString("hoTen");
 		this.soDienThoai = rs.getString("soDienThoai");
 		this.diaChi = rs.getString("diaChi");

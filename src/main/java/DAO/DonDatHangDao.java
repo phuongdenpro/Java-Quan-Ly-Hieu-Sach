@@ -18,7 +18,9 @@ public class DonDatHangDao extends ConnectDB{
     
     public boolean themSanPhamVaoDonDatHang(SanPham sp, int soLuong, int maKH) {
         PreparedStatement stmt = null;
+        System.out.println(maKH);
         try {
+        	
 
             String sql = "SELECT maDDH FROM dbo.DonDatHang where maKH = ? and tinhTrang = 0";
             stmt = this.conn.prepareStatement(sql);
@@ -29,9 +31,10 @@ public class DonDatHangDao extends ConnectDB{
 //          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
             if(!rsDDH.next()) {
 //				Chưa có đơn -> Tạo mới
-            	this.taoDDH(maKH);
+            	System.out.println(this.taoDDH(maKH));
             	
 //            	thêm sản phẩm vào đơn hàng
+            	
             	this.themSanPhamVaoDonDatHang(sp, soLuong, maKH);
             }else {
 //            	kiểm tra xem đã có sản phẩm đó trong đơn đặt hàng chưa
@@ -86,7 +89,7 @@ public class DonDatHangDao extends ConnectDB{
     public static void main(String[] args) throws SQLException {
 //    	KhachHang kh = new KhachHangDAO().getKhachHang(1);
 //    	SanPham sp = new SanPhamDAO().getSanPham(17);
-//    	DonDatHangDao DDHDao = new DonDatHangDao();
+    	DonDatHangDao DDHDao = new DonDatHangDao();
 //    	
 //    	System.out.println(DDHDao.themSanPhamVaoDonDatHang(sp, 1, 1));
 	}
