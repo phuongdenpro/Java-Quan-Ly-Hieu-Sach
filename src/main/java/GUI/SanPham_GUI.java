@@ -94,7 +94,7 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 		
 
 		JLabel lbTitle = new JLabel("Quản Lý Sản Phẩm");
-		lbTitle.setFont(new Font("Arial", Font.BOLD, 25));
+		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lbTitle.setForeground(Color.BLACK);
 		lbTitle.setBounds(500, 10, 500, 35);
 

@@ -89,7 +89,7 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		
 
 		JLabel lbTitle = new JLabel("Quản Lý Danh Mục");
-		lbTitle.setFont(new Font("Arial", Font.BOLD, 25));
+		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lbTitle.setForeground(Color.BLACK);
 		lbTitle.setBounds(500, 10, 500, 35);
 

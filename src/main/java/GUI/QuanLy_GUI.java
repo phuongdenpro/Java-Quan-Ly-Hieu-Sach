@@ -35,12 +35,12 @@ public class QuanLy_GUI extends JFrame {
 	private JPanel contentPane;
 	
 	private MuaHang muaHangGUI;
-//	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
+	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
 	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
 	private DangNhap_GUI dangNhapGUI = new DangNhap_GUI();
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
-//	private SanPham_GUI sanPhamGUI = new SanPham_GUI();
+	private SanPham_GUI sanPhamGUI = new SanPham_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
@@ -174,11 +174,10 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-<<<<<<< HEAD
+
 				renderMain((JPanel) sanPhamGUI.getContentPane(), "sanpham");
-=======
 //				renderMain(sanPhamGUI.getContentPane(), "sanpham");
->>>>>>> 819c0f8480456f632d9ffadc3b27dc0b4b6b41da
+
 			}
 			
 			@Override

@@ -124,11 +124,11 @@ public class MuaHang extends JFrame{
 	}
 	
 	public void handleGioHang() {
-		gioHangGUI.btnTroVe.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				renderMain(trangChuGUI.getContentPane(), "trangchu");
-			}
-		});
+//		gioHangGUI.btnTroVe.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				renderMain(trangChuGUI.getContentPane(), "trangchu");
+//			}
+//		});
 		
 		gioHangGUI.mntmGioHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
