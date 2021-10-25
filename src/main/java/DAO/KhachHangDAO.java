@@ -53,7 +53,7 @@ public class KhachHangDAO extends ConnectDB{
             if(n == 0)
                 return false;
             
-            
+            return true;
 //                
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,6 +64,6 @@ public class KhachHangDAO extends ConnectDB{
                 e.printStackTrace();
             }
         }
-        return true;
+        return false;
     }
 }

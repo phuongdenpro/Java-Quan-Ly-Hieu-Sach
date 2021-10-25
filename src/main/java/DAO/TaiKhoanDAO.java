@@ -68,6 +68,7 @@ public class TaiKhoanDAO extends ConnectDB{
             if(!khachHangDao.themKhachHang(kh, getLatestID())) 
             	return false;
 //                
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -77,7 +78,7 @@ public class TaiKhoanDAO extends ConnectDB{
                 e.printStackTrace();
             }
         }
-        return true;		
+        return false;		
 	}
 	
     public int getLatestID() {

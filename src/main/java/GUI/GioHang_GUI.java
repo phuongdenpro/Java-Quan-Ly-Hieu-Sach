@@ -94,19 +94,6 @@ public class GioHang_GUI extends JFrame {
 		JPanel panel = new JPanel();
 		panelContent.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
-		
-<<<<<<< HEAD
-//<<<<<<< HEAD
-		JLabel lblNewLabel = new JLabel("Giá»� hÃ ng");
-//=======
-		JLabel lblNewLabel1 = new JLabel("Giỏ hàng");
-		lblNewLabel1.setBorder(new EmptyBorder(10, 0, 0, 0));
-//>>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
-		lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel1.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblNewLabel1.setForeground(new Color(0, 206, 209));
-		panel.add(lblNewLabel1, BorderLayout.NORTH);
-=======
 
 		JLabel lblNewLabel = new JLabel("Giỏ hàng");
 		lblNewLabel.setBorder(new EmptyBorder(10, 0, 0, 0));
@@ -114,7 +101,6 @@ public class GioHang_GUI extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblNewLabel.setForeground(new Color(0, 206, 209));
 		panel.add(lblNewLabel, BorderLayout.NORTH);
->>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.CENTER);
@@ -138,24 +124,13 @@ public class GioHang_GUI extends JFrame {
 		panel_1.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-<<<<<<< HEAD
-//<<<<<<< HEAD
-		btnDatHang = new JButton("Ä�áº·t hÃ ng");
-		btnDatHang.setPreferredSize(new Dimension(150, 23));
-//=======
-=======
 
->>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		ImageIcon icon_dathang = new ImageIcon("data/images/shopping-cart32.png");
 		btnDatHang = new JButton("Đặt hàng", icon_dathang);
 		btnDatHang.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnDatHang.setIconTextGap(8);
 		btnDatHang.setBackground(Color.WHITE);
 		btnDatHang.setPreferredSize(new Dimension(200, 40));
-<<<<<<< HEAD
-//>>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
-=======
->>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		pnThongTin.add(btnDatHang);
 		btnDatHang.addActionListener(new ActionListener() {
 			
@@ -164,23 +139,13 @@ public class GioHang_GUI extends JFrame {
 			}
 		});
 		
-<<<<<<< HEAD
-//<<<<<<< HEAD
-		btnTroVe = new JButton("Tiáº¿p tá»¥c mua hÃ ng");
-		btnTroVe.setPreferredSize(new Dimension(150, 23));
-//=======
-=======
->>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
+
 		ImageIcon icon_tieptucmuahang = new ImageIcon("data/images/cart.png");
 		btnTroVe = new JButton("Tiếp tục mua hàng", icon_tieptucmuahang);
 		btnTroVe.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnTroVe.setIconTextGap(8);
 		btnTroVe.setBackground(Color.WHITE);
 		btnTroVe.setPreferredSize(new Dimension(250, 40));
-<<<<<<< HEAD
-//>>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
-=======
->>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		pnThongTin.add(btnTroVe);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(200);
@@ -327,25 +292,14 @@ public class GioHang_GUI extends JFrame {
 		panel_6.setBackground(Color.WHITE);
 		pnItem.add(panel_6);
 		
-<<<<<<< HEAD
-//<<<<<<< HEAD
-		JButton btnNewButton = new JButton("XÃ³a");
-//=======
-		ImageIcon icon_delete = new ImageIcon("data/images/trash.png");
-		JButton btnNewButton1 = new JButton("Xóa", icon_delete);
-		btnNewButton1.setBackground(Color.WHITE);
-//>>>>>>> 9185ea9f2bd990b1e162d2b82c6db4b6cd1e03b3
-		btnNewButton1.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		btnNewButton1.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_6.add(btnNewButton1);
-=======
+
+
 		ImageIcon icon_delete = new ImageIcon("data/images/trash.png");
 		JButton btnNewButton = new JButton("Xóa", icon_delete);
 		btnNewButton.setBackground(Color.WHITE);
 		btnNewButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		btnNewButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(btnNewButton);
->>>>>>> b6d516ae5f9906b62e3e55fc88fb48c2434bc0ee
 		
 		return pnItem;
 	}
