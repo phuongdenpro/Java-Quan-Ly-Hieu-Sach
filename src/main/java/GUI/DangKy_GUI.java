@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -18,21 +19,29 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.border.LineBorder;
 
+import DAO.TaiKhoanDAO;
+import entity.KhachHang;
+
 public class DangKy_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUserName;
-	private JPasswordField textPassword;
+	private JPasswordField txtPassword;
 	public JButton btnDangKy;
 	public JButton btnDangNhap;
-	private JPasswordField textRePassword;
-	private JCheckBox chckbxNewCheckBox;
+	private JPasswordField txtRePassword;
+	private JTextField txtTenKH;
+	private JCheckBox chcHienThiMatKhau;
+	private JTextField txtSoDienThoai;
+	private JTextField txtDiaChi;
 
 
 	/**
@@ -64,8 +73,8 @@ public class DangKy_GUI extends JFrame {
 		setSize(screenSize.width, screenSize.height);
 		
 		contentPane = 
-//				new JPanel(); 
-				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
+				new JPanel(); 
+//				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
 		
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,7 +82,7 @@ public class DangKy_GUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(424, 176, 479, 323);
+		panel.setBounds(423, 114, 479, 467);
 		panel.setBackground(new Color(0, 0, 0, 150));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -86,9 +95,78 @@ public class DangKy_GUI extends JFrame {
 		lblDangKy.setBackground(new Color(255, 255, 255));
 		lblDangKy.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		
+		txtTenKH = new JTextField("Họ và tên");
+		txtTenKH.setForeground(Color.GRAY);
+		txtTenKH.setColumns(10);
+		txtTenKH.setBorder(new LineBorder(new Color(171, 173, 179)));
+		txtTenKH.setBounds(41, 73, 398, 41);
+		panel.add(txtTenKH);
+		txtTenKH.addFocusListener(new FocusListener() {
+		    @Override
+		    public void focusGained(FocusEvent e) {
+		        if (txtTenKH.getText().equals("Họ và tên")) {
+		        	txtTenKH.setText("");
+		        	txtTenKH.setForeground(Color.BLACK);
+		        }
+		    }
+		    @Override
+		    public void focusLost(FocusEvent e) {
+		        if (txtTenKH.getText().isEmpty()) {
+		        	txtTenKH.setForeground(Color.GRAY);
+		        	txtTenKH.setText("Họ và tên");
+		        }
+		    }
+	    });
+		
+		txtSoDienThoai = new JTextField("Số điện thoại");
+		txtSoDienThoai.setForeground(Color.GRAY);
+		txtSoDienThoai.setColumns(10);
+		txtSoDienThoai.setBorder(new LineBorder(new Color(171, 173, 179)));
+		txtSoDienThoai.setBounds(41, 125, 398, 41);
+		panel.add(txtSoDienThoai);
+		txtSoDienThoai.addFocusListener(new FocusListener() {
+		    @Override
+		    public void focusGained(FocusEvent e) {
+		        if (txtSoDienThoai.getText().equals("Số điện thoại")) {
+		        	txtSoDienThoai.setText("");
+		        	txtSoDienThoai.setForeground(Color.BLACK);
+		        }
+		    }
+		    @Override
+		    public void focusLost(FocusEvent e) {
+		        if (txtSoDienThoai.getText().isEmpty()) {
+		        	txtSoDienThoai.setForeground(Color.GRAY);
+		        	txtSoDienThoai.setText("Số điện thoại");
+		        }
+		    }
+	    });
+		
+		txtDiaChi = new JTextField("Địa chỉ");
+		txtDiaChi.setForeground(Color.GRAY);
+		txtDiaChi.setColumns(10);
+		txtDiaChi.setBorder(new LineBorder(new Color(171, 173, 179)));
+		txtDiaChi.setBounds(41, 177, 398, 41);
+		panel.add(txtDiaChi);
+		txtDiaChi.addFocusListener(new FocusListener() {
+		    @Override
+		    public void focusGained(FocusEvent e) {
+		        if (txtDiaChi.getText().equals("Địa chỉ")) {
+		        	txtDiaChi.setText("");
+		        	txtDiaChi.setForeground(Color.BLACK);
+		        }
+		    }
+		    @Override
+		    public void focusLost(FocusEvent e) {
+		        if (txtDiaChi.getText().isEmpty()) {
+		        	txtDiaChi.setForeground(Color.GRAY);
+		        	txtDiaChi.setText("Địa chỉ");
+		        }
+		    }
+	    });
+		
 		txtUserName = new JTextField("Tài khoản");
 		txtUserName.setBorder(new LineBorder(new Color(171, 173, 179)));
-		txtUserName.setBounds(41, 77, 398, 41);
+		txtUserName.setBounds(41, 229, 398, 41);
 		panel.add(txtUserName);
 		txtUserName.setColumns(10);
 		txtUserName.setForeground(Color.GRAY);
@@ -109,54 +187,54 @@ public class DangKy_GUI extends JFrame {
 		    }
 	    });
 		
-		textPassword = new JPasswordField("Mật khẩu");
-		textPassword.setBorder(new LineBorder(new Color(171, 173, 179)));
-		textPassword.setEchoChar((char)0);
-		textPassword.setBounds(41, 129, 398, 41);
-		panel.add(textPassword);
-		textPassword.setColumns(10);
-		textPassword.setForeground(Color.GRAY);
-		textPassword.addFocusListener(new FocusListener() {
+		txtPassword = new JPasswordField("Mật khẩu");
+		txtPassword.setBorder(new LineBorder(new Color(171, 173, 179)));
+		txtPassword.setEchoChar((char)0);
+		txtPassword.setBounds(41, 281, 398, 41);
+		panel.add(txtPassword);
+		txtPassword.setColumns(10);
+		txtPassword.setForeground(Color.GRAY);
+		txtPassword.addFocusListener(new FocusListener() {
 		    @Override
 		    public void focusGained(FocusEvent e) {
-		        if (textPassword.getText().equals("Mật khẩu")) {
-		        	textPassword.setText("");
-		        	textPassword.setEchoChar('*');
-		        	textPassword.setForeground(Color.BLACK);
+		        if (txtPassword.getText().equals("Mật khẩu")) {
+		        	txtPassword.setText("");
+		        	txtPassword.setEchoChar('*');
+		        	txtPassword.setForeground(Color.BLACK);
 		        }
 		    }
 		    @Override
 		    public void focusLost(FocusEvent e) {
-		        if (textPassword.getText().isEmpty()) {
-		        	textPassword.setForeground(Color.GRAY);
-		        	textPassword.setEchoChar((char)0);
-		        	textPassword.setText("Mật khẩu");
+		        if (txtPassword.getText().isEmpty()) {
+		        	txtPassword.setForeground(Color.GRAY);
+		        	txtPassword.setEchoChar((char)0);
+		        	txtPassword.setText("Mật khẩu");
 		        }
 		    }
 	    });
 		
-		textRePassword = new JPasswordField("Nhập lại mật khẩu");
-		textRePassword.setBorder(new LineBorder(new Color(171, 173, 179)));
-		textRePassword.setEchoChar((char)0);
-		textRePassword.setBounds(41, 181, 398, 41);
-		panel.add(textRePassword);
-		textRePassword.setColumns(10);
-		textRePassword.setForeground(Color.GRAY);
-		textRePassword.addFocusListener(new FocusListener() {
+		txtRePassword = new JPasswordField("Nhập lại mật khẩu");
+		txtRePassword.setBorder(new LineBorder(new Color(171, 173, 179)));
+		txtRePassword.setEchoChar((char)0);
+		txtRePassword.setBounds(41, 333, 398, 41);
+		panel.add(txtRePassword);
+		txtRePassword.setColumns(10);
+		txtRePassword.setForeground(Color.GRAY);
+		txtRePassword.addFocusListener(new FocusListener() {
 		    @Override
 		    public void focusGained(FocusEvent e) {
-		        if (textRePassword.getText().equals("Nhập lại mật khẩu")) {
-		        	textRePassword.setText("");
-		        	textRePassword.setEchoChar('*');
-		        	textRePassword.setForeground(Color.BLACK);
+		        if (txtRePassword.getText().equals("Nhập lại mật khẩu")) {
+		        	txtRePassword.setText("");
+		        	txtRePassword.setEchoChar('*');
+		        	txtRePassword.setForeground(Color.BLACK);
 		        }
 		    }
 		    @Override
 		    public void focusLost(FocusEvent e) {
-		        if (textRePassword.getText().isEmpty()) {
-		        	textRePassword.setForeground(Color.GRAY);
-		        	textRePassword.setEchoChar((char)0);
-		        	textRePassword.setText("Nhập lại mật khẩu");
+		        if (txtRePassword.getText().isEmpty()) {
+		        	txtRePassword.setForeground(Color.GRAY);
+		        	txtRePassword.setEchoChar((char)0);
+		        	txtRePassword.setText("Nhập lại mật khẩu");
 		        }
 		    }
 	    });
@@ -164,21 +242,105 @@ public class DangKy_GUI extends JFrame {
 		btnDangKy = new JButton("Đăng ký");
 		btnDangKy.setBackground(Color.WHITE);
 		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnDangKy.setBounds(105, 259, 130, 41);
+		btnDangKy.setBounds(105, 411, 130, 41);
 		panel.add(btnDangKy);
 		
 		btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
 		btnDangNhap.setBackground(Color.WHITE);
-		btnDangNhap.setBounds(261, 259, 130, 41);
+		btnDangNhap.setBounds(261, 411, 130, 41);
 		panel.add(btnDangNhap);
 		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		chckbxNewCheckBox = new JCheckBox("Hiển thị mật khẩu");
-		chckbxNewCheckBox.setBounds(300, 229, 139, 23);
-		panel.add(chckbxNewCheckBox);
+		chcHienThiMatKhau = new JCheckBox("Hiển thị mật khẩu");
+		chcHienThiMatKhau.setBounds(300, 381, 139, 23);
+		panel.add(chcHienThiMatKhau);
 
+		chcHienThiMatKhau.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				hienThiPassword();
+				hienThiRePassword();
+			}
+			
+		});
 	}
+	
+	public void hienThiPassword() {
+		if(chcHienThiMatKhau.isSelected()) {
+        	txtPassword.setEchoChar((char)0);
+		}else {
+			txtPassword.setEchoChar('*');
+		}
+	}
+	
+	public void hienThiRePassword() {
+		if(chcHienThiMatKhau.isSelected()) {
+			txtRePassword.setEchoChar((char)0);
+		}else {
+			txtRePassword.setEchoChar('*');
+		}
+	}
+	
+	public boolean dangKy() throws SQLException {
+		
+		if(txtTenKH.getText().trim().equals("") || txtTenKH.getText().trim().equals("Họ và tên")){
+            renderError(txtTenKH, "Tên khách hàng không được để trống");
+            return false;
+        }
+		
+		if(!txtTenKH.getText().matches("^[^0-9]{2,25}$")){
+            renderError(txtTenKH, "Tên khách hàng không được chứa chữ số, ít nhất là 2 ký tự");
+            return false;
+        }
+		
+		if(!txtSoDienThoai.getText().matches("^0[0-9]{9}$")){
+            renderError(txtSoDienThoai, "Số điện thoại không hợp lệ");
+            return false;
+        }
+		
+		if(txtUserName.getText().trim().length() < 8 || txtUserName.getText().trim().equals("Tài khoản")){
+            renderError(txtUserName, "Tài khoản phải ít nhất 8 ký tự");
+            return false;
+        }
+		
+		if(!txtUserName.getText().matches("^[a-zA-Z0-9]{8,}$")){
+            renderError(txtUserName, "Tài khoản chỉ được chứa ký tự hoa thường a-z và chữ số");
+            return false;
+        }
+		
+		if(txtPassword.getText().trim().length() < 8 || txtPassword.getText().trim().equals("Mật khẩu")){
+            renderError(txtPassword, "Mật khẩu phải ít nhất 8 ký tự");
+            return false;
+        }
+		
+		if(!txtPassword.getText().matches("^[a-zA-Z0-9]{8,}$")){
+            renderError(txtPassword, "Mật khẩu chỉ được chứa ký tự hoa thường a-z và chữ số");
+            return false;
+        }
+
+		if(!txtPassword.getText().trim().equals(txtRePassword.getText().trim())){
+            renderError(txtRePassword, "Mật khẩu không khớp");
+            return false;
+        }
+		
+		TaiKhoanDAO taiKhoanDao = new TaiKhoanDAO();
+		KhachHang kh = new KhachHang(txtTenKH.getText(), txtSoDienThoai.getText(), txtDiaChi.getText());
+		
+		if(taiKhoanDao.themTaiKhoan(kh, txtUserName.getText(), txtPassword.getText())) {
+			return true;
+		}
+		
+		JOptionPane.showMessageDialog(contentPane, "Tài khoản đã tồn tại");
+		
+		return false;
+	}
+	
+	public void renderError(JTextField a, String message){
+        a.requestFocus();
+        a.selectAll();
+        JOptionPane.showMessageDialog(contentPane, message);
+    }
 	
 	public JPanel getContentPane() {
 		return this.contentPane;

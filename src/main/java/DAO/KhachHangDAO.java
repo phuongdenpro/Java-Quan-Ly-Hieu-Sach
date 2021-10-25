@@ -39,5 +39,31 @@ public class KhachHangDAO extends ConnectDB{
         return dataList;
     }
 
-    
+    public boolean themKhachHang(KhachHang kh, int taiKhoanId) {
+    	PreparedStatement stmt = null;
+        try {
+            String sql = "INSERT INTO dbo.KhachHang (hoTen, soDienThoai, diaChi, taiKhoanId) values(?, ?, ?, ?)";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, kh.getHoTen());
+            stmt.setString(2, kh.getSoDienThoai());
+            stmt.setString(3, kh.getDiaChi());
+            stmt.setInt(4, taiKhoanId);
+            int n = stmt.executeUpdate();
+//            
+            if(n == 0)
+                return false;
+            
+            
+//                
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
 }

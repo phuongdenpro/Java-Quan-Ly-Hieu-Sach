@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.SQLException;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -17,6 +18,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -24,13 +27,18 @@ import javax.swing.JCheckBox;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
+import DAO.TaiKhoanDAO;
+import javax.swing.SwingConstants;
+
 public class DangNhap_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUserName;
-	private JPasswordField textPassword;
+	private JPasswordField txtPassword;
 	public JButton btnDangNhap;
 	public JButton btnDangKy;
+	private JLabel lblMsg;
+	private JCheckBox chcHienThiMatKhau;
 
 	/**
 	 * Launch the application.
@@ -61,8 +69,8 @@ public class DangNhap_GUI extends JFrame {
 		setSize(screenSize.width, screenSize.height);
 		
 		contentPane = 
-//				new JPanel(); 
-				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
+				new JPanel(); 
+//				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
 //		new JPanel() {  
 //			public void paintComponent(Graphics g) {  
 //				Image img = Toolkit.getDefaultToolkit().getImage(  
@@ -77,7 +85,7 @@ public class DangNhap_GUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(424, 176, 479, 282);
+		panel.setBounds(424, 176, 479, 265);
 		panel.setBackground(new Color(0, 0, 0, 150));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -113,54 +121,85 @@ public class DangNhap_GUI extends JFrame {
 		    }
 	    });
 		
-		textPassword = new JPasswordField("Mật khẩu");
-		textPassword.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		textPassword.setEchoChar((char)0);
-		textPassword.setBounds(41, 129, 398, 41);
-		panel.add(textPassword);
-		textPassword.setColumns(10);
-		textPassword.setForeground(Color.GRAY);
-		textPassword.addFocusListener(new FocusListener() {
+		txtPassword = new JPasswordField("Mật khẩu");
+		txtPassword.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		txtPassword.setEchoChar((char)0);
+		txtPassword.setBounds(41, 129, 398, 41);
+		panel.add(txtPassword);
+		txtPassword.setColumns(10);
+		txtPassword.setForeground(Color.GRAY);
+		txtPassword.addFocusListener(new FocusListener() {
 		    @Override
 		    public void focusGained(FocusEvent e) {
-		        if (textPassword.getText().equals("Mật khẩu")) {
-		        	textPassword.setText("");
-		        	textPassword.setEchoChar('*');
-		        	textPassword.setForeground(Color.BLACK);
+		        if (txtPassword.getText().equals("Mật khẩu")) {
+		        	txtPassword.setText("");
+		        	txtPassword.setEchoChar('*');
+		        	txtPassword.setForeground(Color.BLACK);
 		        }
 		    }
 		    @Override
 		    public void focusLost(FocusEvent e) {
-		        if (textPassword.getText().isEmpty()) {
-		        	textPassword.setForeground(Color.GRAY);
-		        	textPassword.setEchoChar((char)0);
-		        	textPassword.setText("Mật khẩu");
+		        if (txtPassword.getText().isEmpty()) {
+		        	txtPassword.setForeground(Color.GRAY);
+		        	txtPassword.setEchoChar((char)0);
+		        	txtPassword.setText("Mật khẩu");
 		        }
 		    }
 	    });
 		
 		btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
 		btnDangNhap.setBackground(Color.WHITE);
-		btnDangNhap.setBounds(104, 215, 130, 41);
+		btnDangNhap.setBounds(105, 207, 130, 41);
 		panel.add(btnDangNhap);
 		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		btnDangKy = new JButton("Đăng ký");
 		btnDangKy.setBackground(Color.WHITE);
 		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnDangKy.setBounds(259, 215, 130, 41);
+		btnDangKy.setBounds(259, 207, 130, 41);
 		panel.add(btnDangKy);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Hiển thị mật khẩu");
-		chckbxNewCheckBox.setBounds(315, 177, 124, 23);
-		panel.add(chckbxNewCheckBox);
-		btnDangNhap.addActionListener(new ActionListener() {
+		chcHienThiMatKhau = new JCheckBox("Hiển thị mật khẩu");
+		chcHienThiMatKhau.setBounds(315, 177, 124, 23);
+		panel.add(chcHienThiMatKhau);
+		
+		chcHienThiMatKhau.addActionListener(new ActionListener() {
+
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(txtUserName.getText());
-//				contentPane = new TrangChu_GUI().getContentPane();
+				if(txtPassword.getText().equals("Mật khẩu")) {
+					txtPassword.setEchoChar((char)0);	
+					chcHienThiMatKhau.setSelected(false);
+					return ;
+				}
+				
+				if(chcHienThiMatKhau.isSelected()) {
+		        	txtPassword.setEchoChar((char)0);
+				}else {
+					txtPassword.setEchoChar('*');
+				}
 			}
+			
 		});
 	}
+	
+	public boolean checkPassword() throws SQLException {
+		TaiKhoanDAO taiKhoanDao = new TaiKhoanDAO();
+		String matKhau = taiKhoanDao.getMatKhau(txtUserName.getText());
+		if(txtPassword.getText().equals(matKhau)) {
+			
+			return true;
+		}
+		
+		renderError("Tài khoản hoặc mật khẩu không chính xác");	
+		return false;
+	}
+	
+	public void renderError(String message){
+        JOptionPane.showMessageDialog(contentPane, message);
+    }
+	
+	
 	
 	public JPanel getContentPane() {
 		return this.contentPane;

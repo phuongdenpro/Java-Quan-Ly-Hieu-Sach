@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class QuanLyHieuSach extends JFrame{
+public class MuaHang extends JFrame{
 //	private DangNhap_GUI loginGUI = new DangNhap_GUI();
 //	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private TrangChu_GUI trangChuGUI;
@@ -24,7 +24,7 @@ public class QuanLyHieuSach extends JFrame{
 	
 	private JPanel contentPane = new JPanel();
 	
-	public QuanLyHieuSach() throws SQLException {
+	public MuaHang() throws SQLException {
 		
 		trangChuGUI = new TrangChu_GUI();
 		renderGUI();
@@ -166,37 +166,7 @@ public class QuanLyHieuSach extends JFrame{
 		});
 	}
 	
-//	public void handleLogin() {
-//		loginGUI.btnDangNhap.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				System.out.println("hi");
-//				renderMain(trangChuGUI.getContentPane(), "trangchu");
-//			}
-//		});
-//		
-//		loginGUI.btnDangKy.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-////				System.out.println("hi");
-//				renderMain(dangKyGUI.getContentPane(), "dangky");
-//			}
-//		});
-//	}
-//	
-//	public void handleRegister() {
-//		dangKyGUI.btnDangNhap.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				renderMain(loginGUI.getContentPane(), "login");
-//			}
-//		});
-//		
-//		dangKyGUI.btnDangKy.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				renderMain(loginGUI.getContentPane(), "login");
-//			}
-//		});
-//	}
+
 //	
 //	public void handleQuanLy() {
 //		quanLyGUI.addWindowListener(new WindowAdapter() {
@@ -217,7 +187,7 @@ public class QuanLyHieuSach extends JFrame{
 	
 	
 	public static void main(String[] args) throws SQLException {
-		QuanLyHieuSach quanLyHieuSach = new QuanLyHieuSach();
+		MuaHang quanLyHieuSach = new MuaHang();
 //		try{
 //            ConnectDB.getInstance().connect();
 //        }catch(SQLException e){

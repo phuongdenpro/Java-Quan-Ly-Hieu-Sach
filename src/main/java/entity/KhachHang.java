@@ -22,6 +22,12 @@ public class KhachHang {
 		this.taiKhoan = taiKhoan;
 		this.donDatHangs = donDatHangs;
 	}
+	
+	public KhachHang(String hoTen, String soDienThoai, String diaChi) {
+		this.hoTen = hoTen;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+	}
 
 	public int getMaKh() {
 		return maKh;

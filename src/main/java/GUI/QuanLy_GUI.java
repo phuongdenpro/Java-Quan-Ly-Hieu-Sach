@@ -24,14 +24,17 @@ public class QuanLy_GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	private QuanLyHieuSach quanLyHieuSach;
+	private MuaHang quanLyHieuSach;
 //	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
 	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
+	private DangNhap_GUI dangNhapGUI = new DangNhap_GUI();
+	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
 	private SanPham_GUI sanPhamGUI = new SanPham_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
+	private JMenuBar menuBar;
 	
 	/**
 	 * Launch the application.
@@ -54,7 +57,7 @@ public class QuanLy_GUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public QuanLy_GUI() throws SQLException {
-		quanLyHieuSach = new QuanLyHieuSach();
+		quanLyHieuSach = new MuaHang();
 		
 		
 		setTitle("Quản lý hiệu sách");
@@ -62,8 +65,19 @@ public class QuanLy_GUI extends JFrame {
 		setVisible(true);
 		setBounds(0, 0, 1350, 700);
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		
+		menuGUI();
+		contentPane = dangNhapGUI.getContentPane();
+		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
+		handleLogin();
+		handleRegister();
+	}
+	
+	public void menuGUI() {
+		menuBar = new JMenuBar();
+		
+		this.setJMenuBar(menuBar);
+		menuBar.setVisible(false);
 		
 		JMenu mnTrangChu = new JMenu("Trang ch\u1EE7");
 		menuBar.add(mnTrangChu);
@@ -207,9 +221,6 @@ public class QuanLy_GUI extends JFrame {
 			}
 		});
 
-		
-		contentPane = TrangChaoMungGUI.getContentPane();
-		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
 	}
 	
 	public void renderMain(JPanel contentPane, String tab) {
@@ -226,6 +237,54 @@ public class QuanLy_GUI extends JFrame {
 			
 		}
 		
+	}
+	
+	public void handleLogin() {
+		dangNhapGUI.btnDangNhap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(dangNhapGUI.checkPassword()) {
+						System.out.println("dang nhap thanh cong");
+						renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+						menuBar.setVisible(true);
+					}else {
+						System.out.println("sai mat khau");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		dangNhapGUI.btnDangKy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	//			System.out.println("hi");
+				renderMain(dangKyGUI.getContentPane(), "dangky");
+			}
+		});
+	}
+	
+	public void handleRegister() {
+		dangKyGUI.btnDangNhap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				renderMain(dangNhapGUI.getContentPane(), "login");
+			}
+		});
+		
+		dangKyGUI.btnDangKy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(dangKyGUI.dangKy()) {
+						renderMain(dangNhapGUI.getContentPane(), "login");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public JPanel getContentPane() {
