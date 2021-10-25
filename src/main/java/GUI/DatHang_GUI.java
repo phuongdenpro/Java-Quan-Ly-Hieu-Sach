@@ -48,8 +48,6 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
-		Dimension screenSize1 = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize1.width, screenSize1.height);
 		
 		pnMain = new JPanel();
 		pnMain.setBounds(0, 0, 584, 411);
@@ -163,15 +161,15 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 				"Danh sách đơn đặt hàng", TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
-		panel_1.setBounds(370, 65, 1145, 750);
+		panel_1.setBounds(370, 65, 900, 575);
 		pnMain.add(panel_1);
 		panel_1.setLayout(null);
 
 		tableDonDat = new JTable(modelDonDat);
-		JScrollPane scHD = new JScrollPane(tableDonDat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		JScrollPane scDonDat = new JScrollPane(tableDonDat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scHD.setBounds(10, 67, 1120, 670);
-		panel_1.add(scHD);
+		scDonDat.setBounds(10, 67, 870, 500);
+		panel_1.add(scDonDat);
 
 		JLabel lbTimMaDon = new JLabel("Mã đơn:");
 		lbTimMaDon.setFont(new Font("Tahoma", Font.BOLD, 11));

@@ -62,21 +62,18 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize.width, screenSize.height);
+	
 		
 		setTitle("Quản Lý Danh Mục");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
-		Dimension screenSize1 = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize1.width, screenSize1.height);
 		ImageIcon icon1 = new ImageIcon("data/images/sanpham.png");
 		ImageIcon icon2 = new ImageIcon("data/images/blueAdd_16.png");
 		ImageIcon icon3 = new ImageIcon("data/images/trash.png");
-		ImageIcon icon4 = new ImageIcon("data/images/pencil-red-icon.png");
-		ImageIcon icon5 = new ImageIcon("data/images/refresh-icon.png");
+		ImageIcon icon4 = new ImageIcon("data/images/repairing-service.png");
+		ImageIcon icon5 = new ImageIcon("data/images/refresh.png");
 		ImageIcon icon6 = new ImageIcon("data/images/timkiem.png");
 		ImageIcon icon7 = new ImageIcon("data/images/search_16.png");
 //		pnlform.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -92,9 +89,9 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		
 
 		JLabel lbTitle = new JLabel("Quản Lý Danh Mục");
-		lbTitle.setFont(new Font("Arial", Font.BOLD, 25));
+		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lbTitle.setForeground(Color.BLACK);
-		lbTitle.setBounds(600, 10, 1200, 35);
+		lbTitle.setBounds(500, 10, 500, 35);
 
 		JLabel lblMaLoai = new JLabel("Mã Loại Sản Phẩm: ");
 		JLabel lblTenLoai = new JLabel("Tên Loại: ");
@@ -129,7 +126,7 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 
 		JPanel pnThongtin = new JPanel();
 		pnThongtin.setLayout(null);
-		pnThongtin.setBounds(300, 50, 900, 365);
+		pnThongtin.setBounds(220, 50, 800, 280);
 		pnThongtin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 //		pnThongtin.setBorder(new TitledBorder(
 //				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
@@ -137,11 +134,11 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		//pnThongtin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 		jLabel1.setBounds(20,10,500,30);
 		lblMaLoai.setBounds(70, 60, 150, 22);
-		txtMaLoai.setBounds(200, 60, 250, 30);
-		lblTenLoai.setBounds(70, 100, 150, 22);
-		txtTenLoai.setBounds(200, 100, 250, 30);
-		lblMoTa.setBounds(70, 140, 150, 22);
-		txtMoTa.setBounds(200, 140, 250, 30);
+		txtMaLoai.setBounds(200, 60, 250, 25);
+		lblTenLoai.setBounds(70, 95, 150, 22);
+		txtTenLoai.setBounds(200, 95, 250, 25);
+		lblMoTa.setBounds(70, 130, 150, 22);
+		txtMoTa.setBounds(200, 130, 250, 25);
 
         radTenLoai = new JRadioButton("Tên Loại");
         radTenLoai.setFont(new Font("Arial", Font.BOLD, 14));
@@ -154,17 +151,17 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
         btnGr.add(radTenLoai);
         btnGr.add(radMaLoai);
         
-		btnThem.setBounds(320,200,150,40);
-		btnXoa.setBounds(490,200,150,40);
-		btnSua.setBounds(320,250,150,40);
-		btnTaoMoi.setBounds(490,250,150,40);
-		lblTimKiem.setBounds(100, 300, 150, 40);
-		txtTimKiem.setBounds(190, 310, 250, 25);
-//		radMaSanPham.setBounds(450,310,120,25);
-		radTenLoai.setBounds(470,310,130,25);
-		radMaLoai.setBounds(600,310,100,25);
+        btnThem.setBounds(250,170,120,25);
+		btnXoa.setBounds(380,170,120,25);
+		btnSua.setBounds(250,205,120,25);
+		btnTaoMoi.setBounds(380,205,120,25);
+		lblTimKiem.setBounds(100, 230, 150, 40);
+		txtTimKiem.setBounds(190, 240, 200, 22);
+		radTenLoai.setBounds(400,240,100,22);
+	
+		radMaLoai.setBounds(500,240,90,22);
 		
-		btnTim.setBounds(700, 310, 80, 28);
+		btnTim.setBounds(600, 240, 80, 25);
 		btnTim.setIcon(icon7);
 		
 		pnThongtin.add(jLabel1);
@@ -205,8 +202,8 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		JScrollPane sql = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		pnTable.add(sql);
-		pnTable.setBounds(20, 420, 1470, 390);
-		sql.setBounds(10, 25, 1440, 350);
+		pnTable.setBounds(20, 330, 1255, 310);
+		sql.setBounds(10, 20, 1230, 275);
 
 		
 		pnMain.add(lbTitle);

@@ -68,7 +68,7 @@ public class KhachHang_GUI extends JFrame {
 	 */
 	public KhachHang_GUI() {
 		setTitle("Khách hàng");
-		setResizable(true);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
