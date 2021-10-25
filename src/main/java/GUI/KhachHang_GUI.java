@@ -5,10 +5,16 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import org.jdesktop.swingx.prompt.PromptSupport;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -19,20 +25,25 @@ import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Component;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import java.awt.Font;
 import javax.swing.JComboBox;
+import javax.swing.border.CompoundBorder;
+import javax.swing.ScrollPaneConstants;
 
 public class KhachHang_GUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JPanel out;
+	private JTextField txtNhapLieu;
 	private JTable table;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtMaKh;
+	private JTextField txtTenKh;
+	private JTextField txtEmail;
+	private JTextField txtSdt;
+	private JTextField txtDiaChi;
 
 	/**
 	 * Launch the application.
@@ -55,167 +66,209 @@ public class KhachHang_GUI extends JFrame {
 	 */
 	public KhachHang_GUI() {
 		setTitle("Khách hàng");
-		setResizable(false);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
 		
+		out = new JPanel();
+		out.setLayout(new BoxLayout(out,BoxLayout.Y_AXIS));
+		setContentPane(out);
+		
+		
+		JPanel top = new JPanel();
+		top.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JLabel title = new JLabel("QUẢN LÝ KHÁCH HÀNG");
+		title.setFont(new Font("Tahoma", Font.BOLD, 20));
+		top.add(title);
+		//title.setHorizontalAlignment(ABORT);
+		out.add(top);
+		
+		JPanel bottom = new JPanel();
+		bottom.setLayout(new BorderLayout());
+		out.add(bottom);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		//setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
+		bottom.add(contentPane,BorderLayout.CENTER);
+		JPanel pnLeft = new JPanel();
+		//pnLeft.setBorder();
+		Border compound = BorderFactory.createCompoundBorder(
+				BorderFactory.createBevelBorder(BevelBorder.RAISED),
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		pnLeft.setBorder(compound);
+		contentPane.add(pnLeft);
 		
-		JPanel panel = new JPanel();
-		contentPane.add(panel);
-		
-		JPanel panel_4 = new JPanel();
-		panel.add(panel_4);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
+		JPanel pnThongTinKh = new JPanel();
+		pnLeft.add(pnThongTinKh);
+		pnThongTinKh.setLayout(new BoxLayout(pnThongTinKh, BoxLayout.Y_AXIS));
 		
 		Component verticalStrut_2 = Box.createVerticalStrut(35);
-		panel_4.add(verticalStrut_2);
+		pnThongTinKh.add(verticalStrut_2);
 		
-		JPanel panel_7 = new JPanel();
-		panel_4.add(panel_7);
+		JPanel pnTieuDe = new JPanel();
+		pnThongTinKh.add(pnTieuDe);
 		
-		JLabel lblNewLabel_1 = new JLabel("Thông tin khách hàng");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		panel_7.add(lblNewLabel_1);
+		JLabel lblTieuDe = new JLabel("Thông tin khách hàng");
+		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		pnTieuDe.add(lblTieuDe);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		panel_4.add(verticalStrut_1);
+		pnThongTinKh.add(verticalStrut_1);
 		
-		JPanel panel_5 = new JPanel();
-		FlowLayout flowLayout_4 = (FlowLayout) panel_5.getLayout();
-		flowLayout_4.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_5);
+		JPanel pnMaKh = new JPanel();
+		FlowLayout fl_pnMaKh = (FlowLayout) pnMaKh.getLayout();
+		fl_pnMaKh.setAlignment(FlowLayout.LEFT);
+		pnThongTinKh.add(pnMaKh);
 		
-		JLabel lblNewLabel = new JLabel("Mã KH             ");
-		lblNewLabel.setPreferredSize(new Dimension(100, 14));
-		panel_5.add(lblNewLabel);
+		JLabel lblMaKh = new JLabel("Mã KH             ");
+		lblMaKh.setPreferredSize(new Dimension(100, 14));
+		pnMaKh.add(lblMaKh);
 		
-		textField_1 = new JTextField();
-		textField_1.setEnabled(false);
-		textField_1.setPreferredSize(new Dimension(7, 30));
-		panel_5.add(textField_1);
-		textField_1.setColumns(20);
+		txtMaKh = new JTextField();
+		txtMaKh.setEnabled(false);
+		txtMaKh.setPreferredSize(new Dimension(7, 30));
+		pnMaKh.add(txtMaKh);
+		txtMaKh.setColumns(20);
 		
-		JPanel panel_5_1 = new JPanel();
-		FlowLayout flowLayout_3 = (FlowLayout) panel_5_1.getLayout();
-		flowLayout_3.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_5_1);
+		JPanel pnTenKh = new JPanel();
+		FlowLayout fl_pnTenKh = (FlowLayout) pnTenKh.getLayout();
+		fl_pnTenKh.setAlignment(FlowLayout.LEFT);
+		pnThongTinKh.add(pnTenKh);
 		
-		JLabel lblTnKh = new JLabel("Tên KH");
-		lblTnKh.setPreferredSize(new Dimension(100, 14));
-		panel_5_1.add(lblTnKh);
+		JLabel lblTenKh = new JLabel("Tên KH");
+		lblTenKh.setPreferredSize(new Dimension(100, 14));
+		pnTenKh.add(lblTenKh);
 		
-		textField_2 = new JTextField();
-		textField_2.setPreferredSize(new Dimension(7, 30));
-		textField_2.setColumns(20);
-		panel_5_1.add(textField_2);
+		txtTenKh = new JTextField();
+		txtTenKh.setPreferredSize(new Dimension(7, 30));
+		txtTenKh.setColumns(20);
+		PromptSupport.setPrompt("tên khách hàng", txtTenKh);
+		pnTenKh.add(txtTenKh);
 		
-		JPanel panel_5_1_1 = new JPanel();
-		FlowLayout flowLayout_2 = (FlowLayout) panel_5_1_1.getLayout();
-		flowLayout_2.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_5_1_1);
+		JPanel pnEmail = new JPanel();
+		FlowLayout fl_pnEmail = (FlowLayout) pnEmail.getLayout();
+		fl_pnEmail.setAlignment(FlowLayout.LEFT);
+		pnThongTinKh.add(pnEmail);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Email");
-		lblNewLabel_1_1.setPreferredSize(new Dimension(100, 14));
-		panel_5_1_1.add(lblNewLabel_1_1);
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setPreferredSize(new Dimension(100, 14));
+		pnEmail.add(lblEmail);
 		
-		textField_3 = new JTextField();
-		textField_3.setPreferredSize(new Dimension(7, 30));
-		textField_3.setColumns(20);
-		panel_5_1_1.add(textField_3);
+		txtEmail = new JTextField();
+		txtEmail.setPreferredSize(new Dimension(7, 30));
+		txtEmail.setColumns(20);
+		PromptSupport.setPrompt("Example@gmail.com", txtEmail);
+		pnEmail.add(txtEmail);
 		
-		JPanel panel_5_1_1_1 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_5_1_1_1.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_5_1_1_1);
+		JPanel pnSoDienThoai = new JPanel();
+		FlowLayout fl_pnSoDienThoai = (FlowLayout) pnSoDienThoai.getLayout();
+		fl_pnSoDienThoai.setAlignment(FlowLayout.LEFT);
+		pnThongTinKh.add(pnSoDienThoai);
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Số điện thoại");
-		lblNewLabel_1_1_1.setPreferredSize(new Dimension(100, 14));
-		panel_5_1_1_1.add(lblNewLabel_1_1_1);
+		JLabel lblSdt = new JLabel("Số điện thoại");
+		lblSdt.setPreferredSize(new Dimension(100, 14));
+		pnSoDienThoai.add(lblSdt);
 		
-		textField_4 = new JTextField();
-		textField_4.setPreferredSize(new Dimension(7, 30));
-		textField_4.setColumns(20);
-		panel_5_1_1_1.add(textField_4);
+		txtSdt = new JTextField();
+		txtSdt.setPreferredSize(new Dimension(7, 30));
+		txtSdt.setColumns(20);
+		PromptSupport.setPrompt("09xx xxx xxx ", txtSdt);
+		pnSoDienThoai.add(txtSdt);
 		
-		JPanel panel_5_1_1_1_1 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_5_1_1_1_1.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_5_1_1_1_1);
+		JPanel pnDiaChi = new JPanel();
+		FlowLayout fl_pnDiaChi = (FlowLayout) pnDiaChi.getLayout();
+		fl_pnDiaChi.setAlignment(FlowLayout.LEFT);
+		pnThongTinKh.add(pnDiaChi);
 		
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("Địa chỉ");
-		lblNewLabel_1_1_1_1.setPreferredSize(new Dimension(100, 14));
-		panel_5_1_1_1_1.add(lblNewLabel_1_1_1_1);
+		JLabel lblDiaChi = new JLabel("Địa chỉ");
+		lblDiaChi.setPreferredSize(new Dimension(100, 14));
+		pnDiaChi.add(lblDiaChi);
 		
-		textField_5 = new JTextField();
-		textField_5.setPreferredSize(new Dimension(7, 30));
-		textField_5.setColumns(20);
-		panel_5_1_1_1_1.add(textField_5);
+		txtDiaChi = new JTextField();
+		txtDiaChi.setPreferredSize(new Dimension(7, 30));
+		txtDiaChi.setColumns(20);
+		PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
+		pnDiaChi.add(txtDiaChi);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
-		panel_4.add(verticalStrut);
+		pnThongTinKh.add(verticalStrut);
 		
-		JPanel panel_6 = new JPanel();
-		panel_4.add(panel_6);
-		panel_6.setLayout(new GridLayout(2, 0, 5, 5));
+		JPanel pnChucNang = new JPanel();
+		pnThongTinKh.add(pnChucNang);
+		pnChucNang.setLayout(new GridLayout(2, 0, 5, 5));
 		
-		JButton btnNewButton_2 = new JButton("Thêm");
-		btnNewButton_2.setBackground(Color.WHITE);
-		btnNewButton_2.setPreferredSize(new Dimension(70, 35));
-		panel_6.add(btnNewButton_2);
+		JButton btnThemKh = new JButton("Thêm");
+		btnThemKh.setBackground(Color.WHITE);
+		btnThemKh.setPreferredSize(new Dimension(70, 35));
+		btnThemKh.setIcon(new ImageIcon("data\\images\\blueAdd_16.png"));
+		btnThemKh.setIconTextGap(10);
+		out.getRootPane().setDefaultButton(btnThemKh);
+		pnChucNang.add(btnThemKh);
 		
-		JButton btnNewButton_1 = new JButton("Sửa");
-		btnNewButton_1.setBackground(Color.WHITE);
-		panel_6.add(btnNewButton_1);
+		JButton btnSuaKh = new JButton("Sửa");
+		btnSuaKh.setBackground(Color.WHITE);
+		btnSuaKh.setIcon(new ImageIcon("data\\images\\repairing-service.png"));
+		btnSuaKh.setIconTextGap(30);
+		pnChucNang.add(btnSuaKh);
 		
-		JButton btnNewButton_3 = new JButton("Xóa");
-		btnNewButton_3.setBackground(Color.WHITE);
-		panel_6.add(btnNewButton_3);
+		JButton btnXoaKh = new JButton("Xóa");
+		btnXoaKh.setBackground(Color.WHITE);
+		btnXoaKh.setIcon(new ImageIcon("data\\images\\trash.png"));
+		btnXoaKh.setIconTextGap(10);
+		pnChucNang.add(btnXoaKh);
 		
-		JButton btnNewButton_4 = new JButton("Làm mới");
-		btnNewButton_4.setBackground(Color.WHITE);
-		panel_6.add(btnNewButton_4);
+		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi.setBackground(Color.WHITE);
+		btnLamMoi.setIcon(new ImageIcon("data\\images\\refresh.png"));
+		btnLamMoi.setIconTextGap(10);
+		pnChucNang.add(btnLamMoi);
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		JPanel pnRight = new JPanel();
+		contentPane.add(pnRight);
+		pnRight.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_2 = new JPanel();
-		panel_1.add(panel_2, BorderLayout.NORTH);
+		JPanel pnTimKiem = new JPanel();
+		pnTimKiem.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
+		pnRight.add(pnTimKiem, BorderLayout.NORTH);
 
 		DefaultComboBoxModel cboLoaiTimKiem = new DefaultComboBoxModel<String>();
-		JComboBox comboBox = new JComboBox(cboLoaiTimKiem);
-		comboBox.setBackground(Color.WHITE);
-		comboBox.setPreferredSize(new Dimension(100, 22));
-		panel_2.add(comboBox);
+		JComboBox cmbLoaiTimKiem = new JComboBox(cboLoaiTimKiem);
+		cmbLoaiTimKiem.setToolTipText("tìm kiếm theo");
+		cmbLoaiTimKiem.setBackground(Color.WHITE);
+		cmbLoaiTimKiem.setPreferredSize(new Dimension(130, 22));
+		pnTimKiem.add(cmbLoaiTimKiem);
 		cboLoaiTimKiem.addElement((String) "Mã KH");
 		cboLoaiTimKiem.addElement((String) "Tên KH");
 		cboLoaiTimKiem.addElement((String) "Số điện thoại");
 		
 		
-		textField = new JTextField();
-		textField.setPreferredSize(new Dimension(7, 25));
-		panel_2.add(textField);
-		textField.setColumns(30);
 		
-		JButton btnNewButton = new JButton("Tìm kiếm");
-		btnNewButton.setPreferredSize(new Dimension(100, 25));
-		btnNewButton.setBackground(Color.WHITE);
-		panel_2.add(btnNewButton);
+		txtNhapLieu = new JTextField();
+		txtNhapLieu.setPreferredSize(new Dimension(7, 25));
+		pnTimKiem.add(txtNhapLieu);
+		PromptSupport.setPrompt("nhập liệu tìm kiếm", txtNhapLieu);
+		txtNhapLieu.setColumns(30);
 		
-		JPanel panel_3 = new JPanel();
-		panel_1.add(panel_3, BorderLayout.CENTER);
-		panel_3.setLayout(new BorderLayout(0, 0));
+		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem.setPreferredSize(new Dimension(130, 25));
+		btnTimKiem.setBackground(Color.WHITE);
+		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
+		pnTimKiem.add(btnTimKiem);
+		
+		JPanel pnTableKh = new JPanel();
+		pnRight.add(pnTableKh, BorderLayout.CENTER);
+		pnTableKh.setLayout(new BorderLayout(0, 0));
 		
 		String[] cols_dskh = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email", "Địa chỉ"};
 		DefaultTableModel modelDSKH = new DefaultTableModel(cols_dskh, 0);
 		table = new JTable(modelDSKH);
-		JScrollPane scrollPane = new JScrollPane(table);
-		panel_3.add(scrollPane);
+		JScrollPane scrTableKhachhang = new JScrollPane(table);
+		scrTableKhachhang.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrTableKhachhang.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		pnTableKh.add(scrTableKhachhang);
 		
 		modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
