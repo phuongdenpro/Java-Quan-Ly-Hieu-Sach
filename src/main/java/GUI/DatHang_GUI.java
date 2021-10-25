@@ -6,42 +6,44 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 
+
+
 import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
-public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener {
-	private DefaultTableModel modelHD;
-	String[] colsHD = { "Mã hoá đơn", "Mã khách hàng","Tên khách hàng","Tên sản phẩm","Đơn giá","Số lượng","Tổng tiền", "Ngày lập",  "Tình trạng" };
+public class DatHang_GUI extends JFrame implements ActionListener, MouseListener {
+	private DefaultTableModel modelDonDat;
+	String[] colsDonDat = { "Mã đơn đặt hàng", "Mã khách hàng","Mã sản phẩm", "Số lượng", "Đơn giá", "Thời gian đặt" };
 	public JPanel pnMain;
-	private JTable tableHD;
+	private JTable tableDonDat;
 
 	private JTextField txtSoLuong;
 	private JButton btnThem;
 	private JComboBox<String> cboMaKH;
+	private JComboBox<String> cboMaSP;
 	private JPanel panel_1;
-	private JTextField txtTimMaHDDV;
 
 	
 	private JTextField txtGia;
 	private JTextField txtTen;
-	private JButton btnTimMaHDDV;
 	private JButton btnXem;
 	private JButton btnBoChon;
 	private JTextField txtTenSP;
 	private JButton btnXoa;
 	private JButton btnSua;
-	private JComboBox<String> cboMaSp;
+	private JTextField txtTimMaDon;
+	private JButton btnTimMaDon;
+	
 
-	public HoaDon_GUI() {
+	public DatHang_GUI() {
 		
 
-		setTitle("Quản lý hóa đơn");
+		setTitle("Quản lý đơn đặt hàng");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -53,12 +55,12 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		pnMain.setBounds(0, 0, 584, 411);
 		getContentPane().add(pnMain);
 
-		JLabel lbTitle = new JLabel("Quản Lý Hóa Đơn");
+		JLabel lbTitle = new JLabel("Quản Lý Đơn Đặt Hàng");
 		lbTitle.setBounds(585, 11, 348, 30);
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		pnMain.add(lbTitle);
 
-		modelHD = new DefaultTableModel(colsHD, 0) {
+		modelDonDat = new DefaultTableModel(colsDonDat, 0) {
 			/**
 			 * 
 			 */
@@ -108,11 +110,11 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		lbMaSP.setBounds(10, 94, 93, 25);
 		pn.add(lbMaSP);
 
-		cboMaSp = new JComboBox<String>();
-		cboMaSp.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		cboMaSp.setBounds(122, 94, 205, 25);
-		cboMaSp.addItem("");
-		pn.add(cboMaSp);
+		cboMaSP = new JComboBox<String>();
+		cboMaSP.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		cboMaSP.setBounds(122, 94, 205, 25);
+		cboMaSP.addItem("");
+		pn.add(cboMaSP);
 		JLabel lbts = new JLabel("Tên sản phẩm:");
 		lbts.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbts.setBounds(10, 127, 93, 25);
@@ -145,12 +147,12 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		pn.add(txtSoLuong);
 		txtSoLuong.setColumns(10);
 
-		btnSua = new JButton("Sửa hóa đơn");
+		btnSua = new JButton("Sửa đơn");
 		btnSua.setIcon(new ImageIcon("data/images/edit2_16.png"));
 		btnSua.setBounds(10, 243, 317, 35);
 		pn.add(btnSua);
 
-		btnThem = new JButton("Tạo hoá đơn");
+		btnThem = new JButton("Tạo đơn");
 		btnThem.setBounds(10, 287, 317, 35);
 		pn.add(btnThem);
 		btnThem.setIcon(new ImageIcon("data/images/check.png"));
@@ -159,32 +161,32 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-				"Danh sách hóa đơn", TitledBorder.LEADING, TitledBorder.TOP, null,
+				"Danh sách đơn đặt hàng", TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
 		panel_1.setBounds(370, 65, 1145, 750);
 		pnMain.add(panel_1);
 		panel_1.setLayout(null);
 
-		tableHD = new JTable(modelHD);
-		JScrollPane scHD = new JScrollPane(tableHD, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		tableDonDat = new JTable(modelDonDat);
+		JScrollPane scHD = new JScrollPane(tableDonDat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scHD.setBounds(10, 67, 1120, 670);
 		panel_1.add(scHD);
 
-		JLabel lbTimMaHDDV = new JLabel("Mã hoá đơn:");
-		lbTimMaHDDV.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbTimMaHDDV.setBounds(20, 25, 110, 30);
-		panel_1.add(lbTimMaHDDV);
+		JLabel lbTimMaDon = new JLabel("Mã đơn:");
+		lbTimMaDon.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbTimMaDon.setBounds(20, 25, 110, 30);
+		panel_1.add(lbTimMaDon);
 
-		txtTimMaHDDV = new JTextField();
-		txtTimMaHDDV.setBounds(100, 29, 120, 25);
-		panel_1.add(txtTimMaHDDV);
-		txtTimMaHDDV.setColumns(10);
+		txtTimMaDon = new JTextField();
+		txtTimMaDon.setBounds(100, 29, 120, 25);
+		panel_1.add(txtTimMaDon);
+		txtTimMaDon.setColumns(10);
 
-		btnTimMaHDDV = new JButton("Tìm");
-		btnTimMaHDDV.setIcon(new ImageIcon("data/images/search_16.png"));
-		btnTimMaHDDV.setBounds(235, 28, 115, 25);
-		panel_1.add(btnTimMaHDDV);
+		btnTimMaDon = new JButton("Tìm");
+		btnTimMaDon.setIcon(new ImageIcon("data/images/search_16.png"));
+		btnTimMaDon.setBounds(235, 28, 115, 25);
+		panel_1.add(btnTimMaDon);
 
 		btnXem = new JButton("Xem tất cả");
 		btnXem.setIcon(new ImageIcon("data/images/blueAdd_16.png"));
@@ -204,12 +206,12 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		btnSua.addActionListener(this);
 
 		btnThem.addActionListener(this);
-		btnTimMaHDDV.addActionListener(this);
+		btnTimMaDon.addActionListener(this);
 		btnXem.addActionListener(this);
 		btnBoChon.addActionListener(this);
-		cboMaSp.addActionListener(this);
+		cboMaSP.addActionListener(this);
 		cboMaKH.addActionListener(this);
-		tableHD.addMouseListener(this);
+		tableDonDat.addMouseListener(this);
 		pnMain.addMouseListener(this);
 
 		
@@ -218,7 +220,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 	
 
 	public static void main(String[] args) {
-		new HoaDon_GUI().setVisible(true);
+		new DatHang_GUI().setVisible(true);
 	}
 
 	public void mouseClicked(MouseEvent e) {
