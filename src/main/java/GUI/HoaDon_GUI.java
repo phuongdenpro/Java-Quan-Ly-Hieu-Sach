@@ -42,12 +42,11 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		
 
 		setTitle("Quản lý hóa đơn");
-		setResizable(false);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
-		Dimension screenSize1 = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize1.width, screenSize1.height);
+	
 		
 		pnMain = new JPanel();
 		pnMain.setBounds(0, 0, 584, 411);
@@ -77,7 +76,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		pn.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 				"Chi tiết", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pn.setBounds(10, 65, 347, 360);
+		pn.setBounds(10, 65, 347, 340);
 		pnMain.add(pn);
 		pn.setLayout(null);
 
@@ -161,14 +160,14 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 				"Danh sách hóa đơn", TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(0, 0, 0)));
-		panel_1.setBounds(370, 65, 1145, 750);
+		panel_1.setBounds(370, 65, 900, 575);
 		pnMain.add(panel_1);
 		panel_1.setLayout(null);
 
 		tableHD = new JTable(modelHD);
 		JScrollPane scHD = new JScrollPane(tableHD, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scHD.setBounds(10, 67, 1120, 670);
+		scHD.setBounds(10, 67, 870, 500);
 		panel_1.add(scHD);
 
 		JLabel lbTimMaHDDV = new JLabel("Mã hoá đơn:");

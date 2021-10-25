@@ -68,29 +68,20 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 	
 	public SanPham_GUI() {
 		
-		setTitle("Thống kê");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setBounds(0, 0, 1300, 700);
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize.width, screenSize.height);
-		
 		setTitle("Quản Lý Sản Phẩm");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
-		Dimension screenSize1 = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize1.width, screenSize1.height);
+
 		ImageIcon icon1 = new ImageIcon("data/images/sanpham.png");
 		ImageIcon icon2 = new ImageIcon("data/images/blueAdd_16.png");
 		ImageIcon icon3 = new ImageIcon("data/images/trash.png");
-		ImageIcon icon4 = new ImageIcon("data/images/pencil-red-icon.png");
-		ImageIcon icon5 = new ImageIcon("data/images/refresh-icon.png");
+		ImageIcon icon4 = new ImageIcon("data/images/repairing-service.png");
+		ImageIcon icon5 = new ImageIcon("data/images/refresh.png");
 		ImageIcon icon6 = new ImageIcon("data/images/timkiem.png");
 		ImageIcon icon7 = new ImageIcon("data/images/search_16.png");
-//		pnlform.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
 		JLabel jLabel1 = new JLabel();
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(java.awt.SystemColor.activeCaption);
@@ -105,7 +96,7 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 		JLabel lbTitle = new JLabel("Quản Lý Sản Phẩm");
 		lbTitle.setFont(new Font("Arial", Font.BOLD, 25));
 		lbTitle.setForeground(Color.BLACK);
-		lbTitle.setBounds(600, 10, 1200, 35);
+		lbTitle.setBounds(500, 10, 500, 35);
 
 		JLabel lblmaSP = new JLabel("Mã sản phẩm: ");
 		JLabel lbltenSP = new JLabel("Tên sản phẩm: ");
@@ -146,29 +137,29 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 
 		JPanel pnThongtin = new JPanel();
 		pnThongtin.setLayout(null);
-		pnThongtin.setBounds(250, 50, 1020, 365);
+		pnThongtin.setBounds(220, 50, 800, 280);
 		pnThongtin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 //		pnThongtin.setBorder(new TitledBorder(
 //				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 //				"", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		//pnThongtin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 		jLabel1.setBounds(20,10,500,30);
-		lblmaSP.setBounds(40, 60, 100, 22);
-		txtmaSP.setBounds(130, 60, 220, 25);
-		lbltenSP.setBounds(630, 60, 100, 22);
-		txttenSP.setBounds(730, 60, 220, 25);
-		lblSoluong.setBounds(40, 90, 100, 22);
-		txtSoluong.setBounds(130, 90, 220, 25);
-		lblDonvi.setBounds(630, 90, 100, 22);
-		txtDonvi.setBounds(730, 90, 220, 25);
-		lblGianhap.setBounds(40, 120, 110, 22);
-		txtGianhap.setBounds(130, 120, 220, 25);
-		lblGiaban.setBounds(630, 120, 100, 22);
-		txtGiaban.setBounds(730, 120, 220, 25);
-		lblMota.setBounds(40, 150, 100, 22);
-		txtMota.setBounds(130, 150, 220, 25);
-		lblMaloai.setBounds(630, 150, 100, 22);
-		cboListMaloai.setBounds(730, 150, 220, 25);
+		lblmaSP.setBounds(40, 50, 100, 22);
+		txtmaSP.setBounds(130, 50, 220, 22);
+		lbltenSP.setBounds(430, 50, 100, 22);
+		txttenSP.setBounds(530, 50, 220, 22);
+		lblSoluong.setBounds(40, 77, 100, 22);
+		txtSoluong.setBounds(130, 77, 220, 22);
+		lblDonvi.setBounds(430, 77, 100, 22);
+		txtDonvi.setBounds(530, 77, 220, 22);
+		lblGianhap.setBounds(40, 107, 110, 22);
+		txtGianhap.setBounds(130, 107, 220, 22);
+		lblGiaban.setBounds(430, 107, 100, 22);
+		txtGiaban.setBounds(530, 107, 220, 22);
+		lblMota.setBounds(40, 137, 100, 22);
+		txtMota.setBounds(130, 137, 220, 22);
+		lblMaloai.setBounds(430, 137, 100, 22);
+		cboListMaloai.setBounds(530, 137, 220, 22);
 		cboListMaloai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 		
 		radMaSanPham = new JRadioButton("Mã Sản Phẩm");
@@ -188,17 +179,17 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
       
        
 		
-		btnThem.setBounds(320,200,150,40);
-		btnXoa.setBounds(490,200,150,40);
-		btnSua.setBounds(320,250,150,40);
-		btnTaoMoi.setBounds(490,250,150,40);
-		lblTimKiem.setBounds(100, 300, 150, 40);
-		txtTimKiem.setBounds(190, 310, 250, 25);
-		radMaSanPham.setBounds(450,310,120,25);
-		radTenSanPham.setBounds(570,310,130,25);
-		radMaLoai.setBounds(700,310,100,25);
+		btnThem.setBounds(250,170,120,25);
+		btnXoa.setBounds(380,170,120,25);
+		btnSua.setBounds(250,205,120,25);
+		btnTaoMoi.setBounds(380,205,120,25);
+		lblTimKiem.setBounds(30, 230, 150, 40);
+		txtTimKiem.setBounds(120, 240, 200, 22);
+		radMaSanPham.setBounds(330,240,120,22);
+		radTenSanPham.setBounds(450,240,130,22);
+		radMaLoai.setBounds(580,240,90,22);
 		
-		btnTim.setBounds(800, 310, 80, 28);
+		btnTim.setBounds(670, 240, 80, 25);
 		btnTim.setIcon(icon7);
 		
 		pnThongtin.add(jLabel1);
@@ -250,8 +241,8 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 		JScrollPane sql = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		pnTable.add(sql);
-		pnTable.setBounds(20, 420, 1470, 390);
-		sql.setBounds(10, 25, 1440, 350);
+		pnTable.setBounds(20, 330, 1255, 310);
+		sql.setBounds(10, 20, 1230, 275);
 
 		
 		pnMain.add(lbTitle);

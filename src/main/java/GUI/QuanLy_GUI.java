@@ -63,7 +63,7 @@ public class QuanLy_GUI extends JFrame {
 		setTitle("Quản lý hiệu sách");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setBounds(0, 0, 1350, 700);
+		setBounds(0, 0, 1320, 700);
 		
 		
 		menuGUI();
@@ -164,7 +164,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-				renderMain(sanPhamGUI.getContentPane(), "sanpham");
+				renderMain((JPanel) sanPhamGUI.getContentPane(), "sanpham");
 			}
 			
 			@Override
