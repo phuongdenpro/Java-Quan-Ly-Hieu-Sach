@@ -29,6 +29,7 @@ import javax.swing.border.LineBorder;
 
 import DAO.TaiKhoanDAO;
 import entity.KhachHang;
+import util.Placeholder;
 
 public class DangKy_GUI extends JFrame {
 
@@ -96,96 +97,32 @@ public class DangKy_GUI extends JFrame {
 		lblDangKy.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		
 		txtTenKH = new JTextField("Họ và tên");
-		txtTenKH.setForeground(Color.GRAY);
 		txtTenKH.setColumns(10);
 		txtTenKH.setBorder(new LineBorder(new Color(171, 173, 179)));
 		txtTenKH.setBounds(41, 73, 398, 41);
 		panel.add(txtTenKH);
-		txtTenKH.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtTenKH.getText().equals("Họ và tên")) {
-		        	txtTenKH.setText("");
-		        	txtTenKH.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtTenKH.getText().isEmpty()) {
-		        	txtTenKH.setForeground(Color.GRAY);
-		        	txtTenKH.setText("Họ và tên");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtTenKH, "Họ và tên");
 		
 		txtSoDienThoai = new JTextField("Số điện thoại");
-		txtSoDienThoai.setForeground(Color.GRAY);
 		txtSoDienThoai.setColumns(10);
 		txtSoDienThoai.setBorder(new LineBorder(new Color(171, 173, 179)));
 		txtSoDienThoai.setBounds(41, 125, 398, 41);
 		panel.add(txtSoDienThoai);
-		txtSoDienThoai.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtSoDienThoai.getText().equals("Số điện thoại")) {
-		        	txtSoDienThoai.setText("");
-		        	txtSoDienThoai.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtSoDienThoai.getText().isEmpty()) {
-		        	txtSoDienThoai.setForeground(Color.GRAY);
-		        	txtSoDienThoai.setText("Số điện thoại");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtSoDienThoai, "Số điện thoại");
 		
 		txtDiaChi = new JTextField("Địa chỉ");
-		txtDiaChi.setForeground(Color.GRAY);
 		txtDiaChi.setColumns(10);
 		txtDiaChi.setBorder(new LineBorder(new Color(171, 173, 179)));
 		txtDiaChi.setBounds(41, 177, 398, 41);
 		panel.add(txtDiaChi);
-		txtDiaChi.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtDiaChi.getText().equals("Địa chỉ")) {
-		        	txtDiaChi.setText("");
-		        	txtDiaChi.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtDiaChi.getText().isEmpty()) {
-		        	txtDiaChi.setForeground(Color.GRAY);
-		        	txtDiaChi.setText("Địa chỉ");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtDiaChi, "Địa chỉ");
 		
 		txtUserName = new JTextField("Tài khoản");
 		txtUserName.setBorder(new LineBorder(new Color(171, 173, 179)));
 		txtUserName.setBounds(41, 229, 398, 41);
 		panel.add(txtUserName);
 		txtUserName.setColumns(10);
-		txtUserName.setForeground(Color.GRAY);
-		txtUserName.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtUserName.getText().equals("Tài khoản")) {
-		        	txtUserName.setText("");
-		        	txtUserName.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtUserName.getText().isEmpty()) {
-		        	txtUserName.setForeground(Color.GRAY);
-		        	txtUserName.setText("Tài khoản");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtUserName, "Tài khoản");
 		
 		txtPassword = new JPasswordField("Mật khẩu");
 		txtPassword.setBorder(new LineBorder(new Color(171, 173, 179)));
@@ -193,25 +130,7 @@ public class DangKy_GUI extends JFrame {
 		txtPassword.setBounds(41, 281, 398, 41);
 		panel.add(txtPassword);
 		txtPassword.setColumns(10);
-		txtPassword.setForeground(Color.GRAY);
-		txtPassword.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtPassword.getText().equals("Mật khẩu")) {
-		        	txtPassword.setText("");
-		        	txtPassword.setEchoChar('*');
-		        	txtPassword.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtPassword.getText().isEmpty()) {
-		        	txtPassword.setForeground(Color.GRAY);
-		        	txtPassword.setEchoChar((char)0);
-		        	txtPassword.setText("Mật khẩu");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtPassword, "Mật khẩu");
 		
 		txtRePassword = new JPasswordField("Nhập lại mật khẩu");
 		txtRePassword.setBorder(new LineBorder(new Color(171, 173, 179)));
@@ -219,25 +138,7 @@ public class DangKy_GUI extends JFrame {
 		txtRePassword.setBounds(41, 333, 398, 41);
 		panel.add(txtRePassword);
 		txtRePassword.setColumns(10);
-		txtRePassword.setForeground(Color.GRAY);
-		txtRePassword.addFocusListener(new FocusListener() {
-		    @Override
-		    public void focusGained(FocusEvent e) {
-		        if (txtRePassword.getText().equals("Nhập lại mật khẩu")) {
-		        	txtRePassword.setText("");
-		        	txtRePassword.setEchoChar('*');
-		        	txtRePassword.setForeground(Color.BLACK);
-		        }
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e) {
-		        if (txtRePassword.getText().isEmpty()) {
-		        	txtRePassword.setForeground(Color.GRAY);
-		        	txtRePassword.setEchoChar((char)0);
-		        	txtRePassword.setText("Nhập lại mật khẩu");
-		        }
-		    }
-	    });
+		new Placeholder().placeholder(txtRePassword, "Nhập lại mật khẩu");
 		
 		btnDangKy = new JButton("Đăng ký");
 		btnDangKy.setBackground(Color.WHITE);
