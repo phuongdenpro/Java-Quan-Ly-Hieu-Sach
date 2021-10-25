@@ -8,7 +8,9 @@ import java.sql.Statement;
 
 import ConnectDB.ConnectDB;
 import entity.KhachHang;
+import entity.NhanVien;
 import entity.SanPham;
+import entity.TaiKhoan;
 
 public class TaiKhoanDAO extends ConnectDB{
 
@@ -16,6 +18,7 @@ public class TaiKhoanDAO extends ConnectDB{
 		super();
 	}
 
+//	lấy mật khẩu
 	public String getMatKhau(String taiKhoan) {
 		String matKhau = "";
 		PreparedStatement stmt = null;
@@ -42,6 +45,7 @@ public class TaiKhoanDAO extends ConnectDB{
         return matKhau;
 	}
 	
+//	thêm tài khoản mới cho khách hàng
 	public boolean themTaiKhoan(KhachHang kh, String taiKhoan, String matKhau) {
 		PreparedStatement stmt = null;
         try {
@@ -81,6 +85,7 @@ public class TaiKhoanDAO extends ConnectDB{
         return false;		
 	}
 	
+//	lấy id cuối cùng
     public int getLatestID() {
         int id = 0;
         Statement stmt = null;
@@ -101,6 +106,71 @@ public class TaiKhoanDAO extends ConnectDB{
             }
         }
         return id;
+    }
+    
+    public TaiKhoan getTaiKhoan(String taiKhoan) {
+    	
+    	PreparedStatement stmt = null;
+    	
+        try {
+
+            String sql = "SELECT * FROM dbo.TaiKhoan where taiKhoan = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, taiKhoan);
+            ResultSet rs = stmt.executeQuery();
+            if(!rs.next())
+                return null;
+            
+            TaiKhoan tk = new TaiKhoan(rs);
+            return tk;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return null;
+    }
+    
+//    từ tài khoản -> trả về nhân viên hoặc Khách hàng
+    public Object getNguoiDung(String taiKhoan) {
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "SELECT id FROM dbo.TaiKhoan where taiKhoan = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, taiKhoan);
+            ResultSet rs = stmt.executeQuery();
+            if(!rs.next())
+                return null;
+            
+            int id = rs.getInt("id");
+            
+            // kiểm tra xem có phải tài khoản khách hàng không ?
+            KhachHang kh = new KhachHangDAO().getKhachHangByMaTK(id);
+            if(kh != null)
+            	return kh;
+            
+            NhanVien nv = new NhanVienDAO().getNhanVienByMaTK(id);
+            if(nv != null)
+            	return nv;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return null;
     }
 	
 	public static void main(String[] args) throws SQLException {

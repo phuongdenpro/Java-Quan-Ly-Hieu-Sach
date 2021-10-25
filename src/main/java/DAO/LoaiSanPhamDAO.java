@@ -19,13 +19,12 @@ public class LoaiSanPhamDAO extends ConnectDB{
 	
 	public ArrayList<LoaiSanPham> getDanhSachLoaiSanPham() throws SQLException {
 		ArrayList<LoaiSanPham> dataList = new ArrayList<LoaiSanPham>();
-        Statement stmt = null;
+        Statement stmt = this.conn.createStatement();
         SanPhamDAO sanPhamDao = new SanPhamDAO();
         
         try {
 
             String sql = "SELECT * FROM dbo.LoaiSanPham";
-            stmt = this.conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -39,7 +38,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
             e.printStackTrace();
         } finally {
             try {
-                stmt.close();
+            	stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

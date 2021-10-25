@@ -18,9 +18,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
 
+import DAO.DonDatHangDao;
 import DAO.LoaiSanPhamDAO;
 import DAO.SanPhamDAO;
+import entity.KhachHang;
 import entity.LoaiSanPham;
+import entity.NhanVien;
 import entity.SanPham;
 
 import java.awt.FlowLayout;
@@ -55,6 +58,8 @@ import javax.swing.JMenuBar;
 
 public class TrangChu_GUI extends JFrame {
 
+	private KhachHang khachHang = null;
+	
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -82,7 +87,16 @@ public class TrangChu_GUI extends JFrame {
 		});
 	}
 
-	public TrangChu_GUI() throws SQLException {
+	public TrangChu_GUI() {
+		
+	} 
+	
+	public TrangChu_GUI(KhachHang khachHang) throws SQLException {
+		this.khachHang = khachHang;
+		GUI();
+	} 
+	
+	public void GUI() throws SQLException {
 		setTitle("Trang chủ");
 		setResizable(false);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -265,16 +279,38 @@ public class TrangChu_GUI extends JFrame {
 		
 		btnThemVaoGio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showThemVaoGio();
+				int soLuong = showThemVaoGio();
+				if(soLuong <= 0) {
+					JOptionPane.showMessageDialog(contentPane, "Vui lòng nhập số lớn hơn 0");
+					return;
+				}
+				
+				try {
+					boolean kq = new DonDatHangDao().themSanPhamVaoDonDatHang(sanPham, soLuong, khachHang.getMaKh());
+					if(kq) {
+						JOptionPane.showMessageDialog(contentPane, "Thêm vào giỏ thành công");
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
 		return pnItem;
 	}
 	
-	public void showThemVaoGio() {
-		String soLuong = JOptionPane.showInputDialog(this, "Số lượng", 1);
-		System.out.println(soLuong);
+	public int showThemVaoGio() {
+		try {
+			int soLuong = Integer.parseInt(JOptionPane.showInputDialog(contentPane, "Số lượng", 1));
+			
+			return soLuong;
+		}catch (Exception e) {
+		}
+		
+		return -1;
 	}
 	
 	public static JPanel panelBackgroundImage(final String filepath) {

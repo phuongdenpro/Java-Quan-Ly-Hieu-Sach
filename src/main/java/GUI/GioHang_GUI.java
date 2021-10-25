@@ -13,6 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+import entity.KhachHang;
+
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -34,16 +37,20 @@ import javax.swing.JButton;
 
 public class GioHang_GUI extends JFrame {
 
+	private KhachHang khachHang = null;
+	
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
 	private int numberOfItem = 5;
-	public JButton btnDatHang;
-	public JButton btnTroVe;
 	public JMenuItem mntmQuanLy;
 	public JMenuItem mntmGioHang;
 	public JMenuItem mntmDangXuat;
 	public JLabel lblHelp;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
 	/**
 	 * Launch the application.
 	 */
@@ -64,6 +71,15 @@ public class GioHang_GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GioHang_GUI() {
+		GUI();
+	}
+	
+	public GioHang_GUI(KhachHang khachHang) {
+		this.khachHang = khachHang;
+		GUI();
+	}
+	
+	public void GUI() {
 //		Giỏ hàng
 		setTitle("Giỏ hàng");
 		setResizable(false);
@@ -88,8 +104,102 @@ public class GioHang_GUI extends JFrame {
 		
 		JScrollPane pane = new JScrollPane(panelContent);
 		
-		Component horizontalStrut = Box.createHorizontalStrut(200);
+		Component horizontalStrut = Box.createHorizontalStrut(30);
 		panelContent.add(horizontalStrut);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new EmptyBorder(50, 0, 0, 0));
+		panelContent.add(panel_3);
+		
+		JPanel panel_4 = new JPanel();
+		panel_3.add(panel_4);
+		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
+		
+		JPanel panel_5 = new JPanel();
+		panel_4.add(panel_5);
+		
+		JLabel lblNewLabel_5 = new JLabel("Thông tin khách hàng");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panel_5.add(lblNewLabel_5);
+		
+		JPanel panel_6 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_6.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel_4.add(panel_6);
+		
+		JLabel lblNewLabel_6 = new JLabel("Mã khách hàng");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_6.setPreferredSize(new Dimension(150, 20));
+		panel_6.add(lblNewLabel_6);
+		
+		textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		textField_2.setPreferredSize(new Dimension(30, 20));
+		panel_6.add(textField_2);
+		textField_2.setColumns(20);
+		
+		JPanel panel_6_1 = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel_6_1.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		panel_4.add(panel_6_1);
+		
+		JLabel lblNewLabel_6_1 = new JLabel("Tên khách hàng");
+		lblNewLabel_6_1.setPreferredSize(new Dimension(150, 20));
+		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_6_1.add(lblNewLabel_6_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setEditable(false);
+		textField_3.setColumns(20);
+		panel_6_1.add(textField_3);
+		
+		JPanel panel_6_1_1 = new JPanel();
+		FlowLayout flowLayout_2 = (FlowLayout) panel_6_1_1.getLayout();
+		flowLayout_2.setAlignment(FlowLayout.LEFT);
+		panel_4.add(panel_6_1_1);
+		
+		JLabel lblNewLabel_6_1_1 = new JLabel("Số điện thoại");
+		lblNewLabel_6_1_1.setPreferredSize(new Dimension(150, 20));
+		lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_6_1_1.add(lblNewLabel_6_1_1);
+		
+		textField_4 = new JTextField();
+		textField_4.setEditable(false);
+		textField_4.setColumns(20);
+		panel_6_1_1.add(textField_4);
+		
+		JPanel panel_6_1_1_1 = new JPanel();
+		FlowLayout flowLayout_3 = (FlowLayout) panel_6_1_1_1.getLayout();
+		flowLayout_3.setAlignment(FlowLayout.LEFT);
+		panel_4.add(panel_6_1_1_1);
+		
+		JLabel lblNewLabel_6_1_1_1 = new JLabel("Địa chỉ");
+		lblNewLabel_6_1_1_1.setPreferredSize(new Dimension(150, 20));
+		lblNewLabel_6_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_6_1_1_1.add(lblNewLabel_6_1_1_1);
+		
+		textField_5 = new JTextField();
+		textField_5.setEditable(false);
+		textField_5.setColumns(20);
+		panel_6_1_1_1.add(textField_5);
+		
+		JPanel pnThongTin = new JPanel();
+		panel_4.add(pnThongTin);
+		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton btnDatHang = new JButton("Đặt hàng", null);
+		btnDatHang.setPreferredSize(new Dimension(150, 30));
+		btnDatHang.setIconTextGap(8);
+		btnDatHang.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnDatHang.setBackground(Color.WHITE);
+		pnThongTin.add(btnDatHang);
+		
+		JButton btnTroVe = new JButton("Tiếp tục mua hàng", null);
+		btnTroVe.setPreferredSize(new Dimension(200, 30));
+		btnTroVe.setIconTextGap(8);
+		btnTroVe.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnTroVe.setBackground(Color.WHITE);
+		pnThongTin.add(btnTroVe);
 		
 		JPanel panel = new JPanel();
 		panelContent.add(panel);
@@ -120,35 +230,13 @@ public class GioHang_GUI extends JFrame {
 		pnItems.add(this.itemGUI());
 		pnItems.add(this.itemGUI());
 		
-		JPanel pnThongTin = new JPanel();
-		panel_1.add(pnThongTin);
-		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
 
 		ImageIcon icon_dathang = new ImageIcon("data/images/shopping-cart32.png");
-		btnDatHang = new JButton("Đặt hàng", icon_dathang);
-		btnDatHang.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnDatHang.setIconTextGap(8);
-		btnDatHang.setBackground(Color.WHITE);
-		btnDatHang.setPreferredSize(new Dimension(200, 40));
-		pnThongTin.add(btnDatHang);
-		btnDatHang.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showConfirmDialog(null, "Xác nhận đặt hàng ?");
-			}
-		});
 		
 
 		ImageIcon icon_tieptucmuahang = new ImageIcon("data/images/cart.png");
-		btnTroVe = new JButton("Tiếp tục mua hàng", icon_tieptucmuahang);
-		btnTroVe.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnTroVe.setIconTextGap(8);
-		btnTroVe.setBackground(Color.WHITE);
-		btnTroVe.setPreferredSize(new Dimension(250, 40));
-		pnThongTin.add(btnTroVe);
 		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(200);
+		Component horizontalStrut_1 = Box.createHorizontalStrut(30);
 		panelContent.add(horizontalStrut_1);
 		contentPane.add(pane);
 	}

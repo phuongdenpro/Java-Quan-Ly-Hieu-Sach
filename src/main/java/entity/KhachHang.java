@@ -1,5 +1,7 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class KhachHang {
@@ -27,6 +29,17 @@ public class KhachHang {
 		this.hoTen = hoTen;
 		this.soDienThoai = soDienThoai;
 		this.diaChi = diaChi;
+	}
+	
+	public KhachHang(ResultSet rs) throws SQLException {
+		try {
+			this.maKh = rs.getInt("maKH");
+		}catch (Exception e) {
+			
+		}
+		this.hoTen = rs.getString("hoTen");
+		this.soDienThoai = rs.getString("soDienThoai");
+		this.diaChi = rs.getString("diaChi");
 	}
 
 	public int getMaKh() {

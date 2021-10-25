@@ -173,4 +173,22 @@ public class DangNhap_GUI extends JFrame {
 	public void requestFocus() {
 		this.txtUserName.requestFocus();
 	}
+
+	public JTextField getTxtUserName() {
+		return txtUserName;
+	}
+
+	public void setTxtUserName(JTextField txtUserName) {
+		this.txtUserName = txtUserName;
+	}
+
+	public JPasswordField getTxtPassword() {
+		return txtPassword;
+	}
+
+	public void setTxtPassword(JPasswordField txtPassword) {
+		this.txtPassword = txtPassword;
+	}
+	
+	
 }
