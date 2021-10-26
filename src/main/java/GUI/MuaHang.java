@@ -20,7 +20,7 @@ public class MuaHang extends JFrame{
 //	private DangNhap_GUI loginGUI = new DangNhap_GUI();
 //	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private TrangChu_GUI trangChuGUI;
-	private GioHang_GUI gioHangGUI = new GioHang_GUI();
+	private GioHang_GUI gioHangGUI;
 //	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
 	private TroGiup_GUI troGiupGUI = new TroGiup_GUI();
 	
@@ -34,6 +34,7 @@ public class MuaHang extends JFrame{
 	
 	public MuaHang(KhachHang khachHang) throws SQLException {
 		trangChuGUI = new TrangChu_GUI(khachHang);
+		gioHangGUI = new GioHang_GUI(khachHang);
 		renderGUI();
 	}
 	
