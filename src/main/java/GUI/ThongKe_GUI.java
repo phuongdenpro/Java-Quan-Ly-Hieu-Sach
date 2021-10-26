@@ -89,138 +89,138 @@ public class ThongKe_GUI extends JFrame {
 		contentPane.add(pane);
 		pnContent.setLayout(new BoxLayout(pnContent, BoxLayout.Y_AXIS));
 
-		JPanel panel = new JPanel();
-		pnContent.add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JPanel pnThongTinChung = new JPanel();
+		pnContent.add(pnThongTinChung);
+		pnThongTinChung.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setPreferredSize(new Dimension(1300, 150));
-		panel.add(panel_1);
-		panel_1.setLayout(new GridLayout(0, 4, 20, 0));
+		JPanel pnGridThongTinChung = new JPanel();
+		pnGridThongTinChung.setPreferredSize(new Dimension(1300, 150));
+		pnThongTinChung.add(pnGridThongTinChung);
+		pnGridThongTinChung.setLayout(new GridLayout(0, 4, 20, 0));
 		
 		ImageIcon icon_sold = new ImageIcon("data/images/sold.png");
-		panel_1.add(this.dashboardGeneralGUI("Đã bán hôm nay", "20 sản phẩm", icon_sold, new Color(32, 178, 170)));
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Đã bán hôm nay", "20 sản phẩm", icon_sold, new Color(32, 178, 170)));
 		
 		ImageIcon icon_customer = new ImageIcon("data/images/customer.png");
-		panel_1.add(this.dashboardGeneralGUI("Khách hàng", "5 khách hàng mới", icon_customer, new Color(0, 255, 127)));
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Khách hàng", "5 khách hàng mới", icon_customer, new Color(0, 255, 127)));
 		
 		ImageIcon icon_profit = new ImageIcon("data/images/financial-profit.png");
-		panel_1.add(this.dashboardGeneralGUI("Lợi nhuận hôm nay", "9.123.000đ", icon_profit, new Color(0, 191, 255)));
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Lợi nhuận hôm nay", "9.123.000đ", icon_profit, new Color(0, 191, 255)));
 		
 		ImageIcon icon_traffic = new ImageIcon("data/images/web-traffic.png");
-		panel_1.add(this.dashboardGeneralGUI("Lượt truy cập", "123 lượt", icon_traffic, new Color(255, 255, 0)));
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Lượt truy cập", "123 lượt", icon_traffic, new Color(255, 255, 0)));
 		
-		JPanel panel_2 = new JPanel();
-		pnContent.add(panel_2);
-		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JPanel pnBieuDo = new JPanel();
+		pnContent.add(pnBieuDo);
+		pnBieuDo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(null);
-		panel_3.setPreferredSize(new Dimension(1300, 1000));
+		JPanel pbGridBieuDo = new JPanel();
+		pbGridBieuDo.setBorder(null);
+		pbGridBieuDo.setPreferredSize(new Dimension(1300, 1000));
 //		panel_2.add(panel_3);
 //		JScrollPane scrollPane = new JScrollPane(panel_3);
 //		scrollPane.setBorder(null);
-		panel_2.add(panel_3);
+		pnBieuDo.add(pbGridBieuDo);
 		
 		
 		
 		// chart
-        GridBagLayout gbl_panel_3 = new GridBagLayout();
-        gbl_panel_3.columnWidths = new int[] {1000, 400};
-        gbl_panel_3.rowHeights = new int[] {0};
-        gbl_panel_3.columnWeights = new double[]{1.0, 1.0};
-        gbl_panel_3.rowWeights = new double[]{1.0};
-        panel_3.setLayout(gbl_panel_3);
+        GridBagLayout gbl_pbGridBieuDo = new GridBagLayout();
+        gbl_pbGridBieuDo.columnWidths = new int[] {1000, 400};
+        gbl_pbGridBieuDo.rowHeights = new int[] {0};
+        gbl_pbGridBieuDo.columnWeights = new double[]{1.0, 1.0};
+        gbl_pbGridBieuDo.rowWeights = new double[]{1.0};
+        pbGridBieuDo.setLayout(gbl_pbGridBieuDo);
         
-        JPanel panel_5 = new JPanel();
-        panel_5.setPreferredSize(new Dimension(10, 1000));
-        GridBagConstraints gbc_panel_5 = new GridBagConstraints();
-        gbc_panel_5.insets = new Insets(0, 0, 5, 5);
-        gbc_panel_5.fill = GridBagConstraints.BOTH;
-        gbc_panel_5.gridx = 0;
-        gbc_panel_5.gridy = 0;
-        panel_3.add(panel_5, gbc_panel_5);
+        JPanel pnLeft = new JPanel();
+        pnLeft.setPreferredSize(new Dimension(10, 1000));
+        GridBagConstraints gbc_pnLeft = new GridBagConstraints();
+        gbc_pnLeft.insets = new Insets(0, 0, 5, 5);
+        gbc_pnLeft.fill = GridBagConstraints.BOTH;
+        gbc_pnLeft.gridx = 0;
+        gbc_pnLeft.gridy = 0;
+        pbGridBieuDo.add(pnLeft, gbc_pnLeft);
         
         // lợi nhuận
         JFreeChart jfreechart = createProfitChart();
-        panel_5.setLayout(new GridLayout(0, 1, 0, 20));
-        ChartPanel chartpanel = new ChartPanel(jfreechart, true, true, true, false, true);
-        panel_5.add(chartpanel);
+        pnLeft.setLayout(new GridLayout(0, 1, 0, 20));
+        ChartPanel pnChartLoiNhuan = new ChartPanel(jfreechart, true, true, true, false, true);
+        pnLeft.add(pnChartLoiNhuan);
         
         // Số lượng sản phẩm còn lại
         JFreeChart productChart = createProductChart();
-        ChartPanel chartpanel_1 = new ChartPanel(productChart, true, true, true, false, true);
-        panel_5.add(chartpanel_1);
+        ChartPanel pnChartSanPhamDaBan = new ChartPanel(productChart, true, true, true, false, true);
+        pnLeft.add(pnChartSanPhamDaBan);
         
         
-        JPanel panel_4 = new JPanel();
-        GridBagConstraints gbc_panel_4 = new GridBagConstraints();
-        gbc_panel_4.insets = new Insets(0, 0, 0, 5);
-        gbc_panel_4.fill = GridBagConstraints.BOTH;
-        gbc_panel_4.gridx = 1;
-        gbc_panel_4.gridy = 0;
-        panel_3.add(panel_4, gbc_panel_4);
+        JPanel pnRight = new JPanel();
+        GridBagConstraints gbc_pnRight = new GridBagConstraints();
+        gbc_pnRight.insets = new Insets(0, 0, 0, 5);
+        gbc_pnRight.fill = GridBagConstraints.BOTH;
+        gbc_pnRight.gridx = 1;
+        gbc_pnRight.gridy = 0;
+        pbGridBieuDo.add(pnRight, gbc_pnRight);
         
         // tỷ lệ sản phẩm bán ra
         JFreeChart pieChart = createRatioProductSoldChart(createRatioProductSoldDataset());
-        panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
-        ChartPanel chartPanel = new ChartPanel(pieChart);
-        panel_4.add(chartPanel);
+        pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
+        ChartPanel pnChartTyLeBanSP = new ChartPanel(pieChart);
+        pnRight.add(pnChartTyLeBanSP);
         
-        ChartPanel chartPanel_1 = new ChartPanel((JFreeChart) null);
-        panel_4.add(chartPanel_1);
+        ChartPanel pnChart = new ChartPanel((JFreeChart) null);
+        pnRight.add(pnChart);
 	}
 	
 	private JPanel dashboardGeneralGUI(String title, String content, ImageIcon icon, Color color) {
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(color);
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[] {60, 0};
-		gbl_panel_2.rowHeights = new int[] {150, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, 1.0};
-		gbl_panel_2.rowWeights = new double[]{0.0, 1.0};
-		panel_2.setLayout(gbl_panel_2);
+		JPanel pnThongTin = new JPanel();
+		pnThongTin.setBackground(color);
+		GridBagLayout gbl_pnThongTin = new GridBagLayout();
+		gbl_pnThongTin.columnWidths = new int[] {60, 0};
+		gbl_pnThongTin.rowHeights = new int[] {150, 0};
+		gbl_pnThongTin.columnWeights = new double[]{1.0, 1.0};
+		gbl_pnThongTin.rowWeights = new double[]{0.0, 1.0};
+		pnThongTin.setLayout(gbl_pnThongTin);
 		
 		
 		
-		JPanel panel_7 = new JPanel();
-		GridBagConstraints gbc_panel_7 = new GridBagConstraints();
-		gbc_panel_7.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_7.fill = GridBagConstraints.BOTH;
-		gbc_panel_7.gridx = 0;
-		gbc_panel_7.gridy = 0;
-		panel_2.add(panel_7, gbc_panel_7);
-		panel_7.setLayout(new GridLayout(0, 1, 0, 0));
-		panel_7.setBackground(new Color(0, 0, 0, 0));
+		JPanel pnIcon = new JPanel();
+		GridBagConstraints gbc_pnIcon = new GridBagConstraints();
+		gbc_pnIcon.insets = new Insets(0, 0, 5, 5);
+		gbc_pnIcon.fill = GridBagConstraints.BOTH;
+		gbc_pnIcon.gridx = 0;
+		gbc_pnIcon.gridy = 0;
+		pnThongTin.add(pnIcon, gbc_pnIcon);
+		pnIcon.setLayout(new GridLayout(0, 1, 0, 0));
+		pnIcon.setBackground(new Color(0, 0, 0, 0));
 		
 		
-		JLabel lblNewLabel = new JLabel(icon);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_7.add(lblNewLabel);
+		JLabel lblIcon = new JLabel(icon);
+		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		pnIcon.add(lblIcon);
 		
-		JPanel panel_6 = new JPanel();
-		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
-		gbc_panel_6.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_6.fill = GridBagConstraints.BOTH;
-		gbc_panel_6.gridx = 1;
-		gbc_panel_6.gridy = 0;
-		panel_2.add(panel_6, gbc_panel_6);
-		panel_6.setLayout(new GridLayout(0, 1, 0, 0));
-		panel_6.setBackground(new Color(0, 0, 0, 0));
+		JPanel pnTieuDe = new JPanel();
+		GridBagConstraints gbc_pnTieuDe = new GridBagConstraints();
+		gbc_pnTieuDe.insets = new Insets(0, 0, 5, 0);
+		gbc_pnTieuDe.fill = GridBagConstraints.BOTH;
+		gbc_pnTieuDe.gridx = 1;
+		gbc_pnTieuDe.gridy = 0;
+		pnThongTin.add(pnTieuDe, gbc_pnTieuDe);
+		pnTieuDe.setLayout(new GridLayout(0, 1, 0, 0));
+		pnTieuDe.setBackground(new Color(0, 0, 0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel(title);
-		lblNewLabel_1.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblNewLabel_1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1.setAlignmentY(0.0f);
-		panel_6.add(lblNewLabel_1);
+		JLabel lblTieuDe = new JLabel(title);
+		lblTieuDe.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblTieuDe.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblTieuDe.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTieuDe.setAlignmentY(0.0f);
+		pnTieuDe.add(lblTieuDe);
 		
-		JLabel lblNewLabel_2 = new JLabel(content);
-		lblNewLabel_2.setVerticalAlignment(SwingConstants.TOP);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_6.add(lblNewLabel_2);
+		JLabel lblNoiDung = new JLabel(content);
+		lblNoiDung.setVerticalAlignment(SwingConstants.TOP);
+		lblNoiDung.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnTieuDe.add(lblNoiDung);
 		
-		return panel_2;
+		return pnThongTin;
 	}
 
 	private static JFreeChart createRatioProductSoldChart(PieDataset dataset) {

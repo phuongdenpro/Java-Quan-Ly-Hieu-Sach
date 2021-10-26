@@ -124,84 +124,84 @@ public class GioHang_GUI extends JFrame {
 		Component horizontalStrut = Box.createHorizontalStrut(30);
 		panelContent.add(horizontalStrut);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new EmptyBorder(50, 0, 0, 0));
-		panelContent.add(panel_3);
+		JPanel pnThongTinKhachHang = new JPanel();
+		pnThongTinKhachHang.setBorder(new EmptyBorder(50, 0, 0, 0));
+		panelContent.add(pnThongTinKhachHang);
 		
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
+		JPanel boxThongTin = new JPanel();
+		pnThongTinKhachHang.add(boxThongTin);
+		boxThongTin.setLayout(new BoxLayout(boxThongTin, BoxLayout.Y_AXIS));
 		
-		JPanel panel_5 = new JPanel();
-		panel_4.add(panel_5);
+		JPanel pnThongTinKH = new JPanel();
+		boxThongTin.add(pnThongTinKH);
 		
-		JLabel lblNewLabel_5 = new JLabel("Thông tin khách hàng");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_5.add(lblNewLabel_5);
+		JLabel lblThongTinKH = new JLabel("Thông tin khách hàng");
+		lblThongTinKH.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnThongTinKH.add(lblThongTinKH);
 		
-		JPanel panel_6 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_6.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_6);
+		JPanel pnKH = new JPanel();
+		FlowLayout fl_pnKH = (FlowLayout) pnKH.getLayout();
+		fl_pnKH.setAlignment(FlowLayout.LEFT);
+		boxThongTin.add(pnKH);
 		
 		JLabel lblMaKH = new JLabel("Mã khách hàng");
 		lblMaKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblMaKH.setPreferredSize(new Dimension(150, 20));
-		panel_6.add(lblMaKH);
+		pnKH.add(lblMaKH);
 		
 		txtMaKH = new JTextField(String.valueOf(this.khachHang.getMaKh()));
 		txtMaKH.setEditable(false);
 		txtMaKH.setPreferredSize(new Dimension(30, 20));
-		panel_6.add(txtMaKH);
+		pnKH.add(txtMaKH);
 		txtMaKH.setColumns(20);
 		
-		JPanel panel_6_1 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_6_1.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_6_1);
+		JPanel pnTenKH = new JPanel();
+		FlowLayout fl_pnTenKH = (FlowLayout) pnTenKH.getLayout();
+		fl_pnTenKH.setAlignment(FlowLayout.LEFT);
+		boxThongTin.add(pnTenKH);
 		
 		JLabel lblTenKH = new JLabel("Tên khách hàng");
 		lblTenKH.setPreferredSize(new Dimension(150, 20));
 		lblTenKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_6_1.add(lblTenKH);
+		pnTenKH.add(lblTenKH);
 		
 		txtTenKH = new JTextField(this.khachHang.getHoTen());
 		txtTenKH.setEditable(false);
 		txtTenKH.setColumns(20);
-		panel_6_1.add(txtTenKH);
+		pnTenKH.add(txtTenKH);
 		
-		JPanel panel_6_1_1 = new JPanel();
-		FlowLayout flowLayout_2 = (FlowLayout) panel_6_1_1.getLayout();
-		flowLayout_2.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_6_1_1);
+		JPanel pnSDT = new JPanel();
+		FlowLayout fl_pnSDT = (FlowLayout) pnSDT.getLayout();
+		fl_pnSDT.setAlignment(FlowLayout.LEFT);
+		boxThongTin.add(pnSDT);
 		
 		JLabel lblSoDienThoai = new JLabel("Số điện thoại");
 		lblSoDienThoai.setPreferredSize(new Dimension(150, 20));
 		lblSoDienThoai.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_6_1_1.add(lblSoDienThoai);
+		pnSDT.add(lblSoDienThoai);
 		
 		txtSoDienThoai = new JTextField(this.khachHang.getSoDienThoai());
 		txtSoDienThoai.setEditable(false);
 		txtSoDienThoai.setColumns(20);
-		panel_6_1_1.add(txtSoDienThoai);
+		pnSDT.add(txtSoDienThoai);
 		
-		JPanel panel_6_1_1_1 = new JPanel();
-		FlowLayout flowLayout_3 = (FlowLayout) panel_6_1_1_1.getLayout();
-		flowLayout_3.setAlignment(FlowLayout.LEFT);
-		panel_4.add(panel_6_1_1_1);
+		JPanel pnDiaChi = new JPanel();
+		FlowLayout fl_pnDiaChi = (FlowLayout) pnDiaChi.getLayout();
+		fl_pnDiaChi.setAlignment(FlowLayout.LEFT);
+		boxThongTin.add(pnDiaChi);
 		
 		JLabel lblDiaChi = new JLabel("Địa chỉ");
 		lblDiaChi.setPreferredSize(new Dimension(150, 20));
 		lblDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_6_1_1_1.add(lblDiaChi);
+		pnDiaChi.add(lblDiaChi);
 		
 		txtDiaChi = new JTextField(this.khachHang.getDiaChi());
 		txtDiaChi.setEditable(false);
 		txtDiaChi.setColumns(20);
-		panel_6_1_1_1.add(txtDiaChi);
+		pnDiaChi.add(txtDiaChi);
 		
 		JPanel pnThongTin = new JPanel();
-		panel_4.add(pnThongTin);
+		boxThongTin.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		btnDatHang = new JButton("Đặt hàng", null);
@@ -222,23 +222,23 @@ public class GioHang_GUI extends JFrame {
 		panelContent.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblNewLabel = new JLabel("Giỏ hàng");
-		lblNewLabel.setBorder(new EmptyBorder(10, 0, 0, 0));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblNewLabel.setForeground(new Color(0, 206, 209));
-		panel.add(lblNewLabel, BorderLayout.NORTH);
+		JLabel lblGioHang = new JLabel("Giỏ hàng");
+		lblGioHang.setBorder(new EmptyBorder(10, 0, 0, 0));
+		lblGioHang.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGioHang.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblGioHang.setForeground(new Color(0, 206, 209));
+		panel.add(lblGioHang, BorderLayout.NORTH);
 		
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
+		JPanel boxGioHang = new JPanel();
+		panel.add(boxGioHang, BorderLayout.CENTER);
+		boxGioHang.setLayout(new BoxLayout(boxGioHang, BoxLayout.Y_AXIS));
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setPreferredSize(new Dimension(10, -500 + numberOfItem*200));
-		panel_1.add(panel_2);
+		JPanel pnGioHang = new JPanel();
+		pnGioHang.setPreferredSize(new Dimension(10, -500 + numberOfItem*200));
+		boxGioHang.add(pnGioHang);
 		
 		pnItems = new JPanel();
-		panel_2.add(pnItems);
+		pnGioHang.add(pnItems);
 		pnItems.setLayout(new GridLayout(0, 1, 0, 5));
 		
 		

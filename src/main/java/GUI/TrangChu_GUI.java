@@ -61,7 +61,7 @@ public class TrangChu_GUI extends JFrame {
 	private KhachHang khachHang = null;
 	
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtTimKiem;
 	private JTextField textField_1;
 	private Container panelContent;
 
@@ -149,46 +149,46 @@ public class TrangChu_GUI extends JFrame {
 		panel.setBackground(Color.WHITE);
 		panelHeader.add(panel);
 		
-		JLabel lblNewLabel_2 = new JLabel("Hiệu Sách NPB");
-		lblNewLabel_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
-		lblNewLabel_2.setAlignmentX(1.0f);
-		panel.add(lblNewLabel_2);
+		JLabel lblLogo = new JLabel("Hiệu Sách NPB");
+		lblLogo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+		lblLogo.setAlignmentX(1.0f);
+		panel.add(lblLogo);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(null);
-		panel_1.setBackground(new Color(255, 255, 255));
-		panelHeader.add(panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JPanel pnTimKiem = new JPanel();
+		pnTimKiem.setBorder(null);
+		pnTimKiem.setBackground(new Color(255, 255, 255));
+		panelHeader.add(pnTimKiem);
+		pnTimKiem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		textField = new JTextField();
-		panel_1.add(textField);
-		textField.setColumns(20);
+		txtTimKiem = new JTextField();
+		pnTimKiem.add(txtTimKiem);
+		txtTimKiem.setColumns(20);
 		
-		JButton btnNewButton = new JButton("T\u00ECm ki\u1EBFm");
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setPreferredSize(new Dimension(100, 19));
-		panel_1.add(btnNewButton);
+		JButton btnTimKiem = new JButton("T\u00ECm ki\u1EBFm");
+		btnTimKiem.setBackground(Color.WHITE);
+		btnTimKiem.setPreferredSize(new Dimension(100, 19));
+		pnTimKiem.add(btnTimKiem);
 		
 		
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel_3.setBackground(Color.WHITE);
-		panelHeader.add(panel_3);
+		JPanel pnMenu = new JPanel();
+		pnMenu.setAlignmentX(Component.LEFT_ALIGNMENT);
+		pnMenu.setBackground(Color.WHITE);
+		panelHeader.add(pnMenu);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.WHITE);
-		panel_3.add(panel_2);
+		JPanel pnTroGiup = new JPanel();
+		pnTroGiup.setBackground(Color.WHITE);
+		pnMenu.add(pnTroGiup);
 		
 		ImageIcon icon_help = new ImageIcon("data/images/question.png");
 		lblHelp = new JLabel("trợ giúp        ");
 		lblHelp.setIcon(icon_help);
-		panel_2.add(lblHelp);
+		pnTroGiup.add(lblHelp);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);
 		menuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		panel_3.add(menuBar);
+		pnMenu.add(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
