@@ -54,6 +54,7 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 	private JTextField txtMaLoai;
 	private JTextField txtTenLoai;
 	private JTextField txtMoTa;
+	private JPanel pnMain;
 	
 	public DanhMucSanPham_GUI() {
 		
@@ -83,7 +84,7 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
         jLabel1.setIcon(icon1); // NOI18N
         jLabel1.setText("THÔNG TIN DANH MỤC");
 
-		JPanel pnMain = new JPanel();
+		pnMain = new JPanel();
 		pnMain.setLayout(null);
 		pnMain.setBounds(0, 0, 1300, 700);
 		
@@ -211,7 +212,7 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		pnMain.add(pnTable);
 		//pnMain.add(pnChucnang);
 
-		getContentPane().add(pnMain);
+		setContentPane(pnMain);
 
 		
 		table.addMouseListener(this);
@@ -251,6 +252,10 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public JPanel getContentPane() {
+		return this.pnMain;
 	}
 
 }

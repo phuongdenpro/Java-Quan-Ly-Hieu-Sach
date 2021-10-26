@@ -285,6 +285,6 @@ public class NhanVien_GUI extends JFrame {
 	}
 
 	public JPanel getContentPane() {
-		 return this.contentPane;
+		 return this.out;
 	 }
 }

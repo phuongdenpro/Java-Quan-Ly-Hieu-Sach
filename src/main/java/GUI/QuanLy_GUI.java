@@ -41,8 +41,11 @@ public class QuanLy_GUI extends JFrame {
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
 	private SanPham_GUI sanPhamGUI = new SanPham_GUI();
+	private DanhMucSanPham_GUI danhMucSanPhamGUI = new DanhMucSanPham_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
+	private DatHang_GUI datHangGUI = new DatHang_GUI();
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
+	private NhanVien_GUI nhanVienGUI = new NhanVien_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
 	private JMenuBar menuBar;
 
@@ -100,6 +103,9 @@ public class QuanLy_GUI extends JFrame {
 		
 		JMenu mnSanPham = new JMenu("Sản phẩm");
 		menuBar.add(mnSanPham);
+		
+		JMenu mnDanhMucSanPham = new JMenu("Danh mục sản phẩm");
+		menuBar.add(mnDanhMucSanPham);
 		
 		JMenu mnKhachHang = new JMenu("Khách hàng");
 		menuBar.add(mnKhachHang);
@@ -159,7 +165,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-//				renderMain(hoaDonGUI.getContentPane(), "hoadon");
+				renderMain(datHangGUI.getContentPane(), "dondathang");
 			}
 			
 			@Override
@@ -176,6 +182,24 @@ public class QuanLy_GUI extends JFrame {
 				// TODO Auto-generated method stub
 
 				renderMain((JPanel) sanPhamGUI.getContentPane(), "sanpham");
+//				renderMain(sanPhamGUI.getContentPane(), "sanpham");
+
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) {}
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {}
+		});
+		
+		mnDanhMucSanPham.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				// TODO Auto-generated method stub
+
+				renderMain((JPanel) danhMucSanPhamGUI.getContentPane(), "danhmucsanpham");
 //				renderMain(sanPhamGUI.getContentPane(), "sanpham");
 
 			}
@@ -209,7 +233,7 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				renderMain(muaHang.getContentPane(), "muahang");
+				renderMain(nhanVienGUI.getContentPane(), "nhanvien");
 				
 			}
 		});

@@ -51,7 +51,7 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 		
 		pnMain = new JPanel();
 		pnMain.setBounds(0, 0, 584, 411);
-		getContentPane().add(pnMain);
+		setContentPane(pnMain);
 
 		JLabel lbTitle = new JLabel("Quản Lý Đơn Đặt Hàng");
 		lbTitle.setBounds(585, 11, 348, 30);
@@ -249,4 +249,10 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-	}}
+	}
+
+	public JPanel getContentPane() {
+		return this.pnMain;
+	}
+	
+}
