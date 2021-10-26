@@ -60,9 +60,7 @@ public class MuaHang extends JFrame{
         this.repaint();
 //        this.contentPane = contentPane;
 //        this.add(this.contentPane);
-        this.setContentPane(contentPane);
-        this.revalidate();
-        this.repaint();
+        
         
         System.out.println("-> "+tab);
 //		if(tab.equals("dangnhap")) {
@@ -74,8 +72,7 @@ public class MuaHang extends JFrame{
 		if(tab.equals("trangchu")) {
 			
 		}else if(tab.equals("giohang")) {
-//			handleMenu();
-			
+			gioHangGUI.renderData();
 		}
 //		else if(tab.equals("quanly")) {
 //			handleQuanLy();
@@ -84,6 +81,9 @@ public class MuaHang extends JFrame{
 			handleTroGiup();
 		}
 		
+		this.setContentPane(contentPane);
+        this.revalidate();
+        this.repaint();
 	}
 	
 	public void handleMenu() {
@@ -125,11 +125,11 @@ public class MuaHang extends JFrame{
 	}
 	
 	public void handleGioHang() {
-//		gioHangGUI.btnTroVe.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				renderMain(trangChuGUI.getContentPane(), "trangchu");
-//			}
-//		});
+		gioHangGUI.btnTroVe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				renderMain(trangChuGUI.getContentPane(), "trangchu");
+			}
+		});
 		
 		gioHangGUI.mntmGioHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

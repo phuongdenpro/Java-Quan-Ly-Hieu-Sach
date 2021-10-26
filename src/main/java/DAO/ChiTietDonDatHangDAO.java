@@ -28,7 +28,7 @@ public class ChiTietDonDatHangDAO extends ConnectDB{
             if(n == 0)
                 return false;
             
-            
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -38,7 +38,30 @@ public class ChiTietDonDatHangDAO extends ConnectDB{
                 e.printStackTrace();
             }
         }
-        return true;
+        return false;
+	}
+	
+	public boolean xoaChiTietDonDatHang(int maSP, int maDDH) {
+		PreparedStatement stmt = null;
+        try {
+            String sql = "DELETE from dbo.ChiTietDonDatHang where maDDH = ? and maSP = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, maDDH);
+            stmt.setInt(2, maSP);
+            
+            int n = stmt.executeUpdate();
+//            
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
 	}
 	
 	public ArrayList<ChiTietDonDatHang> getDSChiTietDDH(int maDDH){

@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import DAO.ChiTietDonDatHangDAO;
 import DAO.DonDatHangDao;
 import DAO.KhachHangDAO;
 import entity.ChiTietDonDatHang;
@@ -44,6 +47,7 @@ import javax.swing.JButton;
 public class GioHang_GUI extends JFrame {
 
 	private KhachHang khachHang = null;
+	private DonDatHang donDatHang = null;
 	
 	private JPanel contentPane;
 	private JTextField textField;
@@ -57,6 +61,12 @@ public class GioHang_GUI extends JFrame {
 	private JTextField txtTenKH;
 	private JTextField txtSoDienThoai;
 	private JTextField txtDiaChi;
+
+	protected JButton btnDatHang;
+
+	protected JButton btnTroVe;
+
+	private JPanel pnItems;
 	/**
 	 * Launch the application.
 	 */
@@ -64,7 +74,7 @@ public class GioHang_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					KhachHang kh = new KhachHangDAO().getKhachHang(1);
+					KhachHang kh = new KhachHangDAO().getKhachHang(5);
 					GioHang_GUI frame = new GioHang_GUI(kh);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -194,14 +204,14 @@ public class GioHang_GUI extends JFrame {
 		panel_4.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnDatHang = new JButton("Đặt hàng", null);
+		btnDatHang = new JButton("Đặt hàng", null);
 		btnDatHang.setPreferredSize(new Dimension(150, 30));
 		btnDatHang.setIconTextGap(8);
 		btnDatHang.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnDatHang.setBackground(Color.WHITE);
 		pnThongTin.add(btnDatHang);
 		
-		JButton btnTroVe = new JButton("Tiếp tục mua hàng", null);
+		btnTroVe = new JButton("Tiếp tục mua hàng", null);
 		btnTroVe.setPreferredSize(new Dimension(200, 30));
 		btnTroVe.setIconTextGap(8);
 		btnTroVe.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -227,23 +237,10 @@ public class GioHang_GUI extends JFrame {
 		panel_2.setPreferredSize(new Dimension(10, -500 + numberOfItem*200));
 		panel_1.add(panel_2);
 		
-		JPanel pnItems = new JPanel();
+		pnItems = new JPanel();
 		panel_2.add(pnItems);
 		pnItems.setLayout(new GridLayout(0, 1, 0, 5));
 		
-		DonDatHang donDatHang = null;
-		try {
-			donDatHang = new DonDatHangDao().getDonDatHang(this.khachHang.getMaKh());
-			ArrayList<ChiTietDonDatHang> chiTietDDH = donDatHang.getChiTietDonDatHangs();
-			chiTietDDH.forEach(chiTiet -> {
-				pnItems.add(this.itemGUI(chiTiet));
-			});
-			
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 				
 
@@ -255,6 +252,25 @@ public class GioHang_GUI extends JFrame {
 		Component horizontalStrut_1 = Box.createHorizontalStrut(30);
 		panelContent.add(horizontalStrut_1);
 		contentPane.add(pane);
+	}
+	
+	public void renderData() {
+		pnItems.removeAll();
+		donDatHang = null;
+		try {
+			donDatHang = new DonDatHangDao().getDonDatHang(this.khachHang.getMaKh());
+			if(donDatHang != null) {
+				ArrayList<ChiTietDonDatHang> chiTietDDH = donDatHang.getChiTietDonDatHangs();
+				chiTietDDH.forEach(chiTiet -> {
+					pnItems.add(this.itemGUI(chiTiet));
+				});
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public JPanel headerGUI() {
@@ -369,10 +385,10 @@ public class GioHang_GUI extends JFrame {
 		JLabel lblNewLabel_3 = new JLabel("Số lượng:  ");
 		panel_1_1.add(lblNewLabel_3);
 		
-		textField = new JTextField();
-		textField.setText(String.valueOf(chiTietDDH.getSoLuong()));
-		textField.setColumns(10);
-		panel_1_1.add(textField);
+		JTextField txtSoLuong = new JTextField();
+		txtSoLuong.setText(String.valueOf(chiTietDDH.getSoLuong()));
+		txtSoLuong.setColumns(10);
+		panel_1_1.add(txtSoLuong);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(Color.WHITE);
@@ -399,11 +415,60 @@ public class GioHang_GUI extends JFrame {
 
 
 		ImageIcon icon_delete = new ImageIcon("data/images/trash.png");
-		JButton btnNewButton = new JButton("Xóa", icon_delete);
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		btnNewButton.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_6.add(btnNewButton);
+		JButton btnXoa = new JButton("Xóa", icon_delete);
+		btnXoa.setBackground(Color.WHITE);
+		btnXoa.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		btnXoa.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(btnXoa);
+		
+		btnXoa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn xóa ?");
+				System.out.println(choose);
+				
+				if(choose == 0) {
+					try {
+						boolean kq = new ChiTietDonDatHangDAO().xoaChiTietDonDatHang(chiTietDDH.getSanPham().getMaSp(), donDatHang.getMaDDH());
+						if(kq == false) {
+							JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+							return;
+						}
+						
+						pnItems.remove(pnItem);
+						pnItems.revalidate();
+						pnItems.repaint();
+	//					pnItem.setVisible(false);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			}
+		});
+		
+		txtSoLuong.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(txtSoLuong.getText());
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		return pnItem;
 	}
