@@ -11,14 +11,15 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import entity.KhachHang;
 
 
 public class MuaHang extends JFrame{
-//	private DangNhap_GUI loginGUI = new DangNhap_GUI();
-//	private DangKy_GUI dangKyGUI = new DangKy_GUI();
+	private KhachHang khachHang;
+	
 	private TrangChu_GUI trangChuGUI;
 	private GioHang_GUI gioHangGUI;
 //	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
@@ -33,6 +34,7 @@ public class MuaHang extends JFrame{
 	}
 	
 	public MuaHang(KhachHang khachHang) throws SQLException {
+		this.khachHang = khachHang;
 		trangChuGUI = new TrangChu_GUI(khachHang);
 		gioHangGUI = new GioHang_GUI(khachHang);
 		renderGUI();
@@ -131,11 +133,36 @@ public class MuaHang extends JFrame{
 			}
 		});
 		
-		gioHangGUI.mntmGioHang.addActionListener(new ActionListener() {
+		gioHangGUI.btnDatHang.addActionListener(new ActionListener() {
+			
+			
+			
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				renderMain(gioHangGUI.getContentPane(), "giohang");
+				int choose = JOptionPane.showConfirmDialog(contentPane, "Xác nhận đặt hàng ?");
+				if(choose != 0) {
+					return;
+				}
+				
+				try {
+					if(khachHang.xacNhanDatHang()) {
+						JOptionPane.showMessageDialog(contentPane, "Đặt hàng thành công");
+						renderMain(trangChuGUI.getContentPane(), "trangchu");
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
 		});
+		
+//		gioHangGUI.mntmGioHang.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				renderMain(gioHangGUI.getContentPane(), "giohang");
+//			}
+//		});
 		
 		gioHangGUI.lblHelp.addMouseListener(new MouseListener() {
 

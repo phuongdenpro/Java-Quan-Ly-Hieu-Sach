@@ -11,9 +11,9 @@ import entity.DonDatHang;
 import entity.KhachHang;
 import entity.SanPham;
 
-public class DonDatHangDao extends ConnectDB{
+public class DonDatHangDAO extends ConnectDB{
 
-    public DonDatHangDao() throws SQLException {
+    public DonDatHangDAO() throws SQLException {
 		super();
 	}
     
@@ -36,7 +36,7 @@ public class DonDatHangDao extends ConnectDB{
             	
 //            	thêm sản phẩm vào đơn hàng
             	
-            	this.themSanPhamVaoDonDatHang(sp, soLuong, maKH);
+            	return this.themSanPhamVaoDonDatHang(sp, soLuong, maKH);
             }else {
 //            	kiểm tra xem đã có sản phẩm đó trong đơn đặt hàng chưa
             	sql = "UPDATE dbo.ChiTietDonDatHang SET SoLuong = ? WHERE maDDH = ? and MaSP = ?";
@@ -121,10 +121,34 @@ public class DonDatHangDao extends ConnectDB{
     	return null;
     }
     
+    public boolean xacNhanDatHang(int maKH) {
+    	PreparedStatement stmt = null;
+
+        try {
+//         	kiểm tra xem đã có sản phẩm đó trong đơn đặt hàng chưa
+        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 1 WHERE maKH = ? and tinhTrang = 0";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	prpStmt.setInt(1, maKH);
+            int n = prpStmt.executeUpdate();
+               
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+//            try {
+//                stmt.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+        }
+    	
+    	return false;
+    }
+    
     public static void main(String[] args) throws SQLException {
 //    	KhachHang kh = new KhachHangDAO().getKhachHang(1);
 //    	SanPham sp = new SanPhamDAO().getSanPham(17);
-    	DonDatHangDao DDHDao = new DonDatHangDao();
+    	DonDatHangDAO DDHDao = new DonDatHangDAO();
 //    	
 //    	System.out.println(DDHDao.themSanPhamVaoDonDatHang(sp, 1, 1));
     	System.out.println(DDHDao.getDonDatHang(1));

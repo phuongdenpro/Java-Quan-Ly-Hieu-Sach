@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import DAO.DonDatHangDAO;
+
 public class KhachHang {
 	private int maKh;
 	private String hoTen;
@@ -104,5 +106,7 @@ public class KhachHang {
 				+ ", hoaDons=" + hoaDons + ", taiKhoan=" + taiKhoan + ", donDatHangs=" + donDatHangs + "]";
 	}
 	
-	
+	public boolean xacNhanDatHang() throws SQLException {
+		return new DonDatHangDAO().xacNhanDatHang(this.maKh);
+	}
 }
