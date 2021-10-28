@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAO.DonDatHangDAO;
+import DAO.KhachHangDAO;
 
 public class KhachHang {
 	private int maKh;
@@ -39,9 +40,17 @@ public class KhachHang {
 		}catch (Exception e) {
 			
 		}
-		this.hoTen = rs.getString("hoTen");
-		this.soDienThoai = rs.getString("soDienThoai");
-		this.diaChi = rs.getString("diaChi");
+		try {
+			this.hoTen = rs.getString("hoTen");
+			this.soDienThoai = rs.getString("soDienThoai");
+			this.diaChi = rs.getString("diaChi");
+		}catch (Exception e) {
+			KhachHang tmp = new KhachHangDAO().getKhachHang(this.maKh);
+			this.hoTen = tmp.getHoTen();
+			this.soDienThoai = tmp.getSoDienThoai();
+			this.diaChi = tmp.getDiaChi();
+			// TODO: handle exception
+		}
 	}
 
 	public int getMaKh() {

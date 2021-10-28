@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
 
 import ConnectDB.ConnectDB;
 import entity.DonDatHang;
@@ -125,24 +127,97 @@ public class DonDatHangDAO extends ConnectDB{
     	PreparedStatement stmt = null;
 
         try {
-//         	kiểm tra xem đã có sản phẩm đó trong đơn đặt hàng chưa
-        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 1 WHERE maKH = ? and tinhTrang = 0";
+        	DonDatHang ddh = this.getDonDatHang(maKH);
+        	ddh.tinhTongTien();
+        	
+        	Date now = new Date(new java.util.Date().getTime());
+        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 1, tongTien = ?, ngayDat = ? WHERE maKH = ? and tinhTrang = 0";
         	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
-        	prpStmt.setInt(1, maKH);
+        	prpStmt.setDouble(1, ddh.getTongTien());
+        	prpStmt.setDate(2, now);
+        	prpStmt.setInt(3, maKH);
             int n = prpStmt.executeUpdate();
                
             return n > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-//            try {
-//                stmt.close();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
         }
     	
     	return false;
+    }
+    
+    public boolean thanhToan(int maDDH) {
+    	PreparedStatement stmt = null;
+
+        try {
+        	
+        	Date now = new Date(new java.util.Date().getTime());
+        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 2 WHERE maDHH = ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	prpStmt.setDouble(1, maDDH);
+            int n = prpStmt.executeUpdate();
+               
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return false;
+    }
+    
+    public boolean xoaDonDatHang(int maDDH) {
+    	PreparedStatement stmt = null;
+
+        try {
+        	if(new ChiTietDonDatHangDAO().xoaHetChiTietDonDatHang(maDDH) == false) {
+        		return false;
+        	}
+        	
+        	String sql = "DELETE from dbo.DonDatHang WHERE maDDH = ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	
+        	prpStmt.setDouble(1, maDDH);
+            int n = prpStmt.executeUpdate();
+               
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return false;
+    }
+    
+    public List<DonDatHang> getDSDonDatHang() {
+    	Statement stmt = null;
+    	List<DonDatHang> dsddh = new ArrayList<DonDatHang>();
+        try {
+        	
+
+            String sql = "SELECT * FROM dbo.DonDatHang where tinhTrang != 0";
+            stmt = this.conn.createStatement();
+            ResultSet rsDDH = stmt.executeQuery(sql);
+            
+//          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
+            while(rsDDH.next()) {
+            	printResultSet(rsDDH);
+            	DonDatHang ddh = new DonDatHang(rsDDH);
+            	ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
+            	dsddh.add(ddh);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return dsddh;
     }
     
     public static void main(String[] args) throws SQLException {
