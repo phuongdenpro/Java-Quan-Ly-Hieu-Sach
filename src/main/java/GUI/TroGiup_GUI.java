@@ -116,7 +116,7 @@ public class TroGiup_GUI extends JFrame {
 		lblDanhSachCauHoi.add(new JLabel("4. Cách đi vào trang quản lý ?"));
 		
 		lblDanhSachCauHoi.forEach(lbl -> {
-			panel_5.add(lbl);
+			pnCauHoi.add(lbl);
 		});
 		
 		pnRight = new JPanel();
@@ -155,15 +155,15 @@ public class TroGiup_GUI extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					
-					panel_2.remove(pnContent);
-					panel_2.revalidate();
-					panel_2.repaint();
+					pnRight.remove(pnContent);
+					pnRight.revalidate();
+					pnRight.repaint();
 					int id = Integer.parseInt(((JLabel)e.getSource()).getText().substring(0, 1)) - 1;
 					System.out.println(id);
 					pnContent = pnTraLoi.get(id);
-					panel_2.add(pnContent);
-					panel_2.revalidate();
-					panel_2.repaint();
+					pnRight.add(pnContent);
+					pnRight.revalidate();
+					pnRight.repaint();
 				}
 
 				@Override
