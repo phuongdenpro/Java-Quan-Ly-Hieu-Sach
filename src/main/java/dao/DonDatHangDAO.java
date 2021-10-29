@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
-import ConnectDB.ConnectDB;
+import connectDb.ConnectDB;
 import entity.DonDatHang;
 import entity.KhachHang;
 import entity.SanPham;
@@ -153,7 +153,7 @@ public class DonDatHangDAO extends ConnectDB{
         try {
         	
         	Date now = new Date(new java.util.Date().getTime());
-        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 2 WHERE maDHH = ?";
+        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 2 WHERE maDDH = ?";
         	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
         	prpStmt.setDouble(1, maDDH);
             int n = prpStmt.executeUpdate();

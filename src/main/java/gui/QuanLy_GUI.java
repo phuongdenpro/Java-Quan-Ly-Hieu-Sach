@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -13,9 +13,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
-import DAO.TaiKhoanDAO;
+import dao.KhachHangDAO;
+import dao.NhanVienDAO;
+import dao.TaiKhoanDAO;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.TaiKhoan;
@@ -85,7 +85,7 @@ public class QuanLy_GUI extends JFrame {
 //		this.khachHang = new KhachHangDAO().getKhachHang(1);
 //		contentPane = TrangChaoMungGUI.getContentPane();
 //		renderMain(TrangChaoMungGUI.getContentPane(), "chaomung");
-		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("phuong021");
+		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("tranvannhan1911");
 		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
 		System.out.println(khachHang);
 		

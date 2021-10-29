@@ -1,11 +1,11 @@
-package DAO;
+package dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import ConnectDB.ConnectDB;
+import connectDb.ConnectDB;
 import entity.ChiTietDonDatHang;
 import entity.SanPham;
 

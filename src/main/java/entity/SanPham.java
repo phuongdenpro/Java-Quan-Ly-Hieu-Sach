@@ -35,7 +35,7 @@ public class SanPham {
 		this.maSp = rs.getInt("maSP");
 		this.tenSp = rs.getString("tenSP");
 		this.soLuong = rs.getInt("soLuong");
-		this.donViTinh = rs.getString("donViTinh");
+//		this.donViTinh = rs.getString("donViTinh");
 		this.giaNhap = rs.getDouble("giaNhap");
 		this.giaSp = rs.getDouble("giaSp");
 		try {

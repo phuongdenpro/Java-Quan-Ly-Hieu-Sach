@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import DAO.DonDatHangDAO;
-import DAO.KhachHangDAO;
+import dao.DonDatHangDAO;
+import dao.KhachHangDAO;
 
 public class KhachHang {
 	private int maKh;

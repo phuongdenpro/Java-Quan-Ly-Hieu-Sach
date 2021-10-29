@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import java.awt.Graphics;  
 import java.awt.Image;  
 import java.awt.Toolkit;
@@ -27,7 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.border.LineBorder;
 
-import DAO.TaiKhoanDAO;
+import dao.TaiKhoanDAO;
 import entity.KhachHang;
 import util.Placeholder;
 

@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -18,9 +18,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
 
-import DAO.DonDatHangDAO;
-import DAO.LoaiSanPhamDAO;
-import DAO.SanPhamDAO;
+import dao.DonDatHangDAO;
+import dao.LoaiSanPhamDAO;
+import dao.SanPhamDAO;
 import entity.KhachHang;
 import entity.LoaiSanPham;
 import entity.NhanVien;

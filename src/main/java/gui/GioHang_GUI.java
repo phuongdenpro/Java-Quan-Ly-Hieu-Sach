@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import DAO.ChiTietDonDatHangDAO;
-import DAO.DonDatHangDAO;
-import DAO.KhachHangDAO;
+import dao.ChiTietDonDatHangDAO;
+import dao.DonDatHangDAO;
+import dao.KhachHangDAO;
 import entity.ChiTietDonDatHang;
 import entity.DonDatHang;
 import entity.KhachHang;

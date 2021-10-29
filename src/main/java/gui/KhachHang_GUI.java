@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -35,14 +35,14 @@ import javax.swing.JComboBox;
 import javax.swing.border.CompoundBorder;
 import javax.swing.ScrollPaneConstants;
 
-public class NhanVien_GUI extends JFrame {
+public class KhachHang_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel out;
 	private JTextField txtNhapLieu;
 	private JTable table;
-	private JTextField txtMaNv;
-	private JTextField txtTenNv;
+	private JTextField txtMaKh;
+	private JTextField txtTenKh;
 	private JTextField txtEmail;
 	private JTextField txtSdt;
 	private JTextField txtDiaChi;
@@ -54,7 +54,7 @@ public class NhanVien_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NhanVien_GUI frame = new NhanVien_GUI();
+					KhachHang_GUI frame = new KhachHang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,9 +66,9 @@ public class NhanVien_GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NhanVien_GUI() {
-		setTitle("Nhân viên");
-		setResizable(true);
+	public KhachHang_GUI() {
+		setTitle("Khách hàng");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -80,7 +80,7 @@ public class NhanVien_GUI extends JFrame {
 		
 		JPanel top = new JPanel();
 		top.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel title = new JLabel("QUẢN LÝ NHÂN VIÊN");
+		JLabel title = new JLabel("QUẢN LÝ KHÁCH HÀNG");
 		title.setFont(new Font("Tahoma", Font.BOLD, 20));
 		top.add(title);
 		//title.setHorizontalAlignment(ABORT);
@@ -113,7 +113,7 @@ public class NhanVien_GUI extends JFrame {
 		JPanel pnTieuDe = new JPanel();
 		pnThongTinKh.add(pnTieuDe);
 		
-		JLabel lblTieuDe = new JLabel("Thông tin Nhân viên");
+		JLabel lblTieuDe = new JLabel("Thông tin khách hàng");
 		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		pnTieuDe.add(lblTieuDe);
 		
@@ -125,31 +125,31 @@ public class NhanVien_GUI extends JFrame {
 		fl_pnMaKh.setAlignment(FlowLayout.LEFT);
 		pnThongTinKh.add(pnMaKh);
 		
-		JLabel lblMaKh = new JLabel("Mã NV             ");
+		JLabel lblMaKh = new JLabel("Mã KH             ");
 		lblMaKh.setPreferredSize(new Dimension(100, 14));
 		pnMaKh.add(lblMaKh);
 		
-		txtMaNv = new JTextField();
-		txtMaNv.setEnabled(false);
-		txtMaNv.setPreferredSize(new Dimension(7, 30));
-		pnMaKh.add(txtMaNv);
-		txtMaNv.setColumns(20);
+		txtMaKh = new JTextField();
+		txtMaKh.setEnabled(false);
+		txtMaKh.setPreferredSize(new Dimension(7, 30));
+		pnMaKh.add(txtMaKh);
+		txtMaKh.setColumns(20);
 		
 		JPanel pnTenKh = new JPanel();
 		FlowLayout fl_pnTenKh = (FlowLayout) pnTenKh.getLayout();
 		fl_pnTenKh.setAlignment(FlowLayout.LEFT);
 		pnThongTinKh.add(pnTenKh);
 		
-		JLabel lblTenKh = new JLabel("Tên NV");
+		JLabel lblTenKh = new JLabel("Tên KH");
 		lblTenKh.setPreferredSize(new Dimension(100, 14));
 		pnTenKh.add(lblTenKh);
 		
-		txtTenNv = new JTextField();
-		txtTenNv.setPreferredSize(new Dimension(7, 30));
-		txtTenNv.setColumns(20);
-		//PromptSupport.setPrompt("tên nhân viên", txtTenNv);
-		new Placeholder().placeholder(txtTenNv, "Họ và tên");
-		pnTenKh.add(txtTenNv);
+		txtTenKh = new JTextField();
+		txtTenKh.setPreferredSize(new Dimension(7, 30));
+		txtTenKh.setColumns(20);
+		//PromptSupport.setPrompt("tên khách hàng", txtTenKh);
+		new Placeholder().placeholder(txtTenKh, "tên khách hàng");
+		pnTenKh.add(txtTenKh);
 		
 		JPanel pnEmail = new JPanel();
 		FlowLayout fl_pnEmail = (FlowLayout) pnEmail.getLayout();
@@ -237,9 +237,7 @@ public class NhanVien_GUI extends JFrame {
 		pnRight.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnTimKiem = new JPanel();
-		pnTimKiem.setBorder(new CompoundBorder(
-				new BevelBorder(BevelBorder.RAISED, null, null, null, null),
-				new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
+		pnTimKiem.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
 		pnRight.add(pnTimKiem, BorderLayout.NORTH);
 
 		DefaultComboBoxModel cboLoaiTimKiem = new DefaultComboBoxModel<String>();
@@ -248,8 +246,8 @@ public class NhanVien_GUI extends JFrame {
 		cmbLoaiTimKiem.setBackground(Color.WHITE);
 		cmbLoaiTimKiem.setPreferredSize(new Dimension(130, 22));
 		pnTimKiem.add(cmbLoaiTimKiem);
-		cboLoaiTimKiem.addElement((String) "Mã NV");
-		cboLoaiTimKiem.addElement((String) "Tên NV");
+		cboLoaiTimKiem.addElement((String) "Mã KH");
+		cboLoaiTimKiem.addElement((String) "Tên KH");
 		cboLoaiTimKiem.addElement((String) "Số điện thoại");
 		
 		
@@ -271,7 +269,7 @@ public class NhanVien_GUI extends JFrame {
 		pnRight.add(pnTableKh, BorderLayout.CENTER);
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 		
-		String[] cols_dskh = {"Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Email", "Địa chỉ"};
+		String[] cols_dskh = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email", "Địa chỉ"};
 		DefaultTableModel modelDSKH = new DefaultTableModel(cols_dskh, 0);
 		table = new JTable(modelDSKH);
 		JScrollPane scrTableKhachhang = new JScrollPane(table);
@@ -285,6 +283,6 @@ public class NhanVien_GUI extends JFrame {
 	}
 
 	public JPanel getContentPane() {
-		 return this.out;
+		 return this.contentPane;
 	 }
 }

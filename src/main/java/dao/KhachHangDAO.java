@@ -1,8 +1,8 @@
-package DAO;
+package dao;
 
 import java.util.*;
 
-import ConnectDB.ConnectDB;
+import connectDb.ConnectDB;
 
 import java.sql.*;
 

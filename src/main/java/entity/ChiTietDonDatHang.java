@@ -3,7 +3,7 @@ package entity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import DAO.SanPhamDAO;
+import dao.SanPhamDAO;
 
 public class ChiTietDonDatHang {
 	private int id;

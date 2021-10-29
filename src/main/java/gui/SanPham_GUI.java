@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,36 +40,40 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
-public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseListener{
+public class SanPham_GUI extends JFrame implements ActionListener, MouseListener{
 	private static final long serialVersionUID = 1L;
-	private JButton btnTim, btnThem, btnXoa, btnSua;
-	String[] cols = { "STT", "Mã Loại Sản Phẩm", "Tên Loại", "Mô tả"};
+	private JButton btnTim, btnThem, btnXoaTrang, btnXoa, btnSua;
+	String[] cols = { "STT", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn vị tính", "Gía nhập", "Gía bán", "Mô tả",
+			"Mã loại" };
 	private DefaultTableModel model;
 	private JTable table;
-	private JButton btnTaoMoi;
+	private JButton btnTaoMoi, btnDangxuat, btnThoat;
+	private JTextField txtTim;
+	private JTextField txtmaSP;
+	private JTextField txttenSP;
+	private JTextField txtSoluong;
+	private JTextField txtDonvi;
+	private JTextField txtGianhap;
+	private JTextField txtGiaban;
+	private JTextField txtMota;
 	private JLabel lblTimKiem;
 	private JTextField txtTimKiem;
 	private JRadioButton radMaLoai;
-	private JRadioButton radTenLoai;
-	private JTextField txtMaLoai;
-	private JTextField txtTenLoai;
-	private JTextField txtMoTa;
-	private JPanel pnMain;
+	private JRadioButton radMaSanPham;
+	private JRadioButton radTenSanPham;
+	private static JComboBox cboListMaloai;
+
 	
-	public DanhMucSanPham_GUI() {
+	private JPanel contentPane;
+	
+	public SanPham_GUI() {
 		
-		setTitle("Thống kê");
+		setTitle("Quản Lý Sản Phẩm");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
-	
-		
-		setTitle("Quản Lý Danh Mục");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setBounds(0, 0, 1300, 700);
+
 		ImageIcon icon1 = new ImageIcon("data/images/sanpham.png");
 		ImageIcon icon2 = new ImageIcon("data/images/blueAdd_16.png");
 		ImageIcon icon3 = new ImageIcon("data/images/trash.png");
@@ -77,28 +81,31 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		ImageIcon icon5 = new ImageIcon("data/images/refresh.png");
 		ImageIcon icon6 = new ImageIcon("data/images/timkiem.png");
 		ImageIcon icon7 = new ImageIcon("data/images/search_16.png");
-//		pnlform.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
 		JLabel jLabel1 = new JLabel();
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(java.awt.SystemColor.activeCaption);
         jLabel1.setIcon(icon1); // NOI18N
-        jLabel1.setText("THÔNG TIN DANH MỤC");
+        jLabel1.setText("THÔNG TIN SẢN PHẨM");
 
-		pnMain = new JPanel();
+		JPanel pnMain = new JPanel();
 		pnMain.setLayout(null);
 		pnMain.setBounds(0, 0, 1300, 700);
 		
 
-		JLabel lbTitle = new JLabel("Quản Lý Danh Mục");
+		JLabel lbTitle = new JLabel("Quản Lý Sản Phẩm");
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lbTitle.setForeground(Color.BLACK);
 		lbTitle.setBounds(500, 10, 500, 35);
 
-		JLabel lblMaLoai = new JLabel("Mã Loại Sản Phẩm: ");
-		JLabel lblTenLoai = new JLabel("Tên Loại: ");
-		JLabel lblMoTa = new JLabel("Mô Tả:");
-
-
+		JLabel lblmaSP = new JLabel("Mã sản phẩm: ");
+		JLabel lbltenSP = new JLabel("Tên sản phẩm: ");
+		JLabel lblSoluong = new JLabel("Số lượng:");
+		JLabel lblDonvi = new JLabel("Đơn vị tính: ");
+		JLabel lblGianhap = new JLabel("Giá nhập: ");
+		JLabel lblGiaban = new JLabel("Giá bán: ");
+		JLabel lblMota = new JLabel("Mô tả: ");
+		JLabel lblMaloai = new JLabel("Mã loại: ");
 		
 		btnThem = new JButton();
 		btnThem.setText("Thêm");
@@ -118,11 +125,14 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
         txtTimKiem = new JTextField();
         btnTim = new JButton();
         btnTim.setText("Tìm");
-		txtMaLoai = new JTextField();
-		txtTenLoai = new JTextField();
-		txtMoTa = new JTextField();
-
-
+		txtmaSP = new JTextField();
+		txttenSP = new JTextField();
+		txtSoluong = new JTextField();
+		txtDonvi = new JTextField();
+		txtGianhap = new JTextField();
+		txtGiaban = new JTextField();
+		txtMota = new JTextField();
+		cboListMaloai = new JComboBox<String>();
 		
 
 		JPanel pnThongtin = new JPanel();
@@ -134,37 +144,54 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 //				"", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		//pnThongtin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 		jLabel1.setBounds(20,10,500,30);
-		lblMaLoai.setBounds(70, 60, 150, 22);
-		txtMaLoai.setBounds(200, 60, 250, 25);
-		lblTenLoai.setBounds(70, 95, 150, 22);
-		txtTenLoai.setBounds(200, 95, 250, 25);
-		lblMoTa.setBounds(70, 130, 150, 22);
-		txtMoTa.setBounds(200, 130, 250, 25);
-
-        radTenLoai = new JRadioButton("Tên Loại");
-        radTenLoai.setFont(new Font("Arial", Font.BOLD, 14));
+		lblmaSP.setBounds(40, 50, 100, 22);
+		txtmaSP.setBounds(130, 50, 220, 22);
+		lbltenSP.setBounds(430, 50, 100, 22);
+		txttenSP.setBounds(530, 50, 220, 22);
+		lblSoluong.setBounds(40, 77, 100, 22);
+		txtSoluong.setBounds(130, 77, 220, 22);
+		lblDonvi.setBounds(430, 77, 100, 22);
+		txtDonvi.setBounds(530, 77, 220, 22);
+		lblGianhap.setBounds(40, 107, 110, 22);
+		txtGianhap.setBounds(130, 107, 220, 22);
+		lblGiaban.setBounds(430, 107, 100, 22);
+		txtGiaban.setBounds(530, 107, 220, 22);
+		lblMota.setBounds(40, 137, 100, 22);
+		txtMota.setBounds(130, 137, 220, 22);
+		lblMaloai.setBounds(430, 137, 100, 22);
+		cboListMaloai.setBounds(530, 137, 220, 22);
+		cboListMaloai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+		
+		radMaSanPham = new JRadioButton("Mã Sản Phẩm");
+        radMaSanPham.setFont(new Font("Arial", Font.BOLD, 14));
+        radTenSanPham = new JRadioButton("Tên Sản Phẩm");
+        radTenSanPham.setFont(new Font("Arial", Font.BOLD, 14));
 		radMaLoai = new JRadioButton("Mã Loại", true);
 		radMaLoai.setFont(new Font("Arial", Font.BOLD, 14));
         
 
         ButtonGroup btnGr = new ButtonGroup();
-//        btnGr.add(radMaSanPham);
-        btnGr.add(radTenLoai);
+        btnGr.add(radMaSanPham);
+        btnGr.add(radTenSanPham);
         btnGr.add(radMaLoai);
         
-        btnThem.setBounds(250,170,120,25);
+        
+      
+       
+		
+		btnThem.setBounds(250,170,120,25);
 		btnXoa.setBounds(380,170,120,25);
 		btnSua.setBounds(250,205,120,25);
 		btnTaoMoi.setBounds(380,205,120,25);
-		lblTimKiem.setBounds(100, 230, 150, 40);
-		txtTimKiem.setBounds(190, 240, 200, 22);
-		radTenLoai.setBounds(400,240,100,22);
-	
-		radMaLoai.setBounds(500,240,90,22);
+		lblTimKiem.setBounds(30, 230, 150, 40);
+		txtTimKiem.setBounds(120, 240, 200, 22);
+		radMaSanPham.setBounds(330,240,120,22);
+		radTenSanPham.setBounds(450,240,130,22);
+		radMaLoai.setBounds(580,240,90,22);
 		
-		btnTim.setBounds(600, 240, 80, 25);
+		
+		btnTim.setBounds(670, 240, 80, 25);
 		btnTim.setIcon(icon7);
-		
 		btnTim.setBackground(Color.WHITE);
 		btnThem.setBackground(Color.WHITE);
 		btnXoa.setBackground(Color.WHITE);
@@ -172,23 +199,34 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		btnTaoMoi.setBackground(Color.WHITE);
 		
 		pnThongtin.add(jLabel1);
-		pnThongtin.add(lblMaLoai);
-		pnThongtin.add(txtMaLoai);
-		pnThongtin.add(lblTenLoai);
-		pnThongtin.add(txtTenLoai);
-		pnThongtin.add(lblMoTa);
-		pnThongtin.add(txtMoTa);
-
+		pnThongtin.add(lblmaSP);
+		pnThongtin.add(txtmaSP);
+		pnThongtin.add(lbltenSP);
+		pnThongtin.add(txttenSP);
+		pnThongtin.add(lblSoluong);
+		pnThongtin.add(txtSoluong);
+		pnThongtin.add(lblDonvi);
+		pnThongtin.add(txtDonvi);
+		pnThongtin.add(lblGianhap);
+		pnThongtin.add(txtGianhap);
+		pnThongtin.add(lblGiaban);
+		pnThongtin.add(txtGiaban);
+		pnThongtin.add(lblMota);
+		pnThongtin.add(txtMota);
+		pnThongtin.add(lblMaloai);
+		pnThongtin.add(cboListMaloai);
+		
 		pnThongtin.add(btnThem);
 		pnThongtin.add(btnXoa);
 		pnThongtin.add(btnSua);
 		pnThongtin.add(btnTaoMoi);
 		pnThongtin.add(lblTimKiem);
 		pnThongtin.add(txtTimKiem);
-
-		pnThongtin.add(radTenLoai);
+		pnThongtin.add(radMaSanPham);
+		pnThongtin.add(radTenSanPham);
 		pnThongtin.add(radMaLoai);
 		pnThongtin.add(btnTim);
+//		pnThongtin.add(txtgiaXe);
 
 		// int widthLb = 85, widthPn = 700, widthBtn = 70, h = 25, hTxt = 25, xTxt =
 		// 105;
@@ -196,7 +234,7 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		JPanel pnTable = new JPanel();
 		pnTable.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-				"Danh sách danh mục sản phẩm", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				"Danh sách sản phẩm", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnTable.setLayout(null);
 		model = new DefaultTableModel(cols, 0) {
 			// khóa không cho người dùng nhập trên table
@@ -218,16 +256,15 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		pnMain.add(pnTable);
 		//pnMain.add(pnChucnang);
 
-		setContentPane(pnMain);
+		getContentPane().add(pnMain);
 
 		
 		table.addMouseListener(this);
 
-
 	}
 			
 	public static void main(String[] args) {
-		new DanhMucSanPham_GUI().setVisible(true);
+		new SanPham_GUI().setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -258,10 +295,6 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public JPanel getContentPane() {
-		return this.pnMain;
 	}
 
 }

@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.DonDatHangDAO;
+import dao.DonDatHangDAO;
 import entity.DonDatHang;
 
 import javax.swing.border.EtchedBorder;
