@@ -82,8 +82,21 @@ public class QuanLy_GUI extends JFrame {
 		menuGUI();
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
-		handleLogin();
-		handleRegister();
+//		this.khachHang = new KhachHangDAO().getKhachHang(1);
+//		contentPane = TrangChaoMungGUI.getContentPane();
+//		renderMain(TrangChaoMungGUI.getContentPane(), "chaomung");
+		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("phuong021");
+		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
+		System.out.println(khachHang);
+		
+		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+		System.out.println(nhanVien);
+		
+		muaHangGUI = new MuaHang(khachHang);
+		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+		menuBar.setVisible(true);
+//		handleLogin();
+		//handleRegister();
 	}
 	
 	public void menuGUI() {
