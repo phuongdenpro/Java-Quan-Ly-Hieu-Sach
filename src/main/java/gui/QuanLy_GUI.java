@@ -111,14 +111,41 @@ public class QuanLy_GUI extends JFrame {
 		JMenu mnHoaDon = new JMenu("Hóa đơn");
 		menuBar.add(mnHoaDon);
 		
-		JMenu mnDonDatHang = new JMenu("Đơn đặt hàng");
-		menuBar.add(mnDonDatHang);
+		JMenuItem mntmQLHoaDon = new JMenuItem("Quản lý hóa đơn");
+		mnHoaDon.add(mntmQLHoaDon);
+		
+		JMenuItem mntmTimKiemHD = new JMenuItem("Tìm kiếm hóa đơn");
+		mnHoaDon.add(mntmTimKiemHD);
 		
 		JMenu mnSanPham = new JMenu("Sản phẩm");
 		menuBar.add(mnSanPham);
 		
-		JMenu mnDanhMucSanPham = new JMenu("Danh mục sản phẩm");
-		menuBar.add(mnDanhMucSanPham);
+		JMenuItem mntmQLSach = new JMenuItem("Quản lý sách");
+		mnSanPham.add(mntmQLSach);
+		
+		JMenuItem mntmQLSPKhac = new JMenuItem("Quản lý sản phẩm khác");
+		mnSanPham.add(mntmQLSPKhac);
+		
+		JMenuItem mntmDanhMuc = new JMenuItem("Quản lý loại sản phẩm");
+		mnSanPham.add(mntmDanhMuc);
+		
+		JMenuItem mntmTimKiemSach = new JMenuItem("Tìm kiếm sách");
+		mnSanPham.add(mntmTimKiemSach);
+		
+		JMenuItem mntmTimKiemSPKhac = new JMenuItem("Tìm kiếm sản phẩm khác");
+		mnSanPham.add(mntmTimKiemSPKhac);
+		
+		JMenuItem mntmTimKiemDMSP = new JMenuItem("Tìm kiếm danh mục sản phẩm");
+		mnSanPham.add(mntmTimKiemDMSP);
+		
+		JMenuItem mntmThongKeSPBanChay = new JMenuItem("Thống kê sản phẩm bán chạy");
+		mnSanPham.add(mntmThongKeSPBanChay);
+		
+		JMenuItem mntmThongKeSPBanHet = new JMenuItem("Thống kê sản phẩm đã hết");
+		mnSanPham.add(mntmThongKeSPBanHet);
+		
+//		JMenu mnDanhMucSanPham = new JMenu("Danh mục sản phẩm");
+//		menuBar.add(mnDanhMucSanPham);
 		
 		JMenu mnKhachHang = new JMenu("Khách hàng");
 		menuBar.add(mnKhachHang);
@@ -129,17 +156,31 @@ public class QuanLy_GUI extends JFrame {
 		JMenuItem mntmMuaHang = new JMenuItem("Mua hàng");
 		mnKhachHang.add(mntmMuaHang);
 		
+		JMenuItem mntmDonDatHang = new JMenuItem("Đơn đặt hàng");
+		mnKhachHang.add(mntmDonDatHang);
+		
+		JMenuItem mntmTimKiemKH = new JMenuItem("Tìm kiếm khách hàng");
+		mnKhachHang.add(mntmTimKiemKH);
+		
+		JMenuItem mntmThongKeKHTN = new JMenuItem("Thống kê khách hàng tiềm năng");
+		mnKhachHang.add(mntmThongKeKHTN);
+		
 		JMenu mnNhanVien = new JMenu("Nhân viên");
 		menuBar.add(mnNhanVien);
 		
 		JMenuItem mntmQuanLyNhanVien = new JMenuItem("Quản lý nhân viên");
 		mnNhanVien.add(mntmQuanLyNhanVien);
 		
-		JMenuItem mntmThongKe = new JMenuItem("Thống kê");
-		mnNhanVien.add(mntmThongKe);
+		JMenuItem mntmTimKiemNV = new JMenuItem("Tìm kiếm nhân viên");
+		mnNhanVien.add(mntmTimKiemNV);
 		
 		JMenuItem mntmTaoTaiKhoan = new JMenuItem("Tạo tài khoản");
 		mnNhanVien.add(mntmTaoTaiKhoan);
+		
+		JMenuItem mntmThongKe = new JMenuItem("Thống kê");
+		mnNhanVien.add(mntmThongKe);
+		
+		
 		
 		
 		mnTrangChu.addMenuListener(new MenuListener() {
@@ -173,20 +214,20 @@ public class QuanLy_GUI extends JFrame {
 		});
 		
 		
-		mnDonDatHang.addMenuListener(new MenuListener() {
-			
-			@Override
-			public void menuSelected(MenuEvent e) {
-				// TODO Auto-generated method stub
-				renderMain(datHangGUI.getContentPane(), "dondathang");
-			}
-			
-			@Override
-			public void menuDeselected(MenuEvent e) {}
-			
-			@Override
-			public void menuCanceled(MenuEvent e) {}
-		});
+//		mnDonDatHang.addMenuListener(new MenuListener() {
+//			
+//			@Override
+//			public void menuSelected(MenuEvent e) {
+//				// TODO Auto-generated method stub
+//				renderMain(datHangGUI.getContentPane(), "dondathang");
+//			}
+//			
+//			@Override
+//			public void menuDeselected(MenuEvent e) {}
+//			
+//			@Override
+//			public void menuCanceled(MenuEvent e) {}
+//		});
 		
 		mnSanPham.addMenuListener(new MenuListener() {
 			
@@ -206,23 +247,23 @@ public class QuanLy_GUI extends JFrame {
 			public void menuCanceled(MenuEvent e) {}
 		});
 		
-		mnDanhMucSanPham.addMenuListener(new MenuListener() {
-			
-			@Override
-			public void menuSelected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-				renderMain((JPanel) danhMucSanPhamGUI.getContentPane(), "danhmucsanpham");
-//				renderMain(sanPhamGUI.getContentPane(), "sanpham");
-
-			}
-			
-			@Override
-			public void menuDeselected(MenuEvent e) {}
-			
-			@Override
-			public void menuCanceled(MenuEvent e) {}
-		});
+//		mnDanhMucSanPham.addMenuListener(new MenuListener() {
+//			
+//			@Override
+//			public void menuSelected(MenuEvent e) {
+//				// TODO Auto-generated method stub
+//
+//				renderMain((JPanel) danhMucSanPhamGUI.getContentPane(), "danhmucsanpham");
+////				renderMain(sanPhamGUI.getContentPane(), "sanpham");
+//
+//			}
+//			
+//			@Override
+//			public void menuDeselected(MenuEvent e) {}
+//			
+//			@Override
+//			public void menuCanceled(MenuEvent e) {}
+//		});
 		
 		mntmQuanLyKH.addActionListener(new ActionListener() {
 			
