@@ -32,7 +32,8 @@ public class DonDatHang {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-//		this.chiTietDonDatHangs = chiTietDonDatHangs;
+		this.tongTien = rs.getDouble("TongTien");
+		this.ngayDat = rs.getDate("ngayDat");
 	}
 
 	public int getMaDDH() {
@@ -49,6 +50,16 @@ public class DonDatHang {
 
 	public void setTongTien(double tongTien) {
 		this.tongTien = tongTien;
+	}
+	
+	public double tinhTongTien() {
+		double tongTien = 0;
+		
+		for(int i=0; i<this.getChiTietDonDatHangs().size(); i++) {
+			tongTien += this.getChiTietDonDatHangs().get(i).tinhThanhTien();
+		}
+		this.tongTien = tongTien;
+		return tongTien;
 	}
 
 	public Date getNgayDat() {

@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import DAO.ChiTietDonDatHangDAO;
-import DAO.DonDatHangDao;
+import DAO.DonDatHangDAO;
 import DAO.KhachHangDAO;
 import entity.ChiTietDonDatHang;
 import entity.DonDatHang;
@@ -258,12 +258,19 @@ public class GioHang_GUI extends JFrame {
 		pnItems.removeAll();
 		donDatHang = null;
 		try {
-			donDatHang = new DonDatHangDao().getDonDatHang(this.khachHang.getMaKh());
+			donDatHang = new DonDatHangDAO().getDonDatHang(this.khachHang.getMaKh());
 			if(donDatHang != null) {
 				ArrayList<ChiTietDonDatHang> chiTietDDH = donDatHang.getChiTietDonDatHangs();
+				if(chiTietDDH.size() == 0) {
+					pnItems.add(new JLabel("Không có sản phẩm nào trong giỏ hàng"));
+					return;
+				}
 				chiTietDDH.forEach(chiTiet -> {
 					pnItems.add(this.itemGUI(chiTiet));
 				});
+			}else {
+				pnItems.add(new JLabel("Không có sản phẩm nào trong giỏ hàng"));
+				
 			}
 
 		} catch (SQLException e) {
@@ -388,6 +395,7 @@ public class GioHang_GUI extends JFrame {
 		JTextField txtSoLuong = new JTextField();
 		txtSoLuong.setText(String.valueOf(chiTietDDH.getSoLuong()));
 		txtSoLuong.setColumns(10);
+		txtSoLuong.setEditable(false);
 		panel_1_1.add(txtSoLuong);
 		
 		JPanel panel_4 = new JPanel();
@@ -449,26 +457,36 @@ public class GioHang_GUI extends JFrame {
 			}
 		});
 		
-		txtSoLuong.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println(txtSoLuong.getText());
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+//		txtSoLuong.addKeyListener(new KeyListener() {
+//			
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				try {
+//					int soLuong = Integer.parseInt(txtSoLuong.getText());
+//					if(soLuong <= 0) {
+//						txtSoLuong.setText("1");
+//					}
+//					System.out.println(soLuong);
+//				}catch (Exception e1) {
+//					// TODO: handle exception
+//					e1.printStackTrace();
+//				}
+//				
+//			}
+//			
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
 		
 		return pnItem;
 	}

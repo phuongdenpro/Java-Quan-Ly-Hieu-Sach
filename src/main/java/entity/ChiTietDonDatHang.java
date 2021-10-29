@@ -71,6 +71,10 @@ public class ChiTietDonDatHang {
 	public void setDonDatHang(DonDatHang donDatHang) {
 		this.donDatHang = donDatHang;
 	}
+	
+	public double tinhThanhTien() {
+		return this.donGia * this.soLuong;
+	}
 
 	@Override
 	public String toString() {

@@ -93,14 +93,14 @@ public class DangNhap_GUI extends JFrame {
 		lblDangNhap.setBackground(new Color(255, 255, 255));
 		lblDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		
-		txtUserName = new JTextField("Tài khoản");
+		txtUserName = new JTextField("tranvannhan1911");
 		txtUserName.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		txtUserName.setBounds(41, 77, 398, 41);
 		panel.add(txtUserName);
 		txtUserName.setColumns(10);
 		new Placeholder().placeholder(txtUserName, "Tài khoản");
 		
-		txtPassword = new JPasswordField("Mật khẩu");
+		txtPassword = new JPasswordField("nhan3008");
 		txtPassword.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		txtPassword.setEchoChar((char)0);
 		txtPassword.setBounds(41, 129, 398, 41);

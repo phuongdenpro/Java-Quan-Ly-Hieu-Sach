@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
 
-import DAO.DonDatHangDao;
+import DAO.DonDatHangDAO;
 import DAO.LoaiSanPhamDAO;
 import DAO.SanPhamDAO;
 import entity.KhachHang;
@@ -286,7 +286,7 @@ public class TrangChu_GUI extends JFrame {
 				}
 				
 				try {
-					boolean kq = new DonDatHangDao().themSanPhamVaoDonDatHang(sanPham, soLuong, khachHang.getMaKh());
+					boolean kq = new DonDatHangDAO().themSanPhamVaoDonDatHang(sanPham, soLuong, khachHang.getMaKh());
 					if(kq) {
 						JOptionPane.showMessageDialog(contentPane, "Thêm vào giỏ thành công");
 					}else {
