@@ -154,7 +154,9 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		pn.add(btnThem);
 		btnThem.setIcon(new ImageIcon("data/images/check.png"));
 
-
+		btnSua.setBackground(Color.WHITE);
+		btnThem.setBackground(Color.WHITE);
+		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
@@ -180,24 +182,29 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		panel_1.add(txtTimMaHDDV);
 		txtTimMaHDDV.setColumns(10);
 
+		
 		btnTimMaHDDV = new JButton("Tìm");
 		btnTimMaHDDV.setIcon(new ImageIcon("data/images/search_16.png"));
 		btnTimMaHDDV.setBounds(235, 28, 115, 25);
+		btnTimMaHDDV.setBackground(Color.WHITE);
 		panel_1.add(btnTimMaHDDV);
 
 		btnXem = new JButton("Xem tất cả");
 		btnXem.setIcon(new ImageIcon("data/images/blueAdd_16.png"));
+		btnXem.setBackground(Color.WHITE);
 		btnXem.setBounds(360, 28, 115, 25);
 		panel_1.add(btnXem);
 		
 		btnBoChon = new JButton("Bỏ chọn");
 		btnBoChon.setBounds(485, 28, 115, 25);
 		btnBoChon.setIcon(new ImageIcon("data/images/check2_16.png"));
+		btnBoChon.setBackground(Color.WHITE);
 		panel_1.add(btnBoChon);
 		
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBounds(610, 28, 115, 25);
 		btnXoa.setIcon(new ImageIcon("data/images/cancel_16.png"));
+		btnXoa.setBackground(Color.WHITE);
 		panel_1.add(btnXoa);
 		
 		btnSua.addActionListener(this);

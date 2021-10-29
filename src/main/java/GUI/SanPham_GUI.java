@@ -189,8 +189,14 @@ public class SanPham_GUI extends JFrame implements ActionListener, MouseListener
 		radTenSanPham.setBounds(450,240,130,22);
 		radMaLoai.setBounds(580,240,90,22);
 		
+		
 		btnTim.setBounds(670, 240, 80, 25);
 		btnTim.setIcon(icon7);
+		btnTim.setBackground(Color.WHITE);
+		btnThem.setBackground(Color.WHITE);
+		btnXoa.setBackground(Color.WHITE);
+		btnSua.setBackground(Color.WHITE);
+		btnTaoMoi.setBackground(Color.WHITE);
 		
 		pnThongtin.add(jLabel1);
 		pnThongtin.add(lblmaSP);

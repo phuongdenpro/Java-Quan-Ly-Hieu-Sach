@@ -165,6 +165,12 @@ public class DanhMucSanPham_GUI extends JFrame implements ActionListener, MouseL
 		btnTim.setBounds(600, 240, 80, 25);
 		btnTim.setIcon(icon7);
 		
+		btnTim.setBackground(Color.WHITE);
+		btnThem.setBackground(Color.WHITE);
+		btnXoa.setBackground(Color.WHITE);
+		btnSua.setBackground(Color.WHITE);
+		btnTaoMoi.setBackground(Color.WHITE);
+		
 		pnThongtin.add(jLabel1);
 		pnThongtin.add(lblMaLoai);
 		pnThongtin.add(txtMaLoai);
