@@ -1,5 +1,7 @@
 create database HieuSach
 
+GO
+
 use HieuSach
 
 CREATE TABLE NhanVien (
@@ -14,7 +16,7 @@ CREATE TABLE NhanVien (
 );
 
 CREATE TABLE SanPham (
-	MaSP int NOT NULL, 
+	MaSP int IDENTITY NOT NULL, 
 	MaNCC int NOT NULL, 
 	MaLoai int NOT NULL, 
 	TenSp nvarchar(255) NULL, 

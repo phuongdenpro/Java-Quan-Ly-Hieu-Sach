@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import java.awt.Font;
 
-public class ThongKeSPDaHet_GUI extends JFrame {
+public class ThongKeKHTiemNang_GUI extends JFrame {
 
 	private JPanel contentPane;
 
@@ -27,7 +27,7 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ThongKeSPDaHet_GUI frame = new ThongKeSPDaHet_GUI();
+					ThongKeKHTiemNang_GUI frame = new ThongKeKHTiemNang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,7 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ThongKeSPDaHet_GUI() {
+	public ThongKeKHTiemNang_GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -56,18 +56,18 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê sản phẩm đã hết");
+		JLabel lblNewLabel_2 = new JLabel("Thống kê khách hàng tiềm năng");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_3.add(lblNewLabel_2);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		
-		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Nhà xuất bản", "Đơn giá", "Số lượng đã bán"};
-		DefaultTableModel modelDSSP = new DefaultTableModel(cols, 0);
+		String[] cols = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email", "Địa chỉ", "Số lần mua hàng", "Số tiền mua hàng"};
+		DefaultTableModel modelDSKH = new DefaultTableModel(cols, 0);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		JTable tblDSSP = new JTable(modelDSSP);
-		JScrollPane scrollPane = new JScrollPane(tblDSSP);
+		JTable tblDSKH = new JTable(modelDSKH);
+		JScrollPane scrollPane = new JScrollPane(tblDSKH);
 		panel_1.add(scrollPane);
 	}
 

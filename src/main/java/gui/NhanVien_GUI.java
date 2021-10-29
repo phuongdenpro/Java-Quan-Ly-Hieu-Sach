@@ -8,10 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import dao.NhanVienDAO;
+import entity.NhanVien;
 import util.Placeholder;
 
 import javax.swing.BoxLayout;
@@ -22,7 +26,13 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -46,6 +56,10 @@ public class NhanVien_GUI extends JFrame {
 	private JTextField txtEmail;
 	private JTextField txtSdt;
 	private JTextField txtDiaChi;
+	private DefaultTableModel modelDSNV;
+	private List<NhanVien> dsnv;
+	private JButton btnSuaKh;
+	private JButton btnXoaKh;
 
 	/**
 	 * Launch the application.
@@ -65,8 +79,9 @@ public class NhanVien_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public NhanVien_GUI() {
+	public NhanVien_GUI() throws SQLException {
 		setTitle("Nhân viên");
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -214,13 +229,13 @@ public class NhanVien_GUI extends JFrame {
 		out.getRootPane().setDefaultButton(btnThemKh);
 		pnChucNang.add(btnThemKh);
 		
-		JButton btnSuaKh = new JButton("Sửa");
+		btnSuaKh = new JButton("Sửa");
 		btnSuaKh.setBackground(Color.WHITE);
 		btnSuaKh.setIcon(new ImageIcon("data\\images\\repairing-service.png"));
 		btnSuaKh.setIconTextGap(30);
 		pnChucNang.add(btnSuaKh);
 		
-		JButton btnXoaKh = new JButton("Xóa");
+		btnXoaKh = new JButton("Xóa");
 		btnXoaKh.setBackground(Color.WHITE);
 		btnXoaKh.setIcon(new ImageIcon("data\\images\\trash.png"));
 		btnXoaKh.setIconTextGap(10);
@@ -271,19 +286,113 @@ public class NhanVien_GUI extends JFrame {
 		pnRight.add(pnTableKh, BorderLayout.CENTER);
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 		
-		String[] cols_dskh = {"Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Email", "Địa chỉ"};
-		DefaultTableModel modelDSKH = new DefaultTableModel(cols_dskh, 0);
-		table = new JTable(modelDSKH);
+		String[] cols_dskh = {"Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Địa chỉ"};
+		modelDSNV = new DefaultTableModel(cols_dskh, 0);
+		table = new JTable(modelDSNV);
 		JScrollPane scrTableKhachhang = new JScrollPane(table);
 		scrTableKhachhang.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrTableKhachhang.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		pnTableKh.add(scrTableKhachhang);
 		
-		modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
+//		modelDSNV.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
+		renderData();
 		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int idx = table.getSelectedRow();
+				if(idx != -1) {
+					NhanVien nv = dsnv.get(idx);
+					txtMaNv.setText(String.valueOf(nv.getMaNv()));
+					txtTenNv.setText(nv.getTenNv());
+					txtSdt.setText(nv.getSoDienThoai());
+					txtDiaChi.setText(nv.getDiaChi());
+				}
+			}
+		});
+		
+		btnSuaKh.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				table.clearSelection();
+				
+				int maNV = Integer.parseInt(txtMaNv.getText());
+				String tenNV = txtTenNv.getText();
+				String sdt = txtSdt.getText();
+				String diaChi = txtDiaChi.getText();
+				
+				if(sdt.length() < 10) {
+					JOptionPane.showMessageDialog(contentPane, "Số điện thoại không hợp lệ");
+					return;
+				}
+				
+				NhanVien nv = new NhanVien(maNV, tenNV, sdt, diaChi);
+				boolean kq;
+				try {
+					kq = new NhanVienDAO().suaNV(nv);
+					if(kq) {
+						JOptionPane.showMessageDialog(contentPane, "Sửa thành công");
+						renderData();
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+					}
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		btnXoaKh.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int idx = table.getSelectedRow();
+				if(idx != -1) {
+					
+					int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn xóa?");
+					
+					if(choose == 0) {
+						table.clearSelection();
+						try {
+							boolean kq = new NhanVienDAO().xoaNV(dsnv.get(idx).getMaNv());
+							if(kq) {
+								JOptionPane.showMessageDialog(contentPane, "Xóa thành công");
+								renderData();
+							}else {
+								JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+							}
+							
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+				
+			}
+		});
 	}
 
+	public void renderData() throws SQLException {
+		modelDSNV.getDataVector().removeAllElements();
+		
+		dsnv = new NhanVienDAO().getDSNV();
+		dsnv.forEach(nv -> {
+			modelDSNV.addRow(new Object[] {nv.getMaNv(), nv.getTenNv(), nv.getSoDienThoai(), nv.getDiaChi()});
+		});
+		
+		table.revalidate();
+		table.repaint();
+		
+	}
+	
+	
 	public JPanel getContentPane() {
 		 return this.out;
 	 }

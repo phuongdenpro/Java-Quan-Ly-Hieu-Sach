@@ -85,7 +85,7 @@ public class QuanLy_GUI extends JFrame {
 //		this.khachHang = new KhachHangDAO().getKhachHang(1);
 //		contentPane = TrangChaoMungGUI.getContentPane();
 //		renderMain(TrangChaoMungGUI.getContentPane(), "chaomung");
-		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("tranvannhan1911");
+		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
 		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
 		System.out.println(khachHang);
 		
