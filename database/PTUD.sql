@@ -1,3 +1,7 @@
+create database HieuSach
+
+use HieuSach
+
 CREATE TABLE NhanVien (
 	MaNv int IDENTITY NOT NULL, 
 	TaiKhoanID int NOT NULL, 
@@ -34,9 +38,10 @@ CREATE TABLE HoaDon (
 	MaNV int NOT NULL, 
 	MaKH int NOT NULL, 
 	TongTien float(10) NOT NULL, 
-	NgayMua date default now(),
+	NgayMua date default GETDATE(),
 	PRIMARY KEY (MaHD)
 );
+
 
 CREATE TABLE ChiTietHoaDon (
 	ID int IDENTITY NOT NULL, 
