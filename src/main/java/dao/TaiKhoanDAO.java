@@ -172,6 +172,61 @@ public class TaiKhoanDAO extends ConnectDB{
         
         return null;
     }
+    
+//	public int getTaiKhoanID(int maNV) {
+//		PreparedStatement stmt = null;
+//		try {
+//			
+//			
+//		    String sql = "SELECT taiKhoanID FROM NhanVien where maNV = ?";
+//		    stmt = this.conn.prepareStatement(sql);
+//		    
+//		    stmt.setInt(1, maNV);
+//		    
+//		    int n = stmt.executeUpdate();
+//		    
+//		    if(n == 0) {
+//		    	return false;
+//		    }
+//		    
+//		    // xoas tai khoan
+//		    xoaTaiKhoan()
+//		    return n > 0;
+//		} catch (SQLException e) {
+//		    e.printStackTrace();
+//		} finally {
+//		    try {
+//		        stmt.close();
+//		    } catch (SQLException e) {
+//		        e.printStackTrace();
+//		    }
+//		}
+//		return false;
+//	}
+    
+    public boolean xoaTaiKhoan(int id) {
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "DELETE FROM dbo.TaiKhoan where id = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            
+            int n = stmt.executeUpdate();
+            
+            return n > 0; 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return false;
+    }
 	
 	public static void main(String[] args) throws SQLException {
 		TaiKhoanDAO taiKhoanDao = new TaiKhoanDAO();

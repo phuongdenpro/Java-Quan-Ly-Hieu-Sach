@@ -360,7 +360,7 @@ public class NhanVien_GUI extends JFrame {
 					if(choose == 0) {
 						table.clearSelection();
 						try {
-							boolean kq = new NhanVienDAO().xoaNV(dsnv.get(idx).getMaNv());
+							boolean kq = new NhanVienDAO().xoaNV(dsnv.get(idx));
 							if(kq) {
 								JOptionPane.showMessageDialog(contentPane, "Xóa thành công");
 								renderData();

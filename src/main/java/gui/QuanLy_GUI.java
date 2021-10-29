@@ -47,6 +47,10 @@ public class QuanLy_GUI extends JFrame {
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
 	private NhanVien_GUI nhanVienGUI = new NhanVien_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
+	private ThongKeSanPhamBanChay_GUI thongKeSPBCGUI = new ThongKeSanPhamBanChay_GUI();
+	private ThongKeSPDaHet_GUI thongKeSPDBHGUI = new ThongKeSPDaHet_GUI();
+	private ThongKeKHTiemNang_GUI thongKeKHTNGUI = new ThongKeKHTiemNang_GUI();
+	
 	private JMenuBar menuBar;
 
 	/**
@@ -198,72 +202,90 @@ public class QuanLy_GUI extends JFrame {
 			public void menuCanceled(MenuEvent e) {}
 		});
 		
-		mnHoaDon.addMenuListener(new MenuListener() {
+		mntmQLHoaDon.addActionListener(new ActionListener() {
 			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				renderMain(hoaDonGUI.getContentPane(), "hoadon");
 			}
-			
-			@Override
-			public void menuDeselected(MenuEvent e) {}
-			
-			@Override
-			public void menuCanceled(MenuEvent e) {}
 		});
 		
-		
-//		mnDonDatHang.addMenuListener(new MenuListener() {
-//			
-//			@Override
-//			public void menuSelected(MenuEvent e) {
-//				// TODO Auto-generated method stub
-//				renderMain(datHangGUI.getContentPane(), "dondathang");
-//			}
-//			
-//			@Override
-//			public void menuDeselected(MenuEvent e) {}
-//			
-//			@Override
-//			public void menuCanceled(MenuEvent e) {}
-//		});
-		
-		mnSanPham.addMenuListener(new MenuListener() {
+		mntmTimKiemHD.addActionListener(new ActionListener() {
 			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+			}
+		});
+		
+		mntmQLSach.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
 				renderMain((JPanel) sanPhamGUI.getContentPane(), "sanpham");
-//				renderMain(sanPhamGUI.getContentPane(), "sanpham");
-
 			}
-			
-			@Override
-			public void menuDeselected(MenuEvent e) {}
-			
-			@Override
-			public void menuCanceled(MenuEvent e) {}
 		});
 		
-//		mnDanhMucSanPham.addMenuListener(new MenuListener() {
-//			
-//			@Override
-//			public void menuSelected(MenuEvent e) {
-//				// TODO Auto-generated method stub
-//
-//				renderMain((JPanel) danhMucSanPhamGUI.getContentPane(), "danhmucsanpham");
-////				renderMain(sanPhamGUI.getContentPane(), "sanpham");
-//
-//			}
-//			
-//			@Override
-//			public void menuDeselected(MenuEvent e) {}
-//			
-//			@Override
-//			public void menuCanceled(MenuEvent e) {}
-//		});
+		mntmQLSPKhac.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		mntmDanhMuc.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain((JPanel) danhMucSanPhamGUI.getContentPane(), "danhmucsanpham");
+			}
+		});
+		
+		mntmTimKiemSach.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		mntmTimKiemSPKhac.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		mntmTimKiemDMSP.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		mntmThongKeSPBanChay.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				renderMain(thongKeSPBCGUI.getContentPane(), "thongkespbc");
+			}
+		});
+		
+		
+		mntmThongKeSPBanHet.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain(thongKeSPDBHGUI.getContentPane(), "thongkespdbh");
+			}
+		});
+		
 		
 		mntmQuanLyKH.addActionListener(new ActionListener() {
 			
@@ -279,9 +301,37 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 //				renderMain(muaHang.getContentPane(), "muahang");
 				muaHangGUI.setVisible(true);
+				muaHangGUI.setLocationRelativeTo(contentPane);
+				muaHangGUI.setAlwaysOnTop(true);
+//				muaHangGUI.setAlwaysOnTop(false);
 //				trangChuGUI.setVisible(true);
 			}
 		});
+		
+		mntmDonDatHang.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain(datHangGUI.getContentPane(), "dondathang");
+			}
+		});
+		
+		mntmTimKiemKH.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		mntmThongKeKHTN.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				renderMain(thongKeKHTNGUI.getContentPane(), "thongkekhtn");
+			}
+		});
+		
 		
 		mntmQuanLyNhanVien.addActionListener(new ActionListener() {
 			
@@ -300,6 +350,14 @@ public class QuanLy_GUI extends JFrame {
 			}
 		});
 		
+		mntmTimKiemNV.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				renderMain(thongKeGUI.getContentPane(), "thongke");
+			}
+		});
+		
 		mntmTaoTaiKhoan.addActionListener(new ActionListener() {
 			
 			@Override
@@ -307,7 +365,7 @@ public class QuanLy_GUI extends JFrame {
 				
 //				taoTaiKhoanGUI.main(null);
 				taoTaiKhoanGUI.setVisible(true);
-				taoTaiKhoanGUI.setLocationRelativeTo(mntmTaoTaiKhoan);
+				taoTaiKhoanGUI.setLocationRelativeTo(contentPane);
 //				renderMain(muaHang.getContentPane(), "muahang");
 			}
 		});

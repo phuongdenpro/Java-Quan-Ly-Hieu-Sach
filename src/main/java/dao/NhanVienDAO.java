@@ -9,6 +9,7 @@ import java.util.List;
 import connectDb.ConnectDB;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.TaiKhoan;
 
 public class NhanVienDAO extends ConnectDB{
 
@@ -29,6 +30,7 @@ public class NhanVienDAO extends ConnectDB{
             	return null;
             
             NhanVien nv = new NhanVien(rs);
+            nv.setTaiKhoan(new TaiKhoan(taiKhoanID));
             return nv;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,18 +98,28 @@ public class NhanVienDAO extends ConnectDB{
 		return false;	
 	}
 	
-	public boolean xoaNV(int maNV) {
+
+	
+	public boolean xoaNV(NhanVien nv) {
 	    PreparedStatement stmt = null;
 		try {
-		
+			
+			
 		    String sql = "DELETE FROM NhanVien where maNV = ?";
 		    stmt = this.conn.prepareStatement(sql);
 		    
-		    stmt.setInt(1, maNV);
+		    stmt.setInt(1, nv.getMaNv());
 		    
 		    int n = stmt.executeUpdate();
-
-		    return n > 0;
+		    
+		    if(n == 0) {
+		    	return false;
+		    }
+		    
+		    // xoas tai khoan
+		    new TaiKhoanDAO().xoaTaiKhoan(nv.getTaiKhoan().getId());
+		    
+		    return true;
 		} catch (SQLException e) {
 		    e.printStackTrace();
 		} finally {

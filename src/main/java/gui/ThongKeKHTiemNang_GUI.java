@@ -71,4 +71,7 @@ public class ThongKeKHTiemNang_GUI extends JFrame {
 		panel_1.add(scrollPane);
 	}
 
+	public JPanel getContentPane() {
+		return this.contentPane;
+	}
 }

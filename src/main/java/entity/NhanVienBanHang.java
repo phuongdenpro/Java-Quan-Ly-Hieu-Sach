@@ -6,9 +6,8 @@ public class NhanVienBanHang extends NhanVien {
 	private int caLamViec;
 	public ArrayList<HoaDon> hoaDons = new ArrayList<HoaDon>();
 	
-	public NhanVienBanHang(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan, int caLamViec,
-			String email,ArrayList<HoaDon> hoaDons) {
-		super(maNv, tenNv, soDienThoai, diaChi, taiKhoan,email);
+	public NhanVienBanHang(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan, int caLamViec, ArrayList<HoaDon> hoaDons) {
+		super(maNv, tenNv, soDienThoai, diaChi, taiKhoan);
 		this.caLamViec = caLamViec;
 		this.hoaDons = hoaDons;
 	}

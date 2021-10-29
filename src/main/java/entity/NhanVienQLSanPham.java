@@ -3,9 +3,8 @@ package entity;
 public class NhanVienQLSanPham extends NhanVien {
 	private int caLamViec;
 
-	public NhanVienQLSanPham(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan,
-			String email,int caLamViec) {
-		super(maNv, tenNv, soDienThoai, diaChi, taiKhoan,email);
+	public NhanVienQLSanPham(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan, int caLamViec) {
+		super(maNv, tenNv, soDienThoai, diaChi, taiKhoan);
 		this.caLamViec = caLamViec;
 	}
 
