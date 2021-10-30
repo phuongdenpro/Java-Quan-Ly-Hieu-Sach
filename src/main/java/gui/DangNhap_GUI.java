@@ -98,7 +98,7 @@ public class DangNhap_GUI extends JFrame {
 		txtUserName.setBounds(41, 77, 398, 41);
 		panel.add(txtUserName);
 		txtUserName.setColumns(10);
-		new Placeholder().placeholder(txtUserName, "Tài khoản");
+	//	new Placeholder().placeholder(txtUserName, "Tài khoản");
 		
 		txtPassword = new JPasswordField("nhan3008");
 		txtPassword.setBorder(new LineBorder(Color.LIGHT_GRAY));
@@ -106,7 +106,7 @@ public class DangNhap_GUI extends JFrame {
 		txtPassword.setBounds(41, 129, 398, 41);
 		panel.add(txtPassword);
 		txtPassword.setColumns(10);
-		new Placeholder().placeholder(txtPassword, "Mật khẩu");
+		//new Placeholder().placeholder(txtPassword, "Mật khẩu");
 		
 		btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
 		btnDangNhap.addActionListener(new ActionListener() {

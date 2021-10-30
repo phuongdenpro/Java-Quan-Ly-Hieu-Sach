@@ -20,7 +20,7 @@ import javax.swing.border.MatteBorder;
 
 import dao.DonDatHangDAO;
 import dao.LoaiSanPhamDAO;
-import dao.SanPhamDAO;
+import dao.SachDAO;
 import entity.KhachHang;
 import entity.LoaiSanPham;
 import entity.NhanVien;
