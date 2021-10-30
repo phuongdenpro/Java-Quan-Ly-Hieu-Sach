@@ -27,10 +27,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-public class TimKiemKhachHang_GUI extends JFrame {
+public class TimKiemNhanVien_GUI extends JFrame {
 
 
-	private JTextField txtThongTin;
+	JTextField txtThongTin;
 	JRadioButton rdbtnMaKH,rdbtnTenKH,rdbtnSDT;
 	JButton btnTimKiem;
 
@@ -41,7 +41,7 @@ public class TimKiemKhachHang_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TimKiemKhachHang_GUI frame = new TimKiemKhachHang_GUI();
+					TimKiemNhanVien_GUI frame = new TimKiemNhanVien_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,7 +53,7 @@ public class TimKiemKhachHang_GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TimKiemKhachHang_GUI() {
+	public TimKiemNhanVien_GUI() {
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -73,7 +73,7 @@ public class TimKiemKhachHang_GUI extends JFrame {
 		
 		JPanel pnTitle = new JPanel();
 		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel lblTitle = new JLabel("Tìm Kiếm Khách Hàng");
+		JLabel lblTitle = new JLabel("Tìm Kiếm Nhân Viên");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		pnTitle.add(lblTitle);
 		
@@ -102,10 +102,10 @@ public class TimKiemKhachHang_GUI extends JFrame {
 		txtThongTin.setColumns(25);
 		pnThongTin.add(txtThongTin);
 		
-		rdbtnMaKH = new JRadioButton("Mã KH");
+		rdbtnMaKH = new JRadioButton("Mã NV");
 		pnTimKiem.add(rdbtnMaKH);
 		
-		rdbtnTenKH = new JRadioButton("Tên KH");
+		rdbtnTenKH = new JRadioButton("Tên NV");
 		pnTimKiem.add(rdbtnTenKH);
 		
 		rdbtnSDT = new JRadioButton("Số điện thoại");
@@ -122,13 +122,13 @@ public class TimKiemKhachHang_GUI extends JFrame {
 		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
 		pnTimKiem.add(btnTimKiem);
 		
-		String[] cols = {"Mã khách hàng", "Họ tên", "Số điện thoại", "Địa chỉ"};
-		DefaultTableModel dfmTblKhachHang = new DefaultTableModel(cols, 0);
-		JTable tblDSKhachHang = new JTable(dfmTblKhachHang);
-		JScrollPane sctblDSKhachHang = new JScrollPane(tblDSKhachHang,
+		String[] cols = {"Mã nhân viên", "Họ và tên", "Số điện thoại", "Địa chỉ"};
+		DefaultTableModel dfmTblNhanVien = new DefaultTableModel(cols, 0);
+		JTable tblDSNhanVien = new JTable(dfmTblNhanVien);
+		JScrollPane sctblDSNhanVien= new JScrollPane(tblDSNhanVien,
 								JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 								JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		contentPane.add(sctblDSKhachHang, BorderLayout.CENTER);
+		contentPane.add(sctblDSNhanVien, BorderLayout.CENTER);
 	}
 
 }
