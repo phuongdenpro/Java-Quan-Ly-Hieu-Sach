@@ -19,7 +19,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Dimension;
 
-public class TimKiemSach_GUI extends JFrame {
+public class TimKiemSanPhamKhac_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -33,7 +33,7 @@ public class TimKiemSach_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TimKiemSach_GUI frame = new TimKiemSach_GUI();
+					TimKiemSanPhamKhac_GUI frame = new TimKiemSanPhamKhac_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,9 +45,9 @@ public class TimKiemSach_GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TimKiemSach_GUI() {
+	public TimKiemSanPhamKhac_GUI() {
 		setResizable(false);
-		setTitle("Tìm kiếm sách");
+		setTitle("Tìm kiếm sản phẩm khác");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -75,34 +75,32 @@ public class TimKiemSach_GUI extends JFrame {
 		panel_1.add(textFieldTim);
 		textFieldTim.setColumns(25);
 		
-		JRadioButton rdbtnMaSach = new JRadioButton("Mã sách");
-		panel_1.add(rdbtnMaSach);
+		JRadioButton rdbtnMaSanPham = new JRadioButton("Mã sản phẩm");
+		panel_1.add(rdbtnMaSanPham);
 		
-		JRadioButton rdbtnTenSach = new JRadioButton("Tên sách");
-		panel_1.add(rdbtnTenSach);
+		JRadioButton rdbtnTenSanPham = new JRadioButton("Tên sản phẩm");
+		panel_1.add(rdbtnTenSanPham);
 		
-		JRadioButton rdbtnNXB = new JRadioButton("Nhà xuất bản");
-		panel_1.add(rdbtnNXB);
+		JRadioButton rdbtnLoaiSanPham = new JRadioButton("Loại sản phẩm");
+		panel_1.add(rdbtnLoaiSanPham);
 		
-		JRadioButton rdbtnLoai = new JRadioButton("Loại sách");
-		panel_1.add(rdbtnLoai);
 		
 		ButtonGroup rdbtnGroup = new ButtonGroup();
-		rdbtnGroup.add(rdbtnMaSach);
-		rdbtnGroup.add(rdbtnTenSach);
-		rdbtnGroup.add(rdbtnNXB);
-		rdbtnGroup.add(rdbtnLoai);
+		rdbtnGroup.add(rdbtnMaSanPham);
+		rdbtnGroup.add(rdbtnTenSanPham);
+		rdbtnGroup.add(rdbtnLoaiSanPham);
+	
 		
-		rdbtnMaSach.setSelected(true);
+		rdbtnMaSanPham.setSelected(true);
 		JButton btnNewButton = new JButton("Tìm kiếm");
 		btnNewButton.setIcon(icon2);
 		btnNewButton.setBackground(Color.WHITE);
 		panel_1.add(btnNewButton);
 		
-		String[] cols = {"Mã sách", "Tên sách", "Nhà xuất bản", "Số lượng", "Giá nhập", "Giá bán", "Loại Sách"};
-		DefaultTableModel modelDSSach = new DefaultTableModel(cols, 0);
-		JTable tblDSSach = new JTable(modelDSSach);
-		JScrollPane scrollPane = new JScrollPane(tblDSSach);
+		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá nhập", "Giá bán", "Loại sản phẩm"};
+		DefaultTableModel modelDSSanPham = new DefaultTableModel(cols, 0);
+		JTable tblDSSanPham = new JTable(modelDSSanPham);
+		JScrollPane scrollPane = new JScrollPane(tblDSSanPham);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 	}
 

@@ -11,9 +11,9 @@ import connectDb.ConnectDB;
 import entity.KhachHang;
 import entity.SanPham;
 
-public class SanPhamDAO extends ConnectDB{
+public class SachDAO extends ConnectDB{
 	
-	public SanPhamDAO() throws SQLException {
+	public SachDAO() throws SQLException {
 		super();
 		
 	}
@@ -151,7 +151,7 @@ public class SanPhamDAO extends ConnectDB{
     }
     
     public static void main(String[] args) throws SQLException {
-    	SanPhamDAO sanPhamDao = new SanPhamDAO();
+    	SachDAO sanPhamDao = new SachDAO();
 //    	System.out.println(sanPhamDao.getListSanPham());
     	sanPhamDao.getListSanPhamByMaLoai(1);
 	}

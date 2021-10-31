@@ -40,8 +40,8 @@ public class QuanLy_GUI extends JFrame {
 	private DangNhap_GUI dangNhapGUI = new DangNhap_GUI();
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
-	private SanPham_GUI sanPhamGUI = new SanPham_GUI();
-	private DanhMucSanPham_GUI danhMucSanPhamGUI = new DanhMucSanPham_GUI();
+	private Sach_GUI SachGUI = new Sach_GUI();
+	private LoaiSanPham_GUI LoaiSanPhamGUI = new LoaiSanPham_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
 	private DatHang_GUI datHangGUI = new DatHang_GUI();
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
@@ -221,7 +221,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				renderMain((JPanel) sanPhamGUI.getContentPane(), "sanpham");
+				renderMain((JPanel) SachGUI.getContentPane(), "sanpham");
 			}
 		});
 		
@@ -237,7 +237,7 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				renderMain((JPanel) danhMucSanPhamGUI.getContentPane(), "danhmucsanpham");
+				renderMain((JPanel) LoaiSanPhamGUI.getContentPane(), "danhmucsanpham");
 			}
 		});
 		
