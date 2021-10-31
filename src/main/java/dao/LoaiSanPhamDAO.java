@@ -20,7 +20,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
 	public ArrayList<LoaiSanPham> getDanhSachLoaiSanPham() throws SQLException {
 		ArrayList<LoaiSanPham> dataList = new ArrayList<LoaiSanPham>();
         Statement stmt = this.conn.createStatement();
-        SachDAO sanPhamDao = new SachDAO();
+        SanPhamDAO sanPhamDao = new SanPhamDAO();
         
         try {
 

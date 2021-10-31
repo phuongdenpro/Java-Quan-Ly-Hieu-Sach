@@ -3,7 +3,7 @@ package entity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dao.SachDAO;
+import dao.SanPhamDAO;
 
 public class ChiTietDonDatHang {
 	private int id;
@@ -28,7 +28,7 @@ public class ChiTietDonDatHang {
 		try {
 			this.sanPham = new SanPham(rs);
 		}catch (Exception e) {
-			this.sanPham = new SachDAO().getSanPham(rs.getInt("maSP"));
+			this.sanPham = new SanPhamDAO().getSanPham(rs.getInt("maSP"));
 		}
 	}
 
