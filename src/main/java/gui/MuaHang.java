@@ -149,7 +149,7 @@ public class MuaHang extends JFrame{
 						JOptionPane.showMessageDialog(contentPane, "Đặt hàng thành công");
 						renderMain(trangChuGUI.getContentPane(), "trangchu");
 					}else {
-						JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+						JOptionPane.showMessageDialog(contentPane, "Sản phẩm đã hết");
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();

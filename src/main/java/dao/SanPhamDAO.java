@@ -97,6 +97,59 @@ public class SanPhamDAO extends ConnectDB{
         return null;
     }
     
+    public boolean capNhat(SanPham sp) {
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "UPDATE dbo.SanPham set tenSP = ?, giaSP = ?, giaNhap = ?, soLuong = ? where maSP = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, sp.getTenSp());
+            stmt.setDouble(2, sp.getGiaSp());
+            stmt.setDouble(3, sp.getGiaNhap());
+            stmt.setInt(4, sp.getSoLuong());
+            stmt.setInt(5, sp.getMaSp());
+            int n = stmt.executeUpdate();
+            
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+    
+    public List<SanPham> getSanPhamDaHet() {
+    	ArrayList<SanPham> dataList = new ArrayList<SanPham>();
+    	
+        PreparedStatement stmt = null;
+        try {
+
+            String sql = "SELECT * FROM dbo.SanPham inner join dbo.NhaCungCap on sanPham.MaNCC = nhaCungCap.MaNCC inner join dbo.LoaiSanPham on sanPham.maLoai = loaiSanPham.maLoai where soLuong = 0";
+            stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+//            	printResultSet(rs);
+                SanPham sanPham = new SanPham(rs);
+                dataList.add(sanPham);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataList;
+    }
+    
     public static void main(String[] args) throws SQLException {
     	SanPhamDAO sanPhamDao = new SanPhamDAO();
 //    	System.out.println(sanPhamDao.getListSanPham());

@@ -86,21 +86,18 @@ public class QuanLy_GUI extends JFrame {
 		menuGUI();
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
-//		this.khachHang = new KhachHangDAO().getKhachHang(1);
-//		contentPane = TrangChaoMungGUI.getContentPane();
-//		renderMain(TrangChaoMungGUI.getContentPane(), "chaomung");
-		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
-		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
-		System.out.println(khachHang);
-		
-		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
-		System.out.println(nhanVien);
-		
-		muaHangGUI = new MuaHang(khachHang);
-		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
-		menuBar.setVisible(true);
-//		handleLogin();
-		//handleRegister();
+//		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
+//		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
+//		System.out.println(khachHang);
+//		
+//		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+//		System.out.println(nhanVien);
+//		
+//		muaHangGUI = new MuaHang(khachHang);
+//		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+//		menuBar.setVisible(true);
+		handleLogin();
+		handleRegister();
 	}
 	
 	public void menuGUI() {
@@ -302,7 +299,7 @@ public class QuanLy_GUI extends JFrame {
 //				renderMain(muaHang.getContentPane(), "muahang");
 				muaHangGUI.setVisible(true);
 				muaHangGUI.setLocationRelativeTo(contentPane);
-				muaHangGUI.setAlwaysOnTop(true);
+//				muaHangGUI.setAlwaysOnTop(true);
 //				muaHangGUI.setAlwaysOnTop(false);
 //				trangChuGUI.setVisible(true);
 			}
@@ -313,6 +310,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(datHangGUI.getContentPane(), "dondathang");
+				try {
+					datHangGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		

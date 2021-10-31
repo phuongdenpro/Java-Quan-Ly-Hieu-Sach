@@ -7,8 +7,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import connectDb.ConnectDB;
+import entity.ChiTietDonDatHang;
 import entity.DonDatHang;
 import entity.KhachHang;
 import entity.SanPham;
@@ -34,10 +36,11 @@ public class DonDatHangDAO extends ConnectDB{
 //          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
             if(!rsDDH.next()) {
 //				Chưa có đơn -> Tạo mới
-            	System.out.println(this.taoDDH(maKH));
+            	if(this.taoDDH(maKH) == false) {
+            		return false;
+            	}
             	
 //            	thêm sản phẩm vào đơn hàng
-            	
             	return this.themSanPhamVaoDonDatHang(sp, soLuong, maKH);
             }else {
 //            	kiểm tra xem đã có sản phẩm đó trong đơn đặt hàng chưa
@@ -123,12 +126,85 @@ public class DonDatHangDAO extends ConnectDB{
     	return null;
     }
     
+    public DonDatHang getDonDatHangByMaDDH(int maDDH) {
+    	PreparedStatement stmt = null;
+
+        try {
+        	
+
+            String sql = "SELECT * FROM dbo.DonDatHang where maDDH = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, maDDH);
+            ResultSet rsDDH = stmt.executeQuery();
+            
+//          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
+            if(!rsDDH.next()) {
+            	return null;
+            }
+            printResultSet(rsDDH);
+            DonDatHang ddh = new DonDatHang(rsDDH);
+            
+            ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
+            
+            return ddh;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return null;
+    }
+    
     public boolean xacNhanDatHang(int maKH) {
     	PreparedStatement stmt = null;
 
         try {
+        	
         	DonDatHang ddh = this.getDonDatHang(maKH);
+        	if(ddh == null)
+        		return false;
+        	
         	ddh.tinhTongTien();
+        	List<ChiTietDonDatHang> dsctdh = ddh.getChiTietDonDatHangs();
+//        	System.out.println(dsctdh);
+        	AtomicBoolean flag = new AtomicBoolean();
+        	flag.set(true);
+        	
+        	dsctdh.forEach(ctddh -> {
+        		if(ctddh.getSoLuong() > ctddh.getSanPham().getSoLuong()) {
+        			flag.set(false);
+        			
+        		}
+        	});
+        	
+        	if(flag.get() == false) {
+        		return false;
+        	}
+        	
+        	dsctdh.forEach(ctddh -> {
+        		SanPham sp = ctddh.getSanPham();
+        		sp.setSoLuong(sp.getSoLuong()-ctddh.getSoLuong());
+        		try {
+					if(new SanPhamDAO().capNhat(sp) == false) {
+						flag.set(false);
+					}
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	});
+        	
+        	if(flag.get() == false) {
+        		return false;
+        	}
+        	
+        	
         	
         	Date now = new Date(new java.util.Date().getTime());
         	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 1, tongTien = ?, ngayDat = ? WHERE maKH = ? and tinhTrang = 0";
@@ -147,10 +223,33 @@ public class DonDatHangDAO extends ConnectDB{
     	return false;
     }
     
+//    public boolean cloneDDHtoHD(int maDDH) {
+//    	PreparedStatement stmt = null;
+//
+//        try {
+//        	DonDatHang ddh = this.getDonDatHangByMaDDH(maDDH);
+//        	
+////        	Date now = new Date(new java.util.Date().getTime());
+////        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 2 WHERE maDDH = ?";
+////        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+////        	prpStmt.setDouble(1, maDDH);
+////            int n = prpStmt.executeUpdate();
+////               
+////            return n > 0;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//        }
+//    	
+//    	return false;
+//    }
+    
     public boolean thanhToan(int maDDH) {
     	PreparedStatement stmt = null;
 
         try {
+        	
+//        	this.cloneDDHtoHD(maDDH);
         	
         	Date now = new Date(new java.util.Date().getTime());
         	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 2 WHERE maDDH = ?";
@@ -200,7 +299,38 @@ public class DonDatHangDAO extends ConnectDB{
             stmt = this.conn.createStatement();
             ResultSet rsDDH = stmt.executeQuery(sql);
             
-//          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
+            while(rsDDH.next()) {
+            	printResultSet(rsDDH);
+            	DonDatHang ddh = new DonDatHang(rsDDH);
+            	ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
+            	dsddh.add(ddh);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return dsddh;
+    }
+    
+    public List<DonDatHang> timKiem(String key, String val) {
+    	Statement stmt = null;
+    	List<DonDatHang> dsddh = new ArrayList<DonDatHang>();
+        try {
+        	System.out.println(key + " " + val);
+
+            String sql = "SELECT * FROM dbo.DonDatHang inner join dbo.KhachHang on dbo.DonDatHang.maKH = dbo.KhachHang.maKH where dbo.DonDatHang.tinhTrang != 0 and "+ key +" like N'"+ val + "'";
+            stmt = this.conn.createStatement();
+            
+            ResultSet rsDDH = stmt.executeQuery(sql);
+            
+            System.out.println(rsDDH.getStatement().toString());
+            
             while(rsDDH.next()) {
             	printResultSet(rsDDH);
             	DonDatHang ddh = new DonDatHang(rsDDH);
@@ -226,6 +356,6 @@ public class DonDatHangDAO extends ConnectDB{
     	DonDatHangDAO DDHDao = new DonDatHangDAO();
 //    	
 //    	System.out.println(DDHDao.themSanPhamVaoDonDatHang(sp, 1, 1));
-    	System.out.println(DDHDao.getDonDatHang(1));
+    	System.out.println(DDHDao.timKiem("soDienThoai", "0987654222"));
 	}
 }

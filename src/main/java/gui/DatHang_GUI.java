@@ -29,12 +29,15 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 	private JButton btnThanhToan;
 	private JButton btnXoa;
 	private JTextField txtTimMaDon;
-	private JButton btnTimMaDon;
 	private List<DonDatHang> dsddh;
 	private DefaultTableModel modelDSSP;
 	private JTable tblDSSP;
+	private JTextField txtTimKiem;
+	private JButton btnTimKiem;
+	private JComboBox comboBox;
 	
-
+	private boolean isTimKiem = false;
+	
 	public DatHang_GUI() {
 		
 
@@ -91,35 +94,45 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
 		scrollPane.setBounds(10, 367, 1254, 200);
 		panel_1.add(scrollPane);
+		
+//		DefaultCom
+		DefaultComboBoxModel<String> modelTimKiem = new DefaultComboBoxModel<String>();
+		comboBox = new JComboBox(modelTimKiem);
+		comboBox.setBounds(10, 29, 133, 25);
+		panel_1.add(comboBox);
+		modelTimKiem.addElement("Mã đơn đặt hàng");
+		modelTimKiem.addElement("Mã khách hàng");
+		modelTimKiem.addElement("Tên khách hàng");
+		modelTimKiem.addElement("Số điện thoại");
 
-		JLabel lbTimMaDon = new JLabel("Mã đơn:");
-		lbTimMaDon.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbTimMaDon.setBounds(20, 25, 110, 30);
-		panel_1.add(lbTimMaDon);
-
-		txtTimMaDon = new JTextField();
-		txtTimMaDon.setBounds(100, 29, 120, 25);
-		panel_1.add(txtTimMaDon);
-		txtTimMaDon.setColumns(10);
-
-		btnTimMaDon = new JButton("Tìm");
-		btnTimMaDon.setBackground(Color.WHITE);
-		btnTimMaDon.setIcon(new ImageIcon("data/images/search_16.png"));
-		btnTimMaDon.setBounds(235, 28, 115, 25);
-		panel_1.add(btnTimMaDon);
+		txtTimKiem = new JTextField();
+		txtTimKiem.setBounds(153, 29, 179, 25);
+		panel_1.add(txtTimKiem);
+		txtTimKiem.setColumns(10);
+		
+		ImageIcon icon_timKiem = new ImageIcon("data/images/search_16.png");
+		btnTimKiem = new JButton("Tìm kiếm", icon_timKiem);
+		btnTimKiem.setBackground(Color.WHITE);
+		btnTimKiem.setBounds(340, 29, 115, 25);
+		panel_1.add(btnTimKiem);
+		
+		ImageIcon icon_refresh = new ImageIcon("data/images/refresh.png");
+		JButton btnLamMoi = new JButton("Làm mới dữ liệu", icon_refresh);
+		btnLamMoi.setBackground(Color.WHITE);
+		btnLamMoi.setBounds(465, 29, 167, 25);
+		panel_1.add(btnLamMoi);
 
 		btnThanhToan = new JButton("Thanh toán");
 		btnThanhToan.setBackground(Color.WHITE);
 		btnThanhToan.setIcon(new ImageIcon("data/images/blueAdd_16.png"));
-		btnThanhToan.setBounds(360, 28, 145, 25);
+		btnThanhToan.setBounds(642, 29, 145, 25);
 		panel_1.add(btnThanhToan);
 		
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBackground(Color.WHITE);
-		btnXoa.setBounds(515, 28, 115, 25);
+		btnXoa.setBounds(797, 29, 115, 25);
 		btnXoa.setIcon(new ImageIcon("data/images/cancel_16.png"));
 		panel_1.add(btnXoa);
-		btnTimMaDon.addActionListener(this);
 		
 		pnMain.addMouseListener(this);
 
@@ -144,10 +157,28 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int id = tableDonDat.getSelectedRow();
+				
+				if(id == -1) return;
+				
+				if(dsddh.get(id).getTinhTrang() == 2)return ;
+				
 				try {
 					if(new DonDatHangDAO().thanhToan(dsddh.get(id).getMaDDH())) {
 						JOptionPane.showMessageDialog(pnMain, "Thanh toán thành công");
-//						làm tiếp
+						if(isTimKiem) {
+							String key = "maDDH";
+							if(comboBox.getSelectedIndex() == 1) {
+								key = "KhachHang.maKH";
+							}else if(comboBox.getSelectedIndex() == 2) {
+								key = "HoTen";
+							}else if(comboBox.getSelectedIndex() == 3) {
+								key = "soDienThoai";
+							}
+							
+							dsddh = new DonDatHangDAO().timKiem(key, txtTimKiem.getText());
+							renderDataTimKiem();
+						}else 
+							renderData();
 					}else {
 						JOptionPane.showMessageDialog(pnMain, "Có lỗi xảy ra");
 					}
@@ -164,29 +195,77 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				int id = tableDonDat.getSelectedRow();
-//				if(id == -1) return;
-//				try {
-//					if(new DonDatHangDAO().xoaDonDatHang(dsddh.get(id).getMaDDH())) {
-//						tableDonDat.clearSelection();
-//						System.out.println("a" + id);
-//						modelDonDat.removeRow(id);
-//						dsddh.remove(id);
-//						
-//					}else {
-//						JOptionPane.showMessageDialog(pnMain, "Có lỗi xảy ra");
-//					}
-//					
-//					
-//				} catch (HeadlessException | SQLException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				int id = tableDonDat.getSelectedRow();
+				
+				if(id == -1) return;
+				
+				int choose = JOptionPane.showConfirmDialog(pnMain, "Chắc chắn xóa ?");
+				if(choose != 0)
+					return;
+				
+				try {
+					if(new DonDatHangDAO().xoaDonDatHang(dsddh.get(id).getMaDDH())) {
+						if(isTimKiem) {
+							String key = "maDDH";
+							if(comboBox.getSelectedIndex() == 1) {
+								key = "KhachHang.maKH";
+							}else if(comboBox.getSelectedIndex() == 2) {
+								key = "HoTen";
+							}else if(comboBox.getSelectedIndex() == 3) {
+								key = "soDienThoai";
+							}
+							
+							dsddh = new DonDatHangDAO().timKiem(key, txtTimKiem.getText());
+							renderDataTimKiem();
+						}else 
+							renderData();
+					}else {
+						JOptionPane.showMessageDialog(pnMain, "Có lỗi xảy ra");
+					}
+					
+					
+				} catch (HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		btnLamMoi.addActionListener((e) -> {
+			try {
+				renderData();
+				isTimKiem = false;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		btnTimKiem.addActionListener((e) -> {
+			
+			try {
+				String key = "maDDH";
+				if(comboBox.getSelectedIndex() == 1) {
+					key = "KhachHang.maKH";
+				}else if(comboBox.getSelectedIndex() == 2) {
+					key = "HoTen";
+				}else if(comboBox.getSelectedIndex() == 3) {
+					key = "soDienThoai";
+				}
+				
+				dsddh = new DonDatHangDAO().timKiem(key, txtTimKiem.getText());
+				renderDataTimKiem();
+				isTimKiem = true;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
 	}
 	
 	public void renderData() throws SQLException {
+		tableDonDat.clearSelection();
+		
 		modelDonDat.getDataVector().removeAllElements();
 		dsddh = new DonDatHangDAO().getDSDonDatHang();
 		
@@ -205,10 +284,42 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 					tinhTrang, 
 					ddh.getNgayDat()});
 		});
+		
+		tableDonDat.revalidate();
+		tableDonDat.repaint();
+	}
+	
+	public void renderDataTimKiem() throws SQLException {
+		tableDonDat.clearSelection();
+		
+		modelDonDat.getDataVector().removeAllElements();
+		
+		dsddh.forEach(ddh -> {
+			String tinhTrang = "Chưa thanh toán";
+			if(ddh.getTinhTrang() == 2)
+				tinhTrang = "Đã thanh toán";
+			
+			modelDonDat.addRow(new Object[] {
+					ddh.getMaDDH(), 
+					ddh.getKhachHang().getMaKh(), 
+					ddh.getKhachHang().getHoTen(), 
+					ddh.getKhachHang().getSoDienThoai(),
+					ddh.getKhachHang().getDiaChi(),
+					ddh.getTongTien(), 
+					tinhTrang, 
+					ddh.getNgayDat()});
+		});
+		
+		tableDonDat.revalidate();
+		tableDonDat.repaint();
 	}
 
 	public void renderSSSP(int i) {
 		modelDSSP.getDataVector().removeAllElements();
+		if(i == -1) return;
+		tblDSSP.clearSelection();
+		
+		
 		dsddh.get(i).getChiTietDonDatHangs().forEach(ctddh -> {
 			modelDSSP.addRow(new Object[] {
 					ctddh.getSanPham().getMaSp(), 
@@ -218,6 +329,9 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 					ctddh.tinhThanhTien()
 				});
 		});
+		
+		tblDSSP.revalidate();
+		tblDSSP.repaint();
 	}
 	
 

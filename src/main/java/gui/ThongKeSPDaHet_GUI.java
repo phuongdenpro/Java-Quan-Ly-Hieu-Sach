@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.SanPhamDAO;
+import entity.SanPham;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -15,10 +19,15 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.List;
 
 public class ThongKeSPDaHet_GUI extends JFrame {
 
 	private JPanel contentPane;
+	private List<SanPham> dssp;
+	private DefaultTableModel modelDSSP;
+	private JTable tblDSSP;
 
 	/**
 	 * Launch the application.
@@ -38,8 +47,9 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public ThongKeSPDaHet_GUI() {
+	public ThongKeSPDaHet_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -53,22 +63,42 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
+		JPanel pnTitle = new JPanel();
+		panel.add(pnTitle);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê sản phẩm đã hết");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_3.add(lblNewLabel_2);
+		JLabel lblThongKeSanPhamDaHet = new JLabel("Thống kê sản phẩm đã hết");
+		lblThongKeSanPhamDaHet.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnTitle.add(lblThongKeSanPhamDaHet);
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.CENTER);
+		JPanel pnTable = new JPanel();
+		contentPane.add(pnTable, BorderLayout.CENTER);
 		
-		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Nhà xuất bản", "Đơn giá", "Số lượng đã bán"};
-		DefaultTableModel modelDSSP = new DefaultTableModel(cols, 0);
-		panel_1.setLayout(new BorderLayout(0, 0));
-		JTable tblDSSP = new JTable(modelDSSP);
+		pnTable.setLayout(new BorderLayout(0, 0));
+		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm", "Nhà xuất bản/Nhà cung cấp", "Đơn giá"};
+		modelDSSP = new DefaultTableModel(cols, 0);
+		tblDSSP = new JTable(modelDSSP);
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
-		panel_1.add(scrollPane);
+		pnTable.add(scrollPane);
+		
+		renderData();
+	}
+	
+	public void renderData() throws SQLException {
+		dssp = new SanPhamDAO().getSanPhamDaHet();
+		modelDSSP.getDataVector().removeAllElements();
+		
+		dssp.forEach(sp -> {
+			modelDSSP.addRow(new Object[] {
+					sp.getMaSp(),
+					sp.getTenSp(),
+					sp.getLoaiSanPham().getTenLoai(),
+					sp.getNhaCungCap().getTenNCC(),
+					sp.getGiaSp()
+			});
+		});
+		
+		tblDSSP.revalidate();
+		tblDSSP.repaint();
 	}
 	
 	public JPanel getContentPane() {
