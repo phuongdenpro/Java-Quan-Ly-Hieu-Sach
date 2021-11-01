@@ -34,26 +34,46 @@ public class QuanLy_GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	private MuaHang muaHangGUI;
-	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();
-	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
+	
+	
+	
+	
 	private DangNhap_GUI dangNhapGUI = new DangNhap_GUI();
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
-	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
-	private Sach_GUI SachGUI = new Sach_GUI();
-	private SanPhamKhac_GUI SanPhamKhacGUI = new SanPhamKhac_GUI();
-	private LoaiSanPham_GUI LoaiSanPhamGUI = new LoaiSanPham_GUI();
+	
+	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
-	private DatHang_GUI datHangGUI = new DatHang_GUI();
-	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
-	private NhanVien_GUI nhanVienGUI = new NhanVien_GUI();
-	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
+	
+	private Sach_GUI SachGUI = new Sach_GUI();
+<<<<<<< HEAD
+	private SanPhamKhac_GUI SanPhamKhacGUI = new SanPhamKhac_GUI();
+=======
+	private SanPhamKhac_GUI sanPhamKhacGUI = new SanPhamKhac_GUI();
+>>>>>>> 09f2f22c9551dd486dcda412095ea45f4b8112cb
+	private LoaiSanPham_GUI LoaiSanPhamGUI = new LoaiSanPham_GUI();
+	private TimKiemSach_GUI timKiemSachGUI = new TimKiemSach_GUI();
+	private TimKiemSanPhamKhac_GUI timKiemSPKhacGUI = new TimKiemSanPhamKhac_GUI();
+	private TimKiemDanhMucSanPham_GUI timKiemDMSPGUI = new TimKiemDanhMucSanPham_GUI();
 	private ThongKeSanPhamBanChay_GUI thongKeSPBCGUI = new ThongKeSanPhamBanChay_GUI();
 	private ThongKeSPDaHet_GUI thongKeSPDBHGUI = new ThongKeSPDaHet_GUI();
+	
+	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
+	private MuaHang muaHangGUI;
+	private DatHang_GUI datHangGUI = new DatHang_GUI();
+	private TimKiemKhachHang_GUI timKiemKHGUI = new TimKiemKhachHang_GUI();
 	private ThongKeKHTiemNang_GUI thongKeKHTNGUI = new ThongKeKHTiemNang_GUI();
+<<<<<<< HEAD
 	private TimKiemSach_GUI timKiemSachGUI = new TimKiemSach_GUI();
 	private TimKiemDanhMucSanPham_GUI timKiemDanhMucGUI = new TimKiemDanhMucSanPham_GUI();
 	private TimKiemSanPhamKhac_GUI timKiemSanPhamKhacGUI = new TimKiemSanPhamKhac_GUI();
+=======
+	
+	private NhanVien_GUI nhanVienGUI = new NhanVien_GUI();
+	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
+	private TimKiemNhanVien_GUI timKiemNhanVienGUI = new TimKiemNhanVien_GUI();
+	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
+	
+>>>>>>> 09f2f22c9551dd486dcda412095ea45f4b8112cb
 	private JMenuBar menuBar;
 
 	/**
@@ -89,21 +109,18 @@ public class QuanLy_GUI extends JFrame {
 		menuGUI();
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
-//		this.khachHang = new KhachHangDAO().getKhachHang(1);
-//		contentPane = TrangChaoMungGUI.getContentPane();
-//		renderMain(TrangChaoMungGUI.getContentPane(), "chaomung");
-		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
-		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
-		System.out.println(khachHang);
-		
-		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
-		System.out.println(nhanVien);
-		
-		muaHangGUI = new MuaHang(khachHang);
-		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
-		menuBar.setVisible(true);
-//		handleLogin();
-		//handleRegister();
+//		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
+//		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
+//		System.out.println(khachHang);
+//		
+//		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+//		System.out.println(nhanVien);
+//		
+//		muaHangGUI = new MuaHang(khachHang);
+//		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+//		menuBar.setVisible(true);
+		handleLogin();
+		handleRegister();
 	}
 	
 	public void menuGUI() {
@@ -226,8 +243,13 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 
 				renderMain((JPanel) SachGUI.getContentPane(), "sach");
+=======
+				
+				renderMain((JPanel) SachGUI.getContentPane(), "sanpham");
+>>>>>>> 09f2f22c9551dd486dcda412095ea45f4b8112cb
 			}
 		});
 		
@@ -235,8 +257,12 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				// TODO Auto-generated method stub
 				renderMain((JPanel) SanPhamKhacGUI.getContentPane(), "sanphamkhac");
+=======
+				renderMain((JPanel) sanPhamKhacGUI.getContentPane(), "spkhac");
+>>>>>>> 09f2f22c9551dd486dcda412095ea45f4b8112cb
 			}
 		});
 		
@@ -252,7 +278,10 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				// TODO Auto-generated method stub
+=======
+>>>>>>> 09f2f22c9551dd486dcda412095ea45f4b8112cb
 				renderMain((JPanel) timKiemSachGUI.getContentPane(), "timkiemsach");
 			}
 		});
@@ -261,8 +290,12 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				// TODO Auto-generated method stub
 				renderMain((JPanel) timKiemSanPhamKhacGUI.getContentPane(), "timkiemsanpham");
+=======
+				renderMain((JPanel) timKiemSPKhacGUI.getContentPane(), "timkiemspkhac");
+>>>>>>> 09f2f22c9551dd486dcda412095ea45f4b8112cb
 			}
 		});
 		
@@ -270,8 +303,12 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				// TODO Auto-generated method stub
 				renderMain((JPanel) timKiemDanhMucGUI.getContentPane(), "timkiemdanhmucsanpham");
+=======
+				renderMain((JPanel) timKiemDMSPGUI.getContentPane(), "timkiemdanhmucsanpham");
+>>>>>>> 09f2f22c9551dd486dcda412095ea45f4b8112cb
 			}
 		});
 		
@@ -309,7 +346,7 @@ public class QuanLy_GUI extends JFrame {
 //				renderMain(muaHang.getContentPane(), "muahang");
 				muaHangGUI.setVisible(true);
 				muaHangGUI.setLocationRelativeTo(contentPane);
-				muaHangGUI.setAlwaysOnTop(true);
+//				muaHangGUI.setAlwaysOnTop(true);
 //				muaHangGUI.setAlwaysOnTop(false);
 //				trangChuGUI.setVisible(true);
 			}
@@ -320,6 +357,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(datHangGUI.getContentPane(), "dondathang");
+				try {
+					datHangGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -327,6 +370,7 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				renderMain((JPanel)timKiemKHGUI.getContentPane(), "dondathang");
 			}
 		});
 		
@@ -361,7 +405,7 @@ public class QuanLy_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				renderMain(thongKeGUI.getContentPane(), "thongke");
+				renderMain((JPanel)timKiemNhanVienGUI.getContentPane(), "timkiemnhanvien");
 			}
 		});
 		
@@ -370,10 +414,8 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-//				taoTaiKhoanGUI.main(null);
 				taoTaiKhoanGUI.setVisible(true);
 				taoTaiKhoanGUI.setLocationRelativeTo(contentPane);
-//				renderMain(muaHang.getContentPane(), "muahang");
 			}
 		});
 

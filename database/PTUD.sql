@@ -36,7 +36,7 @@ CREATE TABLE KhachHang (
 );
 	
 CREATE TABLE HoaDon (
-	MaHD int NOT NULL, 
+	MaHD int IDENTITY NOT NULL, 
 	MaNV int NOT NULL, 
 	MaKH int NOT NULL, 
 	TongTien float(10) NOT NULL, 
@@ -76,7 +76,7 @@ CREATE TABLE NhaCungCap (
 );
 
 CREATE TABLE DonDatHang (
-	MaDDH int NOT NULL, 
+	MaDDH int IDENTITY NOT NULL, 
 	maKH int NOT NULL, 
 	TongTien float(10) NOT NULL, 
 	NgayDat date NULL, 

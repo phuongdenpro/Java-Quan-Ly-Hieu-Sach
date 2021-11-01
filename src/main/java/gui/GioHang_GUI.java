@@ -262,13 +262,17 @@ public class GioHang_GUI extends JFrame {
 			if(donDatHang != null) {
 				ArrayList<ChiTietDonDatHang> chiTietDDH = donDatHang.getChiTietDonDatHangs();
 				if(chiTietDDH.size() == 0) {
+					btnDatHang.setEnabled(false);
 					pnItems.add(new JLabel("Không có sản phẩm nào trong giỏ hàng"));
+					
 					return;
 				}
+				btnDatHang.setEnabled(true);
 				chiTietDDH.forEach(chiTiet -> {
 					pnItems.add(this.itemGUI(chiTiet));
 				});
 			}else {
+				btnDatHang.setEnabled(false);
 				pnItems.add(new JLabel("Không có sản phẩm nào trong giỏ hàng"));
 				
 			}
