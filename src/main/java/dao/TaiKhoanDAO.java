@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import connectDb.ConnectDB;
+import connectdb.ConnectDB;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.SanPham;

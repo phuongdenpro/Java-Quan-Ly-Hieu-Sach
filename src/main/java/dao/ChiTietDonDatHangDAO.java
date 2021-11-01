@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import connectDb.ConnectDB;
+import connectdb.ConnectDB;
 import entity.ChiTietDonDatHang;
 import entity.SanPham;
 

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import connectDb.ConnectDB;
+import connectdb.ConnectDB;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.TaiKhoan;
@@ -69,6 +69,35 @@ public class NhanVienDAO extends ConnectDB{
 		    }
 		}
 		return dsnv;		
+	}
+	
+	public NhanVien getNhanVienByMaNV(int maNV){
+	    PreparedStatement stmt = null;
+		try {
+		
+		    String sql = "SELECT * FROM dbo.NhanVien where maNV = ?";
+		    stmt = this.conn.prepareStatement(sql);
+		    stmt.setInt(1, maNV);
+		    ResultSet rs = stmt.executeQuery();
+
+		    if(!rs.next()) {
+		    	return null;
+		    }
+		    
+	    	printResultSet(rs);
+	    	NhanVien nv = new NhanVien(rs);
+	    	return nv;
+		   
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		} finally {
+		    try {
+		        stmt.close();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		}
+		return null;		
 	}
 	
 	public boolean suaNV(NhanVien nv) {

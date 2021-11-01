@@ -1,4 +1,4 @@
-package connectDb;
+package connectdb;
 
 import java.sql.*;
 

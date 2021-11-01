@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import connectdb.ConnectDB;
 import entity.DonDatHang;
 import entity.KhachHang;
 import entity.SanPham;
@@ -19,7 +20,6 @@ import entity.LoaiSanPham;
 import dao.DonDatHangDAO;
 import dao.LoaiSanPhamDAO;
 import dao.SanPhamDAO;
-import connectDb.ConnectDB;
 import util.Placeholder;
 
 import javax.swing.BoxLayout;

@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import connectDb.ConnectDB;
+import connectdb.ConnectDB;
 import entity.KhachHang;
 import entity.SanPham;
 
@@ -175,6 +175,28 @@ public class SanPhamDAO extends ConnectDB{
             }
         }
         return dataList;
+    }
+    
+    public int getSoLuongSP(int maSP) {
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "SELECT soLuong FROM dbo.SanPham where maSP = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, maSP);
+            ResultSet rs = stmt.executeQuery(sql);
+            return rs.getInt("soLuong");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
     }
     
     public static void main(String[] args) throws SQLException {

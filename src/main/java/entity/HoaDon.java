@@ -7,19 +7,30 @@ public class HoaDon {
 	private int maHD;
 	private double tongTien;
 	private Date ngayMua;
-	public NhanVienBanHang nhanVienBanHang;
+	public NhanVien nhanVien;
 	public KhachHang khachHang;
 	public ArrayList<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
 	
-	public HoaDon(int maHD, double tongTien, Date ngayMua, NhanVienBanHang nhanVienBanHang, KhachHang khachHang,
+	public HoaDon(int maHD, double tongTien, Date ngayMua, NhanVien nhanVien, KhachHang khachHang,
 			ArrayList<ChiTietHoaDon> chiTietHoaDons) {
 		super();
 		this.maHD = maHD;
 		this.tongTien = tongTien;
 		this.ngayMua = ngayMua;
-		this.nhanVienBanHang = nhanVienBanHang;
+		this.nhanVien = nhanVien;
 		this.khachHang = khachHang;
 		this.chiTietHoaDons = chiTietHoaDons;
+	}
+	
+	public HoaDon(NhanVien nhanVien, KhachHang khachHang,
+			ArrayList<ChiTietHoaDon> chiTietHoaDons) {
+		super();
+		
+		this.ngayMua = new Date(new java.util.Date().getTime());
+		this.nhanVien = nhanVien;
+		this.khachHang = khachHang;
+		this.chiTietHoaDons = chiTietHoaDons;
+		this.tongTien = tinhTongTien();
 	}
 
 	public int getMaHD() {
@@ -46,12 +57,12 @@ public class HoaDon {
 		this.ngayMua = ngayMua;
 	}
 
-	public NhanVienBanHang getNhanVienBanHang() {
-		return nhanVienBanHang;
+	public NhanVien getNhanVien() {
+		return nhanVien;
 	}
 
-	public void setNhanVienBanHang(NhanVienBanHang nhanVienBanHang) {
-		this.nhanVienBanHang = nhanVienBanHang;
+	public void setNhanVien(NhanVien nhanVien) {
+		this.nhanVien = nhanVien;
 	}
 
 	public KhachHang getKhachHang() {
@@ -73,9 +84,16 @@ public class HoaDon {
 	@Override
 	public String toString() {
 		return "HoaDon [maHD=" + maHD + ", tongTien=" + tongTien + ", ngayMua=" + ngayMua + ", nhanVienBanHang="
-				+ nhanVienBanHang + ", khachHang=" + khachHang + ", chiTietHoaDons=" + chiTietHoaDons + "]";
+				+ nhanVien + ", khachHang=" + khachHang + ", chiTietHoaDons=" + chiTietHoaDons + "]";
 	}
 	
 	
-	
+	public double tinhTongTien() {
+		double tongTien = 0;
+		for(int i=0; i<chiTietHoaDons.size(); i++) {
+			tongTien += chiTietHoaDons.get(i).tinhThanhTien();
+		}
+		return tongTien;
+		
+	}
 }

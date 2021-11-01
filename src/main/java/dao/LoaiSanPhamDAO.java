@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import connectDb.ConnectDB;
+import connectdb.ConnectDB;
 import entity.LoaiSanPham;
 import entity.SanPham;
 

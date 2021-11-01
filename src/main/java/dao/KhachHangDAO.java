@@ -2,7 +2,7 @@ package dao;
 
 import java.util.*;
 
-import connectDb.ConnectDB;
+import connectdb.ConnectDB;
 
 import java.sql.*;
 
@@ -25,7 +25,8 @@ public class KhachHangDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                System.out.println(rs.getString("soDienThoai"));
+            	KhachHang kh = new KhachHang(rs);
+            	dataList.add(kh);
             }
         } catch (SQLException e) {
             e.printStackTrace();

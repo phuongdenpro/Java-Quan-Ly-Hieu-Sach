@@ -15,6 +15,13 @@ public class ChiTietHoaDon {
 		this.hoaDon = hoaDon;
 		this.sanPham = sanPham;
 	}
+	
+	public ChiTietHoaDon(SanPham sanPham, int soLuong, double donGia) {
+		super();
+		this.sanPham = sanPham;
+		this.soLuong = soLuong;
+		this.donGia = donGia;
+	}
 
 	public int getId() {
 		return id;
@@ -62,5 +69,7 @@ public class ChiTietHoaDon {
 				+ ", sanPham=" + sanPham + "]";
 	}
 	
-	
+	public double tinhThanhTien() {
+		return this.donGia * this.soLuong;
+	}
 }
