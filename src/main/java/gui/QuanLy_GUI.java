@@ -41,6 +41,7 @@ public class QuanLy_GUI extends JFrame {
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
 	private Sach_GUI SachGUI = new Sach_GUI();
+	private SanPhamKhac_GUI SanPhamKhacGUI = new SanPhamKhac_GUI();
 	private LoaiSanPham_GUI LoaiSanPhamGUI = new LoaiSanPham_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
 	private DatHang_GUI datHangGUI = new DatHang_GUI();
@@ -50,7 +51,9 @@ public class QuanLy_GUI extends JFrame {
 	private ThongKeSanPhamBanChay_GUI thongKeSPBCGUI = new ThongKeSanPhamBanChay_GUI();
 	private ThongKeSPDaHet_GUI thongKeSPDBHGUI = new ThongKeSPDaHet_GUI();
 	private ThongKeKHTiemNang_GUI thongKeKHTNGUI = new ThongKeKHTiemNang_GUI();
-	
+	private TimKiemSach_GUI timKiemSachGUI = new TimKiemSach_GUI();
+	private TimKiemDanhMucSanPham_GUI timKiemDanhMucGUI = new TimKiemDanhMucSanPham_GUI();
+	private TimKiemSanPhamKhac_GUI timKiemSanPhamKhacGUI = new TimKiemSanPhamKhac_GUI();
 	private JMenuBar menuBar;
 
 	/**
@@ -224,7 +227,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				renderMain((JPanel) SachGUI.getContentPane(), "sanpham");
+				renderMain((JPanel) SachGUI.getContentPane(), "sach");
 			}
 		});
 		
@@ -233,6 +236,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				renderMain((JPanel) SanPhamKhacGUI.getContentPane(), "sanphamkhac");
 			}
 		});
 		
@@ -249,6 +253,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				renderMain((JPanel) timKiemSachGUI.getContentPane(), "timkiemsach");
 			}
 		});
 		
@@ -257,6 +262,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				renderMain((JPanel) timKiemSanPhamKhacGUI.getContentPane(), "timkiemsanpham");
 			}
 		});
 		
@@ -265,6 +271,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				renderMain((JPanel) timKiemDanhMucGUI.getContentPane(), "timkiemdanhmucsanpham");
 			}
 		});
 		

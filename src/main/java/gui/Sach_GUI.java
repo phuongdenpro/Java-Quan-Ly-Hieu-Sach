@@ -12,6 +12,14 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import entity.DonDatHang;
+import entity.KhachHang;
+import entity.SanPham;
+import entity.LoaiSanPham;
+import dao.DonDatHangDAO;
+import dao.LoaiSanPhamDAO;
+import dao.SanPhamDAO;
+import connectDb.ConnectDB;
 import util.Placeholder;
 
 import javax.swing.BoxLayout;
@@ -22,7 +30,16 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -35,7 +52,7 @@ import javax.swing.JComboBox;
 import javax.swing.border.CompoundBorder;
 import javax.swing.ScrollPaneConstants;
 
-public class Sach_GUI extends JFrame {
+public class Sach_GUI extends JFrame implements ActionListener, MouseListener{
 
 	private JPanel contentPane;
 	private JPanel out;
@@ -50,6 +67,14 @@ public class Sach_GUI extends JFrame {
 	private JTextField txtGiaBan;
 	private JTextField txtMaLoai;
 	private JComboBox<String> cboListMaloai;
+	private SanPhamDAO sach_DAO;
+	private LoaiSanPhamDAO loaiDAO;
+	private ArrayList<SanPham> dssach;
+	private ArrayList<LoaiSanPham> dsLoai;
+	private JButton btnThem;
+
+	//private ArrayList<entity.SanPham> dsSanpham;
+	private DefaultTableModel modelDSSach;
 
 	/**
 	 * Launch the application.
@@ -69,8 +94,18 @@ public class Sach_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public Sach_GUI() {
+	public Sach_GUI() throws SQLException {
+		
+//		try {
+//			ConnectDB.getInstance().ConnectDB();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+
+		sach_DAO = new SanPhamDAO();
+		
 		setTitle("Quản Lý Sách");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -218,7 +253,7 @@ public class Sach_GUI extends JFrame {
 		
 		
 		JPanel pnMaLoai = new JPanel();
-		JLabel lblMaLoai = new JLabel("Mã Loại:");
+		JLabel lblMaLoai = new JLabel("Loại sách:");
 		lblMaLoai.setPreferredSize(new Dimension(100, 14));
 		pnMaLoai.add(lblMaLoai);
 		pnThongTin.add(pnMaLoai);
@@ -226,7 +261,6 @@ public class Sach_GUI extends JFrame {
 		
 		cboListMaloai.setPreferredSize(new Dimension(202,30));
 //		cboListMaloai.setModel(new javax.swing.DefaultComboBoxModel<>());
-		cboListMaloai.addItem("Name");
 		//cboListMaloai.setSize(7, 30);
 		//PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
 	
@@ -304,19 +338,144 @@ public class Sach_GUI extends JFrame {
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 		
 		String[] cols_dssach = {"Mã sách", "Tên sách", "Nhà xuất bản", "Số lượng", "Giá nhập", "Giá bán", "Loại Sách"};
-		DefaultTableModel modelDSSach = new DefaultTableModel(cols_dssach, 0);
+		
+		modelDSSach = new DefaultTableModel(cols_dssach, 0) {
+			// khóa không cho người dùng nhập trên table
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		};
 		table = new JTable(modelDSSach);
 		JScrollPane scrTableSach = new JScrollPane(table);
 		scrTableSach.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrTableSach.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		pnTableKh.add(scrTableSach);
 		
-		//modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
+		btnThem.addActionListener(this);
+		btnSua.addActionListener(this);
+		btnXoa.addActionListener(this);
+		btnLamMoi.addActionListener(this);
+		btnTimKiem.addActionListener(this);
+		table.addMouseListener(this);
+		//DocDuLieuVaoModel(sach_DAO.getListSach());
+		try {
+			renderData();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			loadCboMaLoai();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
 	public JPanel getContentPane() {
 		 return this.contentPane;
 	 }
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = table.getSelectedRow();
+		txtMaSach.setText(modelDSSach.getValueAt(row, 0).toString());
+		txtTenSach.setText(modelDSSach.getValueAt(row, 1).toString());
+		txtNXB.setText(modelDSSach.getValueAt(row, 2).toString());
+		txtSoLuong.setText(modelDSSach.getValueAt(row, 3).toString());
+		txtGiaNhap.setText(modelDSSach.getValueAt(row, 4).toString());
+		txtGiaBan.setText(modelDSSach.getValueAt(row, 5).toString());
+		cboListMaloai.setSelectedItem(modelDSSach.getValueAt(row, 6).toString());
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+//		Object o = e.getSource();
+//		if (o.equals(btnThem)) {
+//			if (txtTenSach.getText().equals("") || txtNXB.getText().equals("") || txtSoLuong.getText().equals("")
+//					|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")) {
+//				JOptionPane.showMessageDialog(this, "Thiếu dữ liệu đầu vào");
+//			} else if (ktdulieu()) {
+//				SanPham sp = getSelectedDataTable();
+//				if (timmaxe(sp.getMaXe())) {
+//					JOptionPane.showMessageDialog(this, "Mã khách hàng đã tồn tại");
+//				} else
+//					try {
+//						sp_DAO.create(sp);
+//						model.addRow(new Object[] { sp.getMaXe(), sp.getTenXe(), sp.getLoaiXe(), sp.getNamSX(),
+//								sp.getSoPK(), sp.getSoKhung(), sp.getSoSuon(), sp.getMauXe(), sp.getGiaXe() });
+//					} catch (Exception e1) {
+//
+//					}
+//			}
+		
+	}
+	public void renderData() throws SQLException {
+		//modelDSSach.getDataVector().removeAllElements();
+		dssach = new SanPhamDAO().getListSach();
+		
+		dssach.forEach(sach -> {		
+			modelDSSach.addRow(new Object[] {
+					sach.getMaSp(), 
+					sach.getTenSp(), 
+					sach.getNhaCungCap().getTenNCC(), 
+					sach.getSoLuong(),
+					sach.getGiaNhap(),
+					sach.getGiaSp(), 
+					sach.getLoaiSanPham().getTenLoai()});
+		});
+	}
+	private void loadCboMaLoai() throws SQLException {
+		dsLoai = new LoaiSanPhamDAO().getDanhSachLoaiSach();
+		for (LoaiSanPham loai : dsLoai) {
+			String ma = loai.getTenLoai();
+			cboListMaloai.addItem(String.valueOf(ma));
+		}
+	}
+//	private SanPham getSelectedDataTable() {
+//		String maxe = txtmaXe.getText().trim();
+//		String tenXe = txttenXe.getText().trim();
+//		String loaiXe = txtloaiXe.getText().trim();
+//		String NamSX = txtNamSX.getText().trim();
+//		String soPK = txtsoPK.getText().trim();
+//		String soKhung = txtsoKhung.getText().trim();
+//		String soSuon = txtsoSuon.getText().trim();
+//		String mauXe = txtmauXe.getText().trim();
+//		String giaXe = txtgiaXe.getText().trim();
+//
+//		SanPham sp = new SanPham(maxe, tenXe, loaiXe, Integer.parseInt(NamSX), Integer.parseInt(soPK),
+//				Integer.parseInt(soKhung), Integer.parseInt(soSuon), mauXe, Integer.parseInt(giaXe));
+//		return sp;
+//	}
 }
