@@ -16,6 +16,34 @@ public class LoaiSanPhamDAO extends ConnectDB{
 		super();
 		
 	}
+	public ArrayList<LoaiSanPham> getDanhSachLoaiSach() throws SQLException {
+		ArrayList<LoaiSanPham> dataList = new ArrayList<LoaiSanPham>();
+        Statement stmt = this.conn.createStatement();
+        SanPhamDAO sanPhamDao = new SanPhamDAO();
+        
+        try {
+
+            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai like 'Sách%'";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+//                System.out.println(rs);
+//            	printResultSet(rs);
+            	LoaiSanPham loaiSp = new LoaiSanPham(rs);
+            	loaiSp.setSanPhams(sanPhamDao.getListSanPhamByMaLoai(rs.getInt("maLoai")));
+                dataList.add(loaiSp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+            	stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataList;
+    }
 	
 	public ArrayList<LoaiSanPham> getDanhSachLoaiSanPham() throws SQLException {
 		ArrayList<LoaiSanPham> dataList = new ArrayList<LoaiSanPham>();

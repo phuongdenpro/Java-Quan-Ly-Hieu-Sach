@@ -17,12 +17,12 @@ import javax.swing.border.EtchedBorder;
 @SuppressWarnings("serial")
 public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener {
 	private DefaultTableModel modelHD;
-	String[] colsHD = { "Mã hoá đơn", "Mã khách hàng","Tên khách hàng","Tên sản phẩm","Đơn giá","Số lượng","Tổng tiền", "Ngày lập",  "Tình trạng" };
+	String[] colsHD = { "Mã hoá đơn", "Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ","Tổng tiền", "Ngày lập",  "Tình trạng" };
 	public JPanel pnMain;
 	private JTable tableHD;
 
 	private JTextField txtSoLuong;
-	private JButton btnThem;
+	private JButton btnTaoHD;
 	private JComboBox<String> cboMaKH;
 	private JPanel panel_1;
 	private JTextField txtTimMaHDDV;
@@ -37,6 +37,10 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 	private JButton btnXoa;
 	private JButton btnSua;
 	private JComboBox<String> cboMaSp;
+	private JComboBox comboBox;
+	private DefaultTableModel modelDSSP;
+	private JTable tblDSSP;
+	private JButton btnThemSP;
 
 	public HoaDon_GUI() {
 		
@@ -57,18 +61,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		lbTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		pnMain.add(lbTitle);
 
-		modelHD = new DefaultTableModel(colsHD, 0) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public boolean isCellEditable(int i, int i1) {
-				return false;
-				// Không cho chỉnh sửa trên table
-			}
-		};
+		
 
 		pnMain.setLayout(null);
 
@@ -76,7 +69,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		pn.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 				"Chi tiết", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pn.setBounds(10, 65, 347, 340);
+		pn.setBounds(10, 65, 347, 400);
 		pnMain.add(pn);
 		pn.setLayout(null);
 
@@ -143,19 +136,25 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		txtSoLuong.setBounds(122, 193, 205, 25);
 		pn.add(txtSoLuong);
 		txtSoLuong.setColumns(10);
-
+		
+		btnThemSP = new JButton("Thêm sản phẩm");
+		btnThemSP.setIcon(new ImageIcon("data/images/blueAdd_16.png"));
+		btnThemSP.setBounds(10, 243, 317, 35);
+		pn.add(btnThemSP);
+		
 		btnSua = new JButton("Sửa hóa đơn");
 		btnSua.setIcon(new ImageIcon("data/images/edit2_16.png"));
-		btnSua.setBounds(10, 243, 317, 35);
+		btnSua.setBounds(10, 287, 317, 35);
 		pn.add(btnSua);
 
-		btnThem = new JButton("Tạo hoá đơn");
-		btnThem.setBounds(10, 287, 317, 35);
-		pn.add(btnThem);
-		btnThem.setIcon(new ImageIcon("data/images/check.png"));
+		btnTaoHD = new JButton("Tạo hoá đơn");
+		btnTaoHD.setBounds(10, 331, 317, 35);
+		pn.add(btnTaoHD);
+		btnTaoHD.setIcon(new ImageIcon("data/images/check.png"));
 
 		btnSua.setBackground(Color.WHITE);
-		btnThem.setBackground(Color.WHITE);
+		btnTaoHD.setBackground(Color.WHITE);
+		btnThemSP.setBackground(Color.WHITE);
 		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(
@@ -165,51 +164,91 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		panel_1.setBounds(370, 65, 900, 575);
 		pnMain.add(panel_1);
 		panel_1.setLayout(null);
+		modelHD = new DefaultTableModel(colsHD, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+				// Không cho chỉnh sửa trên table
+			}
+		};
 
 		tableHD = new JTable(modelHD);
 		JScrollPane scHD = new JScrollPane(tableHD, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scHD.setBounds(10, 67, 870, 500);
+		scHD.setBounds(10, 67, 875, 260);
 		panel_1.add(scHD);
+		String[] colsDSSP = { "Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền" };
+		modelDSSP = new DefaultTableModel(colsDSSP, 0){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
-		JLabel lbTimMaHDDV = new JLabel("Mã hoá đơn:");
-		lbTimMaHDDV.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbTimMaHDDV.setBounds(20, 25, 110, 30);
-		panel_1.add(lbTimMaHDDV);
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+				// Không cho chỉnh sửa trên table
+			}
+		};
+		tblDSSP = new JTable(modelDSSP);
+		JScrollPane scrollPane = new JScrollPane(tblDSSP,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setBounds(10, 330, 875, 235);
+		panel_1.add(scrollPane);
+
+//		JLabel lbTimMaHDDV = new JLabel("Mã hoá đơn:");
+//		lbTimMaHDDV.setFont(new Font("Tahoma", Font.BOLD, 11));
+//		lbTimMaHDDV.setBounds(20, 25, 110, 30);
+//		panel_1.add(lbTimMaHDDV);
+		
+		DefaultComboBoxModel<String> modelTimKiem = new DefaultComboBoxModel<String>();
+		comboBox = new JComboBox(modelTimKiem);
+		comboBox.setBounds(20, 29, 120, 25);
+		panel_1.add(comboBox);
+		modelTimKiem.addElement("Mã hóa đơn");
+		modelTimKiem.addElement("Mã khách hàng");
+		modelTimKiem.addElement("Tên khách hàng");
+		modelTimKiem.addElement("Số điện thoại");
 
 		txtTimMaHDDV = new JTextField();
-		txtTimMaHDDV.setBounds(100, 29, 120, 25);
+		txtTimMaHDDV.setBounds(150, 29, 120, 25);
 		panel_1.add(txtTimMaHDDV);
 		txtTimMaHDDV.setColumns(10);
 
 		
 		btnTimMaHDDV = new JButton("Tìm");
 		btnTimMaHDDV.setIcon(new ImageIcon("data/images/search_16.png"));
-		btnTimMaHDDV.setBounds(235, 28, 115, 25);
+		btnTimMaHDDV.setBounds(285, 29, 115, 25);
 		btnTimMaHDDV.setBackground(Color.WHITE);
 		panel_1.add(btnTimMaHDDV);
 
 		btnXem = new JButton("Xem tất cả");
 		btnXem.setIcon(new ImageIcon("data/images/blueAdd_16.png"));
 		btnXem.setBackground(Color.WHITE);
-		btnXem.setBounds(360, 28, 115, 25);
+		btnXem.setBounds(410, 29, 115, 25);
 		panel_1.add(btnXem);
 		
 		btnBoChon = new JButton("Bỏ chọn");
-		btnBoChon.setBounds(485, 28, 115, 25);
+		btnBoChon.setBounds(535, 29, 115, 25);
 		btnBoChon.setIcon(new ImageIcon("data/images/check2_16.png"));
 		btnBoChon.setBackground(Color.WHITE);
 		panel_1.add(btnBoChon);
 		
 		btnXoa = new JButton("Xóa");
-		btnXoa.setBounds(610, 28, 115, 25);
+		btnXoa.setBounds(660, 28, 115, 25);
 		btnXoa.setIcon(new ImageIcon("data/images/cancel_16.png"));
 		btnXoa.setBackground(Color.WHITE);
 		panel_1.add(btnXoa);
 		
 		btnSua.addActionListener(this);
 
-		btnThem.addActionListener(this);
+		btnTaoHD.addActionListener(this);
+		btnThemSP.addActionListener(this);
 		btnTimMaHDDV.addActionListener(this);
 		btnXem.addActionListener(this);
 		btnBoChon.addActionListener(this);

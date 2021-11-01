@@ -8,7 +8,6 @@ public class SanPham {
 	private int maSp;
 	private String tenSp;
 	private int soLuong;
-	private String donViTinh;
 	private double giaNhap;
 	private double giaSp;
 	public LoaiSanPham loaiSanPham;
@@ -16,13 +15,12 @@ public class SanPham {
 	public ArrayList<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
 	public ArrayList<ChiTietDonDatHang> chiTietDonDatHangs = new ArrayList<ChiTietDonDatHang>();
 	
-	public SanPham(int maSp, String tenSp,int soLuong,String donViTinh,double giaNhap, double giaSp, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap,
+	public SanPham(int maSp, String tenSp,int soLuong,double giaNhap, double giaSp, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap,
 			ArrayList<ChiTietHoaDon> chiTietHoaDons, ArrayList<ChiTietDonDatHang> chiTietDonDatHangs) {
 		super();
 		this.maSp = maSp;
 		this.tenSp = tenSp;
 		this.soLuong = soLuong;
-		this.donViTinh = donViTinh;
 		this.giaNhap = giaNhap;
 		this.giaSp = giaSp;
 		this.loaiSanPham = loaiSanPham;
@@ -75,14 +73,6 @@ public class SanPham {
 		this.soLuong = soLuong;
 	}
 
-	public String getDonViTinh() {
-		return donViTinh;
-	}
-
-	public void setDonViTinh(String donViTinh) {
-		this.donViTinh = donViTinh;
-	}
-
 	public double getGiaNhap() {
 		return giaNhap;
 	}
@@ -133,8 +123,7 @@ public class SanPham {
 
 	@Override
 	public String toString() {
-		return "SanPham [maSp=" + maSp + ", tenSp=" + tenSp + ", soLuong=" + soLuong + ", donViTinh=" + donViTinh
-				+ ", giaNhap=" + giaNhap + ", giaSp=" + giaSp + ", loaiSanPham=" + loaiSanPham + ", nhaCungCap="
+		return "SanPham [maSp=" + maSp + ", tenSp=" + tenSp + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap + ", giaSp=" + giaSp + ", loaiSanPham=" + loaiSanPham + ", nhaCungCap="
 				+ nhaCungCap + ", chiTietHoaDons=" + chiTietHoaDons + ", chiTietDonDatHangs=" + chiTietDonDatHangs
 				+ "]";
 	}

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +27,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 	private JTextField textField;
 	private JTextComponent lblTimKiem;
 	private JTextField textFieldTim;
+	private JLabel lbltieude;
 
 	/**
 	 * Launch the application.
@@ -61,11 +64,18 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		ImageIcon icon2 = new ImageIcon("data/images/search_16.png");
 		
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(10, 50));
+		panel.setPreferredSize(new Dimension(10, 80));
 		contentPane.add(panel, BorderLayout.NORTH);
+panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
+		JPanel pannel_2 = new JPanel();
+		lbltieude = new JLabel("TÌM KIẾM SẢN PHẨM");
+		lbltieude.setFont(new Font("Tahoma", Font.BOLD, 20));
+		pannel_2.add(lbltieude);
 		JPanel panel_1 = new JPanel();
+		panel.add(pannel_2);
 		panel.add(panel_1);
+		
 		JLabel lblTimKiem = new JLabel();
 		lblTimKiem.setText("Search: ");
 		lblTimKiem.setIcon(icon1);
