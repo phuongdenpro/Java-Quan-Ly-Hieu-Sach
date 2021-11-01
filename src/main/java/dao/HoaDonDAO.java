@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import connectdb.ConnectDB;
 import entity.ChiTietHoaDon;
+import entity.DonDatHang;
 import entity.HoaDon;
+import entity.KhachHang;
 import entity.SanPham;
 
 public class HoaDonDAO extends ConnectDB{
@@ -118,6 +121,86 @@ public class HoaDonDAO extends ConnectDB{
             }
         }
         return -1;
+	}
+	
+	public ArrayList<HoaDon> getDSHD(){
+		ArrayList<HoaDon> dataList = new ArrayList<HoaDon>();
+        Statement stmt = null;
+        try {
+
+            String sql = "SELECT * FROM dbo.HoaDon";
+            stmt = this.conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+            	HoaDon hd = new HoaDon(rs);
+            	hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+            	dataList.add(hd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataList;
+	}
+	
+	public List<HoaDon> timKiem(String key, String val) {
+    	Statement stmt = null;
+    	List<HoaDon> dshd = new ArrayList<HoaDon>();
+        try {
+        	System.out.println(key + " " + val);
+
+            String sql = "SELECT * FROM dbo.HoaDon inner join dbo.KhachHang on dbo.HoaDon.maKH = dbo.KhachHang.maKH where "+ key +" like N'"+ val + "'";
+            stmt = this.conn.createStatement();
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            
+            while(rs.next()) {
+            	printResultSet(rs);
+            	HoaDon hd = new HoaDon(rs);
+            	hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+            	dshd.add(hd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return dshd;
+    }
+	
+	public boolean xoaHD(int maHD) {
+		PreparedStatement stmt = null;
+
+        try {
+        	if(new ChiTietHoaDonDAO().xoaHetChiTietHD(maHD) == false) {
+        		return false;
+        	}
+        	
+        	String sql = "DELETE from dbo.HoaDon WHERE maHD = ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	
+        	prpStmt.setDouble(1, maHD);
+            int n = prpStmt.executeUpdate();
+               
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return false;
 	}
 	
 	public String getError() {

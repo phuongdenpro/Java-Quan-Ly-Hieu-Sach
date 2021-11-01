@@ -5,44 +5,53 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.tree.DefaultXTreeCellEditor;
+
+import dao.DonDatHangDAO;
+import dao.HoaDonDAO;
+import entity.ChiTietHoaDon;
+import entity.HoaDon;
 
 import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
 public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener {
 	private DefaultTableModel modelHD;
-	String[] colsHD = { "Mã hoá đơn", "Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ","Tổng tiền", "Ngày lập",  "Tình trạng" };
+	String[] colsHD = { "Mã hoá đơn", "Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ","Tổng tiền", "Ngày lập"};
 	public JPanel pnMain;
 	private JTable tableHD;
-
-	private JTextField txtSoLuong;
-	private JButton btnTaoHD;
-	private JComboBox<String> cboMaKH;
 	private JPanel panel_1;
 	private JTextField txtTimMaHDDV;
 
 	
-	private JTextField txtGia;
-	private JTextField txtTen;
-	private JButton btnTimMaHDDV;
-	private JButton btnXem;
-	private JButton btnBoChon;
-	private JTextField txtTenSP;
+	private JTextField txtTongTien;
+	private JButton btnTimKiem;
+	private JTextField txtDiaChi;
 	private JButton btnXoa;
-	private JButton btnSua;
-	private JComboBox<String> cboMaSp;
-	private JComboBox comboBox;
+	private JComboBox cboTimKiem;
 	private DefaultTableModel modelDSSP;
 	private JTable tblDSSP;
-	private JButton btnThemSP;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JLabel lblMaHD;
+	private JTextField txtMaHD;
+	private ArrayList<HoaDon> dshd;
+	private JTextField txtMaKH;
+	private JTextField txtSdt;
+	private JTextField txtTenKH;
+	private JTextField txtTimKiem;
+	private boolean isTimKiem = false;
 
-	public HoaDon_GUI() {
+	public HoaDon_GUI() throws SQLException {
 		
 
 		setTitle("Quản lý hóa đơn");
@@ -69,92 +78,80 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		pn.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
 				"Chi tiết", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pn.setBounds(10, 65, 347, 400);
+		pn.setBounds(10, 65, 347, 330);
 		pnMain.add(pn);
 		pn.setLayout(null);
+		
+		lblMaHD = new JLabel("Mã hóa đơn:");
+		lblMaHD.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblMaHD.setBounds(10, 24, 93, 25);
+		pn.add(lblMaHD);
+		
+		txtMaHD = new JTextField();
+		txtMaHD.setEditable(false);
+		txtMaHD.setColumns(10);
+		txtMaHD.setBounds(122, 24, 205, 25);
+		pn.add(txtMaHD);
 
 		JLabel lbMaKH = new JLabel("Mã khách hàng:");
 		lbMaKH.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbMaKH.setBounds(10, 25, 93, 25);
+		lbMaKH.setBounds(10, 60, 93, 25);
 		pn.add(lbMaKH);
+		
+		txtMaKH = new JTextField();
+		txtMaKH.setEditable(false);
+		txtMaKH.setColumns(10);
+		txtMaKH.setBounds(122, 60, 205, 25);
+		pn.add(txtMaKH);
 
-		cboMaKH = new JComboBox<String>();
-		cboMaKH.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		cboMaKH.setBounds(122, 25, 205, 25);
-		cboMaKH.addItem("");
-		pn.add(cboMaKH);
-
-		JLabel lbTen = new JLabel("Tên khách hàng");
+		JLabel lbTen = new JLabel("Tên khách hàng:");
 		lbTen.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbTen.setBounds(10, 61, 93, 25);
+		lbTen.setBounds(10, 96, 93, 25);
 		pn.add(lbTen);
-
-		txtTen = new JTextField();
-		txtTen.setEditable(false);
-		txtTen.setColumns(10);
-		txtTen.setBounds(122, 61, 205, 25);
-		pn.add(txtTen);
 		
-		JLabel lbMaSP = new JLabel("Mã sản phẩm:");
-		lbMaSP.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbMaSP.setBounds(10, 94, 93, 25);
-		pn.add(lbMaSP);
-
-		cboMaSp = new JComboBox<String>();
-		cboMaSp.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		cboMaSp.setBounds(122, 94, 205, 25);
-		cboMaSp.addItem("");
-		pn.add(cboMaSp);
-		JLabel lbts = new JLabel("Tên sản phẩm:");
-		lbts.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbts.setBounds(10, 127, 93, 25);
-		pn.add(lbts);
-		txtTenSP = new JTextField();
-		txtTenSP.setEditable(false);
-		txtTenSP.setColumns(10);
-		txtTenSP.setBounds(122, 127, 205, 25);
-		pn.add(txtTenSP);
+		txtTenKH = new JTextField();
+		txtTenKH.setEditable(false);
+		txtTenKH.setColumns(10);
+		txtTenKH.setBounds(122, 96, 205, 25);
+		pn.add(txtTenKH);
 		
-		JLabel lbGia = new JLabel("Đơn giá:");
-		lbGia.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbGia.setBounds(10, 161, 93, 25);
-		pn.add(lbGia);
-
-		txtGia = new JTextField();
-		txtGia.setEditable(false);
-		txtGia.setBounds(122, 161, 205, 25);
-		pn.add(txtGia);
-		txtGia.setColumns(10);
-
-		JLabel lbSoLuong = new JLabel("Số lượng:");
-		lbSoLuong.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbSoLuong.setBounds(10, 193, 93, 25);
-		pn.add(lbSoLuong);
-
-		txtSoLuong = new JTextField();
-		txtSoLuong.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtSoLuong.setBounds(122, 193, 205, 25);
-		pn.add(txtSoLuong);
-		txtSoLuong.setColumns(10);
+		JLabel lbSoDienThoai = new JLabel("Số điện thoại:");
+		lbSoDienThoai.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbSoDienThoai.setBounds(10, 129, 93, 25);
+		pn.add(lbSoDienThoai);
 		
-		btnThemSP = new JButton("Thêm sản phẩm");
-		btnThemSP.setIcon(new ImageIcon("data/images/blueAdd_16.png"));
-		btnThemSP.setBounds(10, 243, 317, 35);
-		pn.add(btnThemSP);
+		txtSdt = new JTextField();
+		txtSdt.setEditable(false);
+		txtSdt.setColumns(10);
+		txtSdt.setBounds(122, 129, 205, 25);
+		pn.add(txtSdt);
 		
-		btnSua = new JButton("Sửa hóa đơn");
-		btnSua.setIcon(new ImageIcon("data/images/edit2_16.png"));
-		btnSua.setBounds(10, 287, 317, 35);
-		pn.add(btnSua);
+		JLabel lblDiaChi = new JLabel("Địa chỉ:");
+		lblDiaChi.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDiaChi.setBounds(10, 162, 93, 25);
+		pn.add(lblDiaChi);
+		txtDiaChi = new JTextField();
+		txtDiaChi.setEditable(false);
+		txtDiaChi.setColumns(10);
+		txtDiaChi.setBounds(122, 162, 205, 25);
+		pn.add(txtDiaChi);
+		
+		JLabel lblTongTien = new JLabel("Tổng tiền:");
+		lblTongTien.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblTongTien.setBounds(10, 196, 93, 25);
+		pn.add(lblTongTien);
 
-		btnTaoHD = new JButton("Tạo hoá đơn");
-		btnTaoHD.setBounds(10, 331, 317, 35);
-		pn.add(btnTaoHD);
-		btnTaoHD.setIcon(new ImageIcon("data/images/check.png"));
-
-		btnSua.setBackground(Color.WHITE);
-		btnTaoHD.setBackground(Color.WHITE);
-		btnThemSP.setBackground(Color.WHITE);
+		txtTongTien = new JTextField();
+		txtTongTien.setEditable(false);
+		txtTongTien.setBounds(122, 196, 205, 25);
+		pn.add(txtTongTien);
+		txtTongTien.setColumns(10);
+		
+		btnXoa = new JButton("Xóa");
+		btnXoa.setBounds(10, 247, 317, 35);
+		pn.add(btnXoa);
+		btnXoa.setIcon(new ImageIcon("data/images/cancel_16.png"));
+		btnXoa.setBackground(Color.WHITE);
 		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(
@@ -207,64 +204,197 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 //		panel_1.add(lbTimMaHDDV);
 		
 		DefaultComboBoxModel<String> modelTimKiem = new DefaultComboBoxModel<String>();
-		comboBox = new JComboBox(modelTimKiem);
-		comboBox.setBounds(20, 29, 120, 25);
-		panel_1.add(comboBox);
+		cboTimKiem = new JComboBox(modelTimKiem);
+		cboTimKiem.setBounds(20, 29, 120, 25);
+		panel_1.add(cboTimKiem);
 		modelTimKiem.addElement("Mã hóa đơn");
 		modelTimKiem.addElement("Mã khách hàng");
 		modelTimKiem.addElement("Tên khách hàng");
 		modelTimKiem.addElement("Số điện thoại");
 
-		txtTimMaHDDV = new JTextField();
-		txtTimMaHDDV.setBounds(150, 29, 120, 25);
-		panel_1.add(txtTimMaHDDV);
-		txtTimMaHDDV.setColumns(10);
+		txtTimKiem = new JTextField();
+		txtTimKiem.setBounds(150, 29, 120, 25);
+		panel_1.add(txtTimKiem);
+		txtTimKiem.setColumns(10);
 
 		
-		btnTimMaHDDV = new JButton("Tìm");
-		btnTimMaHDDV.setIcon(new ImageIcon("data/images/search_16.png"));
-		btnTimMaHDDV.setBounds(285, 29, 115, 25);
-		btnTimMaHDDV.setBackground(Color.WHITE);
-		panel_1.add(btnTimMaHDDV);
-
-		btnXem = new JButton("Xem tất cả");
-		btnXem.setIcon(new ImageIcon("data/images/blueAdd_16.png"));
-		btnXem.setBackground(Color.WHITE);
-		btnXem.setBounds(410, 29, 115, 25);
-		panel_1.add(btnXem);
+		btnTimKiem = new JButton("Tìm");
+		btnTimKiem.setIcon(new ImageIcon("data/images/search_16.png"));
+		btnTimKiem.setBounds(285, 29, 115, 25);
+		btnTimKiem.setBackground(Color.WHITE);
+		panel_1.add(btnTimKiem);
 		
-		btnBoChon = new JButton("Bỏ chọn");
-		btnBoChon.setBounds(535, 29, 115, 25);
-		btnBoChon.setIcon(new ImageIcon("data/images/check2_16.png"));
-		btnBoChon.setBackground(Color.WHITE);
-		panel_1.add(btnBoChon);
-		
-		btnXoa = new JButton("Xóa");
-		btnXoa.setBounds(660, 28, 115, 25);
-		btnXoa.setIcon(new ImageIcon("data/images/cancel_16.png"));
-		btnXoa.setBackground(Color.WHITE);
-		panel_1.add(btnXoa);
-		
-		btnSua.addActionListener(this);
-
-		btnTaoHD.addActionListener(this);
-		btnThemSP.addActionListener(this);
-		btnTimMaHDDV.addActionListener(this);
-		btnXem.addActionListener(this);
-		btnBoChon.addActionListener(this);
-		cboMaSp.addActionListener(this);
-		cboMaKH.addActionListener(this);
+		JButton btnLamMoi = new JButton("Làm mới dữ liệu");
+		btnLamMoi.setBackground(Color.WHITE);
+		btnLamMoi.setBounds(410, 29, 165, 25);
+		panel_1.add(btnLamMoi);
+		btnTimKiem.addActionListener(this);
 		tableHD.addMouseListener(this);
 		pnMain.addMouseListener(this);
 
+		renderData();
 		
+		tableHD.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int idx = tableHD.getSelectedRow();
+				if(idx != -1) {
+					renderHD(dshd.get(idx));
+				}
+				
+			}
+		});
+		
+		btnTimKiem.addActionListener((e) -> {
+			
+			try {
+				String key = "maHD";
+				if(cboTimKiem.getSelectedIndex() == 1) {
+					key = "KhachHang.maKH";
+				}else if(cboTimKiem.getSelectedIndex() == 2) {
+					key = "KhachHang.HoTen";
+				}else if(cboTimKiem.getSelectedIndex() == 3) {
+					key = "KhachHang.soDienThoai";
+				}
+				
+				dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(key, txtTimKiem.getText());
+				renderDataTimKiem();
+				isTimKiem = true;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		btnXoa.addActionListener((e) -> {
+			int idx = tableHD.getSelectedRow();
+			if(idx != -1) {
+				int choose = JOptionPane.showConfirmDialog(pnMain, "Chắc chắn xóa ?");
+				if(choose == 0) {
+					try {
+						if(new HoaDonDAO().xoaHD(dshd.get(idx).getMaHD())) {
+							JOptionPane.showMessageDialog(pnMain, "Xóa thành công");
+							if(isTimKiem) {
+								String key = "maHD";
+								if(cboTimKiem.getSelectedIndex() == 1) {
+									key = "KhachHang.maKH";
+								}else if(cboTimKiem.getSelectedIndex() == 2) {
+									key = "KhachHang.HoTen";
+								}else if(cboTimKiem.getSelectedIndex() == 3) {
+									key = "KhachHang.soDienThoai";
+								}
+								
+								dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(key, txtTimKiem.getText());
+								renderDataTimKiem();
+							}else 
+								renderData();
+						}else {
+							JOptionPane.showMessageDialog(pnMain, "Xóa thất bại");
+						}
+					} catch (HeadlessException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		btnLamMoi.addActionListener((e) -> {
+			try {
+				isTimKiem  = false;
+				
+				txtMaHD.setText("");
+				txtMaKH.setText("");
+				txtTenKH.setText("");
+				txtSdt.setText("");
+				txtDiaChi.setText("");
+				txtTongTien.setText("0");
+				
+				renderData();
+				tblDSSP.clearSelection();
+				modelDSSP.getDataVector().removeAllElements();
+				tblDSSP.revalidate();
+				tblDSSP.repaint();
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		});
+
+	}
+	
+	public void renderData() throws SQLException {
+		dshd = new HoaDonDAO().getDSHD();
+		
+		tableHD.clearSelection();
+		modelHD.getDataVector().removeAllElements();
+		dshd.forEach(hd -> {
+			modelHD.addRow(new Object[] {
+				hd.getMaHD(), 
+				hd.getKhachHang().getMaKh(), 
+				hd.getKhachHang().getHoTen(), 
+				hd.getKhachHang().getSoDienThoai(),
+				hd.getKhachHang().getDiaChi(),
+				hd.tinhTongTien(),
+				hd.getNgayMua()
+			});
+		});
+		tableHD.revalidate();
+		tableHD.repaint();
+	}
+	
+	public void renderHD(HoaDon hd) {
+		txtMaHD.setText(String.valueOf(hd.getMaHD()));
+		txtMaKH.setText(String.valueOf(hd.getKhachHang().getMaKh()));
+		txtTenKH.setText(hd.getKhachHang().getHoTen());
+		txtSdt.setText(hd.getKhachHang().getSoDienThoai());
+		txtDiaChi.setText(hd.getKhachHang().getDiaChi());
+		txtTongTien.setText(String.valueOf(hd.tinhTongTien()));
+		
+		tblDSSP.clearSelection();
+		modelDSSP.getDataVector().removeAllElements();
+		hd.getChiTietHoaDons().forEach(cthd -> {
+			modelDSSP.addRow(new Object[] {
+				cthd.getSanPham().getMaSp(),
+				cthd.getSanPham().getTenSp(),
+				cthd.getDonGia(),
+				cthd.getSoLuong(),
+				cthd.tinhThanhTien()
+			});
+		});
+		tblDSSP.revalidate();
+		tblDSSP.repaint();
+	}
+	
+	public void renderDataTimKiem() throws SQLException {
+		tableHD.clearSelection();
+		
+		modelHD.getDataVector().removeAllElements();
+		
+		dshd.forEach(hd -> {
+			modelHD.addRow(new Object[] {
+					hd.getMaHD(), 
+					hd.getKhachHang().getMaKh(), 
+					hd.getKhachHang().getHoTen(), 
+					hd.getKhachHang().getSoDienThoai(),
+					hd.getKhachHang().getDiaChi(),
+					hd.tinhTongTien(),
+					hd.getNgayMua()
+				});
+		});
+		
+		tableHD.revalidate();
+		tableHD.repaint();
 	}
 
 	public JPanel getContentPane() {
 		return this.pnMain;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		new HoaDon_GUI().setVisible(true);
 	}
 
@@ -296,4 +426,5 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-	}}
+	}	
+}
