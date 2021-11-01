@@ -28,7 +28,7 @@ public class HoaDonDAO extends ConnectDB{
 //        	kiểm tra số lượng sp
         	for(int i=0; i<dscthd.size(); i++) {
         		if(dscthd.get(i).getSanPham().getSoLuong() < dscthd.get(i).getSoLuong()) {
-        			this.error = "Sản phẩm "+ dscthd.get(i).getSanPham().getTenSp() + " chỉ còn: " + dscthd.get(i).getSanPham().getSoLuong();
+        			this.error = "Lỗi: "+ dscthd.get(i).getSanPham().getTenSp() + " chỉ còn " + dscthd.get(i).getSanPham().getSoLuong() + " sản phẩm";
         			return false;
         		}
         	}
@@ -58,7 +58,12 @@ public class HoaDonDAO extends ConnectDB{
             String sql = "INSERT INTO dbo.HoaDon (maNV, maKH, tongTien, ngayMua) values(?, ?, ?, ?)";
             stmt = this.conn.prepareStatement(sql);
             stmt.setInt(1, hd.getNhanVien().getMaNv());
-            stmt.setInt(2, hd.getKhachHang().getMaKh());
+            
+            if(hd.getKhachHang() != null)
+            	stmt.setInt(2, hd.getKhachHang().getMaKh());
+            else
+            	stmt.setNull(2, java.sql.Types.INTEGER);
+            
             stmt.setDouble(3, hd.getTongTien());
             stmt.setDate(4, hd.getNgayMua());
             
@@ -87,11 +92,7 @@ public class HoaDonDAO extends ConnectDB{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        	
         }
 		return false;
 	}
