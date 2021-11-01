@@ -43,6 +43,8 @@ public class QuanLy_GUI extends JFrame {
 	
 	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
+	private TaoHoaDon_GUI taoHoaDonGUI = new TaoHoaDon_GUI();
+	private TimKiemHoaDon_GUI timKiemHoaDonGUI = new TimKiemHoaDon_GUI();
 	
 	private Sach_GUI SachGUI = new Sach_GUI();
 	private SanPhamKhac_GUI sanPhamKhacGUI = new SanPhamKhac_GUI();
@@ -127,6 +129,9 @@ public class QuanLy_GUI extends JFrame {
 		
 		JMenuItem mntmQLHoaDon = new JMenuItem("Quản lý hóa đơn");
 		mnHoaDon.add(mntmQLHoaDon);
+		
+		JMenuItem mntmThemHoaDon = new JMenuItem("Thêm hóa đơn");
+		mnHoaDon.add(mntmThemHoaDon);
 		
 		JMenuItem mntmTimKiemHD = new JMenuItem("Tìm kiếm hóa đơn");
 		mnHoaDon.add(mntmTimKiemHD);
@@ -221,11 +226,20 @@ public class QuanLy_GUI extends JFrame {
 			}
 		});
 		
-		mntmTimKiemHD.addActionListener(new ActionListener() {
+		mntmThemHoaDon.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				renderMain(taoHoaDonGUI.getContentPane(), "taohoadon");
+			}
+		});
+		
+		mntmTimKiemHD.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain((JPanel) timKiemHoaDonGUI.getContentPane(), "timkiemhoadon");
 			}
 		});
 		
