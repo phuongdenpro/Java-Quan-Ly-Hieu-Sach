@@ -44,6 +44,33 @@ public class SanPhamDAO extends ConnectDB{
         }
         return dataList;
     }
+    public ArrayList<SanPham> getListSach() {
+    	ArrayList<SanPham> dataList = new ArrayList<SanPham>();
+        Statement stmt = null;
+        try {
+
+            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n" + 
+            		"where TenLoai like 'Sách%'";
+            stmt = this.conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+//                System.out.println(rs);
+            	printResultSet(rs);
+                SanPham sanPham = new SanPham(rs);
+                dataList.add(sanPham);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataList;
+    }
     
     public ArrayList<SanPham> getListSanPhamByMaLoai(int maLoai) {
     	ArrayList<SanPham> dataList = new ArrayList<SanPham>();
