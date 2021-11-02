@@ -35,9 +35,6 @@ public class QuanLy_GUI extends JFrame {
 	private JPanel contentPane;
 	
 	
-	
-	
-	
 	private DangNhap_GUI dangNhapGUI = new DangNhap_GUI();
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
 	

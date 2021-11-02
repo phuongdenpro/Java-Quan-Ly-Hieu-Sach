@@ -161,6 +161,36 @@ public class NhanVienDAO extends ConnectDB{
 		return false;	
 	}
 	
+	public boolean themNhanVien(NhanVien nv, int taiKhoanId) {
+    	PreparedStatement stmt = null;
+        try {
+            String sql = "INSERT INTO dbo.NhanVien (TenNV, soDienThoai, diaChi, caLamViec, chucNang, taiKhoanId) values(?, ?, ?, ?, ?, ?)";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, nv.getTenNv());
+            stmt.setString(2, nv.getSoDienThoai());
+            stmt.setString(3, nv.getDiaChi());
+            stmt.setInt(4, nv.getCaLamViec());
+            stmt.setInt(5, nv.getChucNang());
+            stmt.setInt(6, taiKhoanId);
+            int n = stmt.executeUpdate();
+//            
+            if(n == 0)
+                return false;
+            
+            return true;
+//                
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+	
 	public static void main(String[] args) throws SQLException {
 		System.out.println(new NhanVienDAO().getDSNV());
 	}

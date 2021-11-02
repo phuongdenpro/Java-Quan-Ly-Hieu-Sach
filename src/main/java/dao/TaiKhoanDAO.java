@@ -85,6 +85,50 @@ public class TaiKhoanDAO extends ConnectDB{
         return false;		
 	}
 	
+//	thêm tài khoản mới cho nhân viên
+	public boolean themTaiKhoan(NhanVien nv, String taiKhoan, String matKhau) {
+		PreparedStatement stmt = null;
+        try {
+        	String sql = "SELECT id from dbo.TaiKhoan WHERE TaiKhoan = ?";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, taiKhoan);
+            ResultSet rs = stmt.executeQuery();
+        	if(rs.next()) {
+        		return false;
+        	}
+
+            sql = "INSERT INTO dbo.TaiKhoan (taiKhoan, matKhau) values(?, ?)";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, taiKhoan);
+            stmt.setString(2, matKhau);
+            int n = stmt.executeUpdate();
+//            
+            if(n == 0)
+                return false;
+            
+            System.out.println(getLatestID());
+            
+            if(!new NhanVienDAO().themNhanVien(nv, getLatestID())) 
+            	return false;
+            
+            KhachHang kh = new KhachHang(nv.getTenNv(), nv.getSoDienThoai(), nv.getDiaChi());
+            
+            if(!new KhachHangDAO().themKhachHang(kh, getLatestID())) 
+            	return false;
+//                
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;		
+	}
+	
 //	lấy id cuối cùng
     public int getLatestID() {
         int id = 0;

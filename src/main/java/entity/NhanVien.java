@@ -9,6 +9,28 @@ public class NhanVien {
 	private String soDienThoai;
 	private String diaChi;
 	public TaiKhoan taiKhoan;
+	public int caLamViec;
+	public int chucNang;
+	
+	public NhanVien(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan, int caLamViec, int chucNang) {
+		super();
+		this.maNv = maNv;
+		this.tenNv = tenNv;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+		this.taiKhoan = taiKhoan;
+		this.caLamViec = caLamViec;
+		this.chucNang = chucNang;
+	}
+	
+	public NhanVien(String tenNv, String soDienThoai, String diaChi, int caLamViec, int chucNang) {
+		super();
+		this.tenNv = tenNv;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+		this.caLamViec = caLamViec;
+		this.chucNang = chucNang;
+	}
 	
 	public NhanVien(int maNv, String tenNv, String soDienThoai, String diaChi, TaiKhoan taiKhoan) {
 		super();
@@ -74,12 +96,32 @@ public class NhanVien {
 	public void setTaiKhoan(TaiKhoan taiKhoan) {
 		this.taiKhoan = taiKhoan;
 	}
+	
+	
+
+	public int getCaLamViec() {
+		return caLamViec;
+	}
+
+	public void setCaLamViec(int caLamViec) {
+		this.caLamViec = caLamViec;
+	}
+
+	public int getChucNang() {
+		return chucNang;
+	}
+
+	public void setChucNang(int chucNang) {
+		this.chucNang = chucNang;
+	}
 
 	@Override
 	public String toString() {
 		return "NhanVien [maNv=" + maNv + ", tenNv=" + tenNv + ", soDienThoai=" + soDienThoai + ", diaChi=" + diaChi
-				+ ", taiKhoan=" + taiKhoan + "]";
+				+ ", taiKhoan=" + taiKhoan + ", caLamViec=" + caLamViec + ", chucNang=" + chucNang + "]";
 	}
+
+	
 	
 	
 }
