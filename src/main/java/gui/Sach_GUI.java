@@ -332,7 +332,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		btnTimKiem.setBackground(Color.WHITE);
 		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
 		pnTimKiem.add(btnTimKiem);
-		
+
 		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
 		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 25));
 		btnLamMoiDuLieu.setBackground(Color.WHITE);
@@ -372,16 +372,18 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 					String tensp = txtTenSach.getText().trim();
 					String nxb = txtNXB.getText().trim();
 					NhaCungCap ncc = new NhaCungCap();
+					ncc = null;
 					dsNCC = sach_DAO.getListNhaCungCap();
 					for (NhaCungCap ncc1 : dsNCC) {
 						if (nxb.equals(ncc1.getTenNCC())) {
 							ncc = ncc1;
-						} else
-							sach_DAO.createNCC(nxb);
-							ncc = sach_DAO.getNCCByTenNCC(nxb);
-
+							break;
+						} 
 					}
-
+					if(ncc == null) {
+						sach_DAO.createNCC(nxb);
+						ncc = sach_DAO.getNCCByTenNCC(nxb);
+					}
 					String soluong = txtSoLuong.getText().trim();
 					String giaNhap = txtGiaNhap.getText().trim();
 					String giasp = txtGiaBan.getText().trim();
@@ -407,7 +409,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 						JOptionPane.showMessageDialog(out, "Mã đã tồn tại");
 					} else
 						try {
-							new SanPhamDAO().create(sp);
+							sach_DAO.create(sp);
 							modelDSSach.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
 									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(),
 									sp.getLoaiSanPham().getTenLoai() });
@@ -418,7 +420,39 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			}
 
 		});
-		btnSua.addActionListener(this);
+		btnSua.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (txtTenSach.getText().equals("") || txtNXB.getText().equals("") || txtSoLuong.getText().equals("")
+						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")) {
+					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
+				} else if (ktdulieu()) {
+					SanPham sp = getSelectedDataTable();
+					int row = table.getSelectedRow();
+
+					boolean result = sach_DAO.capNhat(sp);
+					if (result == true) {
+
+						modelDSSach.setValueAt(sp.getMaSp(), row, 0);
+						modelDSSach.setValueAt(sp.getTenSp(), row, 1);
+						modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
+						modelDSSach.setValueAt(sp.getSoLuong(), row, 3);
+						modelDSSach.setValueAt(sp.getGiaNhap(), row, 4);
+						modelDSSach.setValueAt(sp.getGiaSp(), row, 5);
+						modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
+						JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
+						modelDSSach.fireTableDataChanged();
+						sach_DAO.getListSach();
+					} else {
+						JOptionPane.showMessageDialog(out, "Lỗi: Cập nhật sản phẩm thất bại");
+					}
+
+				}
+			}
+
+		});
 		btnXoa.addActionListener(this);
 		btnLamMoi.addActionListener(new ActionListener() {
 
@@ -518,80 +552,50 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-//	private SanPham getSelectedDataTable() {
-//		String masp = txtMaSach.getText().trim();
-//		String tensp = txtTenSach.getText().trim();
-//		String nxb = txtNXB.getText().trim();
-//		NhaCungCap ncc = new NhaCungCap(nxb);
-//
-//		String soluong = txtSoLuong.getText().trim();
-//		String giaNhap = txtGiaNhap.getText().trim();
-//		String giasp = txtGiaBan.getText().trim();
-//		String loaiSach = cboListMaloai.getSelectedItem().toString();
-//		LoaiSanPham loaisp = new LoaiSanPham(loaiSach);
-//		double giaNhapsp = (double) Integer.parseInt(giaNhap);
-//		double giaBansp = (double) Integer.parseInt(giasp);
-//		SanPham sp = new SanPham(Integer.parseInt(masp), tensp,Integer.parseInt(soluong),giaNhapsp,
-//				giaBansp,loaisp,ncc);
-//		return sp;
-//	}
+	private SanPham getSelectedDataTable() {
+		String masp = txtMaSach.getText().trim();
+		String tensp = txtTenSach.getText().trim();
+		String nxb = txtNXB.getText().trim();
+		NhaCungCap ncc = new NhaCungCap();
+		ncc = null;
+		dsNCC = sach_DAO.getListNhaCungCap();
+		for (NhaCungCap ncc1 : dsNCC) {
+			if (nxb.equalsIgnoreCase(ncc1.getTenNCC())) {
+				ncc = ncc1;
+				break;
+			} 
+		}
+		if(ncc == null) {
+			sach_DAO.createNCC(nxb);
+			ncc = sach_DAO.getNCCByTenNCC(nxb);
+		}
+
+		String soluong = txtSoLuong.getText().trim();
+		String giaNhap = txtGiaNhap.getText().trim();
+		String giasp = txtGiaBan.getText().trim();
+		String loaiSach = cboListMaloai.getSelectedItem().toString();
+		LoaiSanPham loaisp = new LoaiSanPham();
+		try {
+			dsLoai = loaiDAO.getDanhSachLoaiSach();
+			for (LoaiSanPham loai : dsLoai) {
+				if (loaiSach.equals(loai.getTenLoai())) {
+					loaisp = loai;
+				} else
+					loaiDAO.createLoaiSp(loaiSach);
+
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		SanPham sp = new SanPham(Integer.parseInt(masp), tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
+				Double.parseDouble(giasp), loaisp, ncc);
+		return sp;
+	}
+
 	private boolean ktdulieu() {
-//		String maxe = txtmaXe.getText().trim();
-//		String tenXe = txttenXe.getText().trim();
-//		String loaiXe = txtloaiXe.getText().trim();
-//		String NamSX = txtNamSX.getText().trim();
-//		String soPK = txtsoPK.getText().trim();
-//		String soKhung = txtsoKhung.getText().trim();
-//		String soSuon = txtsoSuon.getText().trim();
-//		String mauXe = txtmauXe.getText().trim();
-//		String giaXe = txtgiaXe.getText().trim();
-//		if (!(maxe.length() > 0 && maxe.matches("^[A-Z]{2,}+[0-9]{1,}"))) {
-//			JOptionPane.showMessageDialog(this,
-//					"Mã xe bắt đầu bằng hai kí tự hoa tiếp theo là các kí tự số");
-//			txtmaXe.selectAll();
-//			txtmaXe.requestFocus();
-//			return false;
-//		}
-//		if (!(NamSX.length() > 0 && NamSX.matches("^[0-9]{4}$"))) {
-//			// if (!(TenKH.length() > 0 && TenKH.matches("^[a-zA-Z
-//			// \sAÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴĐaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵđ]+$")))
-//			// {
-//			JOptionPane.showMessageDialog(this, "Năm sản xuất gổm 4 kí  tự số");
-//			txtNamSX.selectAll();
-//			txtNamSX.requestFocus();
-//			return false;
-//		}
-//
-//		if (!(soPK.length() > 0 && soPK.matches("^[0-9]{1,}$"))) {
-//			JOptionPane.showMessageDialog(this, "Số phân khối chỉ gồm các kí tự số");
-//			txtsoPK.selectAll();
-//			txtsoPK.requestFocus();
-//			return false;
-//		}
-//		if (!(soKhung.length() > 0 && soKhung.matches("^[0-9]{1,}$"))) {
-//			JOptionPane.showMessageDialog(this, "Số khung chỉ gồm các kí tự số");
-//			txtsoKhung.selectAll();
-//			txtsoKhung.requestFocus();
-//			return false;
-//		}
-//		if (!(soSuon.length() > 0 && soSuon.matches("^[0-9]{1,}$"))) {
-//			JOptionPane.showMessageDialog(this, "Số sườn chỉ gồm các kí tự số");
-//			txtsoSuon.selectAll();
-//			txtsoSuon.requestFocus();
-//			return false;
-//		}
-//		if (!(mauXe.length() > 0 && mauXe.matches("^[^0-9]{2,}$"))) {
-//			JOptionPane.showMessageDialog(this, "Dữ liệu màu xe không được chứa số");
-//			txtmauXe.selectAll();
-//			txtmauXe.requestFocus();
-//			return false;
-//		}
-//		if (!(giaXe.length() > 0 && giaXe.matches("^[0-9]{1,}$"))) {
-//			JOptionPane.showMessageDialog(this, "Nhập sai dữ liệu giá xe");
-//			txtgiaXe.selectAll();
-//			txtgiaXe.requestFocus();
-//			return false;
-//		}
+
 
 		return true;
 
