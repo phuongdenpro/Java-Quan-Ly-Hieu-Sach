@@ -48,6 +48,14 @@ public class SanPham {
 			
 		}	
 	}
+	
+	public SanPham(int maSp, String tenSp, double giaSp, NhaCungCap nhaCungCap) {
+		super();
+		this.maSp = maSp;
+		this.tenSp = tenSp;
+		this.giaSp = giaSp;
+		this.nhaCungCap = nhaCungCap;
+	}
 
 	public int getMaSp() {
 		return maSp;

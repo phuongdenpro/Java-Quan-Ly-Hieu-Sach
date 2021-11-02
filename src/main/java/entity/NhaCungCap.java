@@ -27,7 +27,7 @@ public class NhaCungCap {
 		this.soDienThoai = rs.getString("soDienThoai");
 //		this.sanPhams = sanPhams;
 	}
-
+	
 	public int getMaNCC() {
 		return maNCC;
 	}
