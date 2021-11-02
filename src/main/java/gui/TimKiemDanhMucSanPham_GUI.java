@@ -104,6 +104,12 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 		btnNewButton.setBackground(Color.WHITE);
 		panel_1.add(btnNewButton);
 
+		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
+		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 25));
+		btnLamMoiDuLieu.setBackground(Color.WHITE);
+		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
+		panel_1.add(btnLamMoiDuLieu);
+		
 		String[] cols = { "STT", "Mã Loại", "Tên Loại" };
 		DefaultTableModel modelDSLoai = new DefaultTableModel(cols, 0);
 		JTable tblDSLoai = new JTable(modelDSLoai);

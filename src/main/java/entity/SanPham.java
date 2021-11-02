@@ -28,6 +28,16 @@ public class SanPham {
 		this.chiTietHoaDons = chiTietHoaDons;
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
 	}
+	public SanPham(int maSp,String tenSp,int soLuong,double giaNhap, double giaSp, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap) {
+		super();
+		this.maSp = maSp;
+		this.tenSp = tenSp;
+		this.soLuong = soLuong;
+		this.giaNhap = giaNhap;
+		this.giaSp = giaSp;
+		this.loaiSanPham = loaiSanPham;
+		this.nhaCungCap = nhaCungCap; 
+	}
 	
 	public SanPham(ResultSet rs) throws SQLException {
 		this.maSp = rs.getInt("maSP");
@@ -47,6 +57,10 @@ public class SanPham {
 		}catch (Exception e) {
 			
 		}	
+	}
+
+	public SanPham() {
+		
 	}
 	
 	public SanPham(int maSp, String tenSp, double giaSp, NhaCungCap nhaCungCap) {
