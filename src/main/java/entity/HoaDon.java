@@ -1,7 +1,12 @@
 package entity;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import dao.KhachHangDAO;
+import dao.NhanVienDAO;
 
 public class HoaDon {
 	private int maHD;
@@ -31,6 +36,22 @@ public class HoaDon {
 		this.khachHang = khachHang;
 		this.chiTietHoaDons = chiTietHoaDons;
 		this.tongTien = tinhTongTien();
+	}
+	
+	public HoaDon(ResultSet rs) throws SQLException {
+		this.maHD = rs.getInt("maHD");
+		this.ngayMua = rs.getDate("ngayMua");
+		try {
+			this.nhanVien = new NhanVien(rs);
+		}catch (Exception e) {
+			this.nhanVien = new NhanVienDAO().getNhanVienByMaTK(rs.getInt("maNV"));
+		}
+		try {
+			this.khachHang = new KhachHang(rs);
+		}catch (Exception e) {
+			this.khachHang = new KhachHangDAO().getKhachHang(rs.getInt("maKH"));
+		}
+		
 	}
 
 	public int getMaHD() {

@@ -95,6 +95,15 @@ public class TaoHoaDon_GUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public TaoHoaDon_GUI() throws SQLException {
+		GUI();
+	}
+	
+	public TaoHoaDon_GUI(NhanVien nhanVien) throws SQLException {
+		this.nhanVien = nhanVien;
+		GUI();
+	}
+			
+	public void GUI() throws SQLException {
 		setTitle("Tạo hóa đơn");
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,5 +1,10 @@
 package entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import dao.SanPhamDAO;
+
 public class ChiTietHoaDon {
 	private int id;
 	private int soLuong;
@@ -21,6 +26,17 @@ public class ChiTietHoaDon {
 		this.sanPham = sanPham;
 		this.soLuong = soLuong;
 		this.donGia = donGia;
+	}
+	
+	public ChiTietHoaDon(ResultSet rs) throws SQLException {
+		this.id = rs.getInt("id");
+		this.soLuong = rs.getInt("soLuong");
+		this.donGia = rs.getDouble("donGia");
+		try {
+			this.sanPham = new SanPham(rs);
+		}catch (Exception e) {
+			this.sanPham = new SanPhamDAO().getSanPham(rs.getInt("maSP"));
+		}
 	}
 
 	public int getId() {

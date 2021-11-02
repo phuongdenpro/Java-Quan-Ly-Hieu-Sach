@@ -58,8 +58,18 @@ public class SanPham {
 			
 		}	
 	}
+<<<<<<< HEAD
 	public SanPham() {
 		
+=======
+	
+	public SanPham(int maSp, String tenSp, double giaSp, NhaCungCap nhaCungCap) {
+		super();
+		this.maSp = maSp;
+		this.tenSp = tenSp;
+		this.giaSp = giaSp;
+		this.nhaCungCap = nhaCungCap;
+>>>>>>> 81e3d28dfe906099e5943aa05be896d8bd4c968a
 	}
 
 	public int getMaSp() {

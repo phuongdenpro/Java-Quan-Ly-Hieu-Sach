@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import connectdb.ConnectDB;
 import entity.ChiTietHoaDon;
+import entity.DonDatHang;
 import entity.HoaDon;
+import entity.KhachHang;
 import entity.SanPham;
 
 public class HoaDonDAO extends ConnectDB{
@@ -28,7 +31,7 @@ public class HoaDonDAO extends ConnectDB{
 //        	kiểm tra số lượng sp
         	for(int i=0; i<dscthd.size(); i++) {
         		if(dscthd.get(i).getSanPham().getSoLuong() < dscthd.get(i).getSoLuong()) {
-        			this.error = "Sản phẩm "+ dscthd.get(i).getSanPham().getTenSp() + " chỉ còn: " + dscthd.get(i).getSanPham().getSoLuong();
+        			this.error = "Lỗi: "+ dscthd.get(i).getSanPham().getTenSp() + " chỉ còn " + dscthd.get(i).getSanPham().getSoLuong() + " sản phẩm";
         			return false;
         		}
         	}
@@ -58,7 +61,12 @@ public class HoaDonDAO extends ConnectDB{
             String sql = "INSERT INTO dbo.HoaDon (maNV, maKH, tongTien, ngayMua) values(?, ?, ?, ?)";
             stmt = this.conn.prepareStatement(sql);
             stmt.setInt(1, hd.getNhanVien().getMaNv());
-            stmt.setInt(2, hd.getKhachHang().getMaKh());
+            
+            if(hd.getKhachHang() != null)
+            	stmt.setInt(2, hd.getKhachHang().getMaKh());
+            else
+            	stmt.setNull(2, java.sql.Types.INTEGER);
+            
             stmt.setDouble(3, hd.getTongTien());
             stmt.setDate(4, hd.getNgayMua());
             
@@ -87,11 +95,7 @@ public class HoaDonDAO extends ConnectDB{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        	
         }
 		return false;
 	}
@@ -117,6 +121,86 @@ public class HoaDonDAO extends ConnectDB{
             }
         }
         return -1;
+	}
+	
+	public ArrayList<HoaDon> getDSHD(){
+		ArrayList<HoaDon> dataList = new ArrayList<HoaDon>();
+        Statement stmt = null;
+        try {
+
+            String sql = "SELECT * FROM dbo.HoaDon";
+            stmt = this.conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+            	HoaDon hd = new HoaDon(rs);
+            	hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+            	dataList.add(hd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataList;
+	}
+	
+	public List<HoaDon> timKiem(String key, String val) {
+    	Statement stmt = null;
+    	List<HoaDon> dshd = new ArrayList<HoaDon>();
+        try {
+        	System.out.println(key + " " + val);
+
+            String sql = "SELECT * FROM dbo.HoaDon inner join dbo.KhachHang on dbo.HoaDon.maKH = dbo.KhachHang.maKH where "+ key +" like N'"+ val + "'";
+            stmt = this.conn.createStatement();
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            
+            while(rs.next()) {
+            	printResultSet(rs);
+            	HoaDon hd = new HoaDon(rs);
+            	hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+            	dshd.add(hd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return dshd;
+    }
+	
+	public boolean xoaHD(int maHD) {
+		PreparedStatement stmt = null;
+
+        try {
+        	if(new ChiTietHoaDonDAO().xoaHetChiTietHD(maHD) == false) {
+        		return false;
+        	}
+        	
+        	String sql = "DELETE from dbo.HoaDon WHERE maHD = ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	
+        	prpStmt.setDouble(1, maHD);
+            int n = prpStmt.executeUpdate();
+               
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return false;
 	}
 	
 	public String getError() {
