@@ -224,7 +224,8 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		btnTimKiem.setBackground(Color.WHITE);
 		panel_1.add(btnTimKiem);
 		
-		JButton btnLamMoi = new JButton("Làm mới dữ liệu");
+		ImageIcon icon_refresh = new ImageIcon("data/images/refresh.png");
+		JButton btnLamMoi = new JButton("Làm mới dữ liệu", icon_refresh);
 		btnLamMoi.setBackground(Color.WHITE);
 		btnLamMoi.setBounds(410, 29, 165, 25);
 		panel_1.add(btnLamMoi);

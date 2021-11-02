@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.DimensionUIResource;
 import javax.swing.table.DefaultTableModel;
 
+import dao.HoaDonDAO;
+import entity.HoaDon;
 import util.Placeholder;
 
 import javax.swing.JScrollPane;
@@ -26,6 +28,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TimKiemHoaDon_GUI extends JFrame {
 
@@ -34,6 +38,11 @@ public class TimKiemHoaDon_GUI extends JFrame {
 	JRadioButton rdbtnMaKH,rdbtnTenKH,rdbtnSDT;
 	JButton btnTimKiem;
 	private JRadioButton rdbtnMaHD;
+	private ArrayList<HoaDon> dshd;
+	private DefaultTableModel modelDSHD;
+	private JTable tblDSHD;
+	private ButtonGroup rdbtnGroup;
+	private JButton btnLamMoi;
 
 	/**
 	 * Launch the application.
@@ -53,8 +62,9 @@ public class TimKiemHoaDon_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public TimKiemHoaDon_GUI() {
+	public TimKiemHoaDon_GUI() throws SQLException {
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -104,6 +114,7 @@ public class TimKiemHoaDon_GUI extends JFrame {
 		pnThongTin.add(txtThongTin);
 		
 		rdbtnMaHD = new JRadioButton("Mã HĐ");
+		rdbtnMaHD.setSelected(true);
 		pnTimKiem.add(rdbtnMaHD);
 		
 		rdbtnMaKH = new JRadioButton("Mã KH");
@@ -115,7 +126,8 @@ public class TimKiemHoaDon_GUI extends JFrame {
 		rdbtnSDT = new JRadioButton("Số điện thoại");
 		pnTimKiem.add(rdbtnSDT);
 		
-		ButtonGroup rdbtnGroup = new ButtonGroup();
+		rdbtnGroup = new ButtonGroup();
+		rdbtnGroup.add(rdbtnMaHD);
 		rdbtnGroup.add(rdbtnSDT);
 		rdbtnGroup.add(rdbtnTenKH);
 		rdbtnGroup.add(rdbtnMaKH);
@@ -126,13 +138,94 @@ public class TimKiemHoaDon_GUI extends JFrame {
 		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
 		pnTimKiem.add(btnTimKiem);
 		
-		String[] cols = {"Mã khách hàng", "Họ tên", "Số điện thoại", "Địa chỉ"};
-		DefaultTableModel dfmTblKhachHang = new DefaultTableModel(cols, 0);
-		JTable tblDSHD = new JTable(dfmTblKhachHang);
+		btnLamMoi = new JButton("Làm mới dữ liệu");
+		btnLamMoi.setPreferredSize(new Dimension(150, 30));
+		btnLamMoi.setBackground(Color.WHITE);
+		btnLamMoi.setIcon(new ImageIcon("data/images/refresh.png"));
+		pnTimKiem.add(btnLamMoi);
+		
+		String[] cols = {"Mã hóa đơn", "Mã khách hàng", "Họ tên", "Số điện thoại", "Địa chỉ", "Tổng tiền", "Ngày lập"};
+		modelDSHD = new DefaultTableModel(cols, 0);
+		tblDSHD = new JTable(modelDSHD);
 		JScrollPane sctblDSHD = new JScrollPane(tblDSHD,
 								JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 								JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		contentPane.add(sctblDSHD, BorderLayout.CENTER);
+		
+		renderData();
+		
+		btnTimKiem.addActionListener((e) -> {
+			
+			try {
+				String key = "maHD";
+				if(rdbtnMaKH.isSelected()) {
+					key = "KhachHang.maKH";
+				}else if(rdbtnTenKH.isSelected()) {
+					key = "KhachHang.HoTen";
+				}else if(rdbtnSDT.isSelected()) {
+					key = "KhachHang.soDienThoai";
+				}
+				
+				dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(key, txtThongTin.getText());
+				renderDataTimKiem();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		btnLamMoi.addActionListener((e) -> {
+			try {
+				renderData();
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		});
+
+	}
+	
+	public void renderData() throws SQLException {
+		dshd = new HoaDonDAO().getDSHD();
+		
+		tblDSHD.clearSelection();
+		modelDSHD.getDataVector().removeAllElements();
+		dshd.forEach(hd -> {
+			modelDSHD.addRow(new Object[] {
+				hd.getMaHD(), 
+				hd.getKhachHang().getMaKh(), 
+				hd.getKhachHang().getHoTen(), 
+				hd.getKhachHang().getSoDienThoai(),
+				hd.getKhachHang().getDiaChi(),
+				hd.tinhTongTien(),
+				hd.getNgayMua()
+			});
+		});
+		tblDSHD.revalidate();
+		tblDSHD.repaint();
+	}
+	
+	public void renderDataTimKiem() throws SQLException {
+		tblDSHD.clearSelection();
+		
+		modelDSHD.getDataVector().removeAllElements();
+		
+		dshd.forEach(hd -> {
+			modelDSHD.addRow(new Object[] {
+					hd.getMaHD(), 
+					hd.getKhachHang().getMaKh(), 
+					hd.getKhachHang().getHoTen(), 
+					hd.getKhachHang().getSoDienThoai(),
+					hd.getKhachHang().getDiaChi(),
+					hd.tinhTongTien(),
+					hd.getNgayMua()
+				});
+		});
+		
+		tblDSHD.revalidate();
+		tblDSHD.repaint();
 	}
 
 }
