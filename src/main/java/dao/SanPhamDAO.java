@@ -1,10 +1,9 @@
 package dao;
 
-<<<<<<< HEAD
+
 import java.sql.Connection;
-=======
+
 import java.sql.Date;
->>>>>>> 81e3d28dfe906099e5943aa05be896d8bd4c968a
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -292,7 +291,7 @@ public class SanPhamDAO extends ConnectDB {
 
 			while (rs.next()) {
 //            	printResultSet(rs);
-<<<<<<< HEAD
+
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -330,45 +329,6 @@ public class SanPhamDAO extends ConnectDB {
 		return 0;
 	}
 
-	public static void main(String[] args) throws SQLException {
-		SanPhamDAO sanPhamDao = new SanPhamDAO();
-=======
-                SanPham sanPham = new SanPham(rs);
-                dataList.add(sanPham);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return dataList;
-    }
-    
-    public int getSoLuongSP(int maSP) {
-    	PreparedStatement stmt = null;
-        try {
-
-            String sql = "SELECT soLuong FROM dbo.SanPham where maSP = ?";
-            stmt = this.conn.prepareStatement(sql);
-            stmt.setInt(1, maSP);
-            ResultSet rs = stmt.executeQuery(sql);
-            return rs.getInt("soLuong");
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return 0;
-    }
     
     public Map<SanPham, Integer> thongKeSPBanChay() {
     	Map<SanPham, Integer> kq = new LinkedHashMap<SanPham, Integer>();
@@ -448,7 +408,6 @@ public class SanPhamDAO extends ConnectDB {
     
     public static void main(String[] args) throws SQLException {
     	SanPhamDAO sanPhamDao = new SanPhamDAO();
->>>>>>> 81e3d28dfe906099e5943aa05be896d8bd4c968a
 //    	System.out.println(sanPhamDao.getListSanPham());
 		sanPhamDao.getListSanPhamByMaLoai(1);
 	}
