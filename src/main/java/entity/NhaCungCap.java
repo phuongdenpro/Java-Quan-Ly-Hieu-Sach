@@ -27,16 +27,12 @@ public class NhaCungCap {
 		this.soDienThoai = rs.getString("soDienThoai");
 //		this.sanPhams = sanPhams;
 	}
-<<<<<<< HEAD
+
 	public NhaCungCap(String tenNCC){
 		this.tenNCC = tenNCC;
 	}
 	public NhaCungCap(){
 	}
-
-=======
-	
->>>>>>> 81e3d28dfe906099e5943aa05be896d8bd4c968a
 	public int getMaNCC() {
 		return maNCC;
 	}
