@@ -269,6 +269,7 @@ public class SanPhamKhac_GUI extends JFrame {
 		cmbLoaiTimKiem.setBackground(Color.WHITE);
 		cmbLoaiTimKiem.setPreferredSize(new Dimension(130, 22));
 		pnTimKiem.add(cmbLoaiTimKiem);
+		
 		cboLoaiTimKiem.addElement((String) "Mã Sản Phẩm");
 		cboLoaiTimKiem.addElement((String) "Tên Sản Phẩm");
 		cboLoaiTimKiem.addElement((String) "Loại Sản Phẩm");
@@ -288,6 +289,12 @@ public class SanPhamKhac_GUI extends JFrame {
 		btnTimKiem.setBackground(Color.WHITE);
 		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
 		pnTimKiem.add(btnTimKiem);
+		
+		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
+		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 25));
+		btnLamMoiDuLieu.setBackground(Color.WHITE);
+		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
+		pnTimKiem.add(btnLamMoiDuLieu);
 		
 		JPanel pnTableKh = new JPanel();
 		pnRight.add(pnTableKh, BorderLayout.CENTER);

@@ -221,6 +221,12 @@ public class LoaiSanPham_GUI extends JFrame {
 		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
 		pnTimKiem.add(btnTimKiem);
 		
+		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
+		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 25));
+		btnLamMoiDuLieu.setBackground(Color.WHITE);
+		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
+		pnTimKiem.add(btnLamMoiDuLieu);
+		
 		JPanel pnTableLoai = new JPanel();
 		pnRight.add(pnTableLoai, BorderLayout.CENTER);
 		pnTableLoai.setLayout(new BorderLayout(0, 0));

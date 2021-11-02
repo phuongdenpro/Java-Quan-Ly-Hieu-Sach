@@ -119,6 +119,11 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener, MouseList
 		btnNewButton.setIcon(icon2);
 		btnNewButton.setBackground(Color.WHITE);
 		panel_1.add(btnNewButton);
+		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
+		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 25));
+		btnLamMoiDuLieu.setBackground(Color.WHITE);
+		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
+		panel_1.add(btnLamMoiDuLieu);
 		
 		String[] cols = {"Mã sách", "Tên sách", "Nhà xuất bản", "Số lượng", "Giá nhập", "Giá bán", "Loại Sách"};
 	

@@ -107,6 +107,12 @@ panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		btnNewButton.setBackground(Color.WHITE);
 		panel_1.add(btnNewButton);
 		
+		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
+		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 25));
+		btnLamMoiDuLieu.setBackground(Color.WHITE);
+		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
+		panel_1.add(btnLamMoiDuLieu);
+		
 		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá nhập", "Giá bán", "Loại sản phẩm"};
 		DefaultTableModel modelDSSanPham = new DefaultTableModel(cols, 0);
 		JTable tblDSSanPham = new JTable(modelDSSanPham);

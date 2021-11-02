@@ -15,7 +15,12 @@ public class LoaiSanPham {
 		this.tenLoai = tenLoai;
 		this.sanPhams = sanPhams;
 	}
-	
+	public LoaiSanPham() {
+		
+	}
+	public LoaiSanPham(String tenLoai) {
+		this.tenLoai = tenLoai;
+	}
 	public LoaiSanPham(ResultSet rs) throws SQLException {
 		this.maLoai = rs.getInt("MaLoai");
 		this.tenLoai = rs.getString("TenLoai");

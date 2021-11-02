@@ -121,6 +121,11 @@ public class TimKiemKhachHang_GUI extends JFrame {
 		btnTimKiem.setPreferredSize(new DimensionUIResource(150, 30));
 		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
 		pnTimKiem.add(btnTimKiem);
+		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
+		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 30));
+		btnLamMoiDuLieu.setBackground(Color.WHITE);
+		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
+		pnTimKiem.add(btnLamMoiDuLieu);
 		
 		String[] cols = {"Mã khách hàng", "Họ tên", "Số điện thoại", "Địa chỉ"};
 		DefaultTableModel dfmTblKhachHang = new DefaultTableModel(cols, 0);

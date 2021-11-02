@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -73,6 +74,27 @@ public class LoaiSanPhamDAO extends ConnectDB{
         }
         return dataList;
     }
+	public boolean createLoaiSp(String tenLoai) {
+		PreparedStatement statement = null;
+
+		try {
+			String sql = "insert into LoaiSanPham (TenLoai) values(N'Sách');";
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, tenLoai);
+			int n = statement.executeUpdate();
+			return n > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+
+	}
 	
 	public static void main(String[] args) throws SQLException {
 		LoaiSanPhamDAO loaiSanPhamDAO = new LoaiSanPhamDAO();
