@@ -9,12 +9,10 @@ import connectdb.ConnectDB;
 import java.sql.*;
 
 import entity.KhachHang;
-<<<<<<< HEAD
 import entity.NhanVien;
-=======
 import entity.NhaCungCap;
 import entity.SanPham;
->>>>>>> 60b35566936f2b1dbcfa8d626b31d03c1f78d61d
+
 
 public class KhachHangDAO extends ConnectDB{
 
@@ -125,7 +123,7 @@ public class KhachHangDAO extends ConnectDB{
         }
         return null;
     }
-<<<<<<< HEAD
+
 	public boolean suaKH(KhachHang kh,int ma) {
 	    PreparedStatement stmt = null;
 		try {
@@ -177,8 +175,6 @@ public class KhachHangDAO extends ConnectDB{
 		}
 		return false;
 	}
-    
-=======
     
     public Map<KhachHang, Map<String, Integer>> thongKeKHTN() {
     	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
@@ -232,5 +228,4 @@ public class KhachHangDAO extends ConnectDB{
         }
         return 0;
     }
->>>>>>> 60b35566936f2b1dbcfa8d626b31d03c1f78d61d
 }

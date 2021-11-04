@@ -322,19 +322,19 @@ public class KhachHang_GUI extends JFrame {
 				txtSdt.setText("");
 				txtDiaChi.setText("");
 			}});
-		btnThemKh.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String tenKh = txtTenKh.getText();
-				String sdt = txtSdt.getText();
-				String diachi = txtDiaChi.getText();
-				
-				KhachHang kh = new KhachHang(tenKh, sdt, diachi);
-				
-				
-			}});
+//		btnThemKh.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				String tenKh = txtTenKh.getText();
+//				String sdt = txtSdt.getText();
+//				String diachi = txtDiaChi.getText();
+//				
+//				KhachHang kh = new KhachHang(tenKh, sdt, diachi);
+//				
+//				
+//			}});
 		btnSuaKh.addActionListener(new ActionListener() {
 
 			@Override
@@ -347,8 +347,8 @@ public class KhachHang_GUI extends JFrame {
 				String diaChi = txtDiaChi.getText();
 				String makh = txtMaKh.getText();
 				
-				String regexSdt = "/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/";// này bị sai :v
-				if (!sdt.matches("0\\d+{9}")) {
+				//String regexSdt = "/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/";// này bị sai :v
+				if (!sdt.matches("0\\d+{9}")) {//sài tạm
 					JOptionPane.showMessageDialog(contentPane, "sai định dạng số điện thoại");
 					return;
 				}
