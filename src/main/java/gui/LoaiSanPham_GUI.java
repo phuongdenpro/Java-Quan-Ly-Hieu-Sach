@@ -310,8 +310,26 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				LoaiSanPham loai = getSelectedDataTable();
+				int row = table.getSelectedRow();
+				try {
+					if (row == -1) {
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn danh mục sẩn phẩm cần xoá !!!");
+					} else {
+						int select;
+						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá danh mục sản phẩm đã chọn ?", "Cảnh báo",
+								JOptionPane.YES_NO_OPTION);
+						if (select == JOptionPane.YES_OPTION) {
+							loaiDAO.delete(loai);
+							modelDSLoai.removeRow(row);
+							JOptionPane.showMessageDialog(out, "Xóa thành công");
+						}
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(out, "Xóa thất bại");
+				}
 			}
+			
 		});
 		btnLamMoi.addActionListener(new ActionListener() {
 			
@@ -404,6 +422,14 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	private LoaiSanPham getSelectedDataTable() {
+		String maLoai = txtMaLoai.getText().trim();
+		String tenLoai = txtTenLoai.getText().trim();
+		
+
+		LoaiSanPham loai = new LoaiSanPham(Integer.parseInt(maLoai),tenLoai);
+		return loai;
 	}
 
 	private boolean ktdulieu() {

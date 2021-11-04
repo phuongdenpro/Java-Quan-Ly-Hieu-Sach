@@ -120,6 +120,26 @@ public class LoaiSanPhamDAO extends ConnectDB{
 		return false;
 
 	}
+	 public boolean delete(LoaiSanPham loai) {
+	        PreparedStatement statement = null;
+	 
+	        int n = 0;
+	        try {
+	            String sql = "delete from dbo.LoaiSanPham " + "where MaLoai = ?";
+	            statement = conn.prepareStatement(sql);
+	            statement.setInt(1, loai.getMaLoai());
+	            n = statement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                statement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return n > 0;
+	    }
 	
 	public static void main(String[] args) throws SQLException {
 		LoaiSanPhamDAO loaiSanPhamDAO = new LoaiSanPhamDAO();

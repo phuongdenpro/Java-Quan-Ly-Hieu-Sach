@@ -15,6 +15,12 @@ public class LoaiSanPham {
 		this.tenLoai = tenLoai;
 		this.sanPhams = sanPhams;
 	}
+	public LoaiSanPham(int maLoai, String tenLoai) {
+		super();
+		this.maLoai = maLoai;
+		this.tenLoai = tenLoai;
+		
+	}
 	public LoaiSanPham() {
 		
 	}
