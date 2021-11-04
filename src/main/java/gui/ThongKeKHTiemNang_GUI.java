@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.KhachHangDAO;
+import entity.KhachHang;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -15,10 +19,15 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThongKeKHTiemNang_GUI extends JFrame {
 
 	private JPanel contentPane;
+	private DefaultTableModel modelDSKH;
+	private JTable tblDSKH;
 
 	/**
 	 * Launch the application.
@@ -38,8 +47,9 @@ public class ThongKeKHTiemNang_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public ThongKeKHTiemNang_GUI() {
+	public ThongKeKHTiemNang_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -63,12 +73,38 @@ public class ThongKeKHTiemNang_GUI extends JFrame {
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		
-		String[] cols = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email", "Địa chỉ", "Số lần mua hàng", "Số tiền mua hàng"};
-		DefaultTableModel modelDSKH = new DefaultTableModel(cols, 0);
+		String[] cols = {"STT", "Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ", "Số lần mua hàng", "Số tiền mua hàng"};
+		modelDSKH = new DefaultTableModel(cols, 0);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		JTable tblDSKH = new JTable(modelDSKH);
+		tblDSKH = new JTable(modelDSKH);
 		JScrollPane scrollPane = new JScrollPane(tblDSKH);
 		panel_1.add(scrollPane);
+		
+		renderData();
+	}
+	
+	public void renderData() throws SQLException {
+		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN();
+		
+		tblDSKH.clearSelection();
+		modelDSKH.getDataVector().removeAllElements();
+		
+		AtomicInteger stt = new AtomicInteger(1);
+		dskh.forEach((kh, mp) -> {
+			modelDSKH.addRow(new Object[] {
+				stt.get(),
+				kh.getMaKh(),
+				kh.getHoTen(),
+				kh.getSoDienThoai(),
+				kh.getDiaChi(),
+				mp.get("soLanMuaHang"),
+				mp.get("tongTien"),
+			});
+			stt.set(stt.get()+1);
+		});
+		
+		tblDSKH.revalidate();
+		tblDSKH.repaint();
 	}
 
 	public JPanel getContentPane() {
