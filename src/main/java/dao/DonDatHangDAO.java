@@ -9,10 +9,15 @@ import java.sql.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.swing.JOptionPane;
+
 import connectdb.ConnectDB;
 import entity.ChiTietDonDatHang;
+import entity.ChiTietHoaDon;
 import entity.DonDatHang;
+import entity.HoaDon;
 import entity.KhachHang;
+import entity.NhanVien;
 import entity.SanPham;
 
 public class DonDatHangDAO extends ConnectDB{
@@ -223,33 +228,35 @@ public class DonDatHangDAO extends ConnectDB{
     	return false;
     }
     
-//    public boolean cloneDDHtoHD(int maDDH) {
-//    	PreparedStatement stmt = null;
-//
-//        try {
-//        	DonDatHang ddh = this.getDonDatHangByMaDDH(maDDH);
-//        	
-////        	Date now = new Date(new java.util.Date().getTime());
-////        	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 2 WHERE maDDH = ?";
-////        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
-////        	prpStmt.setDouble(1, maDDH);
-////            int n = prpStmt.executeUpdate();
-////               
-////            return n > 0;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//        }
-//    	
-//    	return false;
-//    }
+    public boolean cloneDDHtoHD(int maDDH, NhanVien nv) {
+    	PreparedStatement stmt = null;
+
+        try {
+        	DonDatHang ddh = this.getDonDatHangByMaDDH(maDDH);
+        	
+        	ArrayList<ChiTietHoaDon> dscthd = new ArrayList<ChiTietHoaDon>();
+        	ddh.getChiTietDonDatHangs().forEach(ctddh -> {
+            	ChiTietHoaDon cthd = new ChiTietHoaDon(ctddh.getSanPham(), ctddh.getSoLuong(), ctddh.getDonGia());
+    			dscthd.add(cthd);
+        	});
+        	HoaDon hd = new HoaDon(nv, ddh.getKhachHang(), dscthd);
+        	
+			return new HoaDonDAO().themHoaDon(hd);
+			
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return false;
+    }
     
-    public boolean thanhToan(int maDDH) {
+    public boolean thanhToan(int maDDH, NhanVien nv) {
     	PreparedStatement stmt = null;
 
         try {
         	
-//        	this.cloneDDHtoHD(maDDH);
+        	this.cloneDDHtoHD(maDDH, nv);
         	
         	Date now = new Date(new java.util.Date().getTime());
         	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 2 WHERE maDDH = ?";
@@ -270,6 +277,21 @@ public class DonDatHangDAO extends ConnectDB{
     	PreparedStatement stmt = null;
 
         try {
+        	ArrayList<ChiTietDonDatHang> dsctddh = new ChiTietDonDatHangDAO().getDSChiTietDDH(maDDH);
+        	
+//        	cập nhật lại số lượng
+        	dsctddh.forEach(ctddh -> {
+        		SanPham sp = ctddh.getSanPham();
+        		sp.setSoLuong(sp.getSoLuong() + ctddh.getSoLuong());
+        		try {
+					new SanPhamDAO().capNhat(sp);
+				
+        		} catch (SQLException e) {
+					e.printStackTrace();
+				}
+        	});
+        	
+//        	xoa chi tiet ddh
         	if(new ChiTietDonDatHangDAO().xoaHetChiTietDonDatHang(maDDH) == false) {
         		return false;
         	}

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import connectdb.ConnectDB;
+import entity.DonDatHang;
 import entity.KhachHang;
 import entity.NhaCungCap;
 import entity.SanPham;
@@ -257,15 +258,20 @@ public class SanPhamDAO extends ConnectDB {
 		PreparedStatement stmt = null;
 		try {
 
-			String sql = "UPDATE dbo.SanPham set TenSp = ?, GiaSp = ?, GiaNhap = ?, SoLuong = ?, MaNCC = ?, MaLoai = ? where MaSP = ?";
+			String sql = "UPDATE dbo.SanPham set TenSp = ?, GiaSp = ?, GiaNhap = ?, SoLuong = ? where MaSP = ?";
 			stmt = this.conn.prepareStatement(sql);
 			stmt.setString(1, sp.getTenSp());
 			stmt.setDouble(2, sp.getGiaSp());
 			stmt.setDouble(3, sp.getGiaNhap());
 			stmt.setInt(4, sp.getSoLuong());
-			stmt.setInt(5, sp.getNhaCungCap().getMaNCC());
-			stmt.setInt(6, sp.getLoaiSanPham().getMaLoai());
-			stmt.setInt(7, sp.getMaSp());
+			
+//			if(sp.getNhaCungCap() != null)
+//				stmt.setInt(5, sp.getNhaCungCap().getMaNCC());
+//			
+//			if(sp.getLoaiSanPham() != null)
+//				stmt.setInt(6, sp.getLoaiSanPham().getMaLoai());
+			
+			stmt.setInt(5, sp.getMaSp());
 			int n = stmt.executeUpdate();
 
 			return n > 0;
@@ -280,6 +286,57 @@ public class SanPhamDAO extends ConnectDB {
 		}
 		return false;
 	}
+	 public boolean delete(SanPham sp) {
+	        PreparedStatement statement = null;
+	 
+	        int n = 0;
+	        try {
+	            String sql = "delete from dbo.SanPham " + "where MaSP = ?";
+	            statement = conn.prepareStatement(sql);
+	            statement.setInt(1, sp.getMaSp());
+	            n = statement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                statement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return n > 0;
+	    }
+	 public List<SanPham> timKiemSach(String key, String val) {
+	    	Statement stmt = null;
+	    	List<SanPham> dssp = new ArrayList<SanPham>();
+	        try {
+	        	System.out.println(key + " " + val);
+
+	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where TenLoai like 'Sách%' AND  "+ key +" like N'"+ val + "'";
+	            stmt = this.conn.createStatement();
+	            
+	            ResultSet rsSP = stmt.executeQuery(sql);
+	            
+	            System.out.println(rsSP.getStatement().toString());
+	            
+	            while(rsSP.next()) {
+	            	printResultSet(rsSP);
+	            	SanPham sp = new SanPham(rsSP);
+	            //	sp.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsSP.getInt("maDDH")));
+	            	dssp.add(sp);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                stmt.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    	
+	    	return dssp;
+	    }
 
 	public List<SanPham> getSanPhamDaHet() {
 		ArrayList<SanPham> dataList = new ArrayList<SanPham>();
@@ -408,10 +465,67 @@ public class SanPhamDAO extends ConnectDB {
         return null;
     }
     
+    public int soLuongDaBanHomNay() {
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "select sum(soLuong) as soLuong\r\n"
+            		+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "inner join [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
+            		+ "on hoaDon.maHD = chiTietHoaDon.maHD\r\n"
+            		+ "where ngayMua = '11/03/2021'";
+            stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            if(!rs.next())
+            	return 0;
+            
+            return rs.getInt("soLuong");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+    
+    public ArrayList<SanPham> timKiem(String keyword) {
+		ArrayList<SanPham> dataList = new ArrayList<SanPham>();
+		PreparedStatement stmt = null;
+		try {
+
+			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
+					+ "where TenSP like ?";
+			stmt = this.conn.prepareStatement(sql);
+			stmt.setString(1, "%"+keyword+"%");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+//                System.out.println(rs);
+				printResultSet(rs);
+				SanPham sanPham = new SanPham(rs);
+				dataList.add(sanPham);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return dataList;
+	} 
+    
     public static void main(String[] args) throws SQLException {
     	SanPhamDAO sanPhamDao = new SanPhamDAO();
 //    	System.out.println(sanPhamDao.getListSanPham());
-		sanPhamDao.getListSanPhamByMaLoai(1);
+		System.out.println(sanPhamDao.timKiem("Bút"));
 		//sanPhamDao.createNCC("phuong");
 	}
 }

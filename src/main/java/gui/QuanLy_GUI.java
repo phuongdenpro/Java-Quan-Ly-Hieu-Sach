@@ -56,7 +56,7 @@ public class QuanLy_GUI extends JFrame {
 	
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
 	private MuaHang muaHangGUI;
-	private DatHang_GUI datHangGUI = new DatHang_GUI();
+	private DatHang_GUI datHangGUI;
 	private TimKiemKhachHang_GUI timKiemKHGUI = new TimKiemKhachHang_GUI();
 	private ThongKeKHTiemNang_GUI thongKeKHTNGUI = new ThongKeKHTiemNang_GUI();
 
@@ -437,9 +437,10 @@ public class QuanLy_GUI extends JFrame {
 						
 						muaHangGUI = new MuaHang(khachHang);
 						
-						if(nhanVien != null)
+						if(nhanVien != null) {
 							taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
-						
+							datHangGUI = new DatHang_GUI(nhanVien);
+						}
 						renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
 						menuBar.setVisible(true);
 					}else {

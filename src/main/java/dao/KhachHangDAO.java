@@ -9,7 +9,12 @@ import connectdb.ConnectDB;
 import java.sql.*;
 
 import entity.KhachHang;
+<<<<<<< HEAD
 import entity.NhanVien;
+=======
+import entity.NhaCungCap;
+import entity.SanPham;
+>>>>>>> 60b35566936f2b1dbcfa8d626b31d03c1f78d61d
 
 public class KhachHangDAO extends ConnectDB{
 
@@ -120,6 +125,7 @@ public class KhachHangDAO extends ConnectDB{
         }
         return null;
     }
+<<<<<<< HEAD
 	public boolean suaKH(KhachHang kh,int ma) {
 	    PreparedStatement stmt = null;
 		try {
@@ -172,4 +178,59 @@ public class KhachHangDAO extends ConnectDB{
 		return false;
 	}
     
+=======
+    
+    public Map<KhachHang, Map<String, Integer>> thongKeKHTN() {
+    	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "select KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
+            		+ "  from [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "  inner join [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "  on HoaDon.maKH = KhachHang.maKH\r\n"
+            		+ "  group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ "  order by tongTien desc";
+            stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+            	printResultSet(rs);
+            	KhachHang kh = new KhachHang(rs);
+            	Map<String, Integer> mp = new HashMap<String, Integer>();
+            	mp.put("soLanMuaHang", rs.getInt("soLanMuaHang"));
+            	mp.put("tongTien", rs.getInt("tongTien"));
+            	kq.put(kh, mp);
+            }
+            
+            return kq;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return kq;
+    }
+    
+    public int soLuongKhachHang() {
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "SELECT count(maKH) as soLuong FROM dbo.KhachHang";
+            stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if(!rs.next()) {
+            	return 0;
+            }
+            
+            return rs.getInt("soLuong");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return 0;
+    }
+>>>>>>> 60b35566936f2b1dbcfa8d626b31d03c1f78d61d
 }

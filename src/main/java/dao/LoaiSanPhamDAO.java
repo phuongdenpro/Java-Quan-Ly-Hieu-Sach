@@ -9,6 +9,7 @@ import java.util.List;
 
 import connectdb.ConnectDB;
 import entity.LoaiSanPham;
+import entity.NhaCungCap;
 import entity.SanPham;
 
 public class LoaiSanPhamDAO extends ConnectDB{
@@ -74,11 +75,35 @@ public class LoaiSanPhamDAO extends ConnectDB{
         }
         return dataList;
     }
+	public LoaiSanPham getLoaiByTenLoai(String tenLoai) {
+		PreparedStatement stmt = null;
+		try {
+
+			String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai = ?";
+			stmt = this.conn.prepareStatement(sql);
+			stmt.setString(1, tenLoai);
+			ResultSet rs = stmt.executeQuery();
+			if (!rs.next())
+				return null;
+
+			LoaiSanPham loai = new LoaiSanPham(rs);
+			return loai;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 	public boolean createLoaiSp(String tenLoai) {
 		PreparedStatement statement = null;
 
 		try {
-			String sql = "insert into LoaiSanPham (TenLoai) values(N'Sách');";
+			String sql = "insert into LoaiSanPham (TenLoai) values(?);";
 			statement = conn.prepareStatement(sql);
 			statement.setString(1, tenLoai);
 			int n = statement.executeUpdate();
@@ -95,6 +120,26 @@ public class LoaiSanPhamDAO extends ConnectDB{
 		return false;
 
 	}
+	 public boolean delete(LoaiSanPham loai) {
+	        PreparedStatement statement = null;
+	 
+	        int n = 0;
+	        try {
+	            String sql = "delete from dbo.LoaiSanPham " + "where MaLoai = ?";
+	            statement = conn.prepareStatement(sql);
+	            statement.setInt(1, loai.getMaLoai());
+	            n = statement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                statement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return n > 0;
+	    }
 	
 	public static void main(String[] args) throws SQLException {
 		LoaiSanPhamDAO loaiSanPhamDAO = new LoaiSanPhamDAO();

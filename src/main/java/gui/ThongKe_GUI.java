@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
@@ -28,6 +30,10 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
+import dao.HoaDonDAO;
+import dao.KhachHangDAO;
+import dao.SanPhamDAO;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
@@ -45,7 +51,8 @@ import javax.swing.JScrollPane;
 import java.util.Random;
 
 public class ThongKe_GUI extends JFrame {
-
+	Day today = new Day();
+	Date now = new Date(new java.util.Date().getTime());
 	private JPanel contentPane;
 
 	/**
@@ -66,8 +73,9 @@ public class ThongKe_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public ThongKe_GUI() {
+	public ThongKe_GUI() throws SQLException {
 		setTitle("Thống kê");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,13 +107,17 @@ public class ThongKe_GUI extends JFrame {
 		pnGridThongTinChung.setLayout(new GridLayout(0, 4, 20, 0));
 		
 		ImageIcon icon_sold = new ImageIcon("data/images/sold.png");
-		pnGridThongTinChung.add(this.dashboardGeneralGUI("Đã bán hôm nay", "20 sản phẩm", icon_sold, new Color(32, 178, 170)));
+		int spDaBanHomNay = new SanPhamDAO().soLuongDaBanHomNay();
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Đã bán hôm nay", spDaBanHomNay+" sản phẩm", icon_sold, new Color(32, 178, 170)));
 		
 		ImageIcon icon_customer = new ImageIcon("data/images/customer.png");
-		pnGridThongTinChung.add(this.dashboardGeneralGUI("Khách hàng", "5 khách hàng mới", icon_customer, new Color(0, 255, 127)));
+		int soLuongKH = new KhachHangDAO().soLuongKhachHang();
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Khách hàng", soLuongKH+" khách hàng", icon_customer, new Color(0, 255, 127)));
 		
 		ImageIcon icon_profit = new ImageIcon("data/images/financial-profit.png");
-		pnGridThongTinChung.add(this.dashboardGeneralGUI("Lợi nhuận hôm nay", "9.123.000đ", icon_profit, new Color(0, 191, 255)));
+		
+		double loiNhuanHomNay = new HoaDonDAO().thongKeLoiNhuan(now);
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Lợi nhuận hôm nay", String.valueOf(loiNhuanHomNay)+"đ", icon_profit, new Color(0, 191, 255)));
 		
 		ImageIcon icon_traffic = new ImageIcon("data/images/web-traffic.png");
 		pnGridThongTinChung.add(this.dashboardGeneralGUI("Lượt truy cập", "123 lượt", icon_traffic, new Color(255, 255, 0)));
@@ -222,8 +234,9 @@ public class ThongKe_GUI extends JFrame {
 		
 		return pnThongTin;
 	}
+	
 
-	private static JFreeChart createRatioProductSoldChart(PieDataset dataset) {
+	private JFreeChart createRatioProductSoldChart(PieDataset dataset) {
         JFreeChart chart = ChartFactory.createPieChart(
                 "Tỷ lệ sản phẩm bán ra", dataset, true, true, true);
 //        chart.setAntiAlias(true);
@@ -234,7 +247,7 @@ public class ThongKe_GUI extends JFrame {
         return chart;
     }
 	
-    private static PieDataset createRatioProductSoldDataset() {
+    private PieDataset createRatioProductSoldDataset() {
         DefaultPieDataset dataset = new DefaultPieDataset();
         dataset.setValue("Truyện conan", new Double(25.0));
         dataset.setValue("Giáo trình tư tưởng Hồ Chí Minh", new Double(66.0));
@@ -242,7 +255,7 @@ public class ThongKe_GUI extends JFrame {
         return dataset;
     }
 	
-	private static JFreeChart createProfitChart() {
+	private JFreeChart createProfitChart() throws SQLException {
 		XYDataset xydataset = createProfitDataset();
 		String s = "Lợi nhuận";
 		JFreeChart jfreechart = ChartFactory.createTimeSeriesChart(s, "Ngày", "Lợi nhuận theo ngày (ngàn đồng)", xydataset, true, true, false);
@@ -257,17 +270,49 @@ public class ThongKe_GUI extends JFrame {
 		return jfreechart;
 	 }
 
-	 private static XYDataset createProfitDataset() {
+	 private XYDataset createProfitDataset() throws SQLException {
 		TimeSeries timeseries = new TimeSeries("Lợi nhuận", org.jfree.data.time.Day.class);
 		Random rand = new Random();
-		for(int i=1; i<=30; i++) {
-			timeseries.add(new Day(i, 1, 2021), rand.nextDouble()*1000);
+		Day tuNgay = getNgay30();
+		int d = tuNgay.getDayOfMonth();
+		int m = tuNgay.getMonth();
+		int y = tuNgay.getYear();
+		
+//		System.out.println(tuNgay);
+//		Date it = now;
+//		it.setDate(it.getDate());
+		for(int i=0; i<30; i++) {
+			System.out.println(d +" "+ m +" "+ y);
+			timeseries.add(new Day(d, m, y), new HoaDonDAO().thongKeLoiNhuan(new Date(2021, m, d)));
+			d++;
+			if(d > getSoNgay(m)) {
+				d = 1;
+				m++;
+				if(m > 12) {
+					m = 1;
+					y++;
+				}
+			}
 		}
 		
 		return new TimeSeriesCollection(timeseries);
 	 }
+	 
+	 private Day getNgay30() {
+		 int d = getSoNgay(today.getMonth()-1) - (30-today.getDayOfMonth());
+		 return new Day(d, today.getMonth()-1, today.getYear());
+	 }
+	 
+	 private int getSoNgay(int m) {
+		 if(m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12)
+			 return 31;
+		 else if(m == 4 || m == 6 || m == 9 || m == 11)
+			 return 30;
+		 else
+			 return 28;
+	 }
 	
-	 private static JFreeChart createProductChart() {
+	 private JFreeChart createProductChart() {
 		 JFreeChart barChart = ChartFactory.createBarChart(
 		     "Số lượng sản phẩm đã bán và còn lại",
 		     "Sản phẩm",
@@ -279,7 +324,7 @@ public class ThongKe_GUI extends JFrame {
 		 return barChart;
 	 }
 	 
-	 private static CategoryDataset createProductDataset( ) {
+	 private CategoryDataset createProductDataset( ) {
 	      final String conLai = "Còn lại";
 	      final String daBan = "Đã bán";
 	      final DefaultCategoryDataset dataset = 

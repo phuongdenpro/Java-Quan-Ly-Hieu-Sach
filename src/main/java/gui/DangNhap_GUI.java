@@ -72,7 +72,7 @@ public class DangNhap_GUI extends JFrame {
 		
 		contentPane = 
 //				new JPanel(); 
-				TrangChu_GUI.panelBackgroundImage("/images/bg3.jpg");
+				TrangChu_GUI.panelBackgroundImage("/images/bg2.jpg");
 		
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

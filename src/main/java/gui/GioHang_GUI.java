@@ -86,8 +86,10 @@ public class GioHang_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public GioHang_GUI() {
+	public GioHang_GUI() throws SQLException {
+		this.khachHang = new KhachHangDAO().getKhachHang(1);
 		GUI();
 	}
 	
@@ -340,7 +342,7 @@ public class GioHang_GUI extends JFrame {
 		mntmGioHang = new JMenuItem("Giỏ hàng");
 		mnNewMenu.add(mntmGioHang);
 		
-		mntmDangXuat = new JMenuItem("Đăng xuất");
+		mntmDangXuat = new JMenuItem("Thoát");
 		mnNewMenu.add(mntmDangXuat);
 		
 		return panelHeader;

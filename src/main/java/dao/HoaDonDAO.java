@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -205,5 +206,34 @@ public class HoaDonDAO extends ConnectDB{
 	
 	public String getError() {
 		return this.error;
+	}
+	
+	public double thongKeLoiNhuan(Date d) {
+		PreparedStatement stmt = null;
+
+        try {
+        	System.out.println(d);
+        	String sql = "select sum(ChiTietHoaDon.soLuong * (DonGia-GiaNhap)) as loiNhuan\r\n"
+        			+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+        			+ "inner join [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
+        			+ "on HoaDon.maHD = ChiTietHoaDon.maHD\r\n"
+        			+ "inner join [HieuSach].[dbo].[SanPham]\r\n"
+        			+ "on ChiTietHoaDon.maSP = SanPham.maSP\r\n"
+        			+ "where ngayMua = ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	
+        	prpStmt.setDate(1, d);
+            ResultSet rs = prpStmt.executeQuery();
+               
+            if(!rs.next())
+            	return 0;
+            
+            return rs.getInt("loiNhuan");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return 0;
 	}
 }
