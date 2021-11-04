@@ -73,10 +73,12 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	private LoaiSanPhamDAO loaiDAO;
 
 	private ArrayList<SanPham> dssach;
+	private List<SanPham> dssachtim;
 	private ArrayList<LoaiSanPham> dsLoai;
 	private ArrayList<NhaCungCap> dsNCC;
 	private JButton btnThem;
 
+	private boolean isTimKiem = false;
 	// private ArrayList<entity.SanPham> dsSanpham;
 	private DefaultTableModel modelDSSach;
 
@@ -378,9 +380,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 						if (nxb.equals(ncc1.getTenNCC())) {
 							ncc = ncc1;
 							break;
-						} 
+						}
 					}
-					if(ncc == null) {
+					if (ncc == null) {
 						sach_DAO.createNCC(nxb);
 						ncc = sach_DAO.getNCCByTenNCC(nxb);
 					}
@@ -453,7 +455,31 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			}
 
 		});
-		btnXoa.addActionListener(this);
+		btnXoa.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SanPham sp = getSelectedDataTable();
+				int row = table.getSelectedRow();
+				try {
+					if (row == -1) {
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn sẩn phẩm cần xoá !!!");
+					} else {
+						int select;
+						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá sản phẩm đã chọn ?", "Cảnh báo",
+								JOptionPane.YES_NO_OPTION);
+						if (select == JOptionPane.YES_OPTION) {
+							sach_DAO.delete(sp);
+							modelDSSach.removeRow(row);
+							JOptionPane.showMessageDialog(out, "Xóa thành công");
+						}
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(out, "Xóa thất bại");
+				}
+			}
+		});
 		btnLamMoi.addActionListener(new ActionListener() {
 
 			@Override
@@ -468,7 +494,54 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 				cboListMaloai.setSelectedItem("Sách");
 			}
 		});
-		btnTimKiem.addActionListener(this);
+		btnTimKiem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (txtNhapLieu.getText().equals("")) {
+					JOptionPane.showMessageDialog(out, "Cần nhập dữ liệu sản phẩm cần tìm", "Cảnh báo",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					try {
+						String key = "maSP";
+						if (cboLoaiTimKiem.getSelectedItem().toString().equals("Mã Sách")) {
+							key = "SanPham.MaSP";
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Tên Sách")) {
+							key = "SanPham.TenSP";
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Nhà Xuất Bản")) {
+							key = "NhaCungCap.TenNCC";
+
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Loại Sách")) {
+							key = "SanPham.TenLoai";
+						}
+						dssachtim = sach_DAO.timKiemSach(key, txtNhapLieu.getText());
+						renderDataTimKiem();
+						isTimKiem = true;
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		btnLamMoiDuLieu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					table.clearSelection();
+
+					modelDSSach.getDataVector().removeAllElements();
+					renderData();
+					isTimKiem = false;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		table.addMouseListener(this);
 		// DocDuLieuVaoModel(sach_DAO.getListSach());
 		try {
@@ -563,9 +636,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			if (nxb.equalsIgnoreCase(ncc1.getTenNCC())) {
 				ncc = ncc1;
 				break;
-			} 
+			}
 		}
-		if(ncc == null) {
+		if (ncc == null) {
 			sach_DAO.createNCC(nxb);
 			ncc = sach_DAO.getNCCByTenNCC(nxb);
 		}
@@ -596,7 +669,6 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 
 	private boolean ktdulieu() {
 
-
 		return true;
 
 	}
@@ -614,5 +686,19 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			}
 		}
 		return false;
+	}
+
+	public void renderDataTimKiem() throws SQLException {
+		table.clearSelection();
+
+		modelDSSach.getDataVector().removeAllElements();
+
+		dssachtim.forEach(sach -> {
+			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
+					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+		});
+
+		table.revalidate();
+		table.repaint();
 	}
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import connectdb.ConnectDB;
+import entity.DonDatHang;
 import entity.KhachHang;
 import entity.NhaCungCap;
 import entity.SanPham;
@@ -280,6 +281,57 @@ public class SanPhamDAO extends ConnectDB {
 		}
 		return false;
 	}
+	 public boolean delete(SanPham sp) {
+	        PreparedStatement statement = null;
+	 
+	        int n = 0;
+	        try {
+	            String sql = "delete from dbo.SanPham " + "where MaSP = ?";
+	            statement = conn.prepareStatement(sql);
+	            statement.setInt(1, sp.getMaSp());
+	            n = statement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                statement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return n > 0;
+	    }
+	 public List<SanPham> timKiemSach(String key, String val) {
+	    	Statement stmt = null;
+	    	List<SanPham> dssp = new ArrayList<SanPham>();
+	        try {
+	        	System.out.println(key + " " + val);
+
+	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where TenLoai like 'Sách%' AND  "+ key +" like N'"+ val + "'";
+	            stmt = this.conn.createStatement();
+	            
+	            ResultSet rsSP = stmt.executeQuery(sql);
+	            
+	            System.out.println(rsSP.getStatement().toString());
+	            
+	            while(rsSP.next()) {
+	            	printResultSet(rsSP);
+	            	SanPham sp = new SanPham(rsSP);
+	            //	sp.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsSP.getInt("maDDH")));
+	            	dssp.add(sp);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                stmt.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    	
+	    	return dssp;
+	    }
 
 	public List<SanPham> getSanPhamDaHet() {
 		ArrayList<SanPham> dataList = new ArrayList<SanPham>();

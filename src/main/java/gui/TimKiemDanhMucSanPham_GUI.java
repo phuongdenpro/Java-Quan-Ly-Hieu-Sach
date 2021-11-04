@@ -110,7 +110,7 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
 		panel_1.add(btnLamMoiDuLieu);
 		
-		String[] cols = { "STT", "Mã Loại", "Tên Loại" };
+		String[] cols = {"Mã Loại", "Tên Loại" };
 		DefaultTableModel modelDSLoai = new DefaultTableModel(cols, 0);
 		JTable tblDSLoai = new JTable(modelDSLoai);
 		JScrollPane scrollPane = new JScrollPane(tblDSLoai);
