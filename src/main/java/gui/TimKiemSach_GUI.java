@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 
+import dao.LoaiSanPhamDAO;
 import dao.SanPhamDAO;
 import entity.SanPham;
 
@@ -47,6 +48,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener, MouseList
 	private boolean isTimKiem = false;
 	private List<SanPham> dssachtim;
 	private SanPhamDAO sach_DAO;
+	private LoaiSanPhamDAO loaiDao;
 
 	/**
 	 * Launch the application.
@@ -72,6 +74,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener, MouseList
 	public TimKiemSach_GUI() throws SQLException {
 
 		sach_DAO = new SanPhamDAO();
+		loaiDao = new LoaiSanPhamDAO();
 		setResizable(false);
 		setTitle("Tìm kiếm sách");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -163,6 +166,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener, MouseList
 				if (textFieldTim.getText().equals("")) {
 					JOptionPane.showMessageDialog(contentPane, "Cần nhập dữ liệu sản phẩm cần tìm", "Cảnh báo",
 							JOptionPane.WARNING_MESSAGE);
+					textFieldTim.requestFocus();
 				} else {
 					try {
 						String key = "SanPham.maSP";
@@ -173,7 +177,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener, MouseList
 						} else if (rdbtnNXB.isSelected()) {
 							key = "NhaCungCap.TenNCC";
 						} else if (rdbtnLoai.isSelected()) {
-							key = "SanPham.TenLoai";
+							key = "LoaiSanPham.TenLoai.TenLoai";
 						}
 						dssachtim = sach_DAO.timKiemSach(key, textFieldTim.getText());
 

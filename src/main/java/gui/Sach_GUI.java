@@ -396,8 +396,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 						for (LoaiSanPham loai : dsLoai) {
 							if (loaiSach.equals(loai.getTenLoai())) {
 								loaisp = loai;
-							} else
-								loaiDAO.createLoaiSp(loaiSach);
+								break;
+							}
 
 						}
 					} catch (SQLException e2) {
@@ -433,22 +433,26 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 				} else if (ktdulieu()) {
 					SanPham sp = getSelectedDataTable();
 					int row = table.getSelectedRow();
-
-					boolean result = sach_DAO.capNhat(sp);
-					if (result == true) {
-
-						modelDSSach.setValueAt(sp.getMaSp(), row, 0);
-						modelDSSach.setValueAt(sp.getTenSp(), row, 1);
-						modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
-						modelDSSach.setValueAt(sp.getSoLuong(), row, 3);
-						modelDSSach.setValueAt(sp.getGiaNhap(), row, 4);
-						modelDSSach.setValueAt(sp.getGiaSp(), row, 5);
-						modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
-						JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
-						modelDSSach.fireTableDataChanged();
-						sach_DAO.getListSach();
+					if (row == -1) {
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng cần sửa", "Cảnh báo",
+								JOptionPane.WARNING_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(out, "Lỗi: Cập nhật sản phẩm thất bại");
+						boolean result = sach_DAO.capNhat(sp);
+						if (result == true) {
+
+							modelDSSach.setValueAt(sp.getMaSp(), row, 0);
+							modelDSSach.setValueAt(sp.getTenSp(), row, 1);
+							modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
+							modelDSSach.setValueAt(sp.getSoLuong(), row, 3);
+							modelDSSach.setValueAt(sp.getGiaNhap(), row, 4);
+							modelDSSach.setValueAt(sp.getGiaSp(), row, 5);
+							modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
+							JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
+							modelDSSach.fireTableDataChanged();
+							sach_DAO.getListSach();
+						} else {
+							JOptionPane.showMessageDialog(out, "Lỗi: Cập nhật sản phẩm thất bại");
+						}
 					}
 
 				}
@@ -513,7 +517,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 							key = "NhaCungCap.TenNCC";
 
 						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Loại Sách")) {
-							key = "SanPham.TenLoai";
+							key = "LoaiSanPham.TenLoai";
 						}
 						dssachtim = sach_DAO.timKiemSach(key, txtNhapLieu.getText());
 						renderDataTimKiem();
@@ -608,8 +612,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	}
 
 	public void renderData() throws SQLException {
-		// modelDSSach.getDataVector().removeAllElements();
-		dssach = new SanPhamDAO().getListSach();
+
+		dssach = sach_DAO.getListSach();
 
 		dssach.forEach(sach -> {
 			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
