@@ -23,6 +23,7 @@ import entity.LoaiSanPham;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JRadioButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -132,6 +133,8 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener 
 		 modelDSLoai = new DefaultTableModel(cols, 0);
 		 tblDSLoai = new JTable(modelDSLoai);
 		JScrollPane scrollPane = new JScrollPane(tblDSLoai);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		btnNewButton.addActionListener(new ActionListener() {
 			

@@ -26,6 +26,7 @@ import entity.SanPham;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JRadioButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -143,6 +144,8 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener, Mo
 		modelDSSanPham = new DefaultTableModel(cols, 0);
 		tblDSSanPham = new JTable(modelDSSanPham);
 		JScrollPane scrollPane = new JScrollPane(tblDSSanPham);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		try {
 			renderData();
