@@ -132,8 +132,6 @@ public class NhanVienDAO extends ConnectDB{
 	public boolean xoaNV(NhanVien nv) {
 	    PreparedStatement stmt = null;
 		try {
-			
-			
 		    String sql = "DELETE FROM NhanVien where maNV = ?";
 		    stmt = this.conn.prepareStatement(sql);
 		    

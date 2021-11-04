@@ -2,11 +2,14 @@ package dao;
 
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 import connectdb.ConnectDB;
 
 import java.sql.*;
 
 import entity.KhachHang;
+import entity.NhanVien;
 
 public class KhachHangDAO extends ConnectDB{
 
@@ -117,4 +120,56 @@ public class KhachHangDAO extends ConnectDB{
         }
         return null;
     }
+	public boolean suaKH(KhachHang kh,int ma) {
+	    PreparedStatement stmt = null;
+		try {
+		
+		    String sql = "UPDATE KhachHang set HoTen = ?, soDienThoai = ?, diaChi = ? where maKh = ?";
+		    stmt = this.conn.prepareStatement(sql);
+		    
+		    stmt.setString(1, kh.getHoTen());
+		    stmt.setString(2, kh.getSoDienThoai());
+		    stmt.setString(3, kh.getDiaChi());
+		    stmt.setInt(4, ma);
+		    
+		    int n = stmt.executeUpdate();
+
+		    return n > 0;
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		} finally {
+		    try {
+		        stmt.close();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		}
+		return false;	
+	}
+	
+	public boolean xoaKhachHang(KhachHang kh) {
+		PreparedStatement stmt = null;
+		try {
+		String sql = "delete from dbo.KhachHang where maKH = ?";
+			stmt = this.conn.prepareStatement(sql);
+			stmt.setInt(1, kh.getMaKh());
+			
+			int n = stmt.executeUpdate();
+			
+			if(n== 0) 
+				return false;
+			new TaiKhoanDAO().xoaTaiKhoan(kh.getTaiKhoan().getId());
+			return true;
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+			}catch(SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return false;
+	}
+    
 }

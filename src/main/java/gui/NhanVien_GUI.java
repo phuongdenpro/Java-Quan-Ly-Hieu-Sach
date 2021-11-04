@@ -50,7 +50,7 @@ public class NhanVien_GUI extends JFrame {
 	private JPanel contentPane;
 	private JPanel out;
 	private JTextField txtNhapLieu;
-	private JTable table;
+	private JTable tblNhanVien;
 	private JTextField txtMaNv;
 	private JTextField txtTenNv;
 	private JTextField txtEmail;
@@ -288,21 +288,21 @@ public class NhanVien_GUI extends JFrame {
 		
 		String[] cols_dskh = {"Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Địa chỉ"};
 		modelDSNV = new DefaultTableModel(cols_dskh, 0);
-		table = new JTable(modelDSNV);
-		JScrollPane scrTableKhachhang = new JScrollPane(table);
-		scrTableKhachhang.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrTableKhachhang.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		pnTableKh.add(scrTableKhachhang);
+		tblNhanVien = new JTable(modelDSNV);
+		JScrollPane scrTableNhanVien = new JScrollPane(tblNhanVien);
+		scrTableNhanVien.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrTableNhanVien.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		pnTableKh.add(scrTableNhanVien);
 		
 //		modelDSNV.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
 		renderData();
 		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		tblNhanVien.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				int idx = table.getSelectedRow();
+				int idx = tblNhanVien.getSelectedRow();
 				if(idx != -1) {
 					NhanVien nv = dsnv.get(idx);
 					txtMaNv.setText(String.valueOf(nv.getMaNv()));
@@ -317,7 +317,7 @@ public class NhanVien_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				table.clearSelection();
+				tblNhanVien.clearSelection();
 				
 				int maNV = Integer.parseInt(txtMaNv.getText());
 				String tenNV = txtTenNv.getText();
@@ -352,13 +352,12 @@ public class NhanVien_GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int idx = table.getSelectedRow();
+				int idx = tblNhanVien.getSelectedRow();
 				if(idx != -1) {
 					
 					int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn xóa?");
-					
 					if(choose == 0) {
-						table.clearSelection();
+						tblNhanVien.clearSelection();
 						try {
 							boolean kq = new NhanVienDAO().xoaNV(dsnv.get(idx));
 							if(kq) {
@@ -377,6 +376,17 @@ public class NhanVien_GUI extends JFrame {
 				
 			}
 		});
+		btnLamMoi.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				txtMaNv.setText("");
+				txtTenNv.setText("");
+				txtSdt.setText("");
+				txtDiaChi.setText("");
+				txtEmail.setText("");
+			}});
 	}
 
 	public void renderData() throws SQLException {
@@ -384,11 +394,12 @@ public class NhanVien_GUI extends JFrame {
 		
 		dsnv = new NhanVienDAO().getDSNV();
 		dsnv.forEach(nv -> {
-			modelDSNV.addRow(new Object[] {nv.getMaNv(), nv.getTenNv(), nv.getSoDienThoai(), nv.getDiaChi()});
+			modelDSNV.addRow
+				(new Object[] {nv.getMaNv(), nv.getTenNv(), nv.getSoDienThoai(), nv.getDiaChi()});
 		});
 		
-		table.revalidate();
-		table.repaint();
+		tblNhanVien.revalidate();
+		tblNhanVien.repaint();
 		
 	}
 	
