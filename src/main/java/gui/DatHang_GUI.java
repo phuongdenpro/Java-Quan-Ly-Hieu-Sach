@@ -15,12 +15,16 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import dao.DonDatHangDAO;
+import dao.NhanVienDAO;
 import entity.DonDatHang;
+import entity.NhanVien;
 
 import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
 public class DatHang_GUI extends JFrame implements ActionListener, MouseListener {
+	private NhanVien nhanVien;
+	
 	private DefaultTableModel modelDonDat;
 	String[] colsDonDat = { "Mã đơn đặt hàng", "Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ", "Tổng tiền", "Tình trạng", "Thời gian đặt" };
 	public JPanel pnMain;
@@ -38,7 +42,17 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 	
 	private boolean isTimKiem = false;
 	
-	public DatHang_GUI() {
+	public DatHang_GUI() throws SQLException{
+		this.nhanVien = new NhanVienDAO().getNhanVienByMaNV(1);
+		GUI();
+	}
+	
+	public DatHang_GUI(NhanVien nhanVien){
+		this.nhanVien = nhanVien;
+		GUI();
+	}
+	
+	public void GUI(){
 		
 
 		setTitle("Quản lý đơn đặt hàng");
@@ -163,7 +177,7 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 				if(dsddh.get(id).getTinhTrang() == 2)return ;
 				
 				try {
-					if(new DonDatHangDAO().thanhToan(dsddh.get(id).getMaDDH())) {
+					if(new DonDatHangDAO().thanhToan(dsddh.get(id).getMaDDH(), nhanVien)) {
 						JOptionPane.showMessageDialog(pnMain, "Thanh toán thành công");
 						if(isTimKiem) {
 							String key = "maDDH";
@@ -335,7 +349,7 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 	}
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		new DatHang_GUI().setVisible(true);
 	}
 

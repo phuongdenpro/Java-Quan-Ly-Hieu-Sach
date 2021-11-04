@@ -61,7 +61,7 @@ public class TrangChu_GUI extends JFrame {
 	private KhachHang khachHang = null;
 	
 	private JPanel contentPane;
-	private JTextField txtTimKiem;
+	public JTextField txtTimKiem;
 	private JTextField textField_1;
 	private Container panelContent;
 
@@ -70,9 +70,12 @@ public class TrangChu_GUI extends JFrame {
 	public JMenuItem mntmGioHang;
 	public JMenuItem mntmDangXuat;
 	public JLabel lblHelp;
+	public JButton btnTimKiem;
 	
 	private LoaiSanPhamDAO loaiSPDao;
 	private ArrayList<LoaiSanPham> dslsp = new ArrayList<LoaiSanPham>();
+
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -164,7 +167,7 @@ public class TrangChu_GUI extends JFrame {
 		pnTimKiem.add(txtTimKiem);
 		txtTimKiem.setColumns(20);
 		
-		JButton btnTimKiem = new JButton("T\u00ECm ki\u1EBFm");
+		btnTimKiem = new JButton("T\u00ECm ki\u1EBFm");
 		btnTimKiem.setBackground(Color.WHITE);
 		btnTimKiem.setPreferredSize(new Dimension(100, 19));
 		pnTimKiem.add(btnTimKiem);
@@ -197,7 +200,7 @@ public class TrangChu_GUI extends JFrame {
 		mntmGioHang = new JMenuItem("Giỏ hàng");
 		mnNewMenu.add(mntmGioHang);
 		
-		mntmDangXuat = new JMenuItem("Đăng xuất");
+		mntmDangXuat = new JMenuItem("Thoát");
 		mnNewMenu.add(mntmDangXuat);
 		
 		return panelHeader;
@@ -313,6 +316,10 @@ public class TrangChu_GUI extends JFrame {
 		return -1;
 	}
 	
+	public void showTimKiem() {
+		
+	}
+	
 	public static JPanel panelBackgroundImage(final String filepath) {
 		return new JPanel() {  
 			public void paintComponent(Graphics g) {  
@@ -333,4 +340,14 @@ public class TrangChu_GUI extends JFrame {
 	public JPanel getContentPane() {
 		return this.contentPane;
 	}
+
+	public KhachHang getKhachHang() {
+		return khachHang;
+	}
+
+	public void setKhachHang(KhachHang khachHang) {
+		this.khachHang = khachHang;
+	}
+	
+	
 }

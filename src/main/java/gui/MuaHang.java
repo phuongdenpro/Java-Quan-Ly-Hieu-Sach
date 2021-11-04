@@ -14,14 +14,16 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import dao.KhachHangDAO;
 import entity.KhachHang;
 
 
 public class MuaHang extends JFrame{
 	private KhachHang khachHang;
 	
-	private TrangChu_GUI trangChuGUI;
-	private GioHang_GUI gioHangGUI;
+	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();;
+	private GioHang_GUI gioHangGUI = new GioHang_GUI();
+	private TimKiemTrangMuaHang_GUI timKiemGUI = new TimKiemTrangMuaHang_GUI();
 //	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
 	private TroGiup_GUI troGiupGUI = new TroGiup_GUI();
 	
@@ -29,7 +31,7 @@ public class MuaHang extends JFrame{
 	
 	public MuaHang() throws SQLException {
 		
-		trangChuGUI = new TrangChu_GUI();
+		trangChuGUI.setKhachHang(new KhachHangDAO().getKhachHang(1));
 		renderGUI();
 	}
 	
@@ -37,6 +39,7 @@ public class MuaHang extends JFrame{
 		this.khachHang = khachHang;
 		trangChuGUI = new TrangChu_GUI(khachHang);
 		gioHangGUI = new GioHang_GUI(khachHang);
+		timKiemGUI.setKhachHang(khachHang);
 		renderGUI();
 	}
 	
@@ -94,6 +97,29 @@ public class MuaHang extends JFrame{
 				renderMain(gioHangGUI.getContentPane(), "giohang");
 			}
 		});
+		trangChuGUI.mntmDangXuat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
+		trangChuGUI.btnTimKiem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					timKiemGUI.renderData(trangChuGUI.txtTimKiem.getText());
+					if(timKiemGUI.dssp.size() == 0) {
+						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy sản phẩm phù hợp");
+						return;
+					}
+					timKiemGUI.setVisible(true);
+					timKiemGUI.setLocationRelativeTo(contentPane);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
 		trangChuGUI.lblHelp.addMouseListener(new MouseListener() {
 
 			@Override
@@ -132,7 +158,11 @@ public class MuaHang extends JFrame{
 				renderMain(trangChuGUI.getContentPane(), "trangchu");
 			}
 		});
-		
+		gioHangGUI.mntmDangXuat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
 		gioHangGUI.btnDatHang.addActionListener(new ActionListener() {
 			
 			
