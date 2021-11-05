@@ -74,8 +74,8 @@ public class GioHang_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					KhachHang kh = new KhachHangDAO().getKhachHang(5);
-					GioHang_GUI frame = new GioHang_GUI(kh);
+					//KhachHang kh = new KhachHangDAO().getKhachHang(3);
+					GioHang_GUI frame = new GioHang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -89,7 +89,7 @@ public class GioHang_GUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public GioHang_GUI() throws SQLException {
-		this.khachHang = new KhachHangDAO().getKhachHang(1);
+		this.khachHang = new KhachHangDAO().getKhachHang(2);
 		GUI();
 	}
 	
