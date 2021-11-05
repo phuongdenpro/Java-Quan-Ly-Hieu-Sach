@@ -12,7 +12,7 @@ import java.awt.Dimension;
 
 public class kDatePicker extends JPanel implements ActionListener {
     private JTextField txt;
-    private JButton btn;
+    public JButton btn;
     DialogDatePicker f = new DialogDatePicker();
     ImageIcon calenderIcon = new ImageIcon("data/images/schedule.png");
 

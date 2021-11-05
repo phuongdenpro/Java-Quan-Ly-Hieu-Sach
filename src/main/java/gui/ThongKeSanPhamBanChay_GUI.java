@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.SanPhamDAO;
 import entity.SanPham;
+import util.Ngay;
 import util.Placeholder;
 
 import javax.swing.JTabbedPane;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
 import java.awt.Font;
@@ -30,6 +32,7 @@ import java.util.Map;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import javax.swing.JComboBox;
 
 public class ThongKeSanPhamBanChay_GUI extends JFrame {
 
@@ -42,6 +45,8 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 	DialogDatePicker f = new DialogDatePicker();
 	private kDatePicker dpTuNgay;
 	private kDatePicker dpToiNgay;
+	private JComboBox comboBox;
+	private JComboBox cboLoaiTK;
 	/**
 	 * Launch the application.
 	 */
@@ -79,12 +84,26 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê sản phẩm bán chạy");
+		JLabel lblNewLabel_2 = new JLabel("Thống kê sách bán chạy");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_3.add(lblNewLabel_2);
 		
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
+		
+		JLabel lblThongKeTheo = new JLabel("Thống kê theo: ");
+		panel_2.add(lblThongKeTheo);
+		
+		
+		DefaultComboBoxModel<String> modelLoai = new DefaultComboBoxModel<String>();
+		cboLoaiTK = new JComboBox(modelLoai);
+		panel_2.add(cboLoaiTK);
+		modelLoai.addElement("Tùy chỉnh");
+		modelLoai.addElement("Ngày hôm nay");
+		modelLoai.addElement("Ngày hôm qua");
+		modelLoai.addElement("7 ngày qua");
+		modelLoai.addElement("1 tháng qua");
+		modelLoai.addElement("1 năm qua");
 		
 		JLabel lblTuNgay = new JLabel("Từ ngày:  ");
 		panel_2.add(lblTuNgay);
@@ -125,31 +144,43 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 			long ml=System.currentTimeMillis(); 
 	        ml = ml/86400000*86400000;
 	        Date now = new Date(ml);
+	        
+			Date tuNgay = new Date(ml), toiNgay = new Date(ml); // hom nay
 			
-			Date tuNgay = new Date(ml), toiNgay = new Date(ml);
-            try {
-                tuNgay = dpTuNgay.getFullDate();
-                toiNgay = dpToiNgay.getFullDate(); 
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-            }
-            
-            if(tuNgay.after(now)){
-                JOptionPane.showMessageDialog(contentPane, "Từ ngày không hợp lệ");
-                return;
-            }
-            
-            if(toiNgay.after(now)){
-                JOptionPane.showMessageDialog(contentPane, "Tới ngày không hợp lệ");
-                return;
-            }
-            
-            if(tuNgay.after(toiNgay)){
-                JOptionPane.showMessageDialog(contentPane, "Ngày không hợp lệ");
-                return;
-            }
-            
-            try {
+			if(cboLoaiTK.getSelectedIndex() == 0) { // tuy chinh
+	            try {
+	                tuNgay = dpTuNgay.getFullDate();
+	                toiNgay = dpToiNgay.getFullDate(); 
+	            } catch (ParseException e1) {
+	                e1.printStackTrace();
+	            }
+	            
+	            if(tuNgay.after(now)){
+	                JOptionPane.showMessageDialog(contentPane, "Từ ngày không hợp lệ");
+	                return;
+	            }
+	            
+	            if(toiNgay.after(now)){
+	                JOptionPane.showMessageDialog(contentPane, "Tới ngày không hợp lệ");
+	                return;
+	            }
+	            
+	            if(tuNgay.after(toiNgay)){
+	                JOptionPane.showMessageDialog(contentPane, "Ngày không hợp lệ");
+	                return;
+	            } 
+			}else if(cboLoaiTK.getSelectedIndex() == 2){ // hom qua
+				tuNgay = Ngay.homQua();
+				toiNgay = Ngay.homQua();
+			}else if(cboLoaiTK.getSelectedIndex() == 3) { // 7 ngay qua
+				tuNgay = Ngay._7NgayQua();
+			}else if(cboLoaiTK.getSelectedIndex() == 4) { // 1 thang qua
+				tuNgay = Ngay._1ThangQua();
+			}else if(cboLoaiTK.getSelectedIndex() == 5) { // 1 nam qua
+				tuNgay = Ngay._1NamQua();
+			}
+			
+		    try {
 				renderData(tuNgay, toiNgay);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
@@ -165,10 +196,20 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 				e1.printStackTrace();
 			}
 		});
+		
+		cboLoaiTK.addActionListener((e) -> {
+			if(cboLoaiTK.getSelectedIndex() == 0) {
+				dpTuNgay.btn.setEnabled(true);
+				dpToiNgay.btn.setEnabled(true);
+			}else {
+				dpTuNgay.btn.setEnabled(false);
+				dpToiNgay.btn.setEnabled(false);
+			}
+		});
 	}
 	
 	public void renderData() throws SQLException {
-		dssp = new SanPhamDAO().thongKeSPBanChay();
+		dssp = new SanPhamDAO().thongKeSPBanChay(true);
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
 		
@@ -186,7 +227,8 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 	}
 	
 	public void renderData(Date tuNgay, Date toiNgay) throws SQLException {
-		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay);
+		System.out.println(tuNgay.toString() + "->" + toiNgay.toString());
+		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay, true);
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
 		
@@ -202,6 +244,8 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 		tblDSSP.revalidate();
 		tblDSSP.repaint();
 	}
+	
+	
 
 	public JPanel getContentPane() {
 		return this.contentPane;
