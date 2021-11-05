@@ -38,7 +38,7 @@ public class SanPhamDAO extends ConnectDB {
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 //                System.out.println(rs);
-				printResultSet(rs);
+//				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -66,7 +66,7 @@ public class SanPhamDAO extends ConnectDB {
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 //                System.out.println(rs);
-				printResultSet(rs);
+//				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -93,7 +93,7 @@ public class SanPhamDAO extends ConnectDB {
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 //                System.out.println(rs);
-				printResultSet(rs);
+//				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -120,7 +120,7 @@ public class SanPhamDAO extends ConnectDB {
 
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				printResultSet(rs);
+//				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -220,7 +220,7 @@ public class SanPhamDAO extends ConnectDB {
 
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				printResultSet(rs);
+//				printResultSet(rs);
 				NhaCungCap ncc = new NhaCungCap(rs);
 				dataList.add(ncc);
 			}
@@ -345,10 +345,10 @@ public class SanPhamDAO extends ConnectDB {
 	            
 	            ResultSet rsSP = stmt.executeQuery(sql);
 	            
-	            System.out.println(rsSP.getStatement().toString());
+//	            System.out.println(rsSP.getStatement().toString());
 	            
 	            while(rsSP.next()) {
-	            	printResultSet(rsSP);
+//	            	printResultSet(rsSP);
 	            	SanPham sp = new SanPham(rsSP);
 	            //	sp.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsSP.getInt("maDDH")));
 	            	dssp.add(sp);
@@ -378,10 +378,10 @@ public class SanPhamDAO extends ConnectDB {
 	            
 	            ResultSet rsSP = stmt.executeQuery(sql);
 	            
-	            System.out.println(rsSP.getStatement().toString());
+//	            System.out.println(rsSP.getStatement().toString());
 	            
 	            while(rsSP.next()) {
-	            	printResultSet(rsSP);
+//	            	printResultSet(rsSP);
 	            	SanPham sp = new SanPham(rsSP);
 	            //	sp.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsSP.getInt("maDDH")));
 	            	dssp.add(sp);
@@ -464,7 +464,7 @@ public class SanPhamDAO extends ConnectDB {
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-            	printResultSet(rs);
+//            	printResultSet(rs);
             	NhaCungCap ncc = new NhaCungCapDAO().getNhaCungCap(rs.getInt("maNCC"));
             	SanPham sp = new SanPham(rs.getInt("maSP"), rs.getString("tenSP"), rs.getDouble("donGia"), ncc);
             	kq.put(sp, rs.getInt("soLuongDaBan"));
@@ -505,7 +505,7 @@ public class SanPhamDAO extends ConnectDB {
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-            	printResultSet(rs);
+//            	printResultSet(rs);
             	NhaCungCap ncc = new NhaCungCapDAO().getNhaCungCap(rs.getInt("maNCC"));
             	SanPham sp = new SanPham(rs.getInt("maSP"), rs.getString("tenSP"), rs.getDouble("donGia"), ncc);
             	kq.put(sp, rs.getInt("soLuongDaBan"));
@@ -566,7 +566,7 @@ public class SanPhamDAO extends ConnectDB {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 //                System.out.println(rs);
-				printResultSet(rs);
+//				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -595,7 +595,7 @@ public class SanPhamDAO extends ConnectDB {
 			stmt = this.conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				printResultSet(rs);
+//				printResultSet(rs);
 				kq.put(rs.getString("tenSP"), rs.getInt("sl"));
 			}
 		} catch (SQLException e) {

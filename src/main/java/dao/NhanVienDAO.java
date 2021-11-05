@@ -54,7 +54,7 @@ public class NhanVienDAO extends ConnectDB{
 		    ResultSet rs = stmt.executeQuery();
 
 		    while(rs.next()) {
-		    	printResultSet(rs);
+//		    	printResultSet(rs);
 		    	NhanVien nv = new NhanVien(rs);
 		    	dsnv.add(nv);
 		    }
@@ -84,7 +84,7 @@ public class NhanVienDAO extends ConnectDB{
 		    	return null;
 		    }
 		    
-	    	printResultSet(rs);
+//	    	printResultSet(rs);
 	    	NhanVien nv = new NhanVien(rs);
 	    	return nv;
 		   

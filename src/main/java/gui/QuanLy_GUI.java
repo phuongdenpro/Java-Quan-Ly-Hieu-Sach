@@ -100,18 +100,23 @@ public class QuanLy_GUI extends JFrame {
 		menuGUI();
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
-//		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
-//		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
-//		System.out.println(khachHang);
-//		
-//		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
-//		System.out.println(nhanVien);
-//		
-//		muaHangGUI = new MuaHang(khachHang);
-//		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
-//		menuBar.setVisible(true);
-		handleLogin();
-		handleRegister();
+		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
+		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
+		System.out.println(khachHang);
+		
+		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+		System.out.println(nhanVien);
+		
+		muaHangGUI = new MuaHang(khachHang);
+		
+		if(nhanVien != null) {
+			taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
+			datHangGUI = new DatHang_GUI(nhanVien);
+		}
+		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+		menuBar.setVisible(true);
+//		handleLogin();
+//		handleRegister();
 	}
 	
 	public void menuGUI() {

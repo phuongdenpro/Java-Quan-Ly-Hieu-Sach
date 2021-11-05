@@ -53,7 +53,7 @@ public class ChiTietHoaDonDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-            	printResultSet(rs);
+            	//printResultSet(rs);
             	ChiTietHoaDon cthd = new ChiTietHoaDon(rs);
             	dscthd.add(cthd);
             }

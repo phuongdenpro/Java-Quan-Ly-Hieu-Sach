@@ -163,7 +163,7 @@ public class HoaDonDAO extends ConnectDB{
             
             
             while(rs.next()) {
-            	printResultSet(rs);
+//            	printResultSet(rs);
             	HoaDon hd = new HoaDon(rs);
             	hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
             	dshd.add(hd);

@@ -97,7 +97,7 @@ public class ChiTietDonDatHangDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-            	printResultSet(rs);
+//            	printResultSet(rs);
                 ChiTietDonDatHang chiTietDDH = new ChiTietDonDatHang(rs);
                 dsDDH.add(chiTietDDH);
             }

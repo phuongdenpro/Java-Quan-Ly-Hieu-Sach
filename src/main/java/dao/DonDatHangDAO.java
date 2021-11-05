@@ -112,7 +112,7 @@ public class DonDatHangDAO extends ConnectDB{
             if(!rsDDH.next()) {
             	return null;
             }
-            printResultSet(rsDDH);
+//            printResultSet(rsDDH);
             DonDatHang ddh = new DonDatHang(rsDDH);
             
             ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
@@ -146,7 +146,7 @@ public class DonDatHangDAO extends ConnectDB{
             if(!rsDDH.next()) {
             	return null;
             }
-            printResultSet(rsDDH);
+//            printResultSet(rsDDH);
             DonDatHang ddh = new DonDatHang(rsDDH);
             
             ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
@@ -322,7 +322,7 @@ public class DonDatHangDAO extends ConnectDB{
             ResultSet rsDDH = stmt.executeQuery(sql);
             
             while(rsDDH.next()) {
-            	printResultSet(rsDDH);
+//            	printResultSet(rsDDH);
             	DonDatHang ddh = new DonDatHang(rsDDH);
             	ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
             	dsddh.add(ddh);
@@ -351,10 +351,10 @@ public class DonDatHangDAO extends ConnectDB{
             
             ResultSet rsDDH = stmt.executeQuery(sql);
             
-            System.out.println(rsDDH.getStatement().toString());
+//            System.out.println(rsDDH.getStatement().toString());
             
             while(rsDDH.next()) {
-            	printResultSet(rsDDH);
+//            	printResultSet(rsDDH);
             	DonDatHang ddh = new DonDatHang(rsDDH);
             	ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
             	dsddh.add(ddh);

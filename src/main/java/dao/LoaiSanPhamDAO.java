@@ -162,7 +162,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
             System.out.println(rsLoai.getStatement().toString());
             
             while(rsLoai.next()) {
-            	printResultSet(rsLoai);
+//            	printResultSet(rsLoai);
             	LoaiSanPham sp = new LoaiSanPham(rsLoai);
             //	sp.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsSP.getInt("maDDH")));
             	dssp.add(sp);

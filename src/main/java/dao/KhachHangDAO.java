@@ -191,7 +191,7 @@ public class KhachHangDAO extends ConnectDB{
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-            	printResultSet(rs);
+//            	printResultSet(rs);
             	KhachHang kh = new KhachHang(rs);
             	Map<String, Integer> mp = new HashMap<String, Integer>();
             	mp.put("soLanMuaHang", rs.getInt("soLanMuaHang"));

@@ -30,7 +30,7 @@ public class TaiKhoanDAO extends ConnectDB{
             ResultSet rs = stmt.executeQuery();
             if(!rs.next())
                 return null;
-            printResultSet(rs);
+//            printResultSet(rs);
             matKhau = rs.getString("matKhau");
 //                
         } catch (SQLException e) {
@@ -66,7 +66,7 @@ public class TaiKhoanDAO extends ConnectDB{
             if(n == 0)
                 return false;
             
-            System.out.println(getLatestID());
+//            System.out.println(getLatestID());
             
             KhachHangDAO khachHangDao = new KhachHangDAO();
             if(!khachHangDao.themKhachHang(kh, getLatestID())) 
@@ -106,7 +106,7 @@ public class TaiKhoanDAO extends ConnectDB{
             if(n == 0)
                 return false;
             
-            System.out.println(getLatestID());
+//            System.out.println(getLatestID());
             
             if(!new NhanVienDAO().themNhanVien(nv, getLatestID())) 
             	return false;
