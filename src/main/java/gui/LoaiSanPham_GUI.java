@@ -37,6 +37,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -61,8 +62,9 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 	private ArrayList<LoaiSanPham> dsloai;
 	private DefaultTableModel modelDSLoai;
 	private LoaiSanPhamDAO loaiDAO;
-
+	private List<LoaiSanPham> dsloaitim;
 	private boolean isTimKiem = false;
+
 	/**
 	 * Launch the application.
 	 */
@@ -215,8 +217,6 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 		pnTimKiem.add(cmbLoaiTimKiem);
 		cboLoaiTimKiem.addElement((String) "Mã Loại");
 		cboLoaiTimKiem.addElement((String) "Tên Loại");
-//		cboLoaiTimKiem.addElement((String) "Nhà Xuất Bản");
-//		cboLoaiTimKiem.addElement((String) "Loại Sách");
 
 		txtNhapLieu = new JTextField();
 		txtNhapLieu.setPreferredSize(new Dimension(7, 25));
@@ -249,8 +249,6 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 		scrTableLoai.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		pnTableLoai.add(scrTableLoai);
 
-		// modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321",
-		// "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		try {
 			renderData();
 		} catch (SQLException e) {
@@ -298,23 +296,78 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 			}
 		});
 		btnSua.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				if (txtMaLoai.getText().equals("") || txtTenLoai.getText().equals("")) {
+					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
+				} else if (ktdulieu()) {
+					LoaiSanPham loai = getSelectedDataTable();
+					int row = table.getSelectedRow();
+					String tenLoai = txtTenLoai.getText().trim();
+					boolean re = true;
+					for (LoaiSanPham l : dsloai) {
+						if (tenLoai.equalsIgnoreCase(l.getTenLoai())) {
+							JOptionPane.showMessageDialog(out, "Danh mục đã tồn tại");
+							re = false;
+							break;
+
+						}
+					}
+					boolean result = loaiDAO.capNhat(loai);
+					if (row == -1) {
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng cần sửa", "Cảnh báo",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						if (result == true && re == true) {
+							modelDSLoai.setValueAt(loai.getMaLoai(), row, 0);
+							modelDSLoai.setValueAt(loai.getTenLoai(), row, 1);
+							JOptionPane.showMessageDialog(out, "Cập nhập danh mục thành công");
+							modelDSLoai.fireTableDataChanged();
+							try {
+								loaiDAO.getDanhSachLoaiSanPham();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						} else {
+							JOptionPane.showMessageDialog(out, "Lỗi: Cập nhật danh mục thất bại");
+						}
+					}
+
+				}
 			}
+
 		});
 		btnXoa.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				LoaiSanPham loai = getSelectedDataTable();
+				int row = table.getSelectedRow();
+				try {
+					if (row == -1) {
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn danh mục sẩn phẩm cần xoá !!!");
+					} else {
+						int select;
+						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá danh mục sản phẩm đã chọn ?",
+								"Cảnh báo", JOptionPane.YES_NO_OPTION);
+						if (select == JOptionPane.YES_OPTION) {
+							loaiDAO.delete(loai);
+							modelDSLoai.removeRow(row);
+							JOptionPane.showMessageDialog(out, "Xóa thành công");
+						}
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(out, "Xóa thất bại");
+				}
 			}
+
 		});
 		btnLamMoi.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -324,15 +377,34 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 			}
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				if (txtNhapLieu.getText().equals("")) {
+					JOptionPane.showMessageDialog(out, "Cần nhập dữ liệu danh mục cần tìm", "Cảnh báo",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					try {
+						String key = "";
+						if (cboLoaiTimKiem.getSelectedItem().toString().equals("Mã Loại")) {
+							key = "MaLoai";
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Tên Loại")) {
+							key = "TenLoai";
+
+						}
+						dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
+						renderDataTimKiem();
+						isTimKiem = true;
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
+
 		});
 		btnLamMoiDuLieu.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -346,7 +418,7 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 					e1.printStackTrace();
 				}
 			}
-			
+
 		});
 
 	}
@@ -406,6 +478,13 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 
 	}
 
+	private LoaiSanPham getSelectedDataTable() {
+		String maLoai = txtMaLoai.getText().trim();
+		String tenLoai = txtTenLoai.getText().trim();
+		LoaiSanPham loai = new LoaiSanPham(Integer.parseInt(maLoai), tenLoai);
+		return loai;
+	}
+
 	private boolean ktdulieu() {
 
 		return true;
@@ -425,5 +504,18 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 			}
 		}
 		return false;
+	}
+
+	public void renderDataTimKiem() throws SQLException {
+		table.clearSelection();
+
+		modelDSLoai.getDataVector().removeAllElements();
+
+		dsloaitim.forEach(loai -> {
+			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+		});
+
+		table.revalidate();
+		table.repaint();
 	}
 }

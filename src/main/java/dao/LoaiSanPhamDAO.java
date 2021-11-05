@@ -25,7 +25,35 @@ public class LoaiSanPhamDAO extends ConnectDB{
         
         try {
 
-            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai like 'Sách%'";
+            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai like 'Sách%' OR TenLoai like 'Truyện%'";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+//                System.out.println(rs);
+//            	printResultSet(rs);
+            	LoaiSanPham loaiSp = new LoaiSanPham(rs);
+            	loaiSp.setSanPhams(sanPhamDao.getListSanPhamByMaLoai(rs.getInt("maLoai")));
+                dataList.add(loaiSp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+            	stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataList;
+    }
+	public ArrayList<LoaiSanPham> getDanhSachLoaiSanPhamKhac() throws SQLException {
+		ArrayList<LoaiSanPham> dataList = new ArrayList<LoaiSanPham>();
+        Statement stmt = this.conn.createStatement();
+        SanPhamDAO sanPhamDao = new SanPhamDAO();
+        
+        try {
+
+            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai NOT like 'Sách%' AND TenLoai NOT like 'Truyện%'";
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -120,6 +148,81 @@ public class LoaiSanPhamDAO extends ConnectDB{
 		return false;
 
 	}
+	public List<LoaiSanPham> timKiem(String key, String val) {
+    	Statement stmt = null;
+    	List<LoaiSanPham> dssp = new ArrayList<LoaiSanPham>();
+        try {
+        	System.out.println(key + " " + val);
+
+            String sql = "SELECT * FROM dbo.LoaiSanPham where "+ key +" like '"+ val + "'";
+            stmt = this.conn.createStatement();
+            
+            ResultSet rsLoai = stmt.executeQuery(sql);
+            
+            System.out.println(rsLoai.getStatement().toString());
+            
+            while(rsLoai.next()) {
+            	printResultSet(rsLoai);
+            	LoaiSanPham sp = new LoaiSanPham(rsLoai);
+            //	sp.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsSP.getInt("maDDH")));
+            	dssp.add(sp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return dssp;
+    }
+	public boolean capNhat(LoaiSanPham loai) {
+		PreparedStatement stmt = null;
+		try {
+
+			String sql = "UPDATE dbo.LoaiSanPham set TenLoai = ? where MaLoai = ?";
+			stmt = this.conn.prepareStatement(sql);
+			stmt.setString(1, loai.getTenLoai());
+			stmt.setDouble(2, loai.getMaLoai());
+					
+			
+			int n = stmt.executeUpdate();
+
+			return n > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	 public boolean delete(LoaiSanPham loai) {
+	        PreparedStatement statement = null;
+	 
+	        int n = 0;
+	        try {
+	            String sql = "delete from dbo.LoaiSanPham " + "where MaLoai = ?";
+	            statement = conn.prepareStatement(sql);
+	            statement.setInt(1, loai.getMaLoai());
+	            n = statement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                statement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return n > 0;
+	    }
 	
 	public static void main(String[] args) throws SQLException {
 		LoaiSanPhamDAO loaiSanPhamDAO = new LoaiSanPhamDAO();

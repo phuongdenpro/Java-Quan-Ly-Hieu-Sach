@@ -60,7 +60,34 @@ public class SanPhamDAO extends ConnectDB {
 		try {
 
 			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
-					+ "where TenLoai like 'Sách%'";
+					+ "where TenLoai like 'Sách%' OR TenLoai like 'Truyện%'";
+			stmt = this.conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+//                System.out.println(rs);
+				printResultSet(rs);
+				SanPham sanPham = new SanPham(rs);
+				dataList.add(sanPham);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return dataList;
+	}
+	public ArrayList<SanPham> getListSanPhamKhac() {
+		ArrayList<SanPham> dataList = new ArrayList<SanPham>();
+		Statement stmt = null;
+		try {
+
+			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
+					+ "where TenLoai NOT like 'Sách%' AND TenLoai NOT like 'Truyện'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -312,7 +339,8 @@ public class SanPhamDAO extends ConnectDB {
 	        try {
 	        	System.out.println(key + " " + val);
 
-	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where TenLoai like 'Sách%' AND  "+ key +" like N'"+ val + "'";
+	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai like 'Sách%'"
+	            		+ " OR TenLoai like 'Truyện') AND  "+ key +" like N'"+ val + "'";
 	            stmt = this.conn.createStatement();
 	            
 	            ResultSet rsSP = stmt.executeQuery(sql);
@@ -338,6 +366,38 @@ public class SanPhamDAO extends ConnectDB {
 	    	return dssp;
 	    }
 
+	 public List<SanPham> timKiemSanPhamKhac(String key, String val) {
+	    	Statement stmt = null;
+	    	List<SanPham> dssp = new ArrayList<SanPham>();
+	        try {
+	        	System.out.println(key + " " + val);
+
+	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai NOT like 'Sách%'"
+	            		+ " AND TenLoai NOT like 'Truyện') AND  "+ key +" like N'"+ val + "'";
+	            stmt = this.conn.createStatement();
+	            
+	            ResultSet rsSP = stmt.executeQuery(sql);
+	            
+	            System.out.println(rsSP.getStatement().toString());
+	            
+	            while(rsSP.next()) {
+	            	printResultSet(rsSP);
+	            	SanPham sp = new SanPham(rsSP);
+	            //	sp.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsSP.getInt("maDDH")));
+	            	dssp.add(sp);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                stmt.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    	
+	    	return dssp;
+	    }
 	public List<SanPham> getSanPhamDaHet() {
 		ArrayList<SanPham> dataList = new ArrayList<SanPham>();
 

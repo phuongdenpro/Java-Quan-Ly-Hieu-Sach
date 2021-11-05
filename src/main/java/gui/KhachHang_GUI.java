@@ -8,10 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import dao.KhachHangDAO;
+import entity.KhachHang;
 import util.Placeholder;
 
 import javax.swing.BoxLayout;
@@ -22,7 +26,13 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -40,12 +50,14 @@ public class KhachHang_GUI extends JFrame {
 	private JPanel contentPane;
 	private JPanel out;
 	private JTextField txtNhapLieu;
-	private JTable table;
+	private JTable tblKhachHang;
 	private JTextField txtMaKh;
 	private JTextField txtTenKh;
 	private JTextField txtEmail;
 	private JTextField txtSdt;
 	private JTextField txtDiaChi;
+	private DefaultTableModel modelDSKH;
+	ArrayList<KhachHang> dskh = new ArrayList<KhachHang>();
 
 	/**
 	 * Launch the application.
@@ -65,8 +77,9 @@ public class KhachHang_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public KhachHang_GUI() {
+	public KhachHang_GUI() throws SQLException {
 		setTitle("Khách hàng");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -269,18 +282,128 @@ public class KhachHang_GUI extends JFrame {
 		pnRight.add(pnTableKh, BorderLayout.CENTER);
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 		
-		String[] cols_dskh = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email", "Địa chỉ"};
-		DefaultTableModel modelDSKH = new DefaultTableModel(cols_dskh, 0);
-		table = new JTable(modelDSKH);
-		JScrollPane scrTableKhachhang = new JScrollPane(table);
+		String[] cols_dskh = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ"};
+		modelDSKH = new DefaultTableModel(cols_dskh, 0);
+		tblKhachHang = new JTable(modelDSKH);
+		JScrollPane scrTableKhachhang = new JScrollPane(tblKhachHang);
 		scrTableKhachhang.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrTableKhachhang.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		pnTableKh.add(scrTableKhachhang);
 		
 		modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
+		renderData();
 		
+		tblKhachHang.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				int index = tblKhachHang.getSelectedRow();
+				if(index != -1) {
+					KhachHang kh = dskh.get(index);
+					txtMaKh.setText(String.valueOf(kh.getMaKh()));
+					txtTenKh.setText(kh.getHoTen());
+					txtEmail.setText("không có");
+					txtSdt.setText(kh.getSoDienThoai());	
+					txtDiaChi.setText(kh.getDiaChi());
+					
+				}
+			}
+		});
+		
+		btnLamMoi.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				txtMaKh.setText("");
+				txtTenKh.setText("");
+				txtSdt.setText("");
+				txtDiaChi.setText("");
+			}});
+//		btnThemKh.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				String tenKh = txtTenKh.getText();
+//				String sdt = txtSdt.getText();
+//				String diachi = txtDiaChi.getText();
+//				
+//				KhachHang kh = new KhachHang(tenKh, sdt, diachi);
+//				
+//				
+//			}});
+		btnSuaKh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				tblKhachHang.clearSelection();
+				
+				String tenKh = txtTenKh.getText();
+				String sdt = txtSdt.getText();
+				String diaChi = txtDiaChi.getText();
+				String makh = txtMaKh.getText();
+				
+				//String regexSdt = "/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/";// này bị sai :v
+				if (!sdt.matches("0\\d+{9}")) {//sài tạm
+					JOptionPane.showMessageDialog(contentPane, "sai định dạng số điện thoại");
+					return;
+				}
+				KhachHang kh = new KhachHang(tenKh, sdt, diaChi);
+				int ma = Integer.parseInt(makh);
+				
+				boolean kq; 
+				try {
+					kq = new KhachHangDAO().suaKH(kh,ma);
+					if(kq) {
+						JOptionPane.showMessageDialog(contentPane, "Sửa thành công");
+						renderData();
+					}	
+					else 
+						JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+				}catch (Exception ex) {
+					ex.printStackTrace();
+				}
+					
+			}});
+		btnXoaKh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int index = tblKhachHang.getSelectedRow();
+				if(index!= -1) {
+					int choose = JOptionPane.showConfirmDialog(scrTableKhachhang, 
+							"chắc chắn xóa", "xác nhận", JOptionPane.YES_NO_OPTION);
+					if (choose == 0) {
+						tblKhachHang.clearSelection();
+						boolean kq;
+						try {
+							kq = new KhachHangDAO().xoaKhachHang(dskh.get(index));
+							
+						}catch(Exception ex) {
+							ex.printStackTrace();
+						}
+					}			
+				}
+			}});
 	}
+	
+	public void renderData() throws SQLException {
+		//modelDSKH.getDataVector().removeAllElements();
+		modelDSKH.setRowCount(0);
+		dskh = new KhachHangDAO().getListKhachHang();
+		for (KhachHang kh: dskh) {
+			modelDSKH.addRow(new Object[] {kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi()});
+		}
+		tblKhachHang.revalidate();
+		tblKhachHang.repaint();
+	}
+	
+	
 
 	public JPanel getContentPane() {
 		 return this.contentPane;

@@ -3,16 +3,27 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
+
+import dao.LoaiSanPhamDAO;
+import entity.LoaiSanPham;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JRadioButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -21,13 +32,19 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Dimension;
 
-public class TimKiemDanhMucSanPham_GUI extends JFrame {
+public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextComponent lblTimKiem;
 	private JTextField textFieldTim;
 	private JLabel lbltieude;
+	private ArrayList<LoaiSanPham> dsloai;
+	private List<LoaiSanPham> dsloaitim;
+	private DefaultTableModel modelDSLoai;
+	private JTable tblDSLoai;
+	private boolean isTimKiem;
+	private LoaiSanPhamDAO loaiDAO;
 
 	/**
 	 * Launch the application.
@@ -47,8 +64,10 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public TimKiemDanhMucSanPham_GUI() {
+	public TimKiemDanhMucSanPham_GUI() throws SQLException {
+		loaiDAO = new LoaiSanPhamDAO();
 		setResizable(false);
 		setTitle("Tìm kiếm loại sản phẩm");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,10 +130,99 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 		panel_1.add(btnLamMoiDuLieu);
 		
 		String[] cols = {"Mã Loại", "Tên Loại" };
-		DefaultTableModel modelDSLoai = new DefaultTableModel(cols, 0);
-		JTable tblDSLoai = new JTable(modelDSLoai);
+		 modelDSLoai = new DefaultTableModel(cols, 0);
+		 tblDSLoai = new JTable(modelDSLoai);
 		JScrollPane scrollPane = new JScrollPane(tblDSLoai);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (textFieldTim.getText().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Cần nhập dữ liệu danh mục cần tìm", "Cảnh báo",
+							JOptionPane.WARNING_MESSAGE);
+					textFieldTim.requestFocus();
+				} else {
+					try {
+						String key = "";
+						if (rdbtnMaLoai.isSelected()) {
+							key = "MaLoai";
+						} else if (rdbtnTenLoai.isSelected()) {
+							key = "TenLoai";
+						}
+						dsloaitim = loaiDAO.timKiem(key, textFieldTim.getText());
+						renderDataTimKiem();
+						isTimKiem = true;
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		btnLamMoiDuLieu.addActionListener(new ActionListener() {
+			
+			
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					tblDSLoai.clearSelection();
+
+					modelDSLoai.getDataVector().removeAllElements();
+					renderData();
+					isTimKiem = false;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+			}
+		});
+		try {
+			renderData();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void renderData() throws SQLException {
+		// modelDSSach.getDataVector().removeAllElements();
+		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
+
+//		String stt = table.getValueAt(1, 0).toString();
+
+		dsloai.forEach(loai -> {
+			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+		});
+
+	}
+	public void renderDataTimKiem() throws SQLException {
+		tblDSLoai.clearSelection();
+
+		modelDSLoai.getDataVector().removeAllElements();
+
+		dsloaitim.forEach(loai -> {
+			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+		});
+
+		tblDSLoai.revalidate();
+		tblDSLoai.repaint();
+	}
+
+
+
+
+		
+	}
