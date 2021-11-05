@@ -252,6 +252,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) SachGUI.getContentPane(), "sanpham");
+				try {
+					SachGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		

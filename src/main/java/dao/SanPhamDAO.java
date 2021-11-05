@@ -66,7 +66,7 @@ public class SanPhamDAO extends ConnectDB {
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 //                System.out.println(rs);
-//				printResultSet(rs);
+				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -613,7 +613,7 @@ public class SanPhamDAO extends ConnectDB {
     public static void main(String[] args) throws SQLException {
     	SanPhamDAO sanPhamDao = new SanPhamDAO();
 //    	System.out.println(sanPhamDao.getListSanPham());
-		System.out.println(sanPhamDao.timKiem("Bút"));
+		System.out.println(sanPhamDao.getListSach());
 		//sanPhamDao.createNCC("phuong");
 	}
 }
