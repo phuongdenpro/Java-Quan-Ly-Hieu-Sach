@@ -212,7 +212,6 @@ public class HoaDonDAO extends ConnectDB{
 		PreparedStatement stmt = null;
 
         try {
-        	System.out.println(d);
         	String sql = "select sum(ChiTietHoaDon.soLuong * (DonGia-GiaNhap)) as loiNhuan\r\n"
         			+ "from [HieuSach].[dbo].[HoaDon]\r\n"
         			+ "inner join [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
@@ -229,6 +228,29 @@ public class HoaDonDAO extends ConnectDB{
             	return 0;
             
             return rs.getInt("loiNhuan");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return 0;
+	}
+	
+	public double thongKeDoanhThu(Date d) {
+		PreparedStatement stmt = null;
+
+        try {
+        	String sql = "select sum(tongTien) as doanhThu from [HieuSach].[dbo].[HoaDon]\r\n"
+        			+ "where ngayMua = ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	
+        	prpStmt.setDate(1, d);
+            ResultSet rs = prpStmt.executeQuery();
+               
+            if(!rs.next())
+            	return 0;
+            
+            return rs.getInt("doanhThu");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

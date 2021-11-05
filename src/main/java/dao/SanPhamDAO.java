@@ -522,6 +522,34 @@ public class SanPhamDAO extends ConnectDB {
 		return dataList;
 	} 
     
+    public Map<String, Integer> thongKeSoLuongBanRa(){
+    	Map<String, Integer> kq = new HashMap<String, Integer>();
+		PreparedStatement stmt = null;
+		try {
+
+			String sql = "select SanPham.maSP, SanPham.TenSP, sum(ChiTietHoaDon.SoLuong) as sl\r\n"
+					+ "from [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
+					+ "inner join [HieuSach].[dbo].[SanPham]\r\n"
+					+ "on ChiTietHoaDon.maSP = SanPham.maSP\r\n"
+					+ "group by SanPham.maSP, SanPham.TenSP";
+			stmt = this.conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				printResultSet(rs);
+				kq.put(rs.getString("tenSP"), rs.getInt("sl"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return kq;
+	} 
+    
     public static void main(String[] args) throws SQLException {
     	SanPhamDAO sanPhamDao = new SanPhamDAO();
 //    	System.out.println(sanPhamDao.getListSanPham());

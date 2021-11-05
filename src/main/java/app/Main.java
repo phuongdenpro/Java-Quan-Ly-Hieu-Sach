@@ -1,5 +1,6 @@
 package app;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 import dao.KhachHangDAO;
@@ -12,7 +13,8 @@ public class Main{
 //		KhachHangDAO khachHangDao = new KhachHangDAO();
 //		khachHangDao.getListKhachHang();
 		
-		
+//		Date today = new Date;
+//		System.out.println(today);
 //		
 	}
 }

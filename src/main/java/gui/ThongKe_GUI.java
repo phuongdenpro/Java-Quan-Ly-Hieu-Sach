@@ -48,7 +48,10 @@ import java.awt.Font;
 import java.awt.Component;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
+
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThongKe_GUI extends JFrame {
 	Day today = new Day();
@@ -90,11 +93,11 @@ public class ThongKe_GUI extends JFrame {
 		
 		
 		JPanel pnContent = new JPanel();
-		JScrollPane pane = new JScrollPane(pnContent);
-		pane.getVerticalScrollBar().setUnitIncrement(20);
-		pane.setPreferredSize(new Dimension(1400, 700));
-		pane.setBorder(null);
-		contentPane.add(pane);
+//		JScrollPane pane = new JScrollPane(pnContent);
+//		pane.getVerticalScrollBar().setUnitIncrement(20);
+//		pane.setPreferredSize(new Dimension(1400, 700));
+//		pane.setBorder(null);
+		contentPane.add(pnContent);
 		pnContent.setLayout(new BoxLayout(pnContent, BoxLayout.Y_AXIS));
 
 		JPanel pnThongTinChung = new JPanel();
@@ -115,20 +118,20 @@ public class ThongKe_GUI extends JFrame {
 		pnGridThongTinChung.add(this.dashboardGeneralGUI("Khách hàng", soLuongKH+" khách hàng", icon_customer, new Color(0, 255, 127)));
 		
 		ImageIcon icon_profit = new ImageIcon("data/images/financial-profit.png");
-		
 		double loiNhuanHomNay = new HoaDonDAO().thongKeLoiNhuan(now);
 		pnGridThongTinChung.add(this.dashboardGeneralGUI("Lợi nhuận hôm nay", String.valueOf(loiNhuanHomNay)+"đ", icon_profit, new Color(0, 191, 255)));
 		
 		ImageIcon icon_traffic = new ImageIcon("data/images/web-traffic.png");
-		pnGridThongTinChung.add(this.dashboardGeneralGUI("Lượt truy cập", "123 lượt", icon_traffic, new Color(255, 255, 0)));
+		double doanhThuHomNay = new HoaDonDAO().thongKeDoanhThu(now);
+		pnGridThongTinChung.add(this.dashboardGeneralGUI("Doanh thu hôm nay", String.valueOf(doanhThuHomNay)+"đ", icon_traffic, new Color(255, 255, 0)));
 		
 		JPanel pnBieuDo = new JPanel();
 		pnContent.add(pnBieuDo);
 		pnBieuDo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JPanel pbGridBieuDo = new JPanel();
+		pbGridBieuDo.setPreferredSize(new Dimension(1300, 500));
 		pbGridBieuDo.setBorder(null);
-		pbGridBieuDo.setPreferredSize(new Dimension(1300, 1000));
 //		panel_2.add(panel_3);
 //		JScrollPane scrollPane = new JScrollPane(panel_3);
 //		scrollPane.setBorder(null);
@@ -145,7 +148,6 @@ public class ThongKe_GUI extends JFrame {
         pbGridBieuDo.setLayout(gbl_pbGridBieuDo);
         
         JPanel pnLeft = new JPanel();
-        pnLeft.setPreferredSize(new Dimension(10, 1000));
         GridBagConstraints gbc_pnLeft = new GridBagConstraints();
         gbc_pnLeft.insets = new Insets(0, 0, 5, 5);
         gbc_pnLeft.fill = GridBagConstraints.BOTH;
@@ -161,8 +163,6 @@ public class ThongKe_GUI extends JFrame {
         
         // Số lượng sản phẩm còn lại
         JFreeChart productChart = createProductChart();
-        ChartPanel pnChartSanPhamDaBan = new ChartPanel(productChart, true, true, true, false, true);
-        pnLeft.add(pnChartSanPhamDaBan);
         
         
         JPanel pnRight = new JPanel();
@@ -178,9 +178,6 @@ public class ThongKe_GUI extends JFrame {
         pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
         ChartPanel pnChartTyLeBanSP = new ChartPanel(pieChart);
         pnRight.add(pnChartTyLeBanSP);
-        
-        ChartPanel pnChart = new ChartPanel((JFreeChart) null);
-        pnRight.add(pnChart);
 	}
 	
 	private JPanel dashboardGeneralGUI(String title, String content, ImageIcon icon, Color color) {
@@ -247,11 +244,18 @@ public class ThongKe_GUI extends JFrame {
         return chart;
     }
 	
-    private PieDataset createRatioProductSoldDataset() {
+    private PieDataset createRatioProductSoldDataset() throws SQLException {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Truyện conan", new Double(25.0));
-        dataset.setValue("Giáo trình tư tưởng Hồ Chí Minh", new Double(66.0));
-        dataset.setValue("Bút bi", new Double(9.0));
+        Map<String, Integer> kq = new SanPhamDAO().thongKeSoLuongBanRa();
+        AtomicInteger total = new AtomicInteger(0);
+        
+        kq.forEach((tenSP, soLuong) -> {
+        	total.set(total.get() + soLuong);
+        });
+        
+        kq.forEach((tenSP, soLuong) -> {
+        	dataset.setValue(tenSP, (double) soLuong/total.get());
+        });
         return dataset;
     }
 	
@@ -278,12 +282,8 @@ public class ThongKe_GUI extends JFrame {
 		int m = tuNgay.getMonth();
 		int y = tuNgay.getYear();
 		
-//		System.out.println(tuNgay);
-//		Date it = now;
-//		it.setDate(it.getDate());
 		for(int i=0; i<30; i++) {
-			System.out.println(d +" "+ m +" "+ y);
-			timeseries.add(new Day(d, m, y), new HoaDonDAO().thongKeLoiNhuan(new Date(2021, m, d)));
+			timeseries.add(new Day(d, m, y), new HoaDonDAO().thongKeLoiNhuan(new Date(y-1900, m-1, d)));
 			d++;
 			if(d > getSoNgay(m)) {
 				d = 1;
@@ -299,7 +299,7 @@ public class ThongKe_GUI extends JFrame {
 	 }
 	 
 	 private Day getNgay30() {
-		 int d = getSoNgay(today.getMonth()-1) - (30-today.getDayOfMonth());
+		 int d = getSoNgay(today.getMonth()-1) - (30-today.getDayOfMonth()) + 1;
 		 return new Day(d, today.getMonth()-1, today.getYear());
 	 }
 	 
