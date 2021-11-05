@@ -181,6 +181,36 @@ public class HoaDonDAO extends ConnectDB{
     	return dshd;
     }
 	
+	public List<HoaDon> timKiem(String where) {
+    	Statement stmt = null;
+    	List<HoaDon> dshd = new ArrayList<HoaDon>();
+        try {
+            String sql = "SELECT * FROM dbo.HoaDon inner join dbo.KhachHang on dbo.HoaDon.maKH = dbo.KhachHang.maKH where "+ where;
+            System.out.println(sql);
+            stmt = this.conn.createStatement();
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            
+            while(rs.next()) {
+//            	printResultSet(rs);
+            	HoaDon hd = new HoaDon(rs);
+            	hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+            	dshd.add(hd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return dshd;
+    }
+	
 	public boolean xoaHD(int maHD) {
 		PreparedStatement stmt = null;
 
