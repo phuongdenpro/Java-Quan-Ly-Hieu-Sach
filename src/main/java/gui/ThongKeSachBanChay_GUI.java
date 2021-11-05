@@ -34,8 +34,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
-public class ThongKeSanPhamBanChay_GUI extends JFrame {
+public class ThongKeSachBanChay_GUI extends JFrame {
 
+	private int soLuongSP = 0;
+	
 	private JPanel contentPane;
 	private JTextField txtTuNgay;
 	private JTextField txtToiNgay;
@@ -47,6 +49,8 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 	private kDatePicker dpToiNgay;
 	private JComboBox comboBox;
 	private JComboBox cboLoaiTK;
+
+	private JLabel lblTongSo;
 	/**
 	 * Launch the application.
 	 */
@@ -54,7 +58,7 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ThongKeSanPhamBanChay_GUI frame = new ThongKeSanPhamBanChay_GUI();
+					ThongKeSachBanChay_GUI frame = new ThongKeSachBanChay_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,7 +71,7 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public ThongKeSanPhamBanChay_GUI() throws SQLException {
+	public ThongKeSachBanChay_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -137,6 +141,17 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 		tblDSSP = new JTable(modelDSSP);
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
 		panel_1.add(scrollPane);
+		
+		JPanel panel_4 = new JPanel();
+		panel_1.add(panel_4, BorderLayout.SOUTH);
+		
+		JLabel lblTong = new JLabel("Tổng số sách đã bán: ");
+		lblTong.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_4.add(lblTong);
+		
+		lblTongSo = new JLabel("20");
+		lblTongSo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_4.add(lblTongSo);
 		
 		renderData();
 	
@@ -212,7 +227,7 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 		dssp = new SanPhamDAO().thongKeSPBanChay(true);
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
-		
+		soLuongSP = 0;
 		dssp.forEach((sp, soLuongDaBan) -> {
 			modelDSSP.addRow(new Object[] {
 				sp.getMaSp(),
@@ -221,7 +236,9 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 				sp.getGiaSp(),
 				soLuongDaBan
 			});
+			soLuongSP += soLuongDaBan; 
 		});
+		lblTongSo.setText(String.valueOf(soLuongSP));
 		tblDSSP.revalidate();
 		tblDSSP.repaint();
 	}
@@ -231,7 +248,7 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay, true);
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
-		
+		soLuongSP = 0;
 		dssp.forEach((sp, soLuongDaBan) -> {
 			modelDSSP.addRow(new Object[] {
 				sp.getMaSp(),
@@ -240,11 +257,12 @@ public class ThongKeSanPhamBanChay_GUI extends JFrame {
 				sp.getGiaSp(),
 				soLuongDaBan
 			});
+			soLuongSP += soLuongDaBan;
 		});
+		lblTongSo.setText(String.valueOf(soLuongSP));
 		tblDSSP.revalidate();
 		tblDSSP.repaint();
 	}
-	
 	
 
 	public JPanel getContentPane() {
