@@ -622,7 +622,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	}
 
 	private void loadCboMaLoai() throws SQLException {
-		dsLoai = new LoaiSanPhamDAO().getDanhSachLoaiSach();
+		dsLoai = loaiDAO.getDanhSachLoaiSach();
 		for (LoaiSanPham loai : dsLoai) {
 			String ma = loai.getTenLoai();
 			cboListMaloai.addItem(String.valueOf(ma));

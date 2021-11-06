@@ -32,7 +32,7 @@ public class SanPhamDAO extends ConnectDB {
 		Statement stmt = null;
 		try {
 
-			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC";
+			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC";
 			stmt = this.conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -59,8 +59,8 @@ public class SanPhamDAO extends ConnectDB {
 		Statement stmt = null;
 		try {
 
-			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
-					+ "where TenLoai like 'Sách%' OR TenLoai like 'Truyện%'";
+			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
+					+ "where TenLoai like 'Sách%' OR TenLoai like N'Truyện%'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -86,8 +86,8 @@ public class SanPhamDAO extends ConnectDB {
 		Statement stmt = null;
 		try {
 
-			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
-					+ "where TenLoai NOT like 'Sách%' AND TenLoai NOT like 'Truyện'";
+			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
+					+ "where LoaiSanPham.TenLoai NOT like N'Sách%' AND LoaiSanPham.TenLoai NOT like N'Truyện%'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -339,8 +339,8 @@ public class SanPhamDAO extends ConnectDB {
 	        try {
 	        	System.out.println(key + " " + val);
 
-	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai like 'Sách%'"
-	            		+ " OR TenLoai like 'Truyện') AND  "+ key +" like N'"+ val + "'";
+	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai like N'Sách%'"
+	            		+ " OR TenLoai like N'Truyện') AND  "+ key +" like N'"+ val + "'";
 	            stmt = this.conn.createStatement();
 	            
 	            ResultSet rsSP = stmt.executeQuery(sql);
@@ -372,8 +372,8 @@ public class SanPhamDAO extends ConnectDB {
 	        try {
 	        	System.out.println(key + " " + val);
 
-	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai NOT like 'Sách%'"
-	            		+ " AND TenLoai NOT like 'Truyện') AND  "+ key +" like N'"+ val + "'";
+	            String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai NOT like N'Sách%'"
+	            		+ " AND TenLoai NOT like N'Truyện') AND  "+ key +" like N'"+ val + "'";
 	            stmt = this.conn.createStatement();
 	            
 	            ResultSet rsSP = stmt.executeQuery(sql);
