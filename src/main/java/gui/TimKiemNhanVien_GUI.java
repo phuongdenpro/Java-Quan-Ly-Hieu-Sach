@@ -7,7 +7,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.NhanVienDAO;
+import entity.NhanVien;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,16 +28,21 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.SwingConstants;
 
 public class TimKiemNhanVien_GUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtTenNv,txtSdt,txtDiaChi;
+	private JTextField txtTenNv,txtSdt,txtdiaChi;
 	private JCheckBox chkTenNv, chkSdt,chkDiaChi;
-	private JButton btnTimKiem;
+	private JButton btnTimKiem,btnRefresh;
 	private DefaultTableModel modelNhanVien;
 	private JTable tblKetQua;
-	private JTextField txtdiaChi;
+	private ArrayList<NhanVien> dsnv;
 
 	/**
 	 * Launch the application.
@@ -145,12 +155,17 @@ public class TimKiemNhanVien_GUI extends JFrame {
 		pnDiaChi.add(chkDiaChi);
 		
 		JPanel pnTim = new JPanel();
+		FlowLayout fl_pnTim = new FlowLayout();
+		pnTim.setLayout(fl_pnTim);
 		pnThongTin.add(pnTim);
 		
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(Color.WHITE);
 		pnTim.add(btnTimKiem);
 		
+		btnRefresh = new JButton("Làm mới");
+		btnRefresh.setBackground(Color.WHITE);
+		pnTim.add(btnRefresh);
 		
 		JPanel pnRight = new JPanel();
 		pnRight.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
@@ -168,14 +183,83 @@ public class TimKiemNhanVien_GUI extends JFrame {
 		pnRightBottom.setBorder(new LineBorder(SystemColor.activeCaption, 2));
 		pnRight.add(pnRightBottom);
 		
-		String[] cols = {"Mã Nhân Viên", "Tên Nhân Viên", "Số điện thoại", "Địa chỉ"};
+		String[] cols = {"Mã Nhân Viên", "Tên Nhân Viên", "Số điện thoại", "Địa chỉ","Ca làm"};
 		modelNhanVien = new DefaultTableModel(cols, 0);
 		pnRightBottom.setLayout(new BorderLayout(0, 0));
 		tblKetQua = new JTable(modelNhanVien);
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
 		
+		addEvents();
+	}
 
+	private void addEvents() {
+		// TODO Auto-generated method stub
+		btnTimKiem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(!chkTenNv.isSelected() && !chkSdt.isSelected() && !chkDiaChi.isSelected()) {
+					JOptionPane.showMessageDialog(contentPane, "chưa chọn tìm kiếm, không thể tìm");
+					modelNhanVien.setRowCount(0);
+					return;
+				}
+				
+				String ten = txtTenNv.getText();
+				String sdt = txtSdt.getText();
+				String diaChi = txtdiaChi.getText();
+				
+				String where = "";
+				
+				if(chkTenNv.isSelected())
+					where += " where NhanVien.TenNv like N'"+ten+"'";
+				if(chkSdt.isSelected())
+					where += " and NhanVien.SoDienThoai like '"+sdt+"'";
+				if(chkDiaChi.isSelected())
+					where += " and NhanVien.DiaChi like N'%"+diaChi+"%'";
+				
+				System.out.println(where);
+				
+				try {
+					dsnv = new NhanVienDAO().TimKiem(where);
+					if(dsnv == null) {
+						modelNhanVien.setRowCount(0);
+						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy nhân viên nào");
+						return;
+					}
+					renderDataTimKiem(dsnv);
+					
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+				
+			}
+
+			private void renderDataTimKiem(ArrayList<NhanVien> dsnv) {
+				// TODO Auto-generated method stub
+				modelNhanVien.setRowCount(0);
+				for(NhanVien nv: dsnv) {
+					modelNhanVien.addRow(new Object[] {nv.getMaNv(),nv.getTenNv(),nv.getSoDienThoai(),nv.getDiaChi(),nv.getCaLamViec()});
+				}
+				tblKetQua.revalidate();
+				tblKetQua.repaint();
+				
+			}});
+		btnRefresh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				txtTenNv.setText("");
+				txtdiaChi.setText("");
+				txtSdt.setText("");
+				chkDiaChi.setSelected(false);
+				chkSdt.setSelected(false);
+				chkTenNv.setSelected(false);
+			}});
+		
+		
 	}
 
 }

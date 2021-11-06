@@ -7,7 +7,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.KhachHangDAO;
+import entity.KhachHang;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,16 +28,20 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TimKiemKhachHang_GUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtTenKh,txtSdt,txtDiaChi;
+	private JTextField txtTenKh,txtSdt,txtdiaChi;
 	private JCheckBox chkTenKh, chkSdt,chkDiaChi;
-	private JButton btnTimKiem;
+	private JButton btnTimKiem,btnRefresh;
 	private DefaultTableModel modelKhachHang;
 	private JTable tblKetQua;
-	private JTextField txtdiaChi;
+	private ArrayList<KhachHang> dskh;
 
 	/**
 	 * Launch the application.
@@ -145,12 +154,16 @@ public class TimKiemKhachHang_GUI extends JFrame {
 		pnDiaChi.add(chkDiaChi);
 		
 		JPanel pnTim = new JPanel();
+		pnTim.setLayout(new FlowLayout());
 		pnThongTin.add(pnTim);
 		
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(Color.WHITE);
-		pnTim.add(btnTimKiem);
+		btnRefresh = new JButton("Làm mới");
+		btnRefresh.setBackground(Color.WHITE);
 		
+		pnTim.add(btnTimKiem);
+		pnTim.add(btnRefresh);
 		
 		JPanel pnRight = new JPanel();
 		pnRight.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
@@ -175,7 +188,73 @@ public class TimKiemKhachHang_GUI extends JFrame {
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
 		
-
+		addEvents();
 	}
+
+	private void addEvents() {
+		// TODO Auto-generated method stub
+		btnTimKiem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String ten = txtTenKh.getText();
+				String sdt = txtSdt.getText();
+				String diaChi = txtdiaChi.getText();
+				
+				if(!chkTenKh.isSelected() && !chkSdt.isSelected() && !chkDiaChi.isSelected()) {
+					JOptionPane.showMessageDialog(contentPane, "chưa chọn tìm kiếm, không tìm được");
+					modelKhachHang.setRowCount(0);
+					return;
+				}
+				
+				String where = "";
+				if(chkTenKh.isSelected())
+					where += " where KhachHang.Hoten like N'"+ten+"'";
+				if(chkSdt.isSelected())
+					where += " and KhachHang.SoDienThoai like '"+sdt+"'";
+				if(chkDiaChi.isSelected())
+					where += " and KhachHang.DiaChi like N'%"+diaChi+"%'";
+				
+				System.out.println(where);
+				try {
+					dskh = new KhachHangDAO().TimKiem(where);
+					if(dskh==null) {
+						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy khách hàng nào");
+						modelKhachHang.setRowCount(0);
+						return;
+					}
+						
+					
+					renderDataTimKiem(dskh);
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}	
+		}});	
+		
+		btnRefresh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				txtdiaChi.setText("");
+				txtSdt.setText("");
+				txtTenKh.setText("");
+				chkDiaChi.setSelected(false);
+				chkSdt.setSelected(false);
+				chkTenKh.setSelected(false);
+			}});
+	}
+	
+	private void renderDataTimKiem(ArrayList<KhachHang> dskh) {
+		// TODO Auto-generated method stub
+		modelKhachHang.setRowCount(0);
+		for(KhachHang kh: dskh) {
+			modelKhachHang.addRow(new Object[] {kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi()});
+		}
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
+	}
+	
 
 }

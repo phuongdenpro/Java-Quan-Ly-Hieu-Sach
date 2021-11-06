@@ -33,17 +33,23 @@ public class KhachHang {
 		this.soDienThoai = soDienThoai;
 		this.diaChi = diaChi;
 	}
+	public KhachHang(int maKh,String hoTen, String soDienThoai, String diaChi) {
+		this.maKh = maKh;
+		this.hoTen = hoTen;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+	}
 	
 	public KhachHang(ResultSet rs) throws SQLException {
 		try {
-			this.maKh = rs.getInt("maKH");
+			this.maKh = rs.getInt("MaKH");
 		}catch (Exception e) {
 			
 		}
 		try {
-			this.hoTen = rs.getString("hoTen");
-			this.soDienThoai = rs.getString("soDienThoai");
-			this.diaChi = rs.getString("diaChi");
+			this.hoTen = rs.getString("HoTen");
+			this.soDienThoai = rs.getString("SoDienThoai");
+			this.diaChi = rs.getString("DiaChi");
 		}catch (Exception e) {
 			KhachHang tmp = new KhachHangDAO().getKhachHang(this.maKh);
 			this.hoTen = tmp.getHoTen();
