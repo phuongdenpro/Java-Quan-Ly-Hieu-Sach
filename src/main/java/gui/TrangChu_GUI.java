@@ -288,7 +288,15 @@ public class TrangChu_GUI extends JFrame {
 					return;
 				}
 				
+				if(soLuong > sanPham.getSoLuong()) {
+					JOptionPane.showMessageDialog(contentPane, sanPham.getTenSp()+" chỉ còn "+sanPham.getSoLuong()+" sản phẩm");
+					
+					return;
+				}
+				
 				try {
+					
+					
 					boolean kq = new DonDatHangDAO().themSanPhamVaoDonDatHang(sanPham, soLuong, khachHang.getMaKh());
 					if(kq) {
 						JOptionPane.showMessageDialog(contentPane, "Thêm vào giỏ thành công");

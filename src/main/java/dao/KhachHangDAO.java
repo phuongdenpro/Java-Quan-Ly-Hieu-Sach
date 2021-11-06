@@ -31,6 +31,7 @@ public class KhachHangDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
+//            	printResultSet(rs);
             	KhachHang kh = new KhachHang(rs);
             	dataList.add(kh);
             }

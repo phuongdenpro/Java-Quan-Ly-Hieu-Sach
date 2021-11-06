@@ -51,7 +51,7 @@ public class QuanLy_GUI extends JFrame {
 	private TimKiemSach_GUI timKiemSachGUI = new TimKiemSach_GUI();
 	private TimKiemSanPhamKhac_GUI timKiemSPKhacGUI = new TimKiemSanPhamKhac_GUI();
 	private TimKiemDanhMucSanPham_GUI timKiemDMSPGUI = new TimKiemDanhMucSanPham_GUI();
-	private ThongKeSanPhamBanChay_GUI thongKeSPBCGUI = new ThongKeSanPhamBanChay_GUI();
+	private ThongKeSachBanChay_GUI thongKeSPBCGUI = new ThongKeSachBanChay_GUI();
 	private ThongKeSPDaHet_GUI thongKeSPDBHGUI = new ThongKeSPDaHet_GUI();
 	
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();

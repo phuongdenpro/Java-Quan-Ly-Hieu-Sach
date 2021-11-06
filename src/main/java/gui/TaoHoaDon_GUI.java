@@ -25,6 +25,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.awt.GridLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -61,18 +63,21 @@ public class TaoHoaDon_GUI extends JFrame {
 	private DefaultComboBoxModel<String> modelKH;
 	private JComboBox cboKH;
 	
-	private DefaultTableModel modelSPCTM;
-	private JTable tblSPCTM;
+	private DefaultTableModel modelSach;
+	private DefaultTableModel modelSPK;
 	private DefaultTableModel modelSPTGH;
-	private JTable tblSPTGH;
+	private JTable tblSach;
+	private JTable tblSPK;
 	
 	private NhanVien nhanVien = new NhanVienDAO().getNhanVienByMaNV(1);
 	private ArrayList<KhachHang> dskh;
-	private ArrayList<SanPham> dssp;
+	private ArrayList<SanPham> dsSach;
+	private ArrayList<SanPham> dsSPKhac;
 	private ArrayList<ChiTietHoaDon> dscthd = new ArrayList<ChiTietHoaDon>();
 	private JTextField txtSoLuong;
 	private JButton btnThemHD; 
 	private JTextField txtTongTien;
+	private JTable tblSPTGH;
 
 	/**
 	 * Launch the application.
@@ -228,15 +233,26 @@ public class TaoHoaDon_GUI extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_4.add(lblNewLabel);
 		
-		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Đơn giá"};
-		modelSPCTM = new DefaultTableModel(cols, 0);
-		tblSPCTM = new JTable(modelSPCTM);
 		
-		JScrollPane scrollPane = new JScrollPane(tblSPCTM);
+		
+		JPanel panel_7 = new JPanel();
+		panel.add(panel_7, BorderLayout.CENTER);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
+		
+		String[] cols = {"Tên sản phẩm", "Đơn giá", "Số lượng", "Nhà xuất bản"};
+		modelSach = new DefaultTableModel(cols, 0);
+		JTable tblSach = new JTable(modelSach);
+		JScrollPane scrollPane = new JScrollPane(tblSach);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		panel.add(scrollPane, BorderLayout.CENTER);
+		panel_7.add(scrollPane);
 		
-		modelSPCTM.addRow(new Object[] {"1", "Sach giao khoa", 123.456});
+		String[] cols2 = {"Tên sản phẩm", "Đơn giá", "Số lượng", "Nhà cung cấp"};
+		modelSPK = new DefaultTableModel(cols2, 0);
+		JTable tblSPK = new JTable(modelSPK);
+		JScrollPane scrollPane_2 = new JScrollPane(tblSPK);
+		panel_7.add(scrollPane_2);
+		
+//		modelSPCTM.addRow(new Object[] {"1", "Sach giao khoa", 123.456});
 		
 		JPanel panel_2 = new JPanel();
 		panel_1.add(panel_2);
@@ -294,8 +310,8 @@ public class TaoHoaDon_GUI extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_6.add(lblNewLabel_1);
 		
-		String[] cols2 = {"Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền"};
-		modelSPTGH = new DefaultTableModel(cols2, 0);
+		String[] cols3 = {"Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền"};
+		modelSPTGH = new DefaultTableModel(cols3, 0);
 		tblSPTGH = new JTable(modelSPTGH);
 		JScrollPane scrollPane_1 = new JScrollPane(tblSPTGH);
 		scrollPane_1.setPreferredSize(new Dimension(450, 500));
@@ -321,25 +337,82 @@ public class TaoHoaDon_GUI extends JFrame {
 		});
 		
 		btnThemSP.addActionListener((e) -> {
-			int idx = tblSPCTM.getSelectedRow();
-			if(idx != -1) {
-				ChiTietHoaDon cthd = new ChiTietHoaDon(dssp.get(idx), Integer.parseInt(txtSoLuong.getText()), dssp.get(idx).getGiaSp());
-				dscthd.add(cthd);
-				tinhTongTien();
-				try {
-					renderData();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			
+			if(tblSach.getSelectedRow() == -1 && tblSPK.getSelectedRow() == -1) {
+				return;
 			}
+			int idx;
+			SanPham sp;
+			if(tblSach.getSelectedRow() != -1) {
+				idx = tblSach.getSelectedRow();
+				sp = dsSach.get(idx); // sách
+			}else {
+				idx = tblSPK.getSelectedRow();
+				sp = dsSPKhac.get(idx);
+			}
+			int soLuong = 0;
+			try {
+				soLuong = Integer.parseInt(txtSoLuong.getText());
+			}catch (Exception e2) {
+				JOptionPane.showMessageDialog(contentPane, "Số lượng phải lớn hơn 0");
+				txtSoLuong.requestFocus();
+				return;
+			}
+			
+			if(soLuong > sp.getSoLuong()) {
+				JOptionPane.showMessageDialog(contentPane, "Số lượng không đủ");
+				txtSoLuong.requestFocus();
+				return;
+			}
+			
+			
+//			kiểm tra xem đã có sp đó trong giỏ chưa
+			int vt = -1;
+			for(int i=0; i<dscthd.size(); i++) {
+				if(dscthd.get(i).getSanPham().getMaSp() == sp.getMaSp())
+					vt = i;
+			}
+			if(vt != -1) { // thêm số lượng
+				dscthd.get(vt).setSoLuong(dscthd.get(vt).getSoLuong() + soLuong);
+			}else { // thêm sp
+				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, soLuong, sp.getGiaSp());
+				dscthd.add(cthd);
+			}
+			tinhTongTien();
+			
+			try {
+				renderData();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
 		});
 		
 		
 		btnBoSP.addActionListener((e) -> {
 			int idx = tblSPTGH.getSelectedRow();
 			if(idx != -1) {
-				dscthd.remove(idx);
+				int soLuong = 0;
+				try {
+					soLuong = Integer.parseInt(txtSoLuong.getText());
+				}catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane, "Số lượng phải lớn hơn 0");
+					txtSoLuong.requestFocus();
+					return;
+				}
+				
+				if(soLuong > dscthd.get(idx).getSoLuong()) {
+					JOptionPane.showMessageDialog(contentPane, "Số lượng không hợp lệ");
+					txtSoLuong.requestFocus();
+					return;
+				}else if(soLuong == dscthd.get(idx).getSoLuong()) {	
+					dscthd.remove(idx);
+				}else {
+					dscthd.get(idx).setSoLuong(dscthd.get(idx).getSoLuong() - soLuong);
+				}
+				
 				tinhTongTien();
 				try {
 					renderData();
@@ -380,6 +453,14 @@ public class TaoHoaDon_GUI extends JFrame {
 				}
 			}
 		});
+		
+		tblSach.getSelectionModel().addListSelectionListener((x) -> {
+			tblSPK.clearSelection();
+		});
+		
+		tblSPK.getSelectionModel().addListSelectionListener((x) -> {
+			tblSach.clearSelection();
+		});
 	}
 	
 	public void renderKhachHang() throws SQLException {
@@ -390,41 +471,64 @@ public class TaoHoaDon_GUI extends JFrame {
 		cboKH.setSelectedIndex(0);
 		
 		dskh.forEach(kh -> {
-			System.out.println(kh.getHoTen());
-			modelKH.addElement(kh.getHoTen());
+//			System.out.println(kh.getHoTen());
+			modelKH.addElement("#"+ kh.getMaKh()+ " " + kh.getHoTen());
 		});
 		cboKH.revalidate();
 		cboKH.repaint();
 	}
 	
 	public void renderData() throws SQLException {
-//		san pham
-		tblSPCTM.clearSelection();
-		dssp = new SanPhamDAO().getListSanPham();
-		modelSPCTM.getDataVector().removeAllElements();
-		for(int i=0; i<dssp.size(); i++) {
+		dsSach = new SanPhamDAO().getListSach();
+		modelSach.getDataVector().removeAllElements();
+		for(int i=0; i<dsSach.size(); i++) {
 			boolean flag = true;
 			for(int j=0; j<dscthd.size(); j++) {
-				if(dscthd.get(j).getSanPham().getMaSp() == dssp.get(i).getMaSp()) {
-					flag = false;
+				if(dscthd.get(j).getSanPham().getMaSp() == dsSach.get(i).getMaSp()) {
+					dsSach.get(i).setSoLuong(dsSach.get(i).getSoLuong() - dscthd.get(j).getSoLuong());
 				}
 			}
-			if(flag)
-				modelSPCTM.addRow(new Object[] {dssp.get(i).getMaSp(), dssp.get(i).getTenSp(), dssp.get(i).getGiaSp()});
-			else {
-				dssp.remove(i);
+			if(dsSach.get(i).getSoLuong() != 0) {
+				modelSach.addRow(new Object[] {
+						dsSach.get(i).getTenSp(), 
+						dsSach.get(i).getGiaSp(), 
+						dsSach.get(i).getSoLuong(),
+						dsSach.get(i).getNhaCungCap().getTenNCC()
+					});
+			}else {
+				dsSach.remove(i);
 				i--;
 			}
+			
 		}
 		
-		tblSPCTM.revalidate();
-		tblSPCTM.repaint();
+		dsSPKhac = new SanPhamDAO().getListSanPhamKhac();
+		modelSPK.getDataVector().removeAllElements();
+		for(int i=0; i<dsSPKhac.size(); i++) {
+			for(int j=0; j<dscthd.size(); j++) {
+				if(dscthd.get(j).getSanPham().getMaSp() == dsSPKhac.get(i).getMaSp()) {
+					dsSPKhac.get(i).setSoLuong(dsSPKhac.get(i).getSoLuong() - dscthd.get(j).getSoLuong());
+				}
+			}
+			if(dsSPKhac.get(i).getSoLuong() != 0) {
+				modelSPK.addRow(new Object[] {
+						dsSPKhac.get(i).getTenSp(), 
+						dsSPKhac.get(i).getGiaSp(), 
+						dsSPKhac.get(i).getSoLuong(),
+						dsSPKhac.get(i).getNhaCungCap().getTenNCC()
+				});
+			}else {
+				dsSPKhac.remove(i);
+				i--;
+			}
+			
+		}
 		
 //		san pham trong don hang
 		tblSPTGH.clearSelection();
 		modelSPTGH.getDataVector().removeAllElements();
 		dscthd.forEach(cthd -> {
-			modelSPTGH.addRow(new Object[] {cthd.getSanPham().getMaSp(), cthd.getSanPham().getTenSp(), cthd.getDonGia(), cthd.getSoLuong(), cthd.tinhThanhTien()});
+			modelSPTGH.addRow(new Object[] {cthd.getSanPham().getTenSp(), cthd.getDonGia(), cthd.getSoLuong(), cthd.tinhThanhTien()});
 		});
 		tblSPTGH.revalidate();
 		tblSPTGH.repaint();
