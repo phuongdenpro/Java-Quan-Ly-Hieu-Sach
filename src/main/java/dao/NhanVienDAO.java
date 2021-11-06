@@ -6,10 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import connectdb.ConnectDB;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.TaiKhoan;
+import gui.NhanVien_GUI;
 
 public class NhanVienDAO extends ConnectDB{
 
@@ -191,6 +194,37 @@ public class NhanVienDAO extends ConnectDB{
 	
 	public static void main(String[] args) throws SQLException {
 		System.out.println(new NhanVienDAO().getDSNV());
+	}
+	
+	public ArrayList<NhanVien> TimKiem(String where) {
+		// TODO Auto-generated method stub
+		ArrayList<NhanVien> dsnv = new ArrayList<NhanVien>();
+		String sqlTimKiem = "select * from dbo.NhanVien "+ where;
+		System.out.println(sqlTimKiem);
+		try {
+			PreparedStatement stmt = this.conn.prepareStatement(sqlTimKiem, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ResultSet result = stmt.executeQuery();
+			
+			if(!result.first()) {
+				System.out.println("Không tìm thấy nhân viên nào");
+				return null;
+			}
+			do {
+				
+				int ma = result.getInt("MaNv");
+				String ten = result.getString("TenNv");
+				String sdt = result.getString("SoDienThoai");
+				String diaChi = result.getString("DiaChi");
+				int caLam = result.getInt("CaLamViec");				
+				
+				NhanVien nv = new NhanVien(ma, ten, sdt, diaChi,caLam);
+				dsnv.add(nv);			
+			}while(result.next());
+			
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		return dsnv;
 	}
 	
 }
