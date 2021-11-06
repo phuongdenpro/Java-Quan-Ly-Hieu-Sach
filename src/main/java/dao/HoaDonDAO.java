@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import connectdb.ConnectDB;
@@ -288,4 +290,91 @@ public class HoaDonDAO extends ConnectDB{
     	
     	return 0;
 	}
+	
+	public List<Map<String, String>> chiTiet(){
+		List<Map<String, String>> ls = new ArrayList<Map<String, String>>();
+		PreparedStatement stmt = null;
+        try {
+        	String sql = "select *\r\n"
+        			+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+        			+ "inner join [HieuSach].[dbo].[KhachHang]\r\n"
+        			+ "on HoaDon.maKH = KhachHang.maKH\r\n"
+        			+ "inner join [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
+        			+ "on HoaDon.maHD = ChiTietHoaDon.maHD\r\n"
+        			+ "inner join [HieuSach].[dbo].[SanPham]\r\n"
+        			+ "on SanPham.MaSP = ChiTietHoaDon.maSP\r\n"
+        			+ "inner join [HieuSach].[dbo].[LoaiSanPham]\r\n"
+        			+ "on SanPham.MaLoai = LoaiSanPham.maLoai\r\n";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	
+            ResultSet rs = prpStmt.executeQuery();
+               
+            while(rs.next()) {
+            	Map<String, String> mp = new HashMap<String, String>();
+            	mp.put("maHD", String.valueOf(rs.getInt("maHD")));
+            	mp.put("maKH", String.valueOf(rs.getInt("maKH")));
+            	mp.put("ngayMua", String.valueOf(rs.getDate("ngayMua")));
+            	mp.put("TongTien", String.valueOf(rs.getInt("tongTien")));
+            	mp.put("maSP", String.valueOf(rs.getInt("maSP")));
+            	mp.put("soLuong", String.valueOf(rs.getInt("soLuong")));
+            	mp.put("donGia", String.valueOf(rs.getInt("donGia")));
+            	mp.put("giaNhap", String.valueOf(rs.getInt("giaNhap")));
+            	mp.put("tenLoai", String.valueOf(rs.getString("tenLoai")));
+            	ls.add(mp);
+            }
+            
+            return ls;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return ls;
+	}
+	
+	public List<Map<String, String>> chiTiet(Date d1, Date d2){
+		List<Map<String, String>> ls = new ArrayList<Map<String, String>>();
+		PreparedStatement stmt = null;
+        try {
+        	String sql = "select *\r\n"
+        			+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+        			+ "inner join [HieuSach].[dbo].[KhachHang]\r\n"
+        			+ "on HoaDon.maKH = KhachHang.maKH\r\n"
+        			+ "inner join [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
+        			+ "on HoaDon.maHD = ChiTietHoaDon.maHD\r\n"
+        			+ "inner join [HieuSach].[dbo].[SanPham]\r\n"
+        			+ "on SanPham.MaSP = ChiTietHoaDon.maSP\r\n"
+        			+ "inner join [HieuSach].[dbo].[LoaiSanPham]\r\n"
+        			+ "on SanPham.MaLoai = LoaiSanPham.maLoai\r\n"
+        			+ "where ngayMua >= ? and ngayMua <= ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	
+        	prpStmt.setDate(1, d1);
+        	prpStmt.setDate(2, d2);
+            ResultSet rs = prpStmt.executeQuery();
+            
+            while(rs.next()) {
+            	Map<String, String> mp = new HashMap<String, String>();
+            	mp.put("maHD", String.valueOf(rs.getInt("maHD")));
+            	mp.put("maKH", String.valueOf(rs.getInt("maKH")));
+            	mp.put("ngayMua", String.valueOf(rs.getDate("ngayMua")));
+            	mp.put("TongTien", String.valueOf(rs.getInt("tongTien")));
+            	mp.put("maSP", String.valueOf(rs.getInt("maSP")));
+            	mp.put("soLuong", String.valueOf(rs.getInt("soLuong")));
+            	mp.put("donGia", String.valueOf(rs.getInt("donGia")));
+            	mp.put("giaNhap", String.valueOf(rs.getInt("giaNhap")));
+            	mp.put("tenLoai", String.valueOf(rs.getString("tenLoai")));
+            	ls.add(mp);
+            }
+            
+            return ls;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    	
+    	return ls;
+	}
+
+	
 }

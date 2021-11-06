@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import dao.HoaDonDAO;
 import dao.KhachHangDAO;
 import dao.SanPhamDAO;
 import entity.KhachHang;
@@ -28,8 +29,11 @@ import javax.swing.ImageIcon;
 
 import java.awt.Font;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.awt.Color;
@@ -59,6 +63,34 @@ public class ThongKe extends JFrame {
 	private int tongSoTien;
 
 	private DefaultComboBoxModel<Integer> modelLimit;
+
+	private JLabel lblTongSo;
+
+	private JLabel lblKH;
+
+	private JLabel lblSP;
+
+	private JLabel lblDoanhThu;
+
+	private JLabel lblVon;
+
+	private JLabel lblLoiNhuan;
+
+	private int tongSo;
+
+	private int doanhThu;
+
+	private List<Map<String, String>> ls;
+
+	private JLabel lblSach;
+
+	private JLabel lblDungCu;
+
+	private int soVon;
+
+	private int soLuongSach;
+
+	private int soLuongDungCu;
 	/**
 	 * Launch the application.
 	 */
@@ -96,7 +128,7 @@ public class ThongKe extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê");
+		JLabel lblNewLabel_2 = new JLabel("Thống kê báo cáo");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_3.add(lblNewLabel_2);
 		
@@ -159,77 +191,103 @@ public class ThongKe extends JFrame {
 		panel_7.add(panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
 		
-		JPanel panel_5 = new JPanel();
-		panel_4.add(panel_5);
+		JPanel pnItem1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) pnItem1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem1);
 		
 		JLabel lblTong = new JLabel("Tổng số lần mua hàng: ");
 		lblTong.setPreferredSize(new Dimension(300, 30));
 		lblTong.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5.add(lblTong);
+		pnItem1.add(lblTong);
 		
-		JLabel lblTongSo = new JLabel("0");
+		lblTongSo = new JLabel("0");
 		lblTongSo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5.add(lblTongSo);
+		pnItem1.add(lblTongSo);
 		
-		JPanel panel_5_1 = new JPanel();
-		panel_4.add(panel_5_1);
+		JPanel pnItem2 = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) pnItem2.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem2);
 		
 		JLabel lblSKhchHng = new JLabel("Số khách hàng đã mua:");
 		lblSKhchHng.setPreferredSize(new Dimension(300, 30));
 		lblSKhchHng.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1.add(lblSKhchHng);
+		pnItem2.add(lblSKhchHng);
 		
-		JLabel lblTongSo_1 = new JLabel("0");
-		lblTongSo_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1.add(lblTongSo_1);
+		lblKH = new JLabel("0");
+		lblKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem2.add(lblKH);
 		
-		JPanel panel_5_1_1 = new JPanel();
-		panel_4.add(panel_5_1_1);
+		JPanel pnItem3 = new JPanel();
+		FlowLayout flowLayout_2 = (FlowLayout) pnItem3.getLayout();
+		flowLayout_2.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem3);
 		
-		JLabel lblSSnPhm = new JLabel("Số sản phẩm bán được:");
+		JLabel lblSSnPhm = new JLabel("Số lượng sách bán được:");
 		lblSSnPhm.setPreferredSize(new Dimension(300, 30));
 		lblSSnPhm.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1.add(lblSSnPhm);
+		pnItem3.add(lblSSnPhm);
 		
-		JLabel lblTongSo_1_1 = new JLabel("0");
-		lblTongSo_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1.add(lblTongSo_1_1);
+		lblSach = new JLabel("0");
+		lblSach.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem3.add(lblSach);
 		
-		JPanel panel_5_1_1_1 = new JPanel();
-		panel_4.add(panel_5_1_1_1);
+		JPanel pnItem3_1 = new JPanel();
+		FlowLayout flowLayout_3 = (FlowLayout) pnItem3_1.getLayout();
+		flowLayout_3.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem3_1);
+		
+		JLabel lblSLngDng = new JLabel("Số lượng dụng cụ bán được:");
+		lblSLngDng.setPreferredSize(new Dimension(300, 30));
+		lblSLngDng.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem3_1.add(lblSLngDng);
+		
+		lblDungCu = new JLabel("0");
+		lblDungCu.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem3_1.add(lblDungCu);
+		
+		JPanel pnItem4 = new JPanel();
+		FlowLayout flowLayout_4 = (FlowLayout) pnItem4.getLayout();
+		flowLayout_4.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem4);
 		
 		JLabel lblDoanhThuNhn = new JLabel("Doanh thu nhận được:");
 		lblDoanhThuNhn.setPreferredSize(new Dimension(300, 30));
 		lblDoanhThuNhn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1_1.add(lblDoanhThuNhn);
+		pnItem4.add(lblDoanhThuNhn);
 		
-		JLabel lblTongSo_1_1_1 = new JLabel("0");
-		lblTongSo_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1_1.add(lblTongSo_1_1_1);
+		lblDoanhThu = new JLabel("0");
+		lblDoanhThu.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem4.add(lblDoanhThu);
 		
-		JPanel panel_5_1_1_1_1 = new JPanel();
-		panel_4.add(panel_5_1_1_1_1);
+		JPanel pnItem5 = new JPanel();
+		FlowLayout flowLayout_5 = (FlowLayout) pnItem5.getLayout();
+		flowLayout_5.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem5);
 		
 		JLabel lblSVnB = new JLabel("Số vốn bỏ ra:");
 		lblSVnB.setPreferredSize(new Dimension(300, 30));
 		lblSVnB.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1_1_1.add(lblSVnB);
+		pnItem5.add(lblSVnB);
 		
-		JLabel lblTongSo_1_1_1_1 = new JLabel("0");
-		lblTongSo_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1_1_1.add(lblTongSo_1_1_1_1);
+		lblVon = new JLabel("0");
+		lblVon.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem5.add(lblVon);
 		
-		JPanel panel_5_1_1_1_1_1 = new JPanel();
-		panel_4.add(panel_5_1_1_1_1_1);
+		JPanel pnItem6 = new JPanel();
+		FlowLayout flowLayout_6 = (FlowLayout) pnItem6.getLayout();
+		flowLayout_6.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem6);
 		
 		JLabel lblLiNhunNhn = new JLabel("Lợi nhuận nhận được:");
 		lblLiNhunNhn.setPreferredSize(new Dimension(300, 30));
 		lblLiNhunNhn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1_1_1_1.add(lblLiNhunNhn);
+		pnItem6.add(lblLiNhunNhn);
 		
-		JLabel lblTongSo_1_1_1_1_1 = new JLabel("0");
-		lblTongSo_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_5_1_1_1_1_1.add(lblTongSo_1_1_1_1_1);
+		lblLoiNhuan = new JLabel("0");
+		lblLoiNhuan.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem6.add(lblLoiNhuan);
 		
 		renderData();
 	
@@ -295,11 +353,76 @@ public class ThongKe extends JFrame {
 	}
 	
 	public void renderData() throws SQLException {
+		ls = new HoaDonDAO().chiTiet();
+		
+		Map<String, Integer> mpHD = new HashMap<String, Integer>();
+		Map<String, Integer> mpKH = new HashMap<String, Integer>();
+		soLuongSach = 0;
+		soLuongDungCu = 0;
+		doanhThu = 0;
+		soVon = 0;
+		
+		ls.forEach(rs -> {
+			int donGia = Integer.parseInt(rs.get("donGia"));
+			int giaNhap = Integer.parseInt(rs.get("giaNhap"));
+			int soLuong = Integer.parseInt(rs.get("soLuong"));
+			
+			mpHD.put(rs.get("maHD"), 1);
+			mpKH.put(rs.get("maKH"), 1);
+			if(rs.get("tenLoai").matches("Sách") || rs.get("tenLoai").matches("Truyện"))
+				soLuongSach += soLuong;
+			else 
+				soLuongDungCu += soLuong;
+			
+			
+			doanhThu += donGia * soLuong;
+			soVon += giaNhap * soLuong;
+		});
+		
+		lblTongSo.setText(String.valueOf(mpHD.size()));
+		lblKH.setText(String.valueOf(mpKH.size()));
+		lblSach.setText(String.valueOf(soLuongSach));
+		lblDungCu.setText(String.valueOf(soLuongDungCu));
+		lblDoanhThu.setText(String.valueOf(doanhThu));
+		lblVon.setText(String.valueOf(soVon));
+		lblLoiNhuan.setText(String.valueOf(doanhThu - soVon));
 		
 	}
 	
 	public void renderData(Date tuNgay, Date toiNgay) throws SQLException {
+		ls = new HoaDonDAO().chiTiet(tuNgay, toiNgay);
 		
+		Map<String, Integer> mpHD = new HashMap<String, Integer>();
+		Map<String, Integer> mpKH = new HashMap<String, Integer>();
+		soLuongSach = 0;
+		soLuongDungCu = 0;
+		doanhThu = 0;
+		soVon = 0;
+		
+		ls.forEach(rs -> {
+			int donGia = Integer.parseInt(rs.get("donGia"));
+			int giaNhap = Integer.parseInt(rs.get("giaNhap"));
+			int soLuong = Integer.parseInt(rs.get("soLuong"));
+			
+			mpHD.put(rs.get("maHD"), 1);
+			mpKH.put(rs.get("maKH"), 1);
+			if(rs.get("tenLoai").matches("Sách") || rs.get("tenLoai").matches("Truyện"))
+				soLuongSach += soLuong;
+			else 
+				soLuongDungCu += soLuong;
+			
+			
+			doanhThu += donGia * soLuong;
+			soVon += giaNhap * soLuong;
+		});
+		
+		lblTongSo.setText(String.valueOf(mpHD.size()));
+		lblKH.setText(String.valueOf(mpKH.size()));
+		lblSach.setText(String.valueOf(soLuongSach));
+		lblDungCu.setText(String.valueOf(soLuongDungCu));
+		lblDoanhThu.setText(String.valueOf(doanhThu));
+		lblVon.setText(String.valueOf(soVon));
+		lblLoiNhuan.setText(String.valueOf(doanhThu - soVon));
 	}
 	
 
