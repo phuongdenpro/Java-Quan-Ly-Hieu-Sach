@@ -66,7 +66,7 @@ public class SanPhamDAO extends ConnectDB {
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 //                System.out.println(rs);
-//				printResultSet(rs);
+				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -449,16 +449,25 @@ public class SanPhamDAO extends ConnectDB {
 	}
 
     
-    public Map<SanPham, Integer> thongKeSPBanChay() {
+    public Map<SanPham, Integer> thongKeSPBanChay(boolean isSach) {
     	Map<SanPham, Integer> kq = new LinkedHashMap<SanPham, Integer>();
     	PreparedStatement stmt = null;
         try {
+        	String loai = "";
+        	if(isSach)
+        		loai = " tenLoai like '%Sách%' or tenLoai like '%Truyện%' ";
+        	else {
+        		loai = " tenLoai not like '%Sách%' and tenLoai not like '%Truyện%' ";
+        	}
 
-            String sql = "select SanPham.maSP, tenSP, maNCC, dongia, sum([ChiTietHoaDon].soLuong) as soLuongDaBan\r\n"
+            String sql = "select SanPham.maSP, tenSP, maNCC, dongia, SanPham.MaLoai, TenLoai, sum([ChiTietHoaDon].soLuong) as soLuongDaBan\r\n"
             		+ "from [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
             		+ "inner join [HieuSach].[dbo].[SanPham]\r\n"
             		+ "on ChiTietHoaDon.maSP = SanPham.maSP\r\n"
-            		+ "group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia\r\n"
+            		+ "inner join [HieuSach].[dbo].[LoaiSanPham]\r\n"
+            		+ "on LoaiSanPham.maLoai = SanPham.maLoai\r\n"
+            		+ "group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia, SanPham.MaLoai, TenLoai\r\n"
+            		+ "having "+loai
             		+ "order by soLuongDaBan desc";
             stmt = this.conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -484,20 +493,29 @@ public class SanPhamDAO extends ConnectDB {
         return null;
     }
     
-    public Map<SanPham, Integer> thongKeSPBanChay(Date tuNgay, Date toiNgay) {
+    public Map<SanPham, Integer> thongKeSPBanChay(Date tuNgay, Date toiNgay, boolean isSach) {
     	Map<SanPham, Integer> kq = new LinkedHashMap<SanPham, Integer>();
     	PreparedStatement stmt = null;
         try {
+        	String loai = "";
+        	if(isSach)
+        		loai = " tenLoai like '%Sách%' or tenLoai like '%Truyện%' ";
+        	else {
+        		loai = " tenLoai not like '%Sách%' and tenLoai not like '%Truyện%' ";
+        	}
 
-            String sql = "select maSP, tenSP, maNCC, dongia, sum(soLuongDaBan) as soLuongDaBan from (select SanPham.maSP, tenSP, maNCC, dongia, ngayMua, sum([ChiTietHoaDon].soLuong) as soLuongDaBan\r\n"
-            		+ "from [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
-            		+ "inner join [HieuSach].[dbo].[SanPham]\r\n"
-            		+ "on ChiTietHoaDon.maSP = SanPham.maSP\r\n"
-            		+ "inner join [HieuSach].[dbo].[HoaDon]\r\n"
-            		+ "on ChiTietHoaDon.maHD = HoaDon.maHD\r\n"
-            		+ "group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia, ngayMua\r\n"
-            		+ "having ngayMua >= ? and ngayMua <= ?) as cthd\r\n"
-            		+ "group by cthd.maSP, cthd.maSP, tenSP, maNCC, dongia\r\n"
+            String sql = "select maSP, tenSP, maNCC, dongia, maLoai, tenLoai, sum(soLuongDaBan) as soLuongDaBan \r\n"
+            		+ "from (select SanPham.maSP, tenSP, maNCC, [LoaiSanPham].MaLoai, tenLoai, dongia, ngayMua, sum([ChiTietHoaDon].soLuong) as soLuongDaBan \r\n"
+            		+ "	from [HieuSach].[dbo].[ChiTietHoaDon]\r\n"
+            		+ "	inner join [HieuSach].[dbo].[SanPham]\r\n"
+            		+ "	on ChiTietHoaDon.maSP = SanPham.maSP\r\n"
+            		+ "	inner join [HieuSach].[dbo].[LoaiSanPham]\r\n"
+            		+ "	on [LoaiSanPham].maLoai = SanPham.maLoai\r\n"
+            		+ "	inner join [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "	on ChiTietHoaDon.maHD = HoaDon.maHD\r\n"
+            		+ "	group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia, ngayMua, [LoaiSanPham].maLoai, tenLoai\r\n"
+            		+ "	having ngayMua >= ? and ngayMua <= ? and "+ loai +") as cthd\r\n"
+            		+ "group by cthd.maSP, cthd.maSP, tenSP, maNCC, dongia, maLoai, tenLoai\r\n"
             		+ "order by soLuongDaBan desc";
             stmt = this.conn.prepareStatement(sql);
             stmt.setDate(1, tuNgay);
@@ -505,7 +523,7 @@ public class SanPhamDAO extends ConnectDB {
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-//            	printResultSet(rs);
+            	printResultSet(rs);
             	NhaCungCap ncc = new NhaCungCapDAO().getNhaCungCap(rs.getInt("maNCC"));
             	SanPham sp = new SanPham(rs.getInt("maSP"), rs.getString("tenSP"), rs.getDouble("donGia"), ncc);
             	kq.put(sp, rs.getInt("soLuongDaBan"));
@@ -613,7 +631,7 @@ public class SanPhamDAO extends ConnectDB {
     public static void main(String[] args) throws SQLException {
     	SanPhamDAO sanPhamDao = new SanPhamDAO();
 //    	System.out.println(sanPhamDao.getListSanPham());
-		System.out.println(sanPhamDao.timKiem("Bút"));
+		System.out.println(sanPhamDao.getListSach());
 		//sanPhamDao.createNCC("phuong");
 	}
 }

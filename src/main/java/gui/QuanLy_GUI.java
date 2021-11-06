@@ -51,7 +51,7 @@ public class QuanLy_GUI extends JFrame {
 	private TimKiemSach_GUI timKiemSachGUI = new TimKiemSach_GUI();
 	private TimKiemSanPhamKhac_GUI timKiemSPKhacGUI = new TimKiemSanPhamKhac_GUI();
 	private TimKiemDanhMucSanPham_GUI timKiemDMSPGUI = new TimKiemDanhMucSanPham_GUI();
-	private ThongKeSanPhamBanChay_GUI thongKeSPBCGUI = new ThongKeSanPhamBanChay_GUI();
+	private ThongKeSachBanChay_GUI thongKeSPBCGUI = new ThongKeSachBanChay_GUI();
 	private ThongKeSPDaHet_GUI thongKeSPDBHGUI = new ThongKeSPDaHet_GUI();
 	
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
@@ -252,6 +252,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) SachGUI.getContentPane(), "sanpham");
+				try {
+					SachGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		

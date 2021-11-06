@@ -85,7 +85,7 @@ public class TimKiemTrangMuaHang_GUI extends JFrame {
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		
-		String[] cols = {"Tên sản phẩm", "Giá", "Loại sản phẩm", "Nhà cung cấp/nhà xuất bản"};
+		String[] cols = {"Tên sản phẩm", "Giá", "Số lượng"};
 		modelTimKiem = new DefaultTableModel(cols, 0);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		tblTimKiem = new JTable(modelTimKiem);
@@ -122,6 +122,13 @@ public class TimKiemTrangMuaHang_GUI extends JFrame {
 					return;
 				}
 				
+				if(soLuong > dssp.get(idx).getSoLuong()) {
+					JOptionPane.showMessageDialog(contentPane, dssp.get(idx).getTenSp()+" chỉ còn "+dssp.get(idx).getSoLuong()+" sản phẩm");
+					
+					return;
+				}
+				
+				
 				boolean kq;
 				try {
 					kq = new DonDatHangDAO().themSanPhamVaoDonDatHang(dssp.get(idx), soLuong, this.khachHang.getMaKh());
@@ -146,7 +153,7 @@ public class TimKiemTrangMuaHang_GUI extends JFrame {
 		modelTimKiem.getDataVector().removeAllElements();
 		
 		dssp.forEach(sp -> {
-			modelTimKiem.addRow(new Object[] {sp.getTenSp(), sp.getGiaSp(), sp.getLoaiSanPham().getTenLoai(), sp.getNhaCungCap().getTenNCC()});
+			modelTimKiem.addRow(new Object[] {sp.getTenSp(), sp.getGiaSp(), sp.getSoLuong()});
 		});
 		tblTimKiem.revalidate();
 		tblTimKiem.repaint();

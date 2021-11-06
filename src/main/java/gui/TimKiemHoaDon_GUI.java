@@ -4,45 +4,39 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.DimensionUIResource;
 import javax.swing.table.DefaultTableModel;
 
 import dao.HoaDonDAO;
 import entity.HoaDon;
-import util.Placeholder;
 
+import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Dimension;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
 public class TimKiemHoaDon_GUI extends JFrame {
 
-
-	private JTextField txtThongTin;
-	JRadioButton rdbtnMaKH,rdbtnTenKH,rdbtnSDT;
-	JButton btnTimKiem;
-	private JRadioButton rdbtnMaHD;
+	private JPanel contentPane;
+	private JTextField txtTenKH;
+	private JTextField txtSDT;
+	private JTextField txtDiaChi;
 	private ArrayList<HoaDon> dshd;
-	private DefaultTableModel modelDSHD;
-	private JTable tblDSHD;
-	private ButtonGroup rdbtnGroup;
-	private JButton btnLamMoi;
+	private DefaultTableModel modelKq;
+	private JTable tblKetQua;
 
 	/**
 	 * Launch the application.
@@ -65,115 +59,153 @@ public class TimKiemHoaDon_GUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public TimKiemHoaDon_GUI() throws SQLException {
-		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setBounds(0, 0, 1300, 700);
-		
-		JPanel contentPane = new JPanel();
+		setSize(1300, 700);
+		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createBevelBorder(BevelBorder.RAISED),
-				BorderFactory.createBevelBorder(BevelBorder.LOWERED)));
+		setContentPane(contentPane);
 		
-		JPanel pnOut = new JPanel();
-		pnOut.setLayout(new BoxLayout(pnOut, BoxLayout.Y_AXIS));
-		setContentPane(pnOut);
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.WEST);
 		
-		JPanel pnTitle = new JPanel();
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel lblTitle = new JLabel("Tìm Kiếm Hóa Đơn");
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		pnTitle.add(lblTitle);
+		JPanel panel_2 = new JPanel();
+		panel.add(panel_2);
+		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 		
-		pnOut.add(pnTitle);
-		pnOut.add(contentPane);
+		JPanel panel_8 = new JPanel();
+		panel_2.add(panel_8);
 		
+		JLabel lblThongTinTimKiem = new JLabel("Thông tin tìm kiếm");
+		lblThongTinTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panel_8.add(lblThongTinTimKiem);
 		
-		JPanel pnTop = new JPanel();
-		pnTop.setPreferredSize(new Dimension(10, 50));
-		contentPane.add(pnTop, BorderLayout.NORTH);
+		JPanel panel_7 = new JPanel();
+		FlowLayout flowLayout_2 = (FlowLayout) panel_7.getLayout();
+		flowLayout_2.setAlignment(FlowLayout.RIGHT);
+		panel_2.add(panel_7);
 		
-		JPanel pnTimKiem = new JPanel();
-		pnTop.add(pnTimKiem);
+		JLabel lblTimKiemChinhXac = new JLabel("Tìm kiếm chính xác");
+		panel_7.add(lblTimKiemChinhXac);
 		
-		JPanel pnThongTin = new JPanel();
-		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		pnTimKiem.add(pnThongTin);
-				
-		JLabel lblThongtin = new JLabel("nhập thông tin");
-		pnThongTin.add(lblThongtin);
+		JPanel panel_5 = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel_5.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		panel_2.add(panel_5);
 		
-		txtThongTin = new JTextField();
-		new Placeholder().placeholder(txtThongTin, "nhập liệu tìm kiếm");
-		txtThongTin.requestFocus();
-		txtThongTin.setPreferredSize(new DimensionUIResource(25, 30));
-		txtThongTin.setColumns(25);
-		pnThongTin.add(txtThongTin);
+		JLabel lblTenKH = new JLabel("Tên KH");
+		lblTenKH.setPreferredSize(new Dimension(100, 14));
+		panel_5.add(lblTenKH);
 		
-		rdbtnMaHD = new JRadioButton("Mã HĐ");
-		rdbtnMaHD.setSelected(true);
-		pnTimKiem.add(rdbtnMaHD);
+		txtTenKH = new JTextField();
+		txtTenKH.setPreferredSize(new Dimension(200, 20));
+		panel_5.add(txtTenKH);
+		txtTenKH.setColumns(20);
 		
-		rdbtnMaKH = new JRadioButton("Mã KH");
-		pnTimKiem.add(rdbtnMaKH);
+		JCheckBox chkTenKH = new JCheckBox("");
+		panel_5.add(chkTenKH);
 		
-		rdbtnTenKH = new JRadioButton("Tên KH");
-		pnTimKiem.add(rdbtnTenKH);
+		JPanel panel_5_1 = new JPanel();
+		FlowLayout flowLayout_3 = (FlowLayout) panel_5_1.getLayout();
+		flowLayout_3.setAlignment(FlowLayout.LEFT);
+		panel_2.add(panel_5_1);
 		
-		rdbtnSDT = new JRadioButton("Số điện thoại");
-		pnTimKiem.add(rdbtnSDT);
+		JLabel lblSDT = new JLabel("Số điện thoại");
+		lblSDT.setPreferredSize(new Dimension(100, 14));
+		panel_5_1.add(lblSDT);
 		
-		rdbtnGroup = new ButtonGroup();
-		rdbtnGroup.add(rdbtnMaHD);
-		rdbtnGroup.add(rdbtnSDT);
-		rdbtnGroup.add(rdbtnTenKH);
-		rdbtnGroup.add(rdbtnMaKH);
+		txtSDT = new JTextField();
+		txtSDT.setPreferredSize(new Dimension(200, 20));
+		txtSDT.setColumns(20);
+		panel_5_1.add(txtSDT);
 		
-		btnTimKiem = new JButton("Tìm kiếm");
+		JCheckBox chkSDT = new JCheckBox("");
+		panel_5_1.add(chkSDT);
+		
+		JPanel panel_5_1_1 = new JPanel();
+		FlowLayout flowLayout_4 = (FlowLayout) panel_5_1_1.getLayout();
+		flowLayout_4.setAlignment(FlowLayout.LEFT);
+		panel_2.add(panel_5_1_1);
+		
+		JLabel lblDiaChi = new JLabel("Địa chỉ");
+		lblDiaChi.setPreferredSize(new Dimension(100, 14));
+		panel_5_1_1.add(lblDiaChi);
+		
+		txtDiaChi = new JTextField();
+		txtDiaChi.setPreferredSize(new Dimension(200, 20));
+		txtDiaChi.setColumns(20);
+		panel_5_1_1.add(txtDiaChi);
+		
+		JCheckBox chkDiaChi = new JCheckBox("");
+		panel_5_1_1.add(chkDiaChi);
+		
+		JPanel panel_9 = new JPanel();
+		panel_2.add(panel_9);
+		
+		JButton btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(Color.WHITE);
-		btnTimKiem.setPreferredSize(new DimensionUIResource(150, 30));
-		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
-		pnTimKiem.add(btnTimKiem);
+		panel_9.add(btnTimKiem);
 		
-		btnLamMoi = new JButton("Làm mới dữ liệu");
-		btnLamMoi.setPreferredSize(new Dimension(150, 30));
+		JButton btnLamMoi = new JButton("Làm mới dữ liệu");
 		btnLamMoi.setBackground(Color.WHITE);
-		btnLamMoi.setIcon(new ImageIcon("data/images/refresh.png"));
-		pnTimKiem.add(btnLamMoi);
+		panel_9.add(btnLamMoi);
+		
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_3 = new JPanel();
+		panel_1.add(panel_3, BorderLayout.NORTH);
+		
+		JLabel lblTimKiem = new JLabel("Tìm kiếm hóa đơn");
+		lblTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		panel_3.add(lblTimKiem);
+		
+		JPanel panel_4 = new JPanel();
+		panel_1.add(panel_4);
 		
 		String[] cols = {"Mã hóa đơn", "Mã khách hàng", "Họ tên", "Số điện thoại", "Địa chỉ", "Tổng tiền", "Ngày lập"};
-		modelDSHD = new DefaultTableModel(cols, 0);
-		tblDSHD = new JTable(modelDSHD);
-		JScrollPane sctblDSHD = new JScrollPane(tblDSHD,
-								JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-								JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		contentPane.add(sctblDSHD, BorderLayout.CENTER);
+		modelKq = new DefaultTableModel(cols, 0);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		tblKetQua = new JTable(modelKq);
+		JScrollPane scrollPane = new JScrollPane(tblKetQua);
+		panel_4.add(scrollPane);
 		
 		renderData();
 		
 		btnTimKiem.addActionListener((e) -> {
+			String where = "";
+			if(chkTenKH.isSelected()) {
+				where += "KhachHang.HoTen like N'" + txtTenKH.getText() + "' and ";
+			}else {
+				where += "KhachHang.HoTen like N'%" + txtTenKH.getText() + "%' and ";
+			}
+			
+			if(chkSDT.isSelected()) {
+				where += "KhachHang.SoDienThoai like N'" + txtSDT.getText() + "' and ";
+			}else {
+				where += "KhachHang.SoDienThoai like N'%" + txtSDT.getText() + "%' and ";
+			}
+			
+			if(chkDiaChi.isSelected()) {
+				where += "KhachHang.DiaChi like N'" + txtDiaChi.getText() + "'";
+			}else {
+				where += "KhachHang.DiaChi like N'%" + txtDiaChi.getText() + "%'";
+			}
+			
+			System.out.println(where);
 			
 			try {
-				String key = "maHD";
-				if(rdbtnMaKH.isSelected()) {
-					key = "KhachHang.maKH";
-				}else if(rdbtnTenKH.isSelected()) {
-					key = "KhachHang.HoTen";
-				}else if(rdbtnSDT.isSelected()) {
-					key = "KhachHang.soDienThoai";
-				}
-				
-				dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(key, txtThongTin.getText());
+				dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(where);
 				renderDataTimKiem();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
 		});
 		
+
 		btnLamMoi.addActionListener((e) -> {
 			try {
 				renderData();
@@ -184,16 +216,15 @@ public class TimKiemHoaDon_GUI extends JFrame {
 			}
 			
 		});
-
 	}
 	
 	public void renderData() throws SQLException {
 		dshd = new HoaDonDAO().getDSHD();
 		
-		tblDSHD.clearSelection();
-		modelDSHD.getDataVector().removeAllElements();
+		tblKetQua.clearSelection();
+		modelKq.getDataVector().removeAllElements();
 		dshd.forEach(hd -> {
-			modelDSHD.addRow(new Object[] {
+			modelKq.addRow(new Object[] {
 				hd.getMaHD(), 
 				hd.getKhachHang().getMaKh(), 
 				hd.getKhachHang().getHoTen(), 
@@ -203,17 +234,17 @@ public class TimKiemHoaDon_GUI extends JFrame {
 				hd.getNgayMua()
 			});
 		});
-		tblDSHD.revalidate();
-		tblDSHD.repaint();
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
 	}
 	
 	public void renderDataTimKiem() throws SQLException {
-		tblDSHD.clearSelection();
+		tblKetQua.clearSelection();
 		
-		modelDSHD.getDataVector().removeAllElements();
+		modelKq.getDataVector().removeAllElements();
 		
 		dshd.forEach(hd -> {
-			modelDSHD.addRow(new Object[] {
+			modelKq.addRow(new Object[] {
 					hd.getMaHD(), 
 					hd.getKhachHang().getMaKh(), 
 					hd.getKhachHang().getHoTen(), 
@@ -224,8 +255,7 @@ public class TimKiemHoaDon_GUI extends JFrame {
 				});
 		});
 		
-		tblDSHD.revalidate();
-		tblDSHD.repaint();
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
 	}
-
 }

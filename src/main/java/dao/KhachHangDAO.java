@@ -31,6 +31,7 @@ public class KhachHangDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
+//            	printResultSet(rs);
             	KhachHang kh = new KhachHang(rs);
             	dataList.add(kh);
             }
@@ -78,7 +79,7 @@ public class KhachHangDAO extends ConnectDB{
         PreparedStatement stmt = null;
         try {
 
-            String sql = "SELECT * FROM dbo.KhachHang where maKH = ?";
+            String sql = "SELECT * FROM dbo.KhachHang where MaKH = ?";
             stmt = this.conn.prepareStatement(sql);
             stmt.setInt(1, maKH);
             ResultSet rs = stmt.executeQuery();
@@ -97,6 +98,25 @@ public class KhachHangDAO extends ConnectDB{
             }
         }
         return null;
+    }
+    
+    //tìm khách hàng theo tên
+    public ArrayList<KhachHang> getKhachHangByTenKh(String ten) {
+    	ArrayList<KhachHang> dskh = new ArrayList<KhachHang>();
+    	PreparedStatement stmt = null;
+    	try {
+    		String sql = "select * from dbo.KhachHang where HoTen like '%?%'";
+    		stmt.setString(1,ten);
+    		ResultSet result = stmt.executeQuery();
+    		while (result.next()) {
+    			KhachHang kh = new KhachHang(result);
+    			dskh.add(kh);
+    		}
+    		
+    	}catch(SQLException ex) {
+    		ex.printStackTrace();
+    	}
+    	return dskh;
     }
     
     public KhachHang getKhachHangByMaTK(int taiKhoanID) {
@@ -228,4 +248,35 @@ public class KhachHangDAO extends ConnectDB{
         }
         return 0;
     }
+
+	public ArrayList<KhachHang> TimKiem(String where)  {
+		// TODO Auto-generated method stub
+		ArrayList<KhachHang> dskh = new ArrayList<KhachHang>();
+		
+		try {
+			String sqlTimKiem = "select * from KhachHang" + where ;
+			System.out.println(sqlTimKiem);
+			PreparedStatement stml = this.conn.prepareStatement(sqlTimKiem,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);	
+			ResultSet result = stml.executeQuery();
+			if(!result.first()) {
+				System.out.println("không tìm thấy khách hàng nào");
+				return null;
+			}
+			
+			int maKh; 
+			String ten, sdt, diaChi;
+			do {
+				maKh = Integer.parseInt(result.getString("MaKH"));
+				ten = result.getString("HoTen");
+				sdt = result.getString("SoDienThoai");
+				diaChi = result.getString("DiaChi");
+				KhachHang kh = new KhachHang(maKh, ten, sdt, diaChi);
+				dskh.add(kh);
+			}while (result.next());
+				
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return dskh;
+	}
 }

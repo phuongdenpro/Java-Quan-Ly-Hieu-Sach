@@ -57,6 +57,16 @@ public class NhanVien {
 		this.diaChi = rs.getString("diaChi");
 	}
 
+	public NhanVien(int ma, String ten, String sdt, String diaChi2, int caLam) {
+		// TODO Auto-generated constructor stub
+		super();
+		this.maNv = ma;
+		this.tenNv = ten;
+		this.soDienThoai = sdt;
+		this.diaChi = diaChi2;
+		this.caLamViec = caLam;
+	}
+
 	public int getMaNv() {
 		return maNv;
 	}

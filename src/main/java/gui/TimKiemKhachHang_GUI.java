@@ -4,35 +4,44 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.DimensionUIResource;
 import javax.swing.table.DefaultTableModel;
 
-import util.Placeholder;
+import dao.KhachHangDAO;
+import entity.KhachHang;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Dimension;
+import javax.swing.JButton;
+import java.awt.Color;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TimKiemKhachHang_GUI extends JFrame {
 
-
-	private JTextField txtThongTin;
-	JRadioButton rdbtnMaKH,rdbtnTenKH,rdbtnSDT;
-	JButton btnTimKiem;
+	private JPanel contentPane;
+	private JTextField txtTenKh,txtSdt,txtdiaChi;
+	private JCheckBox chkTenKh, chkSdt,chkDiaChi;
+	private JButton btnTimKiem,btnRefresh;
+	private DefaultTableModel modelKhachHang;
+	private JTable tblKetQua;
+	private ArrayList<KhachHang> dskh;
 
 	/**
 	 * Launch the application.
@@ -54,86 +63,198 @@ public class TimKiemKhachHang_GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public TimKiemKhachHang_GUI() {
-		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setBounds(0, 0, 1300, 700);
-		
-		JPanel contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//setContentPane(contentPane);
+		setSize(1300, 700);
+		contentPane = new JPanel();
+		contentPane.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createBevelBorder(BevelBorder.RAISED),
-				BorderFactory.createBevelBorder(BevelBorder.LOWERED)));
+		setContentPane(contentPane);
 		
-		JPanel pnOut = new JPanel();
-		pnOut.setLayout(new BoxLayout(pnOut, BoxLayout.Y_AXIS));
-		setContentPane(pnOut);
+		JPanel pnTieuDe = new JPanel();
+		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 		
-		JPanel pnTitle = new JPanel();
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel lblTitle = new JLabel("Tìm Kiếm Khách Hàng");
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		pnTitle.add(lblTitle);
+		JLabel lblTieuDe = new JLabel("Tìm kiếm khách hàng");
+		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		pnTieuDe.add(lblTieuDe);
 		
-		pnOut.add(pnTitle);
-		pnOut.add(contentPane);
-		
-		
-		JPanel pnTop = new JPanel();
-		pnTop.setPreferredSize(new Dimension(10, 50));
-		contentPane.add(pnTop, BorderLayout.NORTH);
-		
-		JPanel pnTimKiem = new JPanel();
-		pnTop.add(pnTimKiem);
+		JPanel pnLeft = new JPanel();
+		pnLeft.setBorder(new CompoundBorder(
+				new BevelBorder(BevelBorder.RAISED, null, null, null, null), 
+				new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
+		contentPane.add(pnLeft, BorderLayout.WEST);
+		pnLeft.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JPanel pnThongTin = new JPanel();
-		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		pnTimKiem.add(pnThongTin);
-				
-		JLabel lblThongtin = new JLabel("nhập thông tin");
-		pnThongTin.add(lblThongtin);
+		pnLeft.add(pnThongTin);
+		pnThongTin.setLayout(new BoxLayout(pnThongTin, BoxLayout.Y_AXIS));
 		
-		txtThongTin = new JTextField();
-		new Placeholder().placeholder(txtThongTin, "nhập liệu tìm kiếm");
-		txtThongTin.requestFocus();
-		txtThongTin.setPreferredSize(new DimensionUIResource(25, 30));
-		txtThongTin.setColumns(25);
-		pnThongTin.add(txtThongTin);
+		JPanel pnLblThongTin = new JPanel();
+		pnLblThongTin.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pnThongTin.add(pnLblThongTin);
 		
-		rdbtnMaKH = new JRadioButton("Mã KH");
-		pnTimKiem.add(rdbtnMaKH);
+		JLabel lblThongTin = new JLabel("Thông tin tìm kiếm");
+		lblThongTin.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnLblThongTin.add(lblThongTin);
 		
-		rdbtnTenKH = new JRadioButton("Tên KH");
-		pnTimKiem.add(rdbtnTenKH);
+		JPanel pnChuThich = new JPanel();
+		FlowLayout fl_pnChuThich = (FlowLayout) pnChuThich.getLayout();
+		fl_pnChuThich.setAlignment(FlowLayout.RIGHT);
+		pnThongTin.add(pnChuThich);
 		
-		rdbtnSDT = new JRadioButton("Số điện thoại");
-		pnTimKiem.add(rdbtnSDT);
+		JLabel lblChuThich = new JLabel("Tìm kiếm chính xác");
+		pnChuThich.add(lblChuThich);
 		
-		ButtonGroup rdbtnGroup = new ButtonGroup();
-		rdbtnGroup.add(rdbtnSDT);
-		rdbtnGroup.add(rdbtnTenKH);
-		rdbtnGroup.add(rdbtnMaKH);
+		JPanel pnTenKh = new JPanel();
+		FlowLayout fl_pnTenKh = (FlowLayout) pnTenKh.getLayout();
+		fl_pnTenKh.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnTenKh);
+		
+		JLabel lblTenKh = new JLabel("Tên KH");
+		lblTenKh.setPreferredSize(new Dimension(80, 14));
+		pnTenKh.add(lblTenKh);
+		
+		txtTenKh = new JTextField();
+		txtTenKh.setPreferredSize(new Dimension(200, 20));
+		pnTenKh.add(txtTenKh);
+		txtTenKh.setColumns(20);
+		chkTenKh = new JCheckBox("");
+		pnTenKh.add(chkTenKh);
+		
+		JPanel pnSdt = new JPanel();
+		FlowLayout fl_pnSdt = (FlowLayout) pnSdt.getLayout();
+		fl_pnSdt.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnSdt);
+		
+		JLabel lblSdt = new JLabel("Số Đt");
+		lblSdt.setPreferredSize(new Dimension(80, 14));
+		pnSdt.add(lblSdt);
+		
+		txtSdt = new JTextField();
+		txtSdt.setPreferredSize(new Dimension(200, 20));
+		txtSdt.setColumns(20);
+		pnSdt.add(txtSdt);
+		
+		chkSdt = new JCheckBox("");
+		pnSdt.add(chkSdt);
+		
+		JPanel pnDiaChi = new JPanel();
+		FlowLayout fl_pnDiaChi = (FlowLayout) pnDiaChi.getLayout();
+		pnThongTin.add(pnDiaChi);
+		
+		JLabel lblDiaChi = new JLabel("Địa chỉ");
+		lblDiaChi.setPreferredSize(new Dimension(80, 14));
+		pnDiaChi.add(lblDiaChi);
+		
+		txtdiaChi = new JTextField();
+		txtdiaChi.setPreferredSize(new Dimension(200, 20));
+		pnDiaChi.add(txtdiaChi);
+		txtdiaChi.setColumns(20);
+		
+		chkDiaChi = new JCheckBox("");
+		pnDiaChi.add(chkDiaChi);
+		
+		JPanel pnTim = new JPanel();
+		pnTim.setLayout(new FlowLayout());
+		pnThongTin.add(pnTim);
 		
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setBackground(Color.WHITE);
-		btnTimKiem.setPreferredSize(new DimensionUIResource(150, 30));
-		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
-		pnTimKiem.add(btnTimKiem);
-		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
-		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 30));
-		btnLamMoiDuLieu.setBackground(Color.WHITE);
-		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
-		pnTimKiem.add(btnLamMoiDuLieu);
+		btnRefresh = new JButton("Làm mới");
+		btnRefresh.setBackground(Color.WHITE);
 		
-		String[] cols = {"Mã khách hàng", "Họ tên", "Số điện thoại", "Địa chỉ"};
-		DefaultTableModel dfmTblKhachHang = new DefaultTableModel(cols, 0);
-		JTable tblDSKhachHang = new JTable(dfmTblKhachHang);
-		JScrollPane sctblDSKhachHang = new JScrollPane(tblDSKhachHang,
-								JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-								JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		contentPane.add(sctblDSKhachHang, BorderLayout.CENTER);
+		pnTim.add(btnTimKiem);
+		pnTim.add(btnRefresh);
+		
+		JPanel pnRight = new JPanel();
+		pnRight.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
+		contentPane.add(pnRight, BorderLayout.CENTER);
+		pnRight.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnRightTop = new JPanel();
+		pnRight.add(pnRightTop, BorderLayout.NORTH);
+		
+		JLabel lblKqTim = new JLabel("kết quả tìm kiếm");
+		lblKqTim.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnRightTop.add(lblKqTim);
+		
+		JPanel pnRightBottom = new JPanel();
+		pnRightBottom.setBorder(new LineBorder(SystemColor.activeCaption, 2));
+		pnRight.add(pnRightBottom);
+		
+		String[] cols = {"Mã khách hàng", "Tên Khách hàng", "Số điện thoại", "Địa chỉ"};
+		modelKhachHang = new DefaultTableModel(cols, 0);
+		pnRightBottom.setLayout(new BorderLayout(0, 0));
+		tblKetQua = new JTable(modelKhachHang);
+		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
+		pnRightBottom.add(srcTblKetQua);
+		
+		addEvents();
 	}
+
+	private void addEvents() {
+		// TODO Auto-generated method stub
+		btnTimKiem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String ten = txtTenKh.getText();
+				String sdt = txtSdt.getText();
+				String diaChi = txtdiaChi.getText();
+				
+				if(!chkTenKh.isSelected() && !chkSdt.isSelected() && !chkDiaChi.isSelected()) {
+					JOptionPane.showMessageDialog(contentPane, "chưa chọn tìm kiếm, không tìm được");
+					modelKhachHang.setRowCount(0);
+					return;
+				}
+				
+				String where = "";
+				if(chkTenKh.isSelected())
+					where += " where KhachHang.Hoten like N'"+ten+"'";
+				if(chkSdt.isSelected())
+					where += " and KhachHang.SoDienThoai like '"+sdt+"'";
+				if(chkDiaChi.isSelected())
+					where += " and KhachHang.DiaChi like N'%"+diaChi+"%'";
+				
+				System.out.println(where);
+				try {
+					dskh = new KhachHangDAO().TimKiem(where);
+					if(dskh==null) {
+						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy khách hàng nào");
+						modelKhachHang.setRowCount(0);
+						return;
+					}
+						
+					
+					renderDataTimKiem(dskh);
+				}catch(SQLException ex) {
+					ex.printStackTrace();
+				}	
+		}});	
+		
+		btnRefresh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				txtdiaChi.setText("");
+				txtSdt.setText("");
+				txtTenKh.setText("");
+				chkDiaChi.setSelected(false);
+				chkSdt.setSelected(false);
+				chkTenKh.setSelected(false);
+			}});
+	}
+	
+	private void renderDataTimKiem(ArrayList<KhachHang> dskh) {
+		// TODO Auto-generated method stub
+		modelKhachHang.setRowCount(0);
+		for(KhachHang kh: dskh) {
+			modelKhachHang.addRow(new Object[] {kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi()});
+		}
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
+	}
+	
 
 }

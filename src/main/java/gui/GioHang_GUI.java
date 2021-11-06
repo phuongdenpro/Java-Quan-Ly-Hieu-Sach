@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -67,6 +69,7 @@ public class GioHang_GUI extends JFrame {
 	protected JButton btnTroVe;
 
 	private JPanel pnItems;
+	private JTextField txtTongTien;
 	/**
 	 * Launch the application.
 	 */
@@ -74,8 +77,8 @@ public class GioHang_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					KhachHang kh = new KhachHangDAO().getKhachHang(5);
-					GioHang_GUI frame = new GioHang_GUI(kh);
+					//KhachHang kh = new KhachHangDAO().getKhachHang(3);
+					GioHang_GUI frame = new GioHang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -89,7 +92,7 @@ public class GioHang_GUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public GioHang_GUI() throws SQLException {
-		this.khachHang = new KhachHangDAO().getKhachHang(1);
+		this.khachHang = new KhachHangDAO().getKhachHang(2);
 		GUI();
 	}
 	
@@ -202,6 +205,19 @@ public class GioHang_GUI extends JFrame {
 		txtDiaChi.setColumns(20);
 		pnDiaChi.add(txtDiaChi);
 		
+		JPanel pnTongTien = new JPanel();
+		boxThongTin.add(pnTongTien);
+		
+		JLabel lblTongTien = new JLabel("Tổng tiền");
+		lblTongTien.setPreferredSize(new Dimension(150, 20));
+		lblTongTien.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnTongTien.add(lblTongTien);
+		
+		txtTongTien = new JTextField((String) null);
+		txtTongTien.setEditable(false);
+		txtTongTien.setColumns(20);
+		pnTongTien.add(txtTongTien);
+		
 		JPanel pnThongTin = new JPanel();
 		boxThongTin.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -270,9 +286,12 @@ public class GioHang_GUI extends JFrame {
 					return;
 				}
 				btnDatHang.setEnabled(true);
+				AtomicReference<Double> tongTien = new AtomicReference<Double>(0.0);
 				chiTietDDH.forEach(chiTiet -> {
 					pnItems.add(this.itemGUI(chiTiet));
+					tongTien.set(tongTien.get() + chiTiet.getSoLuong()*chiTiet.getDonGia());
 				});
+				txtTongTien.setText(String.valueOf(tongTien.get()) + "đ");
 			}else {
 				btnDatHang.setEnabled(false);
 				pnItems.add(new JLabel("Không có sản phẩm nào trong giỏ hàng"));
