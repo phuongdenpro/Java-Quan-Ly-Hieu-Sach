@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ThongKeKHTiemNang_GUI extends JFrame {
+public class ThongKeMucDoMuaHang_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private DefaultTableModel modelDSKH;
@@ -36,7 +36,7 @@ public class ThongKeKHTiemNang_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ThongKeKHTiemNang_GUI frame = new ThongKeKHTiemNang_GUI();
+					ThongKeMucDoMuaHang_GUI frame = new ThongKeMucDoMuaHang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class ThongKeKHTiemNang_GUI extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public ThongKeKHTiemNang_GUI() throws SQLException {
+	public ThongKeMucDoMuaHang_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -66,7 +66,7 @@ public class ThongKeKHTiemNang_GUI extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê khách hàng tiềm năng");
+		JLabel lblNewLabel_2 = new JLabel("Thống kê mức độ mua hàng");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_3.add(lblNewLabel_2);
 		
@@ -84,7 +84,7 @@ public class ThongKeKHTiemNang_GUI extends JFrame {
 	}
 	
 	public void renderData() throws SQLException {
-		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN();
+		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN(0);
 		
 		tblDSKH.clearSelection();
 		modelDSKH.getDataVector().removeAllElements();

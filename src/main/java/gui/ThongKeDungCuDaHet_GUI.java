@@ -22,12 +22,13 @@ import java.awt.Font;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ThongKeSPDaHet_GUI extends JFrame {
+public class ThongKeDungCuDaHet_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private List<SanPham> dssp;
 	private DefaultTableModel modelDSSP;
 	private JTable tblDSSP;
+	private JLabel lblSoLuongHet;
 
 	/**
 	 * Launch the application.
@@ -36,7 +37,7 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ThongKeSPDaHet_GUI frame = new ThongKeSPDaHet_GUI();
+					ThongKeDungCuDaHet_GUI frame = new ThongKeDungCuDaHet_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +50,7 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public ThongKeSPDaHet_GUI() throws SQLException {
+	public ThongKeDungCuDaHet_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -66,7 +67,7 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 		JPanel pnTitle = new JPanel();
 		panel.add(pnTitle);
 		
-		JLabel lblThongKeSanPhamDaHet = new JLabel("Thống kê sản phẩm đã hết");
+		JLabel lblThongKeSanPhamDaHet = new JLabel("Thống kê dụng cụ đã hết");
 		lblThongKeSanPhamDaHet.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		pnTitle.add(lblThongKeSanPhamDaHet);
 		
@@ -74,17 +75,28 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 		contentPane.add(pnTable, BorderLayout.CENTER);
 		
 		pnTable.setLayout(new BorderLayout(0, 0));
-		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm", "Nhà xuất bản/Nhà cung cấp", "Đơn giá"};
+		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm", "Nhà cung cấp", "Đơn giá"};
 		modelDSSP = new DefaultTableModel(cols, 0);
 		tblDSSP = new JTable(modelDSSP);
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
 		pnTable.add(scrollPane);
 		
+		JPanel panel_1 = new JPanel();
+		pnTable.add(panel_1, BorderLayout.SOUTH);
+		
+		JLabel lblSl = new JLabel("Số lượng dụng cụ đã hết: ");
+		lblSl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_1.add(lblSl);
+		
+		lblSoLuongHet = new JLabel("0");
+		lblSoLuongHet.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_1.add(lblSoLuongHet);
+		
 		renderData();
 	}
 	
 	public void renderData() throws SQLException {
-		dssp = new SanPhamDAO().getSanPhamDaHet();
+		dssp = new SanPhamDAO().getSanPhamDaHet(false);
 		modelDSSP.getDataVector().removeAllElements();
 		
 		dssp.forEach(sp -> {
@@ -96,7 +108,7 @@ public class ThongKeSPDaHet_GUI extends JFrame {
 					sp.getGiaSp()
 			});
 		});
-		
+		lblSoLuongHet.setText(String.valueOf(dssp.size()));
 		tblDSSP.revalidate();
 		tblDSSP.repaint();
 	}

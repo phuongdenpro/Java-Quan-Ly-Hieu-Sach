@@ -52,18 +52,23 @@ public class QuanLy_GUI extends JFrame {
 	private TimKiemSanPhamKhac_GUI timKiemSPKhacGUI = new TimKiemSanPhamKhac_GUI();
 	private TimKiemDanhMucSanPham_GUI timKiemDMSPGUI = new TimKiemDanhMucSanPham_GUI();
 	private ThongKeSachBanChay_GUI thongKeSPBCGUI = new ThongKeSachBanChay_GUI();
-	private ThongKeSPDaHet_GUI thongKeSPDBHGUI = new ThongKeSPDaHet_GUI();
+	private ThongKeDungCuBanChay_GUI thongKeDCBCGUI = new ThongKeDungCuBanChay_GUI();
+	private ThongKeSachDaHet_GUI thongKeSPDBHGUI = new ThongKeSachDaHet_GUI();
+	private ThongKeDungCuDaHet_GUI thongKeDCDBHGUI = new ThongKeDungCuDaHet_GUI();
 	
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
+	private ThemKhachHang_GUI themKHGUI = new ThemKhachHang_GUI();
 	private MuaHang muaHangGUI;
 	private DatHang_GUI datHangGUI;
 	private TimKiemKhachHang_GUI timKiemKHGUI = new TimKiemKhachHang_GUI();
-	private ThongKeKHTiemNang_GUI thongKeKHTNGUI = new ThongKeKHTiemNang_GUI();
-
+	private ThongKeMucDoMuaHang_GUI thongKeKHTNGUI = new ThongKeMucDoMuaHang_GUI();
+	private ThongKeKHMuaNhieuNhat thongKe10KHGUI = new ThongKeKHMuaNhieuNhat();
+	
 	private NhanVien_GUI nhanVienGUI = new NhanVien_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
 	private TimKiemNhanVien_GUI timKiemNhanVienGUI = new TimKiemNhanVien_GUI();
-	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
+//	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
+	private ThongKe thongKeGUI = new ThongKe();
 	
 	private JMenuBar menuBar;
 
@@ -161,11 +166,17 @@ public class QuanLy_GUI extends JFrame {
 		JMenuItem mntmTimKiemDMSP = new JMenuItem("Tìm kiếm danh mục sản phẩm");
 		mnSanPham.add(mntmTimKiemDMSP);
 		
-		JMenuItem mntmThongKeSPBanChay = new JMenuItem("Thống kê sản phẩm bán chạy");
+		JMenuItem mntmThongKeSPBanChay = new JMenuItem("Thống kê sách bán chạy");
 		mnSanPham.add(mntmThongKeSPBanChay);
 		
-		JMenuItem mntmThongKeSPBanHet = new JMenuItem("Thống kê sản phẩm đã hết");
-		mnSanPham.add(mntmThongKeSPBanHet);
+		JMenuItem mntmThongKeDCBanChay = new JMenuItem("Thống kê dụng cụ bán chạy");
+		mnSanPham.add(mntmThongKeDCBanChay);
+		
+		JMenuItem mntmThongKeSachBanHet = new JMenuItem("Thống kê sách đã hết");
+		mnSanPham.add(mntmThongKeSachBanHet);
+		
+		JMenuItem mntmThongKeDCBanHet = new JMenuItem("Thống kê dụng cụ đã hết");
+		mnSanPham.add(mntmThongKeDCBanHet);
 		
 //		JMenu mnDanhMucSanPham = new JMenu("Danh mục sản phẩm");
 //		menuBar.add(mnDanhMucSanPham);
@@ -176,6 +187,9 @@ public class QuanLy_GUI extends JFrame {
 		JMenuItem mntmQuanLyKH = new JMenuItem("Quản lý khách hàng");
 		mnKhachHang.add(mntmQuanLyKH);
 		
+		JMenuItem mntmThemKH = new JMenuItem("Thêm khách hàng");
+		mnKhachHang.add(mntmThemKH);
+		
 		JMenuItem mntmMuaHang = new JMenuItem("Mua hàng");
 		mnKhachHang.add(mntmMuaHang);
 		
@@ -185,8 +199,11 @@ public class QuanLy_GUI extends JFrame {
 		JMenuItem mntmTimKiemKH = new JMenuItem("Tìm kiếm khách hàng");
 		mnKhachHang.add(mntmTimKiemKH);
 		
-		JMenuItem mntmThongKeKHTN = new JMenuItem("Thống kê khách hàng tiềm năng");
+		JMenuItem mntmThongKeKHTN = new JMenuItem("Thống kê mức độ mua hàng");
 		mnKhachHang.add(mntmThongKeKHTN);
+		
+		JMenuItem mntmThongKeKHMuaNhieu = new JMenuItem("Thống kê khách hàng mua nhiều nhất");
+		mnKhachHang.add(mntmThongKeKHMuaNhieu);
 		
 		JMenu mnNhanVien = new JMenu("Nhân viên");
 		menuBar.add(mnNhanVien);
@@ -227,6 +244,12 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				renderMain(hoaDonGUI.getContentPane(), "hoadon");
+				try {
+					hoaDonGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -236,6 +259,14 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				renderMain(taoHoaDonGUI.getContentPane(), "taohoadon");
+				try {
+					taoHoaDonGUI.renderData();
+					taoHoaDonGUI.renderKhachHang();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		
@@ -244,6 +275,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) timKiemHoaDonGUI.getContentPane(), "timkiemhoadon");
+				try {
+					timKiemHoaDonGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -314,15 +351,55 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				renderMain(thongKeSPBCGUI.getContentPane(), "thongkespbc");
+				try {
+					thongKeSPBCGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		mntmThongKeDCBanChay.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				renderMain(thongKeDCBCGUI.getContentPane(), "thongkedcbc");
+				try {
+					thongKeDCBCGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
 		
-		mntmThongKeSPBanHet.addActionListener(new ActionListener() {
+		mntmThongKeSachBanHet.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(thongKeSPDBHGUI.getContentPane(), "thongkespdbh");
+				try {
+					thongKeSPDBHGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		mntmThongKeDCBanHet.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain(thongKeDCDBHGUI.getContentPane(), "thongkedcdbh");
+				try {
+					thongKeDCDBHGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -332,6 +409,15 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(khachHangGUI.getContentPane(), "khachhang");
+			}
+		});
+		
+		mntmThemKH.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				themKHGUI.setVisible(true);
+				themKHGUI.setLocationRelativeTo(contentPane);
 			}
 		});
 		
@@ -379,6 +465,14 @@ public class QuanLy_GUI extends JFrame {
 			}
 		});
 		
+		mntmThongKeKHMuaNhieu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				renderMain(thongKe10KHGUI.getContentPane(), "thongke10kh");
+			}
+		});
 		
 		mntmQuanLyNhanVien.addActionListener(new ActionListener() {
 			

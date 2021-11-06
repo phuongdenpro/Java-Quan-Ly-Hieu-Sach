@@ -398,13 +398,22 @@ public class SanPhamDAO extends ConnectDB {
 	    	
 	    	return dssp;
 	    }
-	public List<SanPham> getSanPhamDaHet() {
+	public List<SanPham> getSanPhamDaHet(boolean isSach) {
 		ArrayList<SanPham> dataList = new ArrayList<SanPham>();
 
 		PreparedStatement stmt = null;
 		try {
-
-			String sql = "SELECT * FROM dbo.SanPham inner join dbo.NhaCungCap on sanPham.MaNCC = nhaCungCap.MaNCC inner join dbo.LoaiSanPham on sanPham.maLoai = loaiSanPham.maLoai where soLuong = 0";
+			String loai = "";
+        	if(isSach)
+        		loai = " tenLoai like '%Sách%' or tenLoai like '%Truyện%' ";
+        	else {
+        		loai = " tenLoai not like '%Sách%' and tenLoai not like '%Truyện%' ";
+        	}
+        	
+			String sql = "  SELECT * FROM [HieuSach].[dbo].[SanPham]\r\n"
+					+ "  inner join dbo.NhaCungCap on sanPham.MaNCC = nhaCungCap.MaNCC \r\n"
+					+ "  inner join dbo.LoaiSanPham on sanPham.maLoai = loaiSanPham.maLoai \r\n"
+					+ "  where soLuong = 0 and "+loai;
 			stmt = this.conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 

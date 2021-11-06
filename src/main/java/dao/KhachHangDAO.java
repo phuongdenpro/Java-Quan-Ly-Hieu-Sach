@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import connectdb.ConnectDB;
 
 import java.sql.*;
+import java.sql.Date;
 
 import entity.KhachHang;
 import entity.NhanVien;
@@ -177,18 +178,132 @@ public class KhachHangDAO extends ConnectDB{
 		return false;
 	}
     
-    public Map<KhachHang, Map<String, Integer>> thongKeKHTN() {
+    public Map<KhachHang, Map<String, Integer>> thongKeKHTN(int count) {
     	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
     	PreparedStatement stmt = null;
         try {
-
-            String sql = "select KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
+        	String top = "";
+        	if(count != 0)
+        		top = " top "+count+" ";
+        	
+            String sql = "select "+top+" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
             		+ "  from [HieuSach].[dbo].[HoaDon]\r\n"
             		+ "  inner join [HieuSach].[dbo].[KhachHang]\r\n"
             		+ "  on HoaDon.maKH = KhachHang.maKH\r\n"
             		+ "  group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
             		+ "  order by tongTien desc";
             stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+//            	printResultSet(rs);
+            	KhachHang kh = new KhachHang(rs);
+            	Map<String, Integer> mp = new HashMap<String, Integer>();
+            	mp.put("soLanMuaHang", rs.getInt("soLanMuaHang"));
+            	mp.put("tongTien", rs.getInt("tongTien"));
+            	kq.put(kh, mp);
+            }
+            
+            return kq;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return kq;
+    }
+    
+    public Map<KhachHang, Map<String, Integer>> thongKeKHTN(Date d1, Date d2, int count) {
+    	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
+    	PreparedStatement stmt = null;
+        try {
+        	String top = "";
+        	if(count != 0)
+        		top = " top "+count+" ";
+        	
+            String sql = "select "+ top +" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
+            		+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "inner join [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "on HoaDon.maKH = KhachHang.maKH\r\n"
+            		+ "where ngayMua >= ? and ngayMua <= ?\r\n"
+            		+ "group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ "order by tongTien desc";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setDate(1, d1);
+            stmt.setDate(2, d2);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+//            	printResultSet(rs);
+            	KhachHang kh = new KhachHang(rs);
+            	Map<String, Integer> mp = new HashMap<String, Integer>();
+            	mp.put("soLanMuaHang", rs.getInt("soLanMuaHang"));
+            	mp.put("tongTien", rs.getInt("tongTien"));
+            	kq.put(kh, mp);
+            }
+            
+            return kq;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return kq;
+    }
+    
+    public Map<KhachHang, Map<String, Integer>> thongKeKHMuaIt(int count) {
+    	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
+    	PreparedStatement stmt = null;
+        try {
+        	String top = "";
+        	if(count != 0)
+        		top = " top "+count+" ";
+        	
+            String sql = "select "+top+" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
+            		+ "  from [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "  inner join [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "  on HoaDon.maKH = KhachHang.maKH\r\n"
+            		+ "  group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ "  order by tongTien";
+            stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+//            	printResultSet(rs);
+            	KhachHang kh = new KhachHang(rs);
+            	Map<String, Integer> mp = new HashMap<String, Integer>();
+            	mp.put("soLanMuaHang", rs.getInt("soLanMuaHang"));
+            	mp.put("tongTien", rs.getInt("tongTien"));
+            	kq.put(kh, mp);
+            }
+            
+            return kq;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return kq;
+    }
+    
+    public Map<KhachHang, Map<String, Integer>> thongKeKHMuaIt(Date d1, Date d2, int count) {
+    	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
+    	PreparedStatement stmt = null;
+        try {
+        	String top = "";
+        	if(count != 0)
+        		top = " top "+count+" ";
+        	
+            String sql = "select "+ top +" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
+            		+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "inner join [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "on HoaDon.maKH = KhachHang.maKH\r\n"
+            		+ "where ngayMua >= ? and ngayMua <= ?\r\n"
+            		+ "group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ "order by tongTien";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setDate(1, d1);
+            stmt.setDate(2, d2);
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {

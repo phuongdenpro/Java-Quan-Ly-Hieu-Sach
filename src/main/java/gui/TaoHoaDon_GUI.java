@@ -444,6 +444,14 @@ public class TaoHoaDon_GUI extends JFrame {
 					HoaDonDAO hoaDonDao = new HoaDonDAO();
 					if(hoaDonDao.themHoaDon(hd)) {
 						JOptionPane.showMessageDialog(contentPane, "Đã thêm hóa đơn thành công");
+						dscthd.clear();
+						tinhTongTien();
+						try {
+							renderData();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}else {
 						JOptionPane.showMessageDialog(contentPane, hoaDonDao.getError());
 					}
