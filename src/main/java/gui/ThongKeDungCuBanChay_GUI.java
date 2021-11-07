@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.SanPhamDAO;
 import entity.SanPham;
+import util.Currency;
 import util.Ngay;
 import util.Placeholder;
 
@@ -231,7 +232,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 				sp.getMaSp(),
 				sp.getTenSp(),
 				sp.getNhaCungCap().getTenNCC(),
-				sp.getGiaSp(),
+				new Currency(sp.getGiaSp()).toString(),
 				soLuongDaBan
 			});
 			soLuongSP += soLuongDaBan;
@@ -252,7 +253,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 				sp.getMaSp(),
 				sp.getTenSp(),
 				sp.getNhaCungCap().getTenNCC(),
-				sp.getGiaSp(),
+				new Currency(sp.getGiaSp()).toString(),
 				soLuongDaBan
 			});
 			soLuongSP += soLuongDaBan;

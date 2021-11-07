@@ -197,7 +197,7 @@ public class KhachHangDAO extends ConnectDB{
 		return false;
 	}
     
-    public Map<KhachHang, Map<String, Integer>> thongKeKHTN(int count) {
+    public Map<KhachHang, Map<String, Integer>> thongKeKHTN(int count, long minTongTien) {
     	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
     	PreparedStatement stmt = null;
         try {
@@ -205,11 +205,16 @@ public class KhachHangDAO extends ConnectDB{
         	if(count != 0)
         		top = " top "+count+" ";
         	
+        	String tongTien = "";
+        	if(minTongTien != 0)
+        		tongTien = "having sum(tongTien) >= "+minTongTien+"\r\n";
+        	
             String sql = "select "+top+" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
             		+ "  from [HieuSach].[dbo].[HoaDon]\r\n"
             		+ "  inner join [HieuSach].[dbo].[KhachHang]\r\n"
             		+ "  on HoaDon.maKH = KhachHang.maKH\r\n"
             		+ "  group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ tongTien
             		+ "  order by tongTien desc";
             stmt = this.conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -232,7 +237,7 @@ public class KhachHangDAO extends ConnectDB{
         return kq;
     }
     
-    public Map<KhachHang, Map<String, Integer>> thongKeKHTN(Date d1, Date d2, int count) {
+    public Map<KhachHang, Map<String, Integer>> thongKeKHTN(Date d1, Date d2, int count, long minTongTien) {
     	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
     	PreparedStatement stmt = null;
         try {
@@ -240,13 +245,19 @@ public class KhachHangDAO extends ConnectDB{
         	if(count != 0)
         		top = " top "+count+" ";
         	
+        	String tongTien = "";
+        	if(minTongTien != 0)
+        		tongTien = "having sum(tongTien) >= "+minTongTien+"\r\n";
+        	
             String sql = "select "+ top +" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
             		+ "from [HieuSach].[dbo].[HoaDon]\r\n"
             		+ "inner join [HieuSach].[dbo].[KhachHang]\r\n"
             		+ "on HoaDon.maKH = KhachHang.maKH\r\n"
             		+ "where ngayMua >= ? and ngayMua <= ?\r\n"
             		+ "group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ tongTien
             		+ "order by tongTien desc";
+            System.out.println(sql);
             stmt = this.conn.prepareStatement(sql);
             stmt.setDate(1, d1);
             stmt.setDate(2, d2);
@@ -270,19 +281,99 @@ public class KhachHangDAO extends ConnectDB{
         return kq;
     }
     
-    public Map<KhachHang, Map<String, Integer>> thongKeKHMuaIt(int count) {
+    public List<KhachHang> getDSKHKhongMua(){
+    	List<KhachHang> kq = new ArrayList<KhachHang>();
+    	PreparedStatement stmt = null;
+        try {
+        	
+            String sql = "select * from [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "where maKH not in \r\n"
+            		+ "(select KhachHang.maKH\r\n"
+            		+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "inner join [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "on HoaDon.maKH = KhachHang.maKH)";
+            stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+//            	printResultSet(rs);
+            	KhachHang kh = new KhachHang(rs);
+            	kq.add(kh);
+            }
+            
+            return kq;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return kq;
+    }
+    
+    public List<KhachHang> getDSKHKhongMua(Date d1, Date d2){
+    	List<KhachHang> kq = new ArrayList<KhachHang>();
+    	PreparedStatement stmt = null;
+        try {
+        	
+            String sql = "select * from [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "where maKH not in \r\n"
+            		+ "(select KhachHang.maKH\r\n"
+            		+ "from [HieuSach].[dbo].[HoaDon]\r\n"
+            		+ "inner join [HieuSach].[dbo].[KhachHang]\r\n"
+            		+ "on HoaDon.maKH = KhachHang.maKH\r\n"
+            		+ "where ngayMua >= ? and ngayMua <= ?)";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setDate(1, d1);
+            stmt.setDate(2, d2);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+//            	printResultSet(rs);
+            	KhachHang kh = new KhachHang(rs);
+            	kq.add(kh);
+            }
+            
+            return kq;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return kq;
+    }
+    
+    public Map<KhachHang, Map<String, Integer>> thongKeKHMuaIt(int count, long maxTongTien) {
     	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
     	PreparedStatement stmt = null;
         try {
-        	String top = "";
+        	List<KhachHang> dskh = getDSKHKhongMua();
+        	int sz = dskh.size();
         	if(count != 0)
+        		sz = Math.min(sz, count);
+        	
+        	for(int i=0; i<sz; i++) {
+        		Map<String, Integer> mp = new HashMap<String, Integer>();
+            	mp.put("soLanMuaHang", 0);
+            	mp.put("tongTien", 0);
+            	kq.put(dskh.get(i), mp);
+        	}
+        	
+        	String top = "";
+        	if(count != 0) {
+        		count -= sz;
         		top = " top "+count+" ";
+        	}
+        	
+        	String tongTien = "";
+        	if(maxTongTien != 0)
+        		tongTien = "having sum(tongTien) <= "+maxTongTien+"\r\n";
         	
             String sql = "select "+top+" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
             		+ "  from [HieuSach].[dbo].[HoaDon]\r\n"
             		+ "  inner join [HieuSach].[dbo].[KhachHang]\r\n"
             		+ "  on HoaDon.maKH = KhachHang.maKH\r\n"
             		+ "  group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ tongTien
             		+ "  order by tongTien";
             stmt = this.conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -305,13 +396,31 @@ public class KhachHangDAO extends ConnectDB{
         return kq;
     }
     
-    public Map<KhachHang, Map<String, Integer>> thongKeKHMuaIt(Date d1, Date d2, int count) {
+    public Map<KhachHang, Map<String, Integer>> thongKeKHMuaIt(Date d1, Date d2, int count, long maxTongTien) {
     	Map<KhachHang, Map<String, Integer>> kq = new LinkedHashMap<KhachHang, Map<String, Integer>>();
     	PreparedStatement stmt = null;
         try {
-        	String top = "";
+        	List<KhachHang> dskh = getDSKHKhongMua(d1, d2);
+        	int sz = dskh.size();
         	if(count != 0)
+        		sz = Math.min(sz, count);
+        	
+        	for(int i=0; i<sz; i++) {
+        		Map<String, Integer> mp = new HashMap<String, Integer>();
+            	mp.put("soLanMuaHang", 0);
+            	mp.put("tongTien", 0);
+            	kq.put(dskh.get(i), mp);
+        	}
+        	
+        	String top = "";
+        	if(count != 0) {
+        		count -= sz;
         		top = " top "+count+" ";
+        	}
+        	
+        	String tongTien = "";
+        	if(maxTongTien != 0)
+        		tongTien = "having sum(tongTien) <= "+maxTongTien+"\r\n";
         	
             String sql = "select "+ top +" KhachHang.maKH, HoTen, SoDienThoai, DiaChi, count(KhachHang.maKH) as soLanMuaHang, sum(tongTien) as tongTien\r\n"
             		+ "from [HieuSach].[dbo].[HoaDon]\r\n"
@@ -319,6 +428,7 @@ public class KhachHangDAO extends ConnectDB{
             		+ "on HoaDon.maKH = KhachHang.maKH\r\n"
             		+ "where ngayMua >= ? and ngayMua <= ?\r\n"
             		+ "group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
+            		+ tongTien
             		+ "order by tongTien";
             stmt = this.conn.prepareStatement(sql);
             stmt.setDate(1, d1);

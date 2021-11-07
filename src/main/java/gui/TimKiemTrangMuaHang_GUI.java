@@ -13,6 +13,7 @@ import dao.KhachHangDAO;
 import dao.SanPhamDAO;
 import entity.KhachHang;
 import entity.SanPham;
+import util.Currency;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -153,7 +154,7 @@ public class TimKiemTrangMuaHang_GUI extends JFrame {
 		modelTimKiem.getDataVector().removeAllElements();
 		
 		dssp.forEach(sp -> {
-			modelTimKiem.addRow(new Object[] {sp.getTenSp(), sp.getGiaSp(), sp.getSoLuong()});
+			modelTimKiem.addRow(new Object[] {sp.getTenSp(), new Currency(sp.getGiaSp()).toString(), sp.getSoLuong()});
 		});
 		tblTimKiem.revalidate();
 		tblTimKiem.repaint();

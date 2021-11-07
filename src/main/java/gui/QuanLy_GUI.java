@@ -62,7 +62,8 @@ public class QuanLy_GUI extends JFrame {
 	private DatHang_GUI datHangGUI;
 	private TimKiemKhachHang_GUI timKiemKHGUI = new TimKiemKhachHang_GUI();
 	private ThongKeMucDoMuaHang_GUI thongKeKHTNGUI = new ThongKeMucDoMuaHang_GUI();
-	private ThongKeKHMuaNhieuNhat thongKe10KHGUI = new ThongKeKHMuaNhieuNhat();
+	private ThongKeKHMuaNhieuNhat thongKeKHMuaNhieuGUI = new ThongKeKHMuaNhieuNhat();
+	private ThongKeKHMuaItNhat thongKeKHMuaItGUI = new ThongKeKHMuaItNhat();
 	
 	private NhanVien_GUI nhanVienGUI = new NhanVien_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
@@ -105,23 +106,23 @@ public class QuanLy_GUI extends JFrame {
 		menuGUI();
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
-		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
-		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
-		System.out.println(khachHang);
-		
-		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
-		System.out.println(nhanVien);
-		
-		muaHangGUI = new MuaHang(khachHang);
-		
-		if(nhanVien != null) {
-			taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
-			datHangGUI = new DatHang_GUI(nhanVien);
-		}
-		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
-		menuBar.setVisible(true);
-//		handleLogin();
-//		handleRegister();
+//		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
+//		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
+//		System.out.println(khachHang);
+//		
+//		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+//		System.out.println(nhanVien);
+//		
+//		muaHangGUI = new MuaHang(khachHang);
+//		
+//		if(nhanVien != null) {
+//			taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
+//			datHangGUI = new DatHang_GUI(nhanVien);
+//		}
+//		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+//		menuBar.setVisible(true);
+		handleLogin();
+		handleRegister();
 	}
 	
 	public void menuGUI() {
@@ -204,6 +205,9 @@ public class QuanLy_GUI extends JFrame {
 		
 		JMenuItem mntmThongKeKHMuaNhieu = new JMenuItem("Thống kê khách hàng mua nhiều nhất");
 		mnKhachHang.add(mntmThongKeKHMuaNhieu);
+		
+		JMenuItem mntmThongKeKHMuaIt = new JMenuItem("Thống kê khách hàng mua ít nhất");
+		mnKhachHang.add(mntmThongKeKHMuaIt);
 		
 		JMenu mnNhanVien = new JMenu("Nhân viên");
 		menuBar.add(mnNhanVien);
@@ -470,7 +474,16 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				renderMain(thongKe10KHGUI.getContentPane(), "thongke10kh");
+				renderMain(thongKeKHMuaNhieuGUI.getContentPane(), "thongkekhmuanhieu");
+			}
+		});
+		
+		mntmThongKeKHMuaIt.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				renderMain(thongKeKHMuaItGUI.getContentPane(), "thongkekhmuait");
 			}
 		});
 		

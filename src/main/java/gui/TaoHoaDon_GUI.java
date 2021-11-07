@@ -43,6 +43,7 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
 import entity.SanPham;
+import util.Currency;
 
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
@@ -499,7 +500,7 @@ public class TaoHoaDon_GUI extends JFrame {
 			if(dsSach.get(i).getSoLuong() != 0) {
 				modelSach.addRow(new Object[] {
 						dsSach.get(i).getTenSp(), 
-						dsSach.get(i).getGiaSp(), 
+						new Currency(dsSach.get(i).getGiaSp()).toString(), 
 						dsSach.get(i).getSoLuong(),
 						dsSach.get(i).getNhaCungCap().getTenNCC()
 					});
@@ -521,7 +522,7 @@ public class TaoHoaDon_GUI extends JFrame {
 			if(dsSPKhac.get(i).getSoLuong() != 0) {
 				modelSPK.addRow(new Object[] {
 						dsSPKhac.get(i).getTenSp(), 
-						dsSPKhac.get(i).getGiaSp(), 
+						new Currency(dsSPKhac.get(i).getGiaSp()).toString(), 
 						dsSPKhac.get(i).getSoLuong(),
 						dsSPKhac.get(i).getNhaCungCap().getTenNCC()
 				});
@@ -536,7 +537,7 @@ public class TaoHoaDon_GUI extends JFrame {
 		tblSPTGH.clearSelection();
 		modelSPTGH.getDataVector().removeAllElements();
 		dscthd.forEach(cthd -> {
-			modelSPTGH.addRow(new Object[] {cthd.getSanPham().getTenSp(), cthd.getDonGia(), cthd.getSoLuong(), cthd.tinhThanhTien()});
+			modelSPTGH.addRow(new Object[] {cthd.getSanPham().getTenSp(), new Currency(cthd.getDonGia()).toString(), cthd.getSoLuong(), new Currency(cthd.tinhThanhTien()).toString()});
 		});
 		tblSPTGH.revalidate();
 		tblSPTGH.repaint();
@@ -547,7 +548,7 @@ public class TaoHoaDon_GUI extends JFrame {
 		for(int i=0; i<dscthd.size(); i++) {
 			tongTien += dscthd.get(i).tinhThanhTien();
 		}
-		txtTongTien.setText(String.valueOf(tongTien));
+		txtTongTien.setText(new Currency(tongTien).toString());
 	}
 	
 	public JPanel getContentPane() {

@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.SanPhamDAO;
 import entity.SanPham;
+import util.Currency;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -105,7 +106,7 @@ public class ThongKeDungCuDaHet_GUI extends JFrame {
 					sp.getTenSp(),
 					sp.getLoaiSanPham().getTenLoai(),
 					sp.getNhaCungCap().getTenNCC(),
-					sp.getGiaSp()
+					new Currency(sp.getGiaSp()).toString()
 			});
 		});
 		lblSoLuongHet.setText(String.valueOf(dssp.size()));

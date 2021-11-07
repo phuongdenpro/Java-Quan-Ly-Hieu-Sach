@@ -26,6 +26,7 @@ import dao.KhachHangDAO;
 import entity.ChiTietDonDatHang;
 import entity.DonDatHang;
 import entity.KhachHang;
+import util.Currency;
 
 import java.awt.Component;
 import javax.swing.Box;
@@ -45,6 +46,7 @@ import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.ScrollPaneConstants;
 
 public class GioHang_GUI extends JFrame {
 
@@ -70,6 +72,7 @@ public class GioHang_GUI extends JFrame {
 
 	private JPanel pnItems;
 	private JTextField txtTongTien;
+	private JMenu mnNewMenu;
 	/**
 	 * Launch the application.
 	 */
@@ -100,6 +103,7 @@ public class GioHang_GUI extends JFrame {
 		this.khachHang = khachHang;
 		GUI();
 	}
+	
 	
 	public void GUI() {
 //		Giỏ hàng
@@ -247,12 +251,18 @@ public class GioHang_GUI extends JFrame {
 		lblGioHang.setForeground(new Color(0, 206, 209));
 		panel.add(lblGioHang, BorderLayout.NORTH);
 		
+		
+		
 		JPanel boxGioHang = new JPanel();
-		panel.add(boxGioHang, BorderLayout.CENTER);
+//		panel.add(boxGioHang, BorderLayout.CENTER);
 		boxGioHang.setLayout(new BoxLayout(boxGioHang, BoxLayout.Y_AXIS));
+		JScrollPane scrollPane = new JScrollPane(boxGioHang);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+		scrollPane.setPreferredSize(new Dimension(600, 500));
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		JPanel pnGioHang = new JPanel();
-		pnGioHang.setPreferredSize(new Dimension(10, -500 + numberOfItem*200));
 		boxGioHang.add(pnGioHang);
 		
 		pnItems = new JPanel();
@@ -273,6 +283,7 @@ public class GioHang_GUI extends JFrame {
 	}
 	
 	public void renderData() {
+		mnNewMenu.setText("Xin chào: "+this.khachHang.getHoTen());
 		pnItems.removeAll();
 		donDatHang = null;
 		try {
@@ -291,7 +302,7 @@ public class GioHang_GUI extends JFrame {
 					pnItems.add(this.itemGUI(chiTiet));
 					tongTien.set(tongTien.get() + chiTiet.getSoLuong()*chiTiet.getDonGia());
 				});
-				txtTongTien.setText(String.valueOf(tongTien.get()) + "đ");
+				txtTongTien.setText(new Currency(tongTien.get()).toString());
 			}else {
 				btnDatHang.setEnabled(false);
 				pnItems.add(new JLabel("Không có sản phẩm nào trong giỏ hàng"));
@@ -355,7 +366,7 @@ public class GioHang_GUI extends JFrame {
 		menuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		panel_3.add(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
+		mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
 		
 		mntmGioHang = new JMenuItem("Giỏ hàng");
@@ -404,7 +415,7 @@ public class GioHang_GUI extends JFrame {
 		lblDonGia.setBackground(Color.WHITE);
 		pnDonGia.add(lblDonGia);
 		
-		JLabel donGia = new JLabel(String.valueOf(chiTietDDH.getDonGia()));
+		JLabel donGia = new JLabel(new Currency(chiTietDDH.getDonGia()).toString());
 //		lblTongTien.setForeground(new Color(0, 206, 209));
 		donGia.setBackground(Color.WHITE);
 		pnDonGia.add(donGia);
@@ -432,7 +443,7 @@ public class GioHang_GUI extends JFrame {
 		lblNewLabel_4.setBackground(Color.WHITE);
 		panel_4.add(lblNewLabel_4);
 		
-		JLabel lblTongTien = new JLabel(String.valueOf(chiTietDDH.getDonGia()*chiTietDDH.getSoLuong()));
+		JLabel lblTongTien = new JLabel(new Currency(chiTietDDH.getDonGia()*chiTietDDH.getSoLuong()).toString());
 		lblTongTien.setForeground(new Color(0, 206, 209));
 		lblTongTien.setBackground(Color.WHITE);
 		panel_4.add(lblTongTien);
@@ -515,6 +526,7 @@ public class GioHang_GUI extends JFrame {
 		
 		return pnItem;
 	}
+	
 	
 	public JPanel getContentPane() {
 		return this.contentPane;

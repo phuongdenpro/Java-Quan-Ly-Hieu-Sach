@@ -13,6 +13,7 @@ import dao.KhachHangDAO;
 import dao.SanPhamDAO;
 import entity.KhachHang;
 import entity.SanPham;
+import util.Currency;
 import util.Ngay;
 import util.Placeholder;
 
@@ -369,7 +370,7 @@ public class ThongKe extends JFrame {
 			
 			mpHD.put(rs.get("maHD"), 1);
 			mpKH.put(rs.get("maKH"), 1);
-			if(rs.get("tenLoai").matches("Sách") || rs.get("tenLoai").matches("Truyện"))
+			if(rs.get("tenLoai").toLowerCase().contains("sách") || rs.get("tenLoai").toLowerCase().contains("truyện"))
 				soLuongSach += soLuong;
 			else 
 				soLuongDungCu += soLuong;
@@ -383,9 +384,9 @@ public class ThongKe extends JFrame {
 		lblKH.setText(String.valueOf(mpKH.size()));
 		lblSach.setText(String.valueOf(soLuongSach));
 		lblDungCu.setText(String.valueOf(soLuongDungCu));
-		lblDoanhThu.setText(String.valueOf(doanhThu));
-		lblVon.setText(String.valueOf(soVon));
-		lblLoiNhuan.setText(String.valueOf(doanhThu - soVon));
+		lblDoanhThu.setText(new Currency(doanhThu).toString());
+		lblVon.setText(new Currency(soVon).toString());
+		lblLoiNhuan.setText(new Currency(doanhThu - soVon).toString());
 		
 	}
 	
@@ -406,7 +407,7 @@ public class ThongKe extends JFrame {
 			
 			mpHD.put(rs.get("maHD"), 1);
 			mpKH.put(rs.get("maKH"), 1);
-			if(rs.get("tenLoai").matches("Sách") || rs.get("tenLoai").matches("Truyện"))
+			if(rs.get("tenLoai").toLowerCase().contains("sách") || rs.get("tenLoai").toLowerCase().contains("truyện"))
 				soLuongSach += soLuong;
 			else 
 				soLuongDungCu += soLuong;
@@ -420,9 +421,9 @@ public class ThongKe extends JFrame {
 		lblKH.setText(String.valueOf(mpKH.size()));
 		lblSach.setText(String.valueOf(soLuongSach));
 		lblDungCu.setText(String.valueOf(soLuongDungCu));
-		lblDoanhThu.setText(String.valueOf(doanhThu));
-		lblVon.setText(String.valueOf(soVon));
-		lblLoiNhuan.setText(String.valueOf(doanhThu - soVon));
+		lblDoanhThu.setText(new Currency(doanhThu).toString());
+		lblVon.setText(new Currency(soVon).toString());
+		lblLoiNhuan.setText(new Currency(doanhThu - soVon).toString());
 	}
 	
 

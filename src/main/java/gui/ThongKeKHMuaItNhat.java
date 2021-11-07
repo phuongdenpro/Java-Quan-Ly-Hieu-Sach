@@ -38,7 +38,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
-public class ThongKeKHMuaNhieuNhat extends JFrame {
+public class ThongKeKHMuaItNhat extends JFrame {
 
 	private int soLuongSP = 0;
 	
@@ -72,7 +72,7 @@ public class ThongKeKHMuaNhieuNhat extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ThongKeKHMuaNhieuNhat frame = new ThongKeKHMuaNhieuNhat();
+					ThongKeKHMuaItNhat frame = new ThongKeKHMuaItNhat();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -85,7 +85,7 @@ public class ThongKeKHMuaNhieuNhat extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public ThongKeKHMuaNhieuNhat() throws SQLException {
+	public ThongKeKHMuaItNhat() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -102,7 +102,7 @@ public class ThongKeKHMuaNhieuNhat extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê khách hàng mua nhiều nhất");
+		JLabel lblNewLabel_2 = new JLabel("Thống kê khách hàng mua ít nhất");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_3.add(lblNewLabel_2);
 		
@@ -275,7 +275,7 @@ public class ThongKeKHMuaNhieuNhat extends JFrame {
 	public void renderData() throws SQLException {
 		int limit = Integer.parseInt(String.valueOf(cboLimit.getSelectedItem()));
 		
-		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN(Ngay.homNay(), Ngay.homNay(), limit, 50000);
+		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHMuaIt(Ngay.homNay(), Ngay.homNay(), limit, 50000);
 		
 		table.clearSelection();
 		model.getDataVector().removeAllElements();
@@ -306,22 +306,22 @@ public class ThongKeKHMuaNhieuNhat extends JFrame {
 	public void renderData(Date tuNgay, Date toiNgay) throws SQLException {
 		int limit = Integer.parseInt(String.valueOf(cboLimit.getSelectedItem()));
 		long soNgay = Ngay.tinhKhoangNgay(tuNgay, toiNgay);
-		int minTongTien = 0;
+		int maxTongTien = 0;
 		if(soNgay <= 3) {
-			minTongTien = 100000; 
+			maxTongTien = 50000; 
 		}else if(soNgay <= 7)
-			minTongTien = 200000;
+			maxTongTien = 100000;
 		else if(soNgay <= 15)
-			minTongTien = 500000;
+			maxTongTien = 200000;
 		else if(soNgay <= 30)
-			minTongTien = 1000000;
+			maxTongTien = 300000;
 		else if(soNgay <= 100)
-			minTongTien = 1500000;
+			maxTongTien = 500000;
 		else
-			minTongTien = 2000000;
+			maxTongTien = 1000000;
 		
 		System.out.println(tuNgay + " "+ toiNgay);
-		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN(tuNgay, toiNgay, limit, minTongTien);
+		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHMuaIt(tuNgay, toiNgay, limit, maxTongTien);
 		
 		table.clearSelection();
 		model.getDataVector().removeAllElements();

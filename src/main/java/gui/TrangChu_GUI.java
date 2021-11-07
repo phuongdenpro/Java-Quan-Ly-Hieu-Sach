@@ -25,6 +25,7 @@ import entity.KhachHang;
 import entity.LoaiSanPham;
 import entity.NhanVien;
 import entity.SanPham;
+import util.Currency;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
@@ -74,6 +75,8 @@ public class TrangChu_GUI extends JFrame {
 	
 	private LoaiSanPhamDAO loaiSPDao;
 	private ArrayList<LoaiSanPham> dslsp = new ArrayList<LoaiSanPham>();
+
+	private JMenu mnNewMenu;
 
 	
 
@@ -128,20 +131,22 @@ public class TrangChu_GUI extends JFrame {
 		
 		
 		
-		loaiSPDao = new LoaiSanPhamDAO();
-		dslsp = loaiSPDao.getDanhSachLoaiSanPham();
-		
-		for(int i=0; i<dslsp.size(); i++) {
-			this.categoryGUI(dslsp.get(i));
-		}
-		
 		
 		
 	}
 	
-//	public void renderData() {
-//		
-//	}
+	public void renderData() throws SQLException {
+		mnNewMenu.setText("Xin chào: "+this.khachHang.getHoTen());
+		loaiSPDao = new LoaiSanPhamDAO();
+		dslsp = loaiSPDao.getDanhSachLoaiSanPham();
+		
+		for(int i=0; i<dslsp.size(); i++) {
+			if(dslsp.get(i).getSanPhams().size() != 0)
+				this.categoryGUI(dslsp.get(i));
+		}
+		
+		
+	}
 
 	public JPanel headerGUI() {
 		JPanel panelHeader = new JPanel();
@@ -193,7 +198,7 @@ public class TrangChu_GUI extends JFrame {
 		menuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		pnMenu.add(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
+		mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
 		menuBar.add(mnNewMenu);
 		
 		
@@ -250,7 +255,7 @@ public class TrangChu_GUI extends JFrame {
 		JPanel pnItem = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 //		pnItem.setBackground(color);
 //		pnItem.setSize(new Dimension(200, 300));
-		pnItem.setPreferredSize(new Dimension(200, 200));
+		pnItem.setPreferredSize(new Dimension(200, 220));
 		pnItem.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		JLabel lbIcon = new JLabel();
@@ -263,8 +268,8 @@ public class TrangChu_GUI extends JFrame {
 		
 		JPanel pnInfo = new JPanel();
 //		pnInfo.setLayout(new BoxLayout(pnInfo, BoxLayout.Y_AXIS));
-		pnInfo.setPreferredSize(new Dimension(190, 80));
-		pnInfo.setLayout(new GridLayout(3, 0));
+		pnInfo.setPreferredSize(new Dimension(190, 100));
+		pnInfo.setLayout(new GridLayout(4, 0));
 		pnItem.add(pnInfo);
 		
 		JLabel lbTenSanPham = new JLabel(sanPham.getTenSp());
@@ -273,8 +278,11 @@ public class TrangChu_GUI extends JFrame {
 		lbTenSanPham.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
 		pnInfo.add(lbTenSanPham);
 		
-		JLabel lbGia = new JLabel(String.valueOf(sanPham.getGiaSp()));
+		JLabel lbGia = new JLabel(new Currency(sanPham.getGiaSp()).toString());
 		pnInfo.add(lbGia);
+		
+		JLabel lbSoLuong = new JLabel("Số lượng: " + sanPham.getSoLuong());
+		pnInfo.add(lbSoLuong);
 		
 		JButton btnThemVaoGio = new JButton("Thêm vào giỏ");
 		btnThemVaoGio.setBackground(Color.WHITE);
