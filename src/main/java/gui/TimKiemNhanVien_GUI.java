@@ -210,14 +210,34 @@ public class TimKiemNhanVien_GUI extends JFrame {
 				String sdt = txtSdt.getText();
 				String diaChi = txtdiaChi.getText();
 				
-				String where = "";
+				String where = "",whereTen = "",whereSdt ="", whereDiaChi="";
 				
-				if(chkTenNv.isSelected())
-					where += " where NhanVien.TenNv like N'"+ten+"'";
-				if(chkSdt.isSelected())
-					where += " and NhanVien.SoDienThoai like '"+sdt+"'";
-				if(chkDiaChi.isSelected())
-					where += " and NhanVien.DiaChi like N'%"+diaChi+"%'";
+				boolean chonTen = chkTenNv.isSelected();
+				boolean chonSdt = chkSdt.isSelected();
+				boolean chonDiaChi = chkDiaChi.isSelected();
+				
+				if(chonTen) {
+					whereTen = " NhanVien.TenNv like N'"+ten+"' ";
+					where = whereTen;
+				}	
+				if(chonSdt)
+					whereSdt = " NhanVien.SoDienThoai like '"+sdt+"'";
+				if(chonDiaChi)  
+					whereDiaChi = " NhanVien.DiaChi like N'%"+diaChi+"%'";
+				
+				if(!chonTen&& chonSdt&& !chonDiaChi)
+					where = whereSdt;
+				else if(!chonTen&& !chonSdt&& chonDiaChi)
+					where = whereDiaChi;
+				else if(chonTen&& chonSdt&& chonDiaChi)
+					where = whereTen + "and" + whereSdt + "and" + whereDiaChi;
+				else if(chonTen&& chonSdt && !chonDiaChi)
+					where = whereTen +"and"+ whereSdt;
+				else if(chonTen&& !chonSdt&& chonDiaChi)
+					where = whereTen + "and"+ whereDiaChi;
+				else if(!chonTen&& chonSdt&& chonDiaChi)
+					where = chonSdt+ "and"+ chonDiaChi;
+				
 				
 				System.out.println(where);
 				
@@ -257,6 +277,7 @@ public class TimKiemNhanVien_GUI extends JFrame {
 				chkDiaChi.setSelected(false);
 				chkSdt.setSelected(false);
 				chkTenNv.setSelected(false);
+				modelNhanVien.setRowCount(0);
 			}});
 		
 		

@@ -181,6 +181,8 @@ public class TaiKhoanDAO extends ConnectDB{
         return null;
     }
     
+    //lấy tài khoản từ mã tài khoản
+    
 //    từ tài khoản -> trả về nhân viên hoặc Khách hàng
     public Object getNguoiDung(String taiKhoan) {
     	PreparedStatement stmt = null;

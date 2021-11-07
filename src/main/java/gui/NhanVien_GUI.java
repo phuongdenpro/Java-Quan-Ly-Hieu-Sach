@@ -51,15 +51,11 @@ public class NhanVien_GUI extends JFrame {
 	private JPanel out;
 	private JTextField txtNhapLieu;
 	private JTable tblNhanVien;
-	private JTextField txtMaNv;
-	private JTextField txtTenNv;
-	private JTextField txtEmail;
-	private JTextField txtSdt;
-	private JTextField txtDiaChi;
+	private JTextField txtMaNv,txtTenNv,txtSdt,txtDiaChi;
 	private DefaultTableModel modelDSNV;
 	private List<NhanVien> dsnv;
-	private JButton btnSuaKh;
-	private JButton btnXoaKh;
+	private JButton btnSuaNv,btnXoaNv,btnLamMoi;
+	
 
 	/**
 	 * Launch the application.
@@ -98,7 +94,6 @@ public class NhanVien_GUI extends JFrame {
 		JLabel title = new JLabel("QUẢN LÝ NHÂN VIÊN");
 		title.setFont(new Font("Tahoma", Font.BOLD, 20));
 		top.add(title);
-		//title.setHorizontalAlignment(ABORT);
 		out.add(top);
 		
 		JPanel bottom = new JPanel();
@@ -107,11 +102,9 @@ public class NhanVien_GUI extends JFrame {
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		bottom.add(contentPane,BorderLayout.CENTER);
 		JPanel pnLeft = new JPanel();
-		//pnLeft.setBorder();
 		Border compound = BorderFactory.createCompoundBorder(
 				BorderFactory.createBevelBorder(BevelBorder.RAISED),
 				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -162,25 +155,7 @@ public class NhanVien_GUI extends JFrame {
 		txtTenNv = new JTextField();
 		txtTenNv.setPreferredSize(new Dimension(7, 30));
 		txtTenNv.setColumns(20);
-		//PromptSupport.setPrompt("tên nhân viên", txtTenNv);
-		new Placeholder().placeholder(txtTenNv, "Họ và tên");
 		pnTenKh.add(txtTenNv);
-		
-		JPanel pnEmail = new JPanel();
-		FlowLayout fl_pnEmail = (FlowLayout) pnEmail.getLayout();
-		fl_pnEmail.setAlignment(FlowLayout.LEFT);
-		pnThongTinKh.add(pnEmail);
-		
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setPreferredSize(new Dimension(100, 14));
-		pnEmail.add(lblEmail);
-		
-		txtEmail = new JTextField();
-		txtEmail.setPreferredSize(new Dimension(7, 30));
-		txtEmail.setColumns(20);
-		//PromptSupport.setPrompt("Example@gmail.com", txtEmail);
-		new Placeholder().placeholder(txtEmail, "Example@gmail.com");
-		pnEmail.add(txtEmail);
 		
 		JPanel pnSoDienThoai = new JPanel();
 		FlowLayout fl_pnSoDienThoai = (FlowLayout) pnSoDienThoai.getLayout();
@@ -194,8 +169,6 @@ public class NhanVien_GUI extends JFrame {
 		txtSdt = new JTextField();
 		txtSdt.setPreferredSize(new Dimension(7, 30));
 		txtSdt.setColumns(20);
-		//PromptSupport.setPrompt("09xx xxx xxx ", txtSdt);
-		new Placeholder().placeholder(txtSdt, "09xx xxx xxx");
 		pnSoDienThoai.add(txtSdt);
 		
 		JPanel pnDiaChi = new JPanel();
@@ -210,8 +183,6 @@ public class NhanVien_GUI extends JFrame {
 		txtDiaChi = new JTextField();
 		txtDiaChi.setPreferredSize(new Dimension(7, 30));
 		txtDiaChi.setColumns(20);
-		//PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
-		new Placeholder().placeholder(txtDiaChi, "Số nhà, tên đường, tỉnh thành");
 		pnDiaChi.add(txtDiaChi);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -219,29 +190,21 @@ public class NhanVien_GUI extends JFrame {
 		
 		JPanel pnChucNang = new JPanel();
 		pnThongTinKh.add(pnChucNang);
-		pnChucNang.setLayout(new GridLayout(2, 0, 5, 5));
+		pnChucNang.setLayout(new GridLayout(0, 1, 0, 5));
 		
-		JButton btnThemKh = new JButton("Thêm");
-		btnThemKh.setBackground(Color.WHITE);
-		btnThemKh.setPreferredSize(new Dimension(70, 35));
-		btnThemKh.setIcon(new ImageIcon("data\\images\\blueAdd_16.png"));
-		btnThemKh.setIconTextGap(10);
-		out.getRootPane().setDefaultButton(btnThemKh);
-		pnChucNang.add(btnThemKh);
+		btnSuaNv = new JButton("Sửa");
+		btnSuaNv.setBackground(Color.WHITE);
+		btnSuaNv.setIcon(new ImageIcon("data\\images\\repairing-service.png"));
+		btnSuaNv.setIconTextGap(30);
+		pnChucNang.add(btnSuaNv);
 		
-		btnSuaKh = new JButton("Sửa");
-		btnSuaKh.setBackground(Color.WHITE);
-		btnSuaKh.setIcon(new ImageIcon("data\\images\\repairing-service.png"));
-		btnSuaKh.setIconTextGap(30);
-		pnChucNang.add(btnSuaKh);
+		btnXoaNv = new JButton("Xóa");
+		btnXoaNv.setBackground(Color.WHITE);
+		btnXoaNv.setIcon(new ImageIcon("data\\images\\trash.png"));
+		btnXoaNv.setIconTextGap(10);
+		pnChucNang.add(btnXoaNv);
 		
-		btnXoaKh = new JButton("Xóa");
-		btnXoaKh.setBackground(Color.WHITE);
-		btnXoaKh.setIcon(new ImageIcon("data\\images\\trash.png"));
-		btnXoaKh.setIconTextGap(10);
-		pnChucNang.add(btnXoaKh);
-		
-		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBackground(Color.WHITE);
 		btnLamMoi.setIcon(new ImageIcon("data\\images\\refresh.png"));
 		btnLamMoi.setIconTextGap(10);
@@ -297,13 +260,24 @@ public class NhanVien_GUI extends JFrame {
 //		modelDSNV.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
 		renderData();
+		setDisable();
 		
+		addEvents();
+	}
+
+	private void addEvents() {
+		// TODO Auto-generated method stub
 		tblNhanVien.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				int idx = tblNhanVien.getSelectedRow();
+				if(idx == -1 && txtTenNv.getText().equals("")) {
+					setDisable();
+				}
 				if(idx != -1) {
+					setEnable();
+					
 					NhanVien nv = dsnv.get(idx);
 					txtMaNv.setText(String.valueOf(nv.getMaNv()));
 					txtTenNv.setText(nv.getTenNv());
@@ -313,7 +287,7 @@ public class NhanVien_GUI extends JFrame {
 			}
 		});
 		
-		btnSuaKh.addActionListener(new ActionListener() {
+		btnSuaNv.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -324,7 +298,8 @@ public class NhanVien_GUI extends JFrame {
 				String sdt = txtSdt.getText();
 				String diaChi = txtDiaChi.getText();
 				
-				if(sdt.length() < 10) {
+				boolean ktSdt  = sdt.matches("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$");	
+				if(ktSdt == false) {
 					JOptionPane.showMessageDialog(contentPane, "Số điện thoại không hợp lệ");
 					return;
 				}
@@ -344,25 +319,28 @@ public class NhanVien_GUI extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+				lamMoi();
+				setDisable();
 			}
 		});
 		
-		btnXoaKh.addActionListener(new ActionListener() {
+		btnXoaNv.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int idx = tblNhanVien.getSelectedRow();
-				if(idx != -1) {
+				int index = tblNhanVien.getSelectedRow();
+				if(index != -1) {
 					
-					int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn xóa?");
+					int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn xóa!","Xác nhận", JOptionPane.YES_NO_OPTION);
 					if(choose == 0) {
 						tblNhanVien.clearSelection();
 						try {
-							boolean kq = new NhanVienDAO().xoaNV(dsnv.get(idx));
+							boolean kq = new NhanVienDAO().xoaNV(dsnv.get(index));
 							if(kq) {
 								JOptionPane.showMessageDialog(contentPane, "Xóa thành công");
 								renderData();
+								lamMoi();
+								setDisable();
 							}else {
 								JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
 							}
@@ -385,13 +363,18 @@ public class NhanVien_GUI extends JFrame {
 				txtTenNv.setText("");
 				txtSdt.setText("");
 				txtDiaChi.setText("");
-				txtEmail.setText("");
+				try {
+					renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}});
 	}
 
 	public void renderData() throws SQLException {
-		modelDSNV.getDataVector().removeAllElements();
-		
+		//modelDSNV.getDataVector().removeAllElements();
+		modelDSNV.setRowCount(0);
 		dsnv = new NhanVienDAO().getDSNV();
 		dsnv.forEach(nv -> {
 			modelDSNV.addRow
@@ -402,7 +385,20 @@ public class NhanVien_GUI extends JFrame {
 		tblNhanVien.repaint();
 		
 	}
-	
+	public void lamMoi() {
+		txtMaNv.setText("");
+		txtTenNv.setText("");
+		txtSdt.setText("");
+		txtDiaChi.setText("");
+	}
+	public void setDisable() {
+		btnSuaNv.setEnabled(false);
+		btnXoaNv.setEnabled(false);
+	}
+	public void setEnable() {
+		btnSuaNv.setEnabled(true);
+		btnXoaNv.setEnabled(true);
+	}
 	
 	public JPanel getContentPane() {
 		 return this.out;

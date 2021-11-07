@@ -148,7 +148,7 @@ public class KhachHangDAO extends ConnectDB{
 	    PreparedStatement stmt = null;
 		try {
 		
-		    String sql = "UPDATE KhachHang set HoTen = ?, soDienThoai = ?, diaChi = ? where maKh = ?";
+		    String sql = "UPDATE KhachHang set HoTen = ?, SoDienThoai = ?, DiaChi = ? where MaKH = ?";
 		    stmt = this.conn.prepareStatement(sql);
 		    
 		    stmt.setString(1, kh.getHoTen());
@@ -182,7 +182,10 @@ public class KhachHangDAO extends ConnectDB{
 			
 			if(n== 0) 
 				return false;
-			new TaiKhoanDAO().xoaTaiKhoan(kh.getTaiKhoan().getId());
+			if(kh.getTaiKhoan()!= null) {
+				new TaiKhoanDAO().xoaTaiKhoan(kh.getTaiKhoan().getId());
+			}
+			new TaiKhoanDAO().xoaTaiKhoan(kh.getMaTk());
 			return true;
 		}catch(SQLException ex) {
 			ex.printStackTrace();
@@ -254,7 +257,7 @@ public class KhachHangDAO extends ConnectDB{
 		ArrayList<KhachHang> dskh = new ArrayList<KhachHang>();
 		
 		try {
-			String sqlTimKiem = "select * from KhachHang" + where ;
+			String sqlTimKiem = "select * from KhachHang where" + where ;
 			System.out.println(sqlTimKiem);
 			PreparedStatement stml = this.conn.prepareStatement(sqlTimKiem,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);	
 			ResultSet result = stml.executeQuery();

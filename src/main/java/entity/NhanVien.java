@@ -8,6 +8,16 @@ public class NhanVien {
 	private String tenNv;
 	private String soDienThoai;
 	private String diaChi;
+	private int maTk;
+	
+	public int getMaTk() {
+		return maTk;
+	}
+
+	public void setMaTk(int maTk) {
+		this.maTk = maTk;
+	}
+
 	public TaiKhoan taiKhoan;
 	public int caLamViec;
 	public int chucNang;
@@ -55,6 +65,7 @@ public class NhanVien {
 		this.tenNv = rs.getString("tenNv");
 		this.soDienThoai = rs.getString("soDienThoai");
 		this.diaChi = rs.getString("diaChi");
+		this.maTk = rs.getInt("TaiKhoanID");
 	}
 
 	public NhanVien(int ma, String ten, String sdt, String diaChi2, int caLam) {

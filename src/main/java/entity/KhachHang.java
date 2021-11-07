@@ -12,6 +12,18 @@ public class KhachHang {
 	private String hoTen;
 	private String soDienThoai;
 	private String diaChi;
+	private int maTk;
+	
+	
+	
+	public int getMaTk() {
+		return maTk;
+	}
+
+	public void setMaTk(int maTk) {
+		this.maTk = maTk;
+	}
+
 	public ArrayList<HoaDon> hoaDons = new ArrayList<HoaDon>();
 	public TaiKhoan taiKhoan;
 	public ArrayList<DonDatHang> donDatHangs = new ArrayList<DonDatHang>();
@@ -50,15 +62,18 @@ public class KhachHang {
 			this.hoTen = rs.getString("HoTen");
 			this.soDienThoai = rs.getString("SoDienThoai");
 			this.diaChi = rs.getString("DiaChi");
+			this.maTk = rs.getInt("TaiKhoanID");
+			
 		}catch (Exception e) {
 			KhachHang tmp = new KhachHangDAO().getKhachHang(this.maKh);
 			this.hoTen = tmp.getHoTen();
 			this.soDienThoai = tmp.getSoDienThoai();
 			this.diaChi = tmp.getDiaChi();
+			this.maTk = tmp.getTaiKhoan().getId();
 			// TODO: handle exception
 		}
 	}
-
+	
 	public int getMaKh() {
 		return maKh;
 	}

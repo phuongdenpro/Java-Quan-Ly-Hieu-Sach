@@ -208,13 +208,34 @@ public class TimKiemKhachHang_GUI extends JFrame {
 					return;
 				}
 				
-				String where = "";
-				if(chkTenKh.isSelected())
-					where += " where KhachHang.Hoten like N'"+ten+"'";
-				if(chkSdt.isSelected())
-					where += " and KhachHang.SoDienThoai like '"+sdt+"'";
-				if(chkDiaChi.isSelected())
-					where += " and KhachHang.DiaChi like N'%"+diaChi+"%'";
+				String where = "",whereTen = "",whereSdt ="", whereDiaChi="";
+				
+				boolean chonTen = chkTenKh.isSelected();
+				boolean chonSdt = chkSdt.isSelected();
+				boolean chonDiaChi = chkDiaChi.isSelected();
+				
+				if(chonTen) {
+					whereTen += " KhachHang.Hoten like N'"+ten+"'";
+					where = whereTen;
+				}
+				if(chonSdt)
+					whereSdt += " KhachHang.SoDienThoai like '"+sdt+"'";
+				if(chonDiaChi)  
+					whereDiaChi += " KhachHang.DiaChi like N'%"+diaChi+"%'";
+				//where = whereTen +"and"+ whereSdt+"and"+whereDiaChi;
+				
+				if(!chonTen&& chonSdt&& !chonDiaChi)
+					where = whereSdt;
+				else if(!chonTen&& !chonSdt&& chonDiaChi)
+					where = whereDiaChi;
+				else if(chonTen&& chonSdt&& chonDiaChi)
+					where = whereTen +"and"+ whereSdt +"and"+ whereDiaChi;
+				else if(chonTen&& chonSdt && !chonDiaChi)
+					where = whereTen+ "and" +whereSdt;
+				else if(chonTen&& !chonSdt&& chonDiaChi)
+					where = whereTen +"and"+ whereDiaChi;
+				else if(!chonTen&& chonSdt&& chonDiaChi)
+					where = chonSdt+ "and"+ chonDiaChi;
 				
 				System.out.println(where);
 				try {
@@ -222,6 +243,7 @@ public class TimKiemKhachHang_GUI extends JFrame {
 					if(dskh==null) {
 						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy khách hàng nào");
 						modelKhachHang.setRowCount(0);
+						
 						return;
 					}
 						
@@ -243,6 +265,7 @@ public class TimKiemKhachHang_GUI extends JFrame {
 				chkDiaChi.setSelected(false);
 				chkSdt.setSelected(false);
 				chkTenKh.setSelected(false);
+				modelKhachHang.setRowCount(0);
 			}});
 	}
 	
