@@ -28,7 +28,7 @@ import entity.NhanVien;
 import util.Placeholder;
 import javax.swing.JComboBox;
 
-public class TaoTaiKhoan_GUI extends JFrame {
+public class ThemKhachHang_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtHoTen;
@@ -38,8 +38,6 @@ public class TaoTaiKhoan_GUI extends JFrame {
 	private JTextField txtEmail;
 	private JTextField txtRePassword;
 	private JTextField txtDiaChi;
-	private JComboBox cboCaLamViec;
-	private JPanel pnChucNang;
 
 	/**
 	 * Launch the application.
@@ -48,7 +46,7 @@ public class TaoTaiKhoan_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TaoTaiKhoan_GUI frame = new TaoTaiKhoan_GUI();
+					ThemKhachHang_GUI frame = new ThemKhachHang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,12 +58,12 @@ public class TaoTaiKhoan_GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TaoTaiKhoan_GUI() {
-		setTitle("Tạo tài khoản");
+	public ThemKhachHang_GUI() {
+		setTitle("Thêm khách hàng");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setBounds(0, 0, 400, 450);
+		setBounds(0, 0, 400, 400);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,7 +73,7 @@ public class TaoTaiKhoan_GUI extends JFrame {
 		JPanel pnTieuDe = new JPanel();
 		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 		
-		JLabel lblTieuDe = new JLabel("Tạo tài khoản nhân viên");
+		JLabel lblTieuDe = new JLabel("Thêm khách hàng");
 		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		pnTieuDe.add(lblTieuDe);
 		
@@ -91,7 +89,7 @@ public class TaoTaiKhoan_GUI extends JFrame {
 		pnThongTin.add(pnHoTen);
 		pnHoTen.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblHoTen = new JLabel("Họ tên NV *");
+		JLabel lblHoTen = new JLabel("Họ tên KH *");
 		lblHoTen.setPreferredSize(new Dimension(100, 14));
 		pnHoTen.add(lblHoTen);
 		
@@ -125,34 +123,6 @@ public class TaoTaiKhoan_GUI extends JFrame {
 		txtDiaChi.setPreferredSize(new Dimension(7, 25));
 		txtDiaChi.setColumns(20);
 		pnDiaChi.add(txtDiaChi);
-		
-		JPanel pnCaLamViec = new JPanel();
-		pnThongTin.add(pnCaLamViec);
-		pnCaLamViec.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		
-		JLabel lblCaLamViec = new JLabel("Ca làm việc *");
-		lblCaLamViec.setPreferredSize(new Dimension(100, 14));
-		pnCaLamViec.add(lblCaLamViec);
-		
-		cboCaLamViec = new JComboBox();
-		cboCaLamViec.setPreferredSize(new Dimension(200, 22));
-		pnCaLamViec.add(cboCaLamViec);
-		cboCaLamViec.addItem((String) "Sáng");
-		cboCaLamViec.addItem((String) "Chiều");
-		
-		pnChucNang = new JPanel();
-		pnThongTin.add(pnChucNang);
-		pnChucNang.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		
-		JLabel lblChucNang = new JLabel("Chức năng *");
-		lblChucNang.setPreferredSize(new Dimension(100, 14));
-		pnChucNang.add(lblChucNang);
-		
-		JComboBox cboChucNang = new JComboBox();
-		cboChucNang.setPreferredSize(new Dimension(200, 22));
-		pnChucNang.add(cboChucNang);
-		cboChucNang.addItem((String) "Nhân viên bán hàng");
-		cboChucNang.addItem((String) "Nhân viên quản lý sản phẩm");
 		
 		JPanel pnTenTaiKhoan = new JPanel();
 		pnThongTin.add(pnTenTaiKhoan);
@@ -251,10 +221,10 @@ public class TaoTaiKhoan_GUI extends JFrame {
 	            return;
 	        }
 			
-			NhanVien nv = new NhanVien(txtHoTen.getText(), txtSdt.getText(), txtDiaChi.getText(), cboCaLamViec.getSelectedIndex()+1, cboChucNang.getSelectedIndex()+1);
-//			
+			KhachHang kh = new KhachHang(txtHoTen.getText(), txtSdt.getText(), txtDiaChi.getText());
+			
 			try {
-				if(new TaiKhoanDAO().themTaiKhoan(nv, txtTenTk.getText(), txtMatKhau.getText())) {
+				if(new TaiKhoanDAO().themTaiKhoan(kh, txtTenTk.getText(), txtMatKhau.getText())) {
 					JOptionPane.showMessageDialog(contentPane, "Tạo tài khoản thành công");
 					this.setVisible(false);
 					return;

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ import dao.DonDatHangDAO;
 import dao.HoaDonDAO;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
+import util.Currency;
 
 import javax.swing.border.EtchedBorder;
 
@@ -339,7 +341,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 				hd.getKhachHang().getHoTen(), 
 				hd.getKhachHang().getSoDienThoai(),
 				hd.getKhachHang().getDiaChi(),
-				hd.tinhTongTien(),
+				new Currency(hd.tinhTongTien()).toString(),
 				hd.getNgayMua()
 			});
 		});
@@ -353,7 +355,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		txtTenKH.setText(hd.getKhachHang().getHoTen());
 		txtSdt.setText(hd.getKhachHang().getSoDienThoai());
 		txtDiaChi.setText(hd.getKhachHang().getDiaChi());
-		txtTongTien.setText(String.valueOf(hd.tinhTongTien()));
+		txtTongTien.setText(new Currency(hd.tinhTongTien()).toString());
 		
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
@@ -363,7 +365,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 				cthd.getSanPham().getTenSp(),
 				cthd.getDonGia(),
 				cthd.getSoLuong(),
-				cthd.tinhThanhTien()
+				new Currency(cthd.tinhThanhTien()).toString()
 			});
 		});
 		tblDSSP.revalidate();
@@ -382,7 +384,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 					hd.getKhachHang().getHoTen(), 
 					hd.getKhachHang().getSoDienThoai(),
 					hd.getKhachHang().getDiaChi(),
-					hd.tinhTongTien(),
+					new Currency(hd.tinhTongTien()).toString(),
 					hd.getNgayMua()
 				});
 		});

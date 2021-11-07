@@ -25,7 +25,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
         
         try {
 
-            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai like 'Sách%' OR TenLoai like 'Truyện%'";
+            String sql = "SELECT * FROM dbo.LoaiSanPham where LoaiSanPham.TenLoai like N'Sách%' OR LoaiSanPham.TenLoai like N'Truyện%'";
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -53,7 +53,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
         
         try {
 
-            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai NOT like 'Sách%' AND TenLoai NOT like 'Truyện%'";
+            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai NOT like N'Sách%' AND TenLoai NOT like N'Truyện%'";
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {

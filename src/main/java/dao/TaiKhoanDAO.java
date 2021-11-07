@@ -76,11 +76,6 @@ public class TaiKhoanDAO extends ConnectDB{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return false;		
 	}
@@ -120,11 +115,6 @@ public class TaiKhoanDAO extends ConnectDB{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return false;		
 	}

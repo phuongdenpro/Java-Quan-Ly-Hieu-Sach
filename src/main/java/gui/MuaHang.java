@@ -43,7 +43,7 @@ public class MuaHang extends JFrame{
 		renderGUI();
 	}
 	
-	public void renderGUI() {
+	public void renderGUI() throws SQLException {
 		
 		this.setTitle("Hiệu sách");
 		
@@ -54,6 +54,7 @@ public class MuaHang extends JFrame{
 			
 		//		
 		this.renderMain(trangChuGUI.getContentPane(), "trangchu");
+		trangChuGUI.renderData();
 //		contentPane
 		handleMenu();
 		handleGioHang();

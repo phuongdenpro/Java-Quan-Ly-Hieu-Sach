@@ -4,6 +4,12 @@ import java.sql.Date;
 
 public class Ngay {
 	public static Date now = new Date((long)System.currentTimeMillis()/86400000*86400000);
+	
+	public static Date homNay() {
+		return now;
+	}
+	
+	
 	public static Date homQua() {	
 		if(now.getDate() == 1) {
 			if(now.getMonth() == 0)
@@ -48,6 +54,10 @@ public class Ngay {
 		 else if(y % 400 == 0 || (y % 100 == 0 && y % 4 != 0))
 			 return 29;
 		 else return 29;
+	}
+	
+	public static long tinhKhoangNgay(Date d1, Date d2) {
+		return (long) (d2.getTime() - d1.getTime()) / 86400000 + 1;
 	}
 	
 	public static void main(String[] args) {

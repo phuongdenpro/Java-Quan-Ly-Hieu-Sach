@@ -8,7 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import dao.KhachHangDAO;
 import dao.SanPhamDAO;
+import entity.KhachHang;
 import entity.SanPham;
 import util.Currency;
 import util.Ngay;
@@ -30,26 +32,39 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
-public class ThongKeDungCuBanChay_GUI extends JFrame {
+public class ThongKeMucDoMuaHang_GUI extends JFrame {
 
+	private int soLuongSP = 0;
+	
 	private JPanel contentPane;
 	private JTextField txtTuNgay;
 	private JTextField txtToiNgay;
 	private Map<SanPham, Integer> dssp;
-	private DefaultTableModel modelDSSP;
-	private JTable tblDSSP;
+	private DefaultTableModel model;
+	private JTable table;
 	DialogDatePicker f = new DialogDatePicker();
 	private kDatePicker dpTuNgay;
 	private kDatePicker dpToiNgay;
 	private JComboBox comboBox;
 	private JComboBox cboLoaiTK;
+
 	private JLabel lblTongSo;
-	private int soLuongSP;
+
+	private JLabel lblTongSoTien;
+
+	private int tongSoLanMua;
+
+	private int tongSoTien;
+
+	private DefaultComboBoxModel<Integer> modelLimit;
+
+	private JComboBox cboLimit;
 	/**
 	 * Launch the application.
 	 */
@@ -57,7 +72,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ThongKeDungCuBanChay_GUI frame = new ThongKeDungCuBanChay_GUI();
+					ThongKeMucDoMuaHang_GUI frame = new ThongKeMucDoMuaHang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,7 +85,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public ThongKeDungCuBanChay_GUI() throws SQLException {
+	public ThongKeMucDoMuaHang_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setBounds(0, 0, 1300, 700);
@@ -87,7 +102,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê dụng cụ bán chạy");
+		JLabel lblNewLabel_2 = new JLabel("Thống kê mức độ mua hàng");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_3.add(lblNewLabel_2);
 		
@@ -121,6 +136,22 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 		dpToiNgay = new kDatePicker();
 		panel_2.add(dpToiNgay);
 		
+		JPanel panel_6 = new JPanel();
+		panel_2.add(panel_6);
+		
+		JLabel lblSoLuongToiDa = new JLabel("Số lượng KH tối đa: ");
+		panel_6.add(lblSoLuongToiDa);
+		
+		modelLimit = new DefaultComboBoxModel<Integer>();
+		cboLimit = new JComboBox(modelLimit);
+		cboLimit.setEditable(true);
+		panel_6.add(cboLimit);
+		modelLimit.addElement(10);
+		modelLimit.addElement(25);
+		modelLimit.addElement(50);
+		modelLimit.addElement(100);
+		modelLimit.addElement(500);
+		
 		JButton btnThongKe = new JButton("Thống kê", new ImageIcon("data/images/statistics.png"));
 
 		btnThongKe.setBackground(Color.WHITE);
@@ -135,22 +166,36 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 		
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
-		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Nhà cung cấp", "Đơn giá", "Số lượng đã bán"};
-		modelDSSP = new DefaultTableModel(cols, 0);
-		tblDSSP = new JTable(modelDSSP);
-		JScrollPane scrollPane = new JScrollPane(tblDSSP);
+		String[] cols = {"STT", "Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ", "Số lần mua hàng", "Số tiền mua hàng"};
+		model = new DefaultTableModel(cols, 0);
+		table = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(table);
 		panel_1.add(scrollPane);
 		
 		JPanel panel_4 = new JPanel();
 		panel_1.add(panel_4, BorderLayout.SOUTH);
 		
-		JLabel lblTong = new JLabel("Tổng số dụng cụ đã bán: ");
-		lblTong.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4.add(lblTong);
+		JPanel panel_5 = new JPanel();
+		panel_4.add(panel_5);
 		
-		lblTongSo = new JLabel("20");
+		JLabel lblTong = new JLabel("Tổng số lần mua hàng: ");
+		lblTong.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_5.add(lblTong);
+		
+		lblTongSo = new JLabel("0");
 		lblTongSo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4.add(lblTongSo);
+		panel_5.add(lblTongSo);
+		
+		JPanel panel_5_1 = new JPanel();
+		panel_4.add(panel_5_1);
+		
+		JLabel lblTngSTin = new JLabel("Tổng số tiền mua hàng: ");
+		lblTngSTin.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_5_1.add(lblTngSTin);
+		
+		lblTongSoTien = new JLabel("0");
+		lblTongSoTien.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_5_1.add(lblTongSoTien);
 		
 		renderData();
 	
@@ -194,6 +239,11 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 				tuNgay = Ngay._1NamQua();
 			}
 			
+			if(!String.valueOf(cboLimit.getSelectedItem()).matches("^\\d+$")) {
+				JOptionPane.showMessageDialog(contentPane, "Số lượng khách hàng tối đa không hợp lệ");
+				return;
+			}
+//			
 		    try {
 				renderData(tuNgay, toiNgay);
 			} catch (SQLException e1) {
@@ -223,46 +273,63 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 	}
 	
 	public void renderData() throws SQLException {
-		dssp = new SanPhamDAO().thongKeSPBanChay(false);
-		tblDSSP.clearSelection();
-		modelDSSP.getDataVector().removeAllElements();
-		soLuongSP = 0;
-		dssp.forEach((sp, soLuongDaBan) -> {
-			modelDSSP.addRow(new Object[] {
-				sp.getMaSp(),
-				sp.getTenSp(),
-				sp.getNhaCungCap().getTenNCC(),
-				new Currency(sp.getGiaSp()).toString(),
-				soLuongDaBan
+		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN(10, 0);
+		
+		table.clearSelection();
+		model.getDataVector().removeAllElements();
+		
+		tongSoLanMua = 0;
+		tongSoTien = 0;
+		AtomicInteger stt = new AtomicInteger(1);
+		dskh.forEach((kh, mp) -> {
+			model.addRow(new Object[] {
+				stt.get(),
+				kh.getMaKh(),
+				kh.getHoTen(),
+				kh.getSoDienThoai(),
+				kh.getDiaChi(),
+				mp.get("soLanMuaHang"),
+				new Currency(mp.get("tongTien")).toString(),
 			});
-			soLuongSP += soLuongDaBan;
+			stt.set(stt.get()+1);
+			tongSoLanMua += mp.get("soLanMuaHang");
+			tongSoTien += mp.get("tongTien");
 		});
-		lblTongSo.setText(String.valueOf(soLuongSP));
-		tblDSSP.revalidate();
-		tblDSSP.repaint();
+		lblTongSo.setText(String.valueOf(tongSoLanMua));
+		lblTongSoTien.setText(new Currency(tongSoTien).toString());
+		table.revalidate();
+		table.repaint();
 	}
 	
 	public void renderData(Date tuNgay, Date toiNgay) throws SQLException {
-		System.out.println(tuNgay.toString() + "->" + toiNgay.toString());
-		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay, false);
-		tblDSSP.clearSelection();
-		modelDSSP.getDataVector().removeAllElements();
-		soLuongSP = 0;
-		dssp.forEach((sp, soLuongDaBan) -> {
-			modelDSSP.addRow(new Object[] {
-				sp.getMaSp(),
-				sp.getTenSp(),
-				sp.getNhaCungCap().getTenNCC(),
-				new Currency(sp.getGiaSp()).toString(),
-				soLuongDaBan
+		int limit = Integer.parseInt(String.valueOf(cboLimit.getSelectedItem()));
+		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN(tuNgay, toiNgay, limit, 0);
+		
+		table.clearSelection();
+		model.getDataVector().removeAllElements();
+		
+		tongSoLanMua = 0;
+		tongSoTien = 0;
+		AtomicInteger stt = new AtomicInteger(1);
+		dskh.forEach((kh, mp) -> {
+			model.addRow(new Object[] {
+				stt.get(),
+				kh.getMaKh(),
+				kh.getHoTen(),
+				kh.getSoDienThoai(),
+				kh.getDiaChi(),
+				mp.get("soLanMuaHang"),
+				new Currency(mp.get("tongTien")).toString(),
 			});
-			soLuongSP += soLuongDaBan;
+			stt.set(stt.get()+1);
+			tongSoLanMua += mp.get("soLanMuaHang");
+			tongSoTien += mp.get("tongTien");
 		});
-		lblTongSo.setText(String.valueOf(soLuongSP));
-		tblDSSP.revalidate();
-		tblDSSP.repaint();
+		lblTongSo.setText(String.valueOf(tongSoLanMua));
+		lblTongSoTien.setText(new Currency(tongSoTien).toString());
+		table.revalidate();
+		table.repaint();
 	}
-	
 	
 
 	public JPanel getContentPane() {

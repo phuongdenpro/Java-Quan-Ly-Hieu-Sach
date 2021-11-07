@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.HoaDonDAO;
 import entity.HoaDon;
+import util.Currency;
 
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
@@ -230,7 +231,7 @@ public class TimKiemHoaDon_GUI extends JFrame {
 				hd.getKhachHang().getHoTen(), 
 				hd.getKhachHang().getSoDienThoai(),
 				hd.getKhachHang().getDiaChi(),
-				hd.tinhTongTien(),
+				new Currency(hd.tinhTongTien()).toString(),
 				hd.getNgayMua()
 			});
 		});
