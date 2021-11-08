@@ -225,7 +225,7 @@ public class ThongKeSachBanChay_GUI extends JFrame {
 	}
 	
 	public void renderData() throws SQLException {
-		dssp = new SanPhamDAO().thongKeSPBanChay(true);
+		dssp = new SanPhamDAO().thongKeSPBanChay(true, 30);
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
 		soLuongSP = 0;
@@ -245,8 +245,22 @@ public class ThongKeSachBanChay_GUI extends JFrame {
 	}
 	
 	public void renderData(Date tuNgay, Date toiNgay) throws SQLException {
-		System.out.println(tuNgay.toString() + "->" + toiNgay.toString());
-		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay, true);
+		long soNgay = Ngay.tinhKhoangNgay(tuNgay, toiNgay);
+		int minSoLuong = 0;
+		if(soNgay <= 3) {
+			minSoLuong = 5; 
+		}else if(soNgay <= 7)
+			minSoLuong = 15;
+		else if(soNgay <= 15)
+			minSoLuong = 30;
+		else if(soNgay <= 30)
+			minSoLuong = 60;
+		else if(soNgay <= 100)
+			minSoLuong = 100;
+		else
+			minSoLuong = 200;
+
+		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay, true, minSoLuong);
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
 		soLuongSP = 0;

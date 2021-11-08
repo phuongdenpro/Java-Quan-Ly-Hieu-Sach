@@ -93,8 +93,8 @@ public class TrangChu_GUI extends JFrame {
 		});
 	}
 
-	public TrangChu_GUI() {
-		
+	public TrangChu_GUI() throws SQLException {
+		GUI();
 	} 
 	
 	public TrangChu_GUI(KhachHang khachHang) throws SQLException {
@@ -172,9 +172,9 @@ public class TrangChu_GUI extends JFrame {
 		pnTimKiem.add(txtTimKiem);
 		txtTimKiem.setColumns(20);
 		
-		btnTimKiem = new JButton("T\u00ECm ki\u1EBFm");
+		btnTimKiem = new JButton("T\u00ECm ki\u1EBFm", new ImageIcon("data/images/search_16.png"));
 		btnTimKiem.setBackground(Color.WHITE);
-		btnTimKiem.setPreferredSize(new Dimension(100, 19));
+		btnTimKiem.setPreferredSize(new Dimension(150, 19));
 		pnTimKiem.add(btnTimKiem);
 		
 		
@@ -245,7 +245,8 @@ public class TrangChu_GUI extends JFrame {
 //		panel_9.setLayout(new GridLayout(0, 4));
 		ArrayList<SanPham> dsSanPham = loaiSanPham.getSanPhams();
 		for(int i=0; i<dsSanPham.size(); i++) {
-			panel_9.add(this.item(dsSanPham.get(i)));
+			if(dsSanPham.get(i).getSoLuong() != 0)
+				panel_9.add(this.item(dsSanPham.get(i)));
 		}
 		
 	}
@@ -284,7 +285,7 @@ public class TrangChu_GUI extends JFrame {
 		JLabel lbSoLuong = new JLabel("Số lượng: " + sanPham.getSoLuong());
 		pnInfo.add(lbSoLuong);
 		
-		JButton btnThemVaoGio = new JButton("Thêm vào giỏ");
+		JButton btnThemVaoGio = new JButton("Thêm vào giỏ", new ImageIcon("data/images/blueAdd_16.png"));
 		btnThemVaoGio.setBackground(Color.WHITE);
 		pnInfo.add(btnThemVaoGio);
 		

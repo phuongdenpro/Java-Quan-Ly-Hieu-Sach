@@ -21,7 +21,8 @@ import entity.NhanVien;
 import entity.SanPham;
 
 public class DonDatHangDAO extends ConnectDB{
-
+	private String error = "";
+	
     public DonDatHangDAO() throws SQLException {
 		super();
 	}
@@ -183,7 +184,11 @@ public class DonDatHangDAO extends ConnectDB{
         	dsctdh.forEach(ctddh -> {
         		if(ctddh.getSoLuong() > ctddh.getSanPham().getSoLuong()) {
         			flag.set(false);
-        			
+        			if(error.equals("")) {
+        				error = ctddh.getSanPham().getTenSp()+" chỉ còn "+ctddh.getSanPham().getSoLuong()+" sản phẩm";
+        			}else {
+        				error += ", "+ctddh.getSanPham().getTenSp()+" chỉ còn "+ctddh.getSanPham().getSoLuong()+" sản phẩm";
+        			}
         		}
         	});
         	
@@ -346,7 +351,7 @@ public class DonDatHangDAO extends ConnectDB{
         try {
         	System.out.println(key + " " + val);
 
-            String sql = "SELECT * FROM dbo.DonDatHang inner join dbo.KhachHang on dbo.DonDatHang.maKH = dbo.KhachHang.maKH where dbo.DonDatHang.tinhTrang != 0 and "+ key +" like N'"+ val + "'";
+            String sql = "SELECT * FROM dbo.DonDatHang inner join dbo.KhachHang on dbo.DonDatHang.maKH = dbo.KhachHang.maKH where dbo.DonDatHang.tinhTrang != 0 and "+ key +" like N'%"+ val + "%'";
             stmt = this.conn.createStatement();
             
             ResultSet rsDDH = stmt.executeQuery(sql);
@@ -372,7 +377,13 @@ public class DonDatHangDAO extends ConnectDB{
     	return dsddh;
     }
     
-    public static void main(String[] args) throws SQLException {
+    
+    
+    public String getError() {
+		return error;
+	}
+
+	public static void main(String[] args) throws SQLException {
 //    	KhachHang kh = new KhachHangDAO().getKhachHang(1);
 //    	SanPham sp = new SanPhamDAO().getSanPham(17);
     	DonDatHangDAO DDHDao = new DonDatHangDAO();

@@ -405,9 +405,9 @@ public class SanPhamDAO extends ConnectDB {
 		try {
 			String loai = "";
         	if(isSach)
-        		loai = " tenLoai like '%Sách%' or tenLoai like '%Truyện%' ";
+        		loai = " (tenLoai like N'%Sách%' or tenLoai like N'%Truyện%') ";
         	else {
-        		loai = " tenLoai not like '%Sách%' and tenLoai not like '%Truyện%' ";
+        		loai = " (tenLoai not like N'%Sách%' and tenLoai not like N'%Truyện%') ";
         	}
         	
 			String sql = "  SELECT * FROM [HieuSach].[dbo].[SanPham]\r\n"
@@ -458,15 +458,20 @@ public class SanPhamDAO extends ConnectDB {
 	}
 
     
-    public Map<SanPham, Integer> thongKeSPBanChay(boolean isSach) {
+    public Map<SanPham, Integer> thongKeSPBanChay(boolean isSach, int minSoLuong) {
     	Map<SanPham, Integer> kq = new LinkedHashMap<SanPham, Integer>();
     	PreparedStatement stmt = null;
         try {
         	String loai = "";
         	if(isSach)
-        		loai = " tenLoai like '%Sách%' or tenLoai like '%Truyện%' ";
+        		loai = " (tenLoai like N'%Sách%' or tenLoai like N'%Truyện%') ";
         	else {
-        		loai = " tenLoai not like '%Sách%' and tenLoai not like '%Truyện%' ";
+        		loai = " (tenLoai not like N'%Sách%' and tenLoai not like N'%Truyện%') ";
+        	}
+        	
+        	String soLuong = " ";
+        	if(minSoLuong != 0) {
+        		soLuong = " and sum([ChiTietHoaDon].soLuong) >= "+minSoLuong+"\r\n";
         	}
 
             String sql = "select SanPham.maSP, tenSP, maNCC, dongia, SanPham.MaLoai, TenLoai, sum([ChiTietHoaDon].soLuong) as soLuongDaBan\r\n"
@@ -476,7 +481,7 @@ public class SanPhamDAO extends ConnectDB {
             		+ "inner join [HieuSach].[dbo].[LoaiSanPham]\r\n"
             		+ "on LoaiSanPham.maLoai = SanPham.maLoai\r\n"
             		+ "group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia, SanPham.MaLoai, TenLoai\r\n"
-            		+ "having "+loai
+            		+ "having "+loai + soLuong
             		+ "order by soLuongDaBan desc";
             stmt = this.conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -502,15 +507,20 @@ public class SanPhamDAO extends ConnectDB {
         return null;
     }
     
-    public Map<SanPham, Integer> thongKeSPBanChay(Date tuNgay, Date toiNgay, boolean isSach) {
+    public Map<SanPham, Integer> thongKeSPBanChay(Date tuNgay, Date toiNgay, boolean isSach, int minSoLuong) {
     	Map<SanPham, Integer> kq = new LinkedHashMap<SanPham, Integer>();
     	PreparedStatement stmt = null;
         try {
         	String loai = "";
         	if(isSach)
-        		loai = " tenLoai like '%Sách%' or tenLoai like '%Truyện%' ";
+        		loai = " (tenLoai like N'%Sách%' or tenLoai like N'%Truyện%') ";
         	else {
-        		loai = " tenLoai not like '%Sách%' and tenLoai not like '%Truyện%' ";
+        		loai = " (tenLoai not like N'%Sách%' and tenLoai not like N'%Truyện%') ";
+        	}
+        	
+        	String soLuong = " ";
+        	if(minSoLuong != 0) {
+        		soLuong = " and sum([ChiTietHoaDon].soLuong) >= "+minSoLuong+" ";
         	}
 
             String sql = "select maSP, tenSP, maNCC, dongia, maLoai, tenLoai, sum(soLuongDaBan) as soLuongDaBan \r\n"
@@ -523,9 +533,10 @@ public class SanPhamDAO extends ConnectDB {
             		+ "	inner join [HieuSach].[dbo].[HoaDon]\r\n"
             		+ "	on ChiTietHoaDon.maHD = HoaDon.maHD\r\n"
             		+ "	group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia, ngayMua, [LoaiSanPham].maLoai, tenLoai\r\n"
-            		+ "	having ngayMua >= ? and ngayMua <= ? and "+ loai +") as cthd\r\n"
+            		+ "	having ngayMua >= ? and ngayMua <= ? and "+ loai + soLuong+") as cthd\r\n"
             		+ "group by cthd.maSP, cthd.maSP, tenSP, maNCC, dongia, maLoai, tenLoai\r\n"
             		+ "order by soLuongDaBan desc";
+            System.out.println(sql);
             stmt = this.conn.prepareStatement(sql);
             stmt.setDate(1, tuNgay);
             stmt.setDate(2, toiNgay);

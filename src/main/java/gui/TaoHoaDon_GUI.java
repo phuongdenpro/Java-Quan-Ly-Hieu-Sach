@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 
 import java.awt.Dimension;
 import java.awt.Component;
@@ -215,7 +216,7 @@ public class TaoHoaDon_GUI extends JFrame {
 		JPanel pnBtn = new JPanel();
 		pnThongTin.add(pnBtn);
 		
-		btnThemHD = new JButton("Thêm hóa đơn");
+		btnThemHD = new JButton("Thêm hóa đơn", new ImageIcon("data/images/blueAdd_16.png"));
 		btnThemHD.setBackground(Color.WHITE);
 		pnBtn.add(btnThemHD);
 		

@@ -13,7 +13,9 @@ import entity.HoaDon;
 import util.Currency;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -28,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
 
 public class TimKiemHoaDon_GUI extends JFrame {
 
@@ -143,11 +146,15 @@ public class TimKiemHoaDon_GUI extends JFrame {
 		JPanel panel_9 = new JPanel();
 		panel_2.add(panel_9);
 		
-		JButton btnTimKiem = new JButton("Tìm kiếm");
+		
+		panel_9.setLayout(new GridLayout(0, 2, 10, 0));
+		ImageIcon icon_timkiem = new ImageIcon("data/images/search_16.png");
+		JButton btnTimKiem = new JButton("Tìm kiếm", icon_timkiem);
 		btnTimKiem.setBackground(Color.WHITE);
 		panel_9.add(btnTimKiem);
 		
-		JButton btnLamMoi = new JButton("Làm mới dữ liệu");
+		ImageIcon icon_refresh = new ImageIcon("data/images/refresh.png");
+		JButton btnLamMoi = new JButton("Làm mới dữ liệu", icon_refresh);
 		btnLamMoi.setBackground(Color.WHITE);
 		panel_9.add(btnLamMoi);
 		
@@ -198,6 +205,10 @@ public class TimKiemHoaDon_GUI extends JFrame {
 			
 			try {
 				dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(where);
+				if(dshd.size() == 0) {
+					JOptionPane.showMessageDialog(contentPane, "Không có hóa đơn phù hợp");
+					return;
+				}
 				renderDataTimKiem();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block

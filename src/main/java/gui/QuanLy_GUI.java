@@ -23,6 +23,7 @@ import entity.TaiKhoan;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class QuanLy_GUI extends JFrame {
 
@@ -73,7 +74,31 @@ public class QuanLy_GUI extends JFrame {
 //	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
 	private ThongKe thongKeGUI = new ThongKe();
 
-	private JMenuBar menuBar;
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu mnHoaDon = new JMenu();
+	private JMenuItem mntmQLHoaDon = new JMenuItem();
+	private JMenuItem mntmThemHoaDon = new JMenuItem();
+	private JMenuItem mntmTimKiemHD = new JMenuItem();
+	private JMenu mnKhachHang = new JMenu();
+	private JMenuItem mntmQuanLyKH = new JMenuItem();
+	private JMenuItem mntmThemKH = new JMenuItem();
+	private JMenuItem mntmMuaHang = new JMenuItem();
+	private JMenuItem mntmDonDatHang = new JMenuItem();
+	private JMenuItem mntmTimKiemKH = new JMenuItem();
+	private JMenuItem mntmThongKeKHTN = new JMenuItem();
+	private JMenuItem mntmThongKeKHMuaNhieu = new JMenuItem();
+	private JMenuItem mntmThongKeKHMuaIt = new JMenuItem();
+	private JMenuItem mntmTaoTaiKhoan = new JMenuItem();
+	private JMenuItem mntmQuanLyNhanVien = new JMenuItem();
+	private JMenuItem mntmThongKe = new JMenuItem();
+	private JMenuItem mntmQLSach = new JMenuItem();
+	private JMenuItem mntmQLSPKhac = new JMenuItem();
+	private JMenuItem mntmDanhMuc = new JMenuItem();
+	private JMenuItem mntmNhaCC = new JMenuItem();
+	private JMenuItem mntmThongKeSPBanChay = new JMenuItem();
+	private JMenuItem mntmThongKeDCBanChay = new JMenuItem();
+	private JMenuItem mntmThongKeSachBanHet = new JMenuItem();
+	private JMenuItem mntmThongKeDCBanHet = new JMenuItem();
 
 	/**
 	 * Launch the application.
@@ -101,9 +126,9 @@ public class QuanLy_GUI extends JFrame {
 		setTitle("Quản lý hiệu sách");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setBounds(0, 0, 1320, 700);
+		setBounds(0, 0, 1350, 700);
 
-		menuGUI();
+		
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
 //		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
@@ -123,6 +148,7 @@ public class QuanLy_GUI extends JFrame {
 //		menuBar.setVisible(true);
 		handleLogin();
 		handleRegister();
+		handleDangXuat();
 	}
 
 	public void menuGUI() {
@@ -133,34 +159,38 @@ public class QuanLy_GUI extends JFrame {
 
 		JMenu mnTrangChu = new JMenu("Trang ch\u1EE7");
 		menuBar.add(mnTrangChu);
-
-		JMenu mnHoaDon = new JMenu("Hóa đơn");
-		menuBar.add(mnHoaDon);
-
-		JMenuItem mntmQLHoaDon = new JMenuItem("Quản lý hóa đơn");
-		mnHoaDon.add(mntmQLHoaDon);
-
-		JMenuItem mntmThemHoaDon = new JMenuItem("Thêm hóa đơn");
-		mnHoaDon.add(mntmThemHoaDon);
-
-		JMenuItem mntmTimKiemHD = new JMenuItem("Tìm kiếm hóa đơn");
-		mnHoaDon.add(mntmTimKiemHD);
-
+		
+		if(nhanVien.getChucNang() != 2) {
+			mnHoaDon = new JMenu("Hóa đơn");
+			menuBar.add(mnHoaDon);
+	
+			mntmQLHoaDon = new JMenuItem("Quản lý hóa đơn");
+			mnHoaDon.add(mntmQLHoaDon);
+	
+			mntmThemHoaDon = new JMenuItem("Thêm hóa đơn");
+			mnHoaDon.add(mntmThemHoaDon);
+	
+			mntmTimKiemHD = new JMenuItem("Tìm kiếm hóa đơn");
+			mnHoaDon.add(mntmTimKiemHD);
+		}
+		
 		JMenu mnSanPham = new JMenu("Sản phẩm");
 		menuBar.add(mnSanPham);
-
-		JMenuItem mntmQLSach = new JMenuItem("Quản lý sách");
-		mnSanPham.add(mntmQLSach);
-
-		JMenuItem mntmQLSPKhac = new JMenuItem("Quản lý sản phẩm khác");
-		mnSanPham.add(mntmQLSPKhac);
-
-		JMenuItem mntmDanhMuc = new JMenuItem("Quản lý loại sản phẩm");
-		mnSanPham.add(mntmDanhMuc);
-
-		JMenuItem mntmNhaCC = new JMenuItem("Quản lý nhà cung cấp");
-		mnSanPham.add(mntmNhaCC);
-
+		
+		if(nhanVien.getChucNang() != 1) {
+			mntmQLSach = new JMenuItem("Quản lý sách");
+			mnSanPham.add(mntmQLSach);
+	
+			mntmQLSPKhac = new JMenuItem("Quản lý sản phẩm khác");
+			mnSanPham.add(mntmQLSPKhac);
+	
+			mntmDanhMuc = new JMenuItem("Quản lý loại sản phẩm");
+			mnSanPham.add(mntmDanhMuc);
+	
+			mntmNhaCC = new JMenuItem("Quản lý nhà cung cấp");
+			mnSanPham.add(mntmNhaCC);
+		}
+		
 		JMenuItem mntmTimKiemSach = new JMenuItem("Tìm kiếm sách");
 		mnSanPham.add(mntmTimKiemSach);
 
@@ -173,62 +203,72 @@ public class QuanLy_GUI extends JFrame {
 		JMenuItem mntmTimKiemNCC = new JMenuItem("Tìm kiếm nhà cung cấp");
 		mnSanPham.add(mntmTimKiemNCC);
 
-		JMenuItem mntmThongKeSPBanChay = new JMenuItem("Thống kê sách bán chạy");
-		mnSanPham.add(mntmThongKeSPBanChay);
-
-		JMenuItem mntmThongKeDCBanChay = new JMenuItem("Thống kê dụng cụ bán chạy");
-		mnSanPham.add(mntmThongKeDCBanChay);
-
-		JMenuItem mntmThongKeSachBanHet = new JMenuItem("Thống kê sách đã hết");
-		mnSanPham.add(mntmThongKeSachBanHet);
-
-		JMenuItem mntmThongKeDCBanHet = new JMenuItem("Thống kê dụng cụ đã hết");
-		mnSanPham.add(mntmThongKeDCBanHet);
+		if(nhanVien.getChucNang() != 1) {
+			mntmThongKeSPBanChay = new JMenuItem("Thống kê sách bán chạy");
+			mnSanPham.add(mntmThongKeSPBanChay);
+	
+			mntmThongKeDCBanChay = new JMenuItem("Thống kê dụng cụ bán chạy");
+			mnSanPham.add(mntmThongKeDCBanChay);
+	
+			mntmThongKeSachBanHet = new JMenuItem("Thống kê sách đã hết");
+			mnSanPham.add(mntmThongKeSachBanHet);
+	
+			mntmThongKeDCBanHet = new JMenuItem("Thống kê dụng cụ đã hết");
+			mnSanPham.add(mntmThongKeDCBanHet);
+		}
 
 //		JMenu mnDanhMucSanPham = new JMenu("Danh mục sản phẩm");
 //		menuBar.add(mnDanhMucSanPham);
-
-		JMenu mnKhachHang = new JMenu("Khách hàng");
-		menuBar.add(mnKhachHang);
-
-		JMenuItem mntmQuanLyKH = new JMenuItem("Quản lý khách hàng");
-		mnKhachHang.add(mntmQuanLyKH);
-
-		JMenuItem mntmThemKH = new JMenuItem("Thêm khách hàng");
-		mnKhachHang.add(mntmThemKH);
-
-		JMenuItem mntmMuaHang = new JMenuItem("Mua hàng");
-		mnKhachHang.add(mntmMuaHang);
-
-		JMenuItem mntmDonDatHang = new JMenuItem("Đơn đặt hàng");
-		mnKhachHang.add(mntmDonDatHang);
-
-		JMenuItem mntmTimKiemKH = new JMenuItem("Tìm kiếm khách hàng");
-		mnKhachHang.add(mntmTimKiemKH);
-
-		JMenuItem mntmThongKeKHTN = new JMenuItem("Thống kê mức độ mua hàng");
-		mnKhachHang.add(mntmThongKeKHTN);
-
-		JMenuItem mntmThongKeKHMuaNhieu = new JMenuItem("Thống kê khách hàng mua nhiều nhất");
-		mnKhachHang.add(mntmThongKeKHMuaNhieu);
-
-		JMenuItem mntmThongKeKHMuaIt = new JMenuItem("Thống kê khách hàng mua ít nhất");
-		mnKhachHang.add(mntmThongKeKHMuaIt);
+		
+		if(nhanVien.getChucNang() != 2) {
+			mnKhachHang = new JMenu("Khách hàng");
+			menuBar.add(mnKhachHang);
+	
+			mntmQuanLyKH = new JMenuItem("Quản lý khách hàng");
+			mnKhachHang.add(mntmQuanLyKH);
+	
+			mntmThemKH = new JMenuItem("Thêm khách hàng");
+			mnKhachHang.add(mntmThemKH);
+	
+			mntmMuaHang = new JMenuItem("Mua hàng");
+			mnKhachHang.add(mntmMuaHang);
+	
+			mntmDonDatHang = new JMenuItem("Đơn đặt hàng");
+			mnKhachHang.add(mntmDonDatHang);
+	
+			mntmTimKiemKH = new JMenuItem("Tìm kiếm khách hàng");
+			mnKhachHang.add(mntmTimKiemKH);
+			
+			if(nhanVien.getChucNang() == 3) {
+				mntmThongKeKHTN = new JMenuItem("Thống kê mức độ mua hàng");
+				mnKhachHang.add(mntmThongKeKHTN);
+		
+				mntmThongKeKHMuaNhieu = new JMenuItem("Thống kê khách hàng mua nhiều nhất");
+				mnKhachHang.add(mntmThongKeKHMuaNhieu);
+		
+				mntmThongKeKHMuaIt = new JMenuItem("Thống kê khách hàng mua ít nhất");
+				mnKhachHang.add(mntmThongKeKHMuaIt);
+			}
+		}
 
 		JMenu mnNhanVien = new JMenu("Nhân viên");
 		menuBar.add(mnNhanVien);
 
-		JMenuItem mntmQuanLyNhanVien = new JMenuItem("Quản lý nhân viên");
-		mnNhanVien.add(mntmQuanLyNhanVien);
+		if(nhanVien.getChucNang() == 3) {
+			mntmQuanLyNhanVien = new JMenuItem("Quản lý nhân viên");
+			mnNhanVien.add(mntmQuanLyNhanVien);
+		}
 
 		JMenuItem mntmTimKiemNV = new JMenuItem("Tìm kiếm nhân viên");
 		mnNhanVien.add(mntmTimKiemNV);
 
-		JMenuItem mntmTaoTaiKhoan = new JMenuItem("Tạo tài khoản");
-		mnNhanVien.add(mntmTaoTaiKhoan);
-
-		JMenuItem mntmThongKe = new JMenuItem("Thống kê");
-		mnNhanVien.add(mntmThongKe);
+		if(nhanVien.getChucNang() == 3) {
+			mntmTaoTaiKhoan = new JMenuItem("Tạo tài khoản");
+			mnNhanVien.add(mntmTaoTaiKhoan);
+		
+			mntmThongKe = new JMenuItem("Thống kê");
+			mnNhanVien.add(mntmThongKe);
+		}
 
 		mnTrangChu.addMenuListener(new MenuListener() {
 
@@ -566,22 +606,34 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (dangNhapGUI.checkPassword()) {
-						System.out.println("dang nhap thanh cong");
+						
 						TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan(dangNhapGUI.getTxtUserName().getText());
 						khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
 						System.out.println(khachHang);
-
-						nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
-						System.out.println(nhanVien);
-
+						
+						if(dangNhapGUI.chkIsNhanVien.isSelected()) {
+							nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+							
+							if(nhanVien == null) {
+								JOptionPane.showMessageDialog(contentPane, "Bạn không phải nhân viên vui lòng đăng nhập lại");
+								return;
+							}
+						}
 						muaHangGUI = new MuaHang(khachHang);
 
 						if (nhanVien != null) {
 							taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
 							datHangGUI = new DatHang_GUI(nhanVien);
+							renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+							menuGUI();
+							menuBar.setVisible(true);
+						}else {
+							MuaHang muaHang2GUI = new MuaHang(khachHang, true);
+							muaHang2GUI.setVisible(true);
+							setVisible(false);
 						}
-						renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
-						menuBar.setVisible(true);
+						dangNhapGUI.clear();
+						System.out.println("dang nhap thanh cong");
 					} else {
 						System.out.println("sai mat khau");
 					}
@@ -619,6 +671,14 @@ public class QuanLy_GUI extends JFrame {
 					e1.printStackTrace();
 				}
 			}
+		});
+	}
+	
+	public void handleDangXuat() {
+		TrangChaoMungGUI.btnDangXuat.addActionListener((e) -> {
+			this.khachHang = null;
+			this.nhanVien = null;
+			renderMain(dangNhapGUI.getContentPane(), "login");
 		});
 	}
 

@@ -158,7 +158,7 @@ public class HoaDonDAO extends ConnectDB{
         try {
         	System.out.println(key + " " + val);
 
-            String sql = "SELECT * FROM dbo.HoaDon inner join dbo.KhachHang on dbo.HoaDon.maKH = dbo.KhachHang.maKH where "+ key +" like N'"+ val + "'";
+            String sql = "SELECT * FROM dbo.HoaDon inner join dbo.KhachHang on dbo.HoaDon.maKH = dbo.KhachHang.maKH where "+ key +" like N'%"+ val + "%'";
             stmt = this.conn.createStatement();
             
             ResultSet rs = stmt.executeQuery(sql);

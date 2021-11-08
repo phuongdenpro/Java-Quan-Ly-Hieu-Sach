@@ -66,6 +66,8 @@ public class NhanVien {
 		this.soDienThoai = rs.getString("soDienThoai");
 		this.diaChi = rs.getString("diaChi");
 		this.maTk = rs.getInt("TaiKhoanID");
+		this.caLamViec = rs.getInt("caLamViec");
+		this.chucNang = rs.getInt("chucNang");
 	}
 
 	public NhanVien(int ma, String ten, String sdt, String diaChi2, int caLam) {

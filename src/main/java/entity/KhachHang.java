@@ -69,7 +69,11 @@ public class KhachHang {
 			this.hoTen = tmp.getHoTen();
 			this.soDienThoai = tmp.getSoDienThoai();
 			this.diaChi = tmp.getDiaChi();
-			this.maTk = tmp.getTaiKhoan().getId();
+			try {
+				this.maTk = tmp.getTaiKhoan().getId();
+			}catch (Exception e2) {
+				// TODO: handle exception
+			}
 			// TODO: handle exception
 		}
 	}
@@ -136,7 +140,5 @@ public class KhachHang {
 				+ ", hoaDons=" + hoaDons + ", taiKhoan=" + taiKhoan + ", donDatHangs=" + donDatHangs + "]";
 	}
 	
-	public boolean xacNhanDatHang() throws SQLException {
-		return new DonDatHangDAO().xacNhanDatHang(this.maKh);
-	}
+	
 }
