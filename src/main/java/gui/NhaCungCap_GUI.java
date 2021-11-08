@@ -568,15 +568,15 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 
 	}
 
-//	public void renderData() throws SQLException {
-//
-//		dssach = sach_DAO.getListSach();
-//
-//		dssach.forEach(sach -> {
-//			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-//					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
-//		});
-//	}
+	public void renderData() throws SQLException {
+
+		dssach = sach_DAO.getListSach();
+
+		dssach.forEach(sach -> {
+			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
+					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+		});
+	}
 
 //	private void loadCboMaLoai() throws SQLException {
 //		dsLoai = loaiDAO.getDanhSachLoaiSach();

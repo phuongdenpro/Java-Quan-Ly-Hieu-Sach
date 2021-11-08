@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 import dao.LoaiSanPhamDAO;
+import dao.NhaCungCapDAO;
 import dao.SanPhamDAO;
 import entity.LoaiSanPham;
 import entity.NhaCungCap;
@@ -70,9 +71,12 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 	private List<SanPham> dssptim;
 	private JTextField txtTenSanPham;
 	private SanPhamDAO sanphamDAO;
+
 	private LoaiSanPhamDAO loaiDAO;
+	private NhaCungCapDAO nCCDAO;
 	private ArrayList<NhaCungCap> dsNCC;
 	private boolean isTimKiem = false;
+	private JComboBox<String> cboListNCC;
 
 	/**
 	 * Launch the application.
@@ -104,6 +108,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 		sanphamDAO = new SanPhamDAO();
 		loaiDAO = new LoaiSanPhamDAO();
+		nCCDAO = new NhaCungCapDAO();
 		out = new JPanel();
 		out.setLayout(new BoxLayout(out, BoxLayout.Y_AXIS));
 		setContentPane(out);
@@ -188,13 +193,14 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		JLabel lblNCC = new JLabel("Nhà cung cấp:");
 		lblNCC.setPreferredSize(new Dimension(100, 14));
 		pnnhaCC.add(lblNCC);
+		cboListNCC = new JComboBox<String>();
 
-		txtNCC = new JTextField();
-		txtNCC.setPreferredSize(new Dimension(7, 30));
-		txtNCC.setColumns(20);
+		cboListNCC.setPreferredSize(new Dimension(202, 30));
+		cboListNCC.addItem("");
+
 		// PromptSupport.setPrompt("Example@gmail.com", txtEmail);
 
-		pnnhaCC.add(txtNCC);
+		pnnhaCC.add(cboListNCC);
 
 		JPanel pnSoLuong = new JPanel();
 		FlowLayout fl_pnSoLuong = (FlowLayout) pnSoLuong.getLayout();
@@ -356,64 +362,45 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			e.printStackTrace();
 		}
 		loadCboMaLoai();
+		loadCboNCC();
 		table.addMouseListener(this);
 		btnThem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (txtTenSanPham.getText().equals("") || txtNCC.getText().equals("") || txtSoLuong.getText().equals("")
-						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")
-						|| cboListMaloai.getSelectedItem().toString().equals("")) {
+				if (txtTenSanPham.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("")
+						|| txtSoLuong.getText().equals("") || txtGiaNhap.getText().equals("")
+						|| txtGiaBan.getText().equals("") || cboListMaloai.getSelectedItem().toString().equals("")) {
 					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
 				} else if (ktdulieu()) {
 					int masp = sanphamDAO.getSanPhamCuoiCung().getMaSp() + 1;
 					String tensp = txtTenSanPham.getText().trim();
-					String nc = txtNCC.getText().trim();
-					NhaCungCap ncc = new NhaCungCap();
-					ncc = null;
-					dsNCC = sanphamDAO.getListNhaCungCap();
-					for (NhaCungCap ncc1 : dsNCC) {
-						if (nc.equals(ncc1.getTenNCC())) {
-							ncc = ncc1;
-							break;
-						}
-					}
-					if (ncc == null) {
-						sanphamDAO.createNCC(nc);
-						ncc = sanphamDAO.getNCCByTenNCC(nc);
-					}
+					String nc = cboListNCC.getSelectedItem().toString();
+					NhaCungCap ncc = nCCDAO.getNCCByTenNCC(nc);
+
 					String soluong = txtSoLuong.getText().trim();
 					String giaNhap = txtGiaNhap.getText().trim();
 					String giasp = txtGiaBan.getText().trim();
 					String loaispk = cboListMaloai.getSelectedItem().toString();
-					LoaiSanPham loaisp = new LoaiSanPham();
-					try {
-						dsLoai = loaiDAO.getDanhSachLoaiSanPhamKhac();
-						for (LoaiSanPham loai : dsLoai) {
-							if (loaispk.equals(loai.getTenLoai())) {
-								loaisp = loai;
-								break;
-							}
-						}
-					} catch (SQLException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
+					LoaiSanPham loaisp = loaiDAO.getLoaiByTenLoai(loaispk);
 
 					SanPham sp = new SanPham(masp, tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
 							Double.parseDouble(giasp), loaisp, ncc);
 					if (timma(sp.getMaSp())) {
 						JOptionPane.showMessageDialog(out, "Mã đã tồn tại");
-					} else
-						try {
-							sanphamDAO.create(sp);
+					} else {
+						boolean result = sanphamDAO.create(sp);
+						if (result) {
 							modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
 									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(),
 									sp.getLoaiSanPham().getTenLoai() });
-						} catch (Exception e1) {
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(out, "Thêm thành công");
+
+						} else {
+							JOptionPane.showMessageDialog(out, "Thêm thất bại");
 						}
+					}
 				}
 			}
 
@@ -424,9 +411,9 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (txtTenSanPham.getText().equals("") || txtNCC.getText().equals("") || txtSoLuong.getText().equals("")
-						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")
-						|| cboListMaloai.getSelectedItem().toString().equals("")) {
+				if (txtTenSanPham.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("")
+						|| txtSoLuong.getText().equals("") || txtGiaNhap.getText().equals("")
+						|| txtGiaBan.getText().equals("") || cboListMaloai.getSelectedItem().toString().equals("")) {
 					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
 				} else if (ktdulieu()) {
 					SanPham sp = getSelectedDataTable();
@@ -462,9 +449,9 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				SanPham sp = getSelectedDataTable();
-				int row = table.getSelectedRow();
 				try {
+					SanPham sp = getSelectedDataTable();
+					int row = table.getSelectedRow();
 					if (row == -1) {
 						JOptionPane.showMessageDialog(out, "Bạn chưa chọn sẩn phẩm cần xoá !!!");
 					} else {
@@ -472,13 +459,18 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá sản phẩm đã chọn ?", "Cảnh báo",
 								JOptionPane.YES_NO_OPTION);
 						if (select == JOptionPane.YES_OPTION) {
-							sanphamDAO.delete(sp);
-							modelDSSanPham.removeRow(row);
-							JOptionPane.showMessageDialog(out, "Xóa thành công");
+							boolean result = sanphamDAO.delete(sp);
+							if (result) {
+								modelDSSanPham.removeRow(row);
+								JOptionPane.showMessageDialog(out, "Xóa thành công");
+							} else {
+								JOptionPane.showMessageDialog(out, "Xóa thất bại");
+							}
 						}
 					}
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(out, "Xóa thất bại");
+					JOptionPane.showMessageDialog(out, "Lỗi! Xóa sản phẩm thất bại");
+
 				}
 			}
 		});
@@ -489,16 +481,15 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 				// TODO Auto-generated method stub
 				txtMaSanPham.setText("");
 				txtTenSanPham.setText("");
-				txtNCC.setText("");
+				cboListNCC.setSelectedItem("");
 				txtSoLuong.setText("");
 				txtGiaNhap.setText("");
 				txtGiaBan.setText("");
 				cboListMaloai.setSelectedItem("");
+				txtNhapLieu.setText("");
 			}
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
-
-			
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -520,8 +511,18 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 							key = "NhaCungCap.TenNCC";
 						}
 						dssptim = sanphamDAO.timKiemSanPhamKhac(key, txtNhapLieu.getText());
-						renderDataTimKiem();
-						isTimKiem  = true;
+
+						if (dssptim.size() == 0) {
+							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu");
+							table.clearSelection();
+							modelDSSanPham.getDataVector().removeAllElements();
+							table.revalidate();
+							table.repaint();
+							isTimKiem = false;
+						} else {
+							renderDataTimKiem();
+							isTimKiem = true;
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -554,6 +555,9 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 	public void renderData() throws SQLException {
 		// modelDSSach.getDataVector().removeAllElements();
+		table.clearSelection();
+
+		modelDSSanPham.getDataVector().removeAllElements();
 		dsssp = new SanPhamDAO().getListSanPhamKhac();
 
 		dsssp.forEach(sp -> {
@@ -570,43 +574,26 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		}
 	}
 
+	private void loadCboNCC() throws SQLException {
+		dsNCC = nCCDAO.getListNhaCungCap();
+		for (NhaCungCap ncc : dsNCC) {
+			String ma = ncc.getTenNCC();
+			cboListNCC.addItem(String.valueOf(ma));
+		}
+	}
+
 //
 	private SanPham getSelectedDataTable() {
 		String masp = txtMaSanPham.getText().trim();
 		String tensp = txtTenSanPham.getText().trim();
-		String nc = txtNCC.getText().trim();
-		NhaCungCap ncc = new NhaCungCap();
-		ncc = null;
-		dsNCC = sanphamDAO.getListNhaCungCap();
-		for (NhaCungCap ncc1 : dsNCC) {
-			if (nc.equalsIgnoreCase(ncc1.getTenNCC())) {
-				ncc = ncc1;
-				break;
-			}
-		}
-		if (ncc == null) {
-			sanphamDAO.createNCC(nc);
-			ncc = sanphamDAO.getNCCByTenNCC(nc);
-		}
+		String nc = cboListNCC.getSelectedItem().toString();
+		NhaCungCap ncc = nCCDAO.getNCCByTenNCC(nc);
 
 		String soluong = txtSoLuong.getText().trim();
 		String giaNhap = txtGiaNhap.getText().trim();
 		String giasp = txtGiaBan.getText().trim();
 		String loaispk = cboListMaloai.getSelectedItem().toString();
-		LoaiSanPham loaisp = new LoaiSanPham();
-		try {
-			dsLoai = loaiDAO.getDanhSachLoaiSanPhamKhac();
-			for (LoaiSanPham loai : dsLoai) {
-				if (loaispk.equals(loai.getTenLoai())) {
-					loaisp = loai;
-				} else
-					loaiDAO.createLoaiSp(loaispk);
-
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		LoaiSanPham loaisp = loaiDAO.getLoaiByTenLoai(loaispk);
 
 		SanPham sp = new SanPham(Integer.parseInt(masp), tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
 				Double.parseDouble(giasp), loaisp, ncc);
@@ -654,7 +641,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		int row = table.getSelectedRow();
 		txtMaSanPham.setText(modelDSSanPham.getValueAt(row, 0).toString());
 		txtTenSanPham.setText(modelDSSanPham.getValueAt(row, 1).toString());
-		txtNCC.setText(modelDSSanPham.getValueAt(row, 2).toString());
+		cboListNCC.setSelectedItem(modelDSSanPham.getValueAt(row, 2).toString());
 		txtSoLuong.setText(modelDSSanPham.getValueAt(row, 3).toString());
 		txtGiaNhap.setText(modelDSSanPham.getValueAt(row, 4).toString());
 		txtGiaBan.setText(modelDSSanPham.getValueAt(row, 5).toString());
