@@ -144,6 +144,7 @@ public class TimKiemSach_GUI extends JFrame {
 
 		JPanel pnTieu = new JPanel();
 		FlowLayout fl_pnTieuDe = (FlowLayout) pnTieu.getLayout();
+		fl_pnTieuDe.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnTieu);
 
 		JLabel lblTieu = new JLabel("Tiêu đề");
@@ -160,19 +161,20 @@ public class TimKiemSach_GUI extends JFrame {
 
 		JPanel pnNXB = new JPanel();
 		FlowLayout fl_pnNXB = (FlowLayout) pnNXB.getLayout();
+		fl_pnNXB.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnNXB);
 
 		JLabel lblNXB = new JLabel("Nhà xuất bản:");
 		lblNXB.setPreferredSize(new Dimension(80, 14));
 		pnNXB.add(lblNXB);
-
-		txtNXB = new JTextField();
-		txtNXB.setPreferredSize(new Dimension(200, 20));
-		pnNXB.add(txtNXB);
-		txtNXB.setColumns(20);
-
+		
+		JComboBox comboBoxNXB= new JComboBox();
+		comboBoxNXB.setPreferredSize(new Dimension(204, 20));
+		pnNXB.add(comboBoxNXB);
 		chkNXB = new JCheckBox("");
 		pnNXB.add(chkNXB);
+
+		
 
 		JPanel pnTim = new JPanel();
 		pnTim.setLayout(new FlowLayout());

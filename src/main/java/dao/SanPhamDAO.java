@@ -285,20 +285,21 @@ public class SanPhamDAO extends ConnectDB {
 		PreparedStatement stmt = null;
 		try {
 
-			String sql = "UPDATE dbo.SanPham set TenSp = ?, GiaSp = ?, GiaNhap = ?, SoLuong = ? where MaSP = ?";
+			String sql = "UPDATE dbo.SanPham set TenSp = ?, GiaSp = ?, GiaNhap = ?, SoLuong = ?, MaLoai = ?, MaNCC = ? where MaSP = ?";
 			stmt = this.conn.prepareStatement(sql);
 			stmt.setString(1, sp.getTenSp());
 			stmt.setDouble(2, sp.getGiaSp());
 			stmt.setDouble(3, sp.getGiaNhap());
 			stmt.setInt(4, sp.getSoLuong());
-			
+			stmt.setInt(5, sp.getLoaiSanPham().getMaLoai());
+			stmt.setInt(6, sp.getNhaCungCap().getMaNCC());
 //			if(sp.getNhaCungCap() != null)
 //				stmt.setInt(5, sp.getNhaCungCap().getMaNCC());
 //			
 //			if(sp.getLoaiSanPham() != null)
 //				stmt.setInt(6, sp.getLoaiSanPham().getMaLoai());
 			
-			stmt.setInt(5, sp.getMaSp());
+			stmt.setInt(7, sp.getMaSp());
 			int n = stmt.executeUpdate();
 
 			return n > 0;

@@ -125,6 +125,7 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 
 		JPanel pnTenLoai = new JPanel();
 		FlowLayout fl_pnTenLoai = (FlowLayout) pnTenLoai.getLayout();
+		fl_pnTenLoai.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnTenLoai);
 
 		JLabel lblTenLoai = new JLabel("Tên loại:");

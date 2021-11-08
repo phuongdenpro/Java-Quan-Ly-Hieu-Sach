@@ -20,7 +20,9 @@ import entity.LoaiSanPham;
 import entity.NhaCungCap;
 import dao.DonDatHangDAO;
 import dao.LoaiSanPhamDAO;
+import dao.NhaCungCapDAO;
 import dao.SanPhamDAO;
+import util.Currency;
 import util.Placeholder;
 
 import javax.swing.BoxLayout;
@@ -71,9 +73,11 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	private JComboBox<String> cboListMaloai;
 	private SanPhamDAO sach_DAO;
 	private LoaiSanPhamDAO loaiDAO;
+	private NhaCungCapDAO nhaCCDAO;
 
 	private ArrayList<SanPham> dssach;
 	private List<SanPham> dssachtim;
+	private ArrayList<NhaCungCap> dsNCC1;
 	private ArrayList<LoaiSanPham> dsLoai;
 	private ArrayList<NhaCungCap> dsNCC;
 	private JButton btnThem;
@@ -81,6 +85,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	private boolean isTimKiem = false;
 	// private ArrayList<entity.SanPham> dsSanpham;
 	private DefaultTableModel modelDSSach;
+	private JComboBox<String> cboListNCC;
 
 	/**
 	 * Launch the application.
@@ -113,6 +118,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 
 		sach_DAO = new SanPhamDAO();
 		loaiDAO = new LoaiSanPhamDAO();
+		nhaCCDAO = new NhaCungCapDAO();
 		setTitle("Quản Lý Sách");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -204,12 +210,12 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		lblNXB.setPreferredSize(new Dimension(100, 14));
 		pnNXB.add(lblNXB);
 
-		txtNXB = new JTextField();
-		txtNXB.setPreferredSize(new Dimension(7, 30));
-		txtNXB.setColumns(20);
-		// PromptSupport.setPrompt("Example@gmail.com", txtEmail);
+		cboListNCC = new JComboBox<String>();
 
-		pnNXB.add(txtNXB);
+		cboListNCC.setPreferredSize(new Dimension(202, 30));
+		cboListNCC.addItem("");
+
+		pnNXB.add(cboListNCC);
 
 		JPanel pnSoLuong = new JPanel();
 		FlowLayout fl_pnSoLuong = (FlowLayout) pnSoLuong.getLayout();
@@ -244,6 +250,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnGiaNhap.add(txtGiaNhap);
 
 		JPanel pnGiaBan = new JPanel();
+		FlowLayout fl_pnGiaBan = (FlowLayout) pnGiaBan.getLayout();
+		fl_pnGiaBan.setAlignment(FlowLayout.LEFT);
 		JLabel lblGiaBan = new JLabel("Giá bán:");
 		lblGiaBan.setPreferredSize(new Dimension(100, 14));
 		pnGiaBan.add(lblGiaBan);
@@ -251,11 +259,14 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		txtGiaBan = new JTextField();
 		txtGiaBan.setPreferredSize(new Dimension(7, 30));
 		txtGiaBan.setColumns(20);
+		// txtGiaBan.setText(new Currency(a));
 		// PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
 
 		pnGiaBan.add(txtGiaBan);
 
 		JPanel pnMaLoai = new JPanel();
+		FlowLayout fl_pnMaLoai = (FlowLayout) pnMaLoai.getLayout();
+		fl_pnMaLoai.setAlignment(FlowLayout.LEFT);
 		JLabel lblMaLoai = new JLabel("Loại sách:");
 		lblMaLoai.setPreferredSize(new Dimension(100, 14));
 		pnMaLoai.add(lblMaLoai);
@@ -263,6 +274,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		cboListMaloai = new JComboBox<String>();
 
 		cboListMaloai.setPreferredSize(new Dimension(202, 30));
+		cboListMaloai.addItem("");
 //		cboListMaloai.setModel(new javax.swing.DefaultComboBoxModel<>());
 		// cboListMaloai.setSize(7, 30);
 		// PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
@@ -363,63 +375,39 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 
 		btnThem.addActionListener(new ActionListener() {
 
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (txtTenSach.getText().equals("") || txtNXB.getText().equals("") || txtSoLuong.getText().equals("")
-						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")) {
+				if (txtTenSach.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("") || txtSoLuong.getText().equals("")
+						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("") ||cboListMaloai.getSelectedItem().toString().equals("")) {
 					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
 				} else if (ktdulieu()) {
 					int masp = sach_DAO.getSanPhamCuoiCung().getMaSp() + 1;
 					String tensp = txtTenSach.getText().trim();
-					String nxb = txtNXB.getText().trim();
-					NhaCungCap ncc = new NhaCungCap();
-					ncc = null;
-					dsNCC = sach_DAO.getListNhaCungCap();
-					for (NhaCungCap ncc1 : dsNCC) {
-						if (nxb.equals(ncc1.getTenNCC())) {
-							ncc = ncc1;
-							break;
-						}
-					}
-					if (ncc == null) {
-						sach_DAO.createNCC(nxb);
-						ncc = sach_DAO.getNCCByTenNCC(nxb);
-					}
+					String nxb = cboListNCC.getSelectedItem().toString();
+					NhaCungCap ncc = nhaCCDAO.getNCCByTenNCC(nxb);
+					
 					String soluong = txtSoLuong.getText().trim();
 					String giaNhap = txtGiaNhap.getText().trim();
 					String giasp = txtGiaBan.getText().trim();
 					String loaiSach = cboListMaloai.getSelectedItem().toString();
-					LoaiSanPham loaisp = new LoaiSanPham();
-					try {
-						dsLoai = loaiDAO.getDanhSachLoaiSach();
-						for (LoaiSanPham loai : dsLoai) {
-							if (loaiSach.equals(loai.getTenLoai())) {
-								loaisp = loai;
-								break;
-							}
-
-						}
-					} catch (SQLException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
-
+					LoaiSanPham loaisp = loaiDAO.getLoaiByTenLoai(loaiSach);
 					SanPham sp = new SanPham(masp, tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
 							Double.parseDouble(giasp), loaisp, ncc);
 					if (timma(sp.getMaSp())) {
 						JOptionPane.showMessageDialog(out, "Mã đã tồn tại");
-					} else
-						try {
-							sach_DAO.create(sp);
-							modelDSSach.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
-									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(),
-									sp.getLoaiSanPham().getTenLoai() });
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
+					} else {
+						boolean result =sach_DAO.create(sp);
+						if(result) {
+						modelDSSach.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
+								sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(), sp.getLoaiSanPham().getTenLoai() });
+
+					}else {
+						JOptionPane.showMessageDialog(out, "Thêm sản phẩm thất bại");
+					}
 				}
-			}
+			}}
 
 		});
 		btnSua.addActionListener(new ActionListener() {
@@ -427,8 +415,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (txtTenSach.getText().equals("") || txtNXB.getText().equals("") || txtSoLuong.getText().equals("")
-						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")) {
+				if (txtTenSach.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("") || txtSoLuong.getText().equals("")
+						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("") ||cboListMaloai.getSelectedItem().toString().equals("")) {
 					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
 				} else if (ktdulieu()) {
 					SanPham sp = getSelectedDataTable();
@@ -464,9 +452,11 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				SanPham sp = getSelectedDataTable();
-				int row = table.getSelectedRow();
+//				SanPham sp = getSelectedDataTable();
+//				int row = table.getSelectedRow();
 				try {
+					SanPham sp = getSelectedDataTable();
+					int row = table.getSelectedRow();
 					if (row == -1) {
 						JOptionPane.showMessageDialog(out, "Bạn chưa chọn sẩn phẩm cần xoá !!!");
 					} else {
@@ -474,13 +464,18 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá sản phẩm đã chọn ?", "Cảnh báo",
 								JOptionPane.YES_NO_OPTION);
 						if (select == JOptionPane.YES_OPTION) {
-							sach_DAO.delete(sp);
-							modelDSSach.removeRow(row);
-							JOptionPane.showMessageDialog(out, "Xóa thành công");
+							boolean result = sach_DAO.delete(sp);
+							if (result) {
+								modelDSSach.removeRow(row);
+								JOptionPane.showMessageDialog(out, "Xóa thành công");
+							} else {
+								JOptionPane.showMessageDialog(out, "Xóa thất bại");
+							}
 						}
 					}
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(out, "Xóa thất bại");
+					JOptionPane.showMessageDialog(out, "Lỗi! Xóa sản phẩm thất bại");
+
 				}
 			}
 		});
@@ -491,11 +486,12 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 				// TODO Auto-generated method stub
 				txtMaSach.setText("");
 				txtTenSach.setText("");
-				txtNXB.setText("");
+				cboListNCC.setSelectedItem("");
 				txtSoLuong.setText("");
 				txtGiaNhap.setText("");
 				txtGiaBan.setText("");
-				cboListMaloai.setSelectedItem("Sách");
+				cboListMaloai.setSelectedItem("");
+				txtNhapLieu.setText("");
 			}
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
@@ -520,8 +516,18 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 							key = "LoaiSanPham.TenLoai";
 						}
 						dssachtim = sach_DAO.timKiemSach(key, txtNhapLieu.getText());
-						renderDataTimKiem();
-						isTimKiem = true;
+					//	dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
+						if (dssachtim.size() == 0) {
+							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu");
+							table.clearSelection();
+							modelDSSach.getDataVector().removeAllElements();
+							table.revalidate();
+							table.repaint();
+							isTimKiem = false;
+						} else {
+							renderDataTimKiem();
+							isTimKiem = true;
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -556,10 +562,12 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		}
 		try {
 			loadCboMaLoai();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		loadCboNCC();
 
 	}
 
@@ -573,7 +581,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		int row = table.getSelectedRow();
 		txtMaSach.setText(modelDSSach.getValueAt(row, 0).toString());
 		txtTenSach.setText(modelDSSach.getValueAt(row, 1).toString());
-		txtNXB.setText(modelDSSach.getValueAt(row, 2).toString());
+		cboListNCC.setSelectedItem(modelDSSach.getValueAt(row, 2).toString());
 		txtSoLuong.setText(modelDSSach.getValueAt(row, 3).toString());
 		txtGiaNhap.setText(modelDSSach.getValueAt(row, 4).toString());
 		txtGiaBan.setText(modelDSSach.getValueAt(row, 5).toString());
@@ -612,12 +620,16 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	}
 
 	public void renderData() throws SQLException {
+		table.clearSelection();
+
+		modelDSSach.getDataVector().removeAllElements();
 
 		dssach = sach_DAO.getListSach();
 
 		dssach.forEach(sach -> {
-			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+			modelDSSach.addRow(
+					new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(), sach.getSoLuong(),
+							new Currency( (int) sach.getGiaNhap()).toString(),new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -629,46 +641,30 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
+	private void loadCboNCC() throws SQLException {
+		dsNCC = nhaCCDAO.getListNhaCungCap();
+		for (NhaCungCap ncc : dsNCC) {
+			String ma = ncc.getTenNCC();
+			cboListNCC.addItem(String.valueOf(ma));
+		}
+	}
+
 	private SanPham getSelectedDataTable() {
 		String masp = txtMaSach.getText().trim();
 		String tensp = txtTenSach.getText().trim();
-		String nxb = txtNXB.getText().trim();
-		NhaCungCap ncc = new NhaCungCap();
-		ncc = null;
-		dsNCC = sach_DAO.getListNhaCungCap();
-		for (NhaCungCap ncc1 : dsNCC) {
-			if (nxb.equalsIgnoreCase(ncc1.getTenNCC())) {
-				ncc = ncc1;
-				break;
-			}
-		}
-		if (ncc == null) {
-			sach_DAO.createNCC(nxb);
-			ncc = sach_DAO.getNCCByTenNCC(nxb);
-		}
-
+		// String nxb = txtNXB.getText().trim();
+		String ncc = cboListNCC.getSelectedItem().toString();
+		NhaCungCap nhacc = nhaCCDAO.getNCCByTenNCC(ncc);
 		String soluong = txtSoLuong.getText().trim();
 		String giaNhap = txtGiaNhap.getText().trim();
 		String giasp = txtGiaBan.getText().trim();
 		String loaiSach = cboListMaloai.getSelectedItem().toString();
-		LoaiSanPham loaisp = new LoaiSanPham();
-		try {
-			dsLoai = loaiDAO.getDanhSachLoaiSach();
-			for (LoaiSanPham loai : dsLoai) {
-				if (loaiSach.equals(loai.getTenLoai())) {
-					loaisp = loai;
-				} else
-					loaiDAO.createLoaiSp(loaiSach);
-
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		LoaiSanPham loaisp = loaiDAO.getLoaiByTenLoai(loaiSach);
 
 		SanPham sp = new SanPham(Integer.parseInt(masp), tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
-				Double.parseDouble(giasp), loaisp, ncc);
+				Double.parseDouble(giasp), loaisp, nhacc);
 		return sp;
+
 	}
 
 	private boolean ktdulieu() {
@@ -698,8 +694,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		modelDSSach.getDataVector().removeAllElements();
 
 		dssachtim.forEach(sach -> {
-			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+			modelDSSach.addRow(
+					new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(), sach.getSoLuong(),
+							new Currency( (int) sach.getGiaNhap()).toString(),new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
 		});
 
 		table.revalidate();

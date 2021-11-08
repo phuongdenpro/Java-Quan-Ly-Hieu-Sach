@@ -162,19 +162,19 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		pnThongTin.add(verticalStrut_1);
 
-		JPanel pnMaSach = new JPanel();
-		FlowLayout fl_pnMaKh = (FlowLayout) pnMaSach.getLayout();
-		fl_pnMaKh.setAlignment(FlowLayout.LEFT);
-		pnThongTin.add(pnMaSach);
+		JPanel pnMaNCC = new JPanel();
+		FlowLayout fl_pnMaNCC = (FlowLayout) pnMaNCC.getLayout();
+		fl_pnMaNCC.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnMaNCC);
 
 		JLabel lblMaNCC = new JLabel("Mã NCC:             ");
 		lblMaNCC.setPreferredSize(new Dimension(100, 14));
-		pnMaSach.add(lblMaNCC);
+		pnMaNCC.add(lblMaNCC);
 
 		txtMaNCC= new JTextField();
 		txtMaNCC.setEnabled(false);
 		txtMaNCC.setPreferredSize(new Dimension(7, 30));
-		pnMaSach.add(txtMaNCC);
+		pnMaNCC.add(txtMaNCC);
 		txtMaNCC.setColumns(20);
 
 		JPanel pnTenNCC = new JPanel();
@@ -568,15 +568,15 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 
 	}
 
-//	public void renderData() throws SQLException {
-//
-//		dssach = sach_DAO.getListSach();
-//
-//		dssach.forEach(sach -> {
-//			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-//					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
-//		});
-//	}
+	public void renderData() throws SQLException {
+
+		dssach = sach_DAO.getListSach();
+
+		dssach.forEach(sach -> {
+			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
+					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+		});
+	}
 
 //	private void loadCboMaLoai() throws SQLException {
 //		dsLoai = loaiDAO.getDanhSachLoaiSach();
