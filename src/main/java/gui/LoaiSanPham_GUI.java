@@ -360,6 +360,8 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 							if (result) {
 								modelDSLoai.removeRow(row);
 								JOptionPane.showMessageDialog(out, "Xóa thành công");
+								txtMaLoai.setText("");
+								txtTenLoai.setText("");
 							} else {
 								JOptionPane.showMessageDialog(out, "Xóa thất bại");
 							}
@@ -399,7 +401,7 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 						}
 						dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
 						if (dsloaitim.size() == 0) {
-							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu");
+							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu cần tìm");
 							table.clearSelection();
 							modelDSLoai.getDataVector().removeAllElements();
 							table.revalidate();

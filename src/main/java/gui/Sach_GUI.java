@@ -468,6 +468,13 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 							if (result) {
 								modelDSSach.removeRow(row);
 								JOptionPane.showMessageDialog(out, "Xóa thành công");
+								txtMaSach.setText("");
+								txtTenSach.setText("");
+								cboListNCC.setSelectedItem("");
+								txtSoLuong.setText("");
+								txtGiaNhap.setText("");
+								txtGiaBan.setText("");
+								cboListMaloai.setSelectedItem("");
 							} else {
 								JOptionPane.showMessageDialog(out, "Xóa thất bại");
 							}
@@ -518,7 +525,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 						dssachtim = sach_DAO.timKiemSach(key, txtNhapLieu.getText());
 					//	dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
 						if (dssachtim.size() == 0) {
-							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu");
+							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu cần tìm");
 							table.clearSelection();
 							modelDSSach.getDataVector().removeAllElements();
 							table.revalidate();
@@ -583,8 +590,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		txtTenSach.setText(modelDSSach.getValueAt(row, 1).toString());
 		cboListNCC.setSelectedItem(modelDSSach.getValueAt(row, 2).toString());
 		txtSoLuong.setText(modelDSSach.getValueAt(row, 3).toString());
-		txtGiaNhap.setText(modelDSSach.getValueAt(row, 4).toString());
-		txtGiaBan.setText(modelDSSach.getValueAt(row, 5).toString());
+		txtGiaNhap.setText(modelDSSach.getValueAt(row, 4).toString().replaceAll("[^\\d.]", ""));
+		txtGiaBan.setText(modelDSSach.getValueAt(row, 5).toString().replaceAll("[^\\d.]", ""));
 		cboListMaloai.setSelectedItem(modelDSSach.getValueAt(row, 6).toString());
 
 	}

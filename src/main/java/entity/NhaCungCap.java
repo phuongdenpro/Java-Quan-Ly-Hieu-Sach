@@ -20,6 +20,19 @@ public class NhaCungCap {
 		this.sanPhams = sanPhams;
 	}
 	
+	public NhaCungCap(int maNCC, String tenNCC, String diaChi, String soDienThoai) {
+		super();
+		this.maNCC = maNCC;
+		this.tenNCC = tenNCC;
+		this.diaChi = diaChi;
+		this.soDienThoai = soDienThoai;
+	}
+	public NhaCungCap(String tenNCC, String diaChi, String soDienThoai) {
+		super();
+		this.tenNCC = tenNCC;
+		this.diaChi = diaChi;
+		this.soDienThoai = soDienThoai;
+	}
 	public NhaCungCap(ResultSet rs) throws SQLException {
 		this.maNCC = rs.getInt("maNCC");
 		this.tenNCC = rs.getString("tenNCC");

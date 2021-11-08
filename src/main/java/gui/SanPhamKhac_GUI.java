@@ -464,6 +464,13 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 							if (result) {
 								modelDSSanPham.removeRow(row);
 								JOptionPane.showMessageDialog(out, "Xóa thành công");
+								txtMaSanPham.setText("");
+								txtTenSanPham.setText("");
+								cboListNCC.setSelectedItem("");
+								txtSoLuong.setText("");
+								txtGiaNhap.setText("");
+								txtGiaBan.setText("");
+								cboListMaloai.setSelectedItem("");
 							} else {
 								JOptionPane.showMessageDialog(out, "Xóa thất bại");
 							}
@@ -514,7 +521,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 						dssptim = sanphamDAO.timKiemSanPhamKhac(key, txtNhapLieu.getText());
 
 						if (dssptim.size() == 0) {
-							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu");
+							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu cần tìm");
 							table.clearSelection();
 							modelDSSanPham.getDataVector().removeAllElements();
 							table.revalidate();
@@ -644,8 +651,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		txtTenSanPham.setText(modelDSSanPham.getValueAt(row, 1).toString());
 		cboListNCC.setSelectedItem(modelDSSanPham.getValueAt(row, 2).toString());
 		txtSoLuong.setText(modelDSSanPham.getValueAt(row, 3).toString());
-		txtGiaNhap.setText(modelDSSanPham.getValueAt(row, 4).toString());
-		txtGiaBan.setText(modelDSSanPham.getValueAt(row, 5).toString());
+		txtGiaNhap.setText(modelDSSanPham.getValueAt(row, 4).toString().replaceAll("[^\\d.]", ""));
+		txtGiaBan.setText(modelDSSanPham.getValueAt(row, 5).toString().replaceAll("[^\\d.]", ""));
 		cboListMaloai.setSelectedItem(modelDSSanPham.getValueAt(row, 6).toString());
 	}
 

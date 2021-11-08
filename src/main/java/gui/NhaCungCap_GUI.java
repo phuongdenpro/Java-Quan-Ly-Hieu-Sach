@@ -20,6 +20,7 @@ import entity.LoaiSanPham;
 import entity.NhaCungCap;
 import dao.DonDatHangDAO;
 import dao.LoaiSanPhamDAO;
+import dao.NhaCungCapDAO;
 import dao.SanPhamDAO;
 import util.Placeholder;
 
@@ -61,24 +62,27 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 	private JTextField txtNhapLieu;
 	private JTable table;
 
-	
 	private JComboBox<String> cboListMaloai;
 	private SanPhamDAO sach_DAO;
 	private LoaiSanPhamDAO loaiDAO;
 
-	private ArrayList<SanPham> dssach;
+	private ArrayList<NhaCungCap> dsncc;
 	private List<SanPham> dssachtim;
 	private ArrayList<LoaiSanPham> dsLoai;
 	private ArrayList<NhaCungCap> dsNCC;
 	private JButton btnThem;
 
+	private NhaCungCapDAO nhaCCDAO;
+
 	private boolean isTimKiem = false;
 	// private ArrayList<entity.SanPham> dsSanpham;
-	private DefaultTableModel modelDSSach;
+
 	private JTextField txtMaNCC;
 	private JTextField txtTenNCC;
 	private JTextField txtDiaChi;
 	private JTextField txtSoDt;
+	private DefaultTableModel modelNCC;
+	private List<NhaCungCap> dssachnccTim;
 
 	/**
 	 * Launch the application.
@@ -111,6 +115,7 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 
 		sach_DAO = new SanPhamDAO();
 		loaiDAO = new LoaiSanPhamDAO();
+		nhaCCDAO = new NhaCungCapDAO();
 		setTitle("Quản Lý Nhà Cung Cấp");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -171,7 +176,7 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 		lblMaNCC.setPreferredSize(new Dimension(100, 14));
 		pnMaNCC.add(lblMaNCC);
 
-		txtMaNCC= new JTextField();
+		txtMaNCC = new JTextField();
 		txtMaNCC.setEnabled(false);
 		txtMaNCC.setPreferredSize(new Dimension(7, 30));
 		pnMaNCC.add(txtMaNCC);
@@ -225,8 +230,6 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 //		new Placeholder().placeholder(txtSdt, "09xx xxx xxx");
 		pnSoDT.add(txtSoDt);
 
-		
-
 		Component verticalStrut = Box.createVerticalStrut(20);
 		pnThongTin.add(verticalStrut);
 
@@ -278,7 +281,7 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 		cboLoaiTimKiem.addElement((String) "Mã NCC");
 		cboLoaiTimKiem.addElement((String) "Tên NCC");
 		cboLoaiTimKiem.addElement((String) "Số điện thoại");
-	//	cboLoaiTimKiem.addElement((String) "Loại Sách");
+		// cboLoaiTimKiem.addElement((String) "Loại Sách");
 
 		txtNhapLieu = new JTextField();
 		txtNhapLieu.setPreferredSize(new Dimension(7, 25));
@@ -303,16 +306,16 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 		pnRight.add(pnTableKh, BorderLayout.CENTER);
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 
-		String[] cols_dssach = { "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại"};
+		String[] cols_ds = { "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại" };
 
-		modelDSSach = new DefaultTableModel(cols_dssach, 0) {
+		modelNCC = new DefaultTableModel(cols_ds, 0) {
 			// khóa không cho người dùng nhập trên table
 			@Override
 			public boolean isCellEditable(int i, int i1) {
 				return false;
 			}
 		};
-		table = new JTable(modelDSSach);
+		table = new JTable(modelNCC);
 		JScrollPane scrTableSach = new JScrollPane(table);
 		scrTableSach.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrTableSach.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -323,59 +326,24 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-//				if (txtTenSach.getText().equals("") || txtNXB.getText().equals("") || txtSoLuong.getText().equals("")
-//						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")) {
-//					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
-//				} else if (ktdulieu()) {
-//					int masp = sach_DAO.getSanPhamCuoiCung().getMaSp() + 1;
-//					String tensp = txtTenSach.getText().trim();
-//					String nxb = txtNXB.getText().trim();
-//					NhaCungCap ncc = new NhaCungCap();
-//					ncc = null;
-//					dsNCC = sach_DAO.getListNhaCungCap();
-//					for (NhaCungCap ncc1 : dsNCC) {
-//						if (nxb.equals(ncc1.getTenNCC())) {
-//							ncc = ncc1;
-//							break;
-//						}
-//					}
-//					if (ncc == null) {
-//						sach_DAO.createNCC(nxb);
-//						ncc = sach_DAO.getNCCByTenNCC(nxb);
-//					}
-//					String soluong = txtSoLuong.getText().trim();
-//					String giaNhap = txtGiaNhap.getText().trim();
-//					String giasp = txtGiaBan.getText().trim();
-//					String loaiSach = cboListMaloai.getSelectedItem().toString();
-//					LoaiSanPham loaisp = new LoaiSanPham();
-//					try {
-//						dsLoai = loaiDAO.getDanhSachLoaiSach();
-//						for (LoaiSanPham loai : dsLoai) {
-//							if (loaiSach.equals(loai.getTenLoai())) {
-//								loaisp = loai;
-//								break;
-//							}
-//
-//						}
-//					} catch (SQLException e2) {
-//						// TODO Auto-generated catch block
-//						e2.printStackTrace();
-//					}
-//
-//					SanPham sp = new SanPham(masp, tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
-//							Double.parseDouble(giasp), loaisp, ncc);
-//					if (timma(sp.getMaSp())) {
-//						JOptionPane.showMessageDialog(out, "Mã đã tồn tại");
-//					} else
-//						try {
-//							sach_DAO.create(sp);
-//							modelDSSach.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
-//									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(),
-//									sp.getLoaiSanPham().getTenLoai() });
-//						} catch (Exception e1) {
-//							e1.printStackTrace();
-//						}
-//				}
+				if (txtTenNCC.getText().equals("") || txtDiaChi.getText().equals("") || txtSoDt.getText().equals("")) {
+					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
+				} else if (ktdulieu()) {
+					String tenncc = txtTenNCC.getText().trim();
+					String diachi = txtDiaChi.getText().trim();
+					String sdt = txtSoDt.getText().trim();
+					NhaCungCap ncc = new NhaCungCap(tenncc, diachi, sdt);
+
+					if (timma(ncc.getMaNCC())) {
+						JOptionPane.showMessageDialog(out, "Mã đã tồn tại");
+					} else
+
+						nhaCCDAO.create(ncc);
+					NhaCungCap nc = nhaCCDAO.getNCCByTenNCC(ncc.getTenNCC());
+					modelNCC.addRow(
+							new Object[] { nc.getMaNCC(), nc.getTenNCC(), nc.getDiaChi(), nc.getSoDienThoai() });
+
+				}
 			}
 
 		});
@@ -384,35 +352,32 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-//				if (txtTenSach.getText().equals("") || txtNXB.getText().equals("") || txtSoLuong.getText().equals("")
-//						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("")) {
-//					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
-//				} else if (ktdulieu()) {
-//					SanPham sp = getSelectedDataTable();
-//					int row = table.getSelectedRow();
-//					if (row == -1) {
-//						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng cần sửa", "Cảnh báo",
-//								JOptionPane.WARNING_MESSAGE);
-//					} else {
-//						boolean result = sach_DAO.capNhat(sp);
-//						if (result == true) {
-//
-//							modelDSSach.setValueAt(sp.getMaSp(), row, 0);
-//							modelDSSach.setValueAt(sp.getTenSp(), row, 1);
-//							modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
-//							modelDSSach.setValueAt(sp.getSoLuong(), row, 3);
-//							modelDSSach.setValueAt(sp.getGiaNhap(), row, 4);
-//							modelDSSach.setValueAt(sp.getGiaSp(), row, 5);
-//							modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
-//							JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
-//							modelDSSach.fireTableDataChanged();
-//							sach_DAO.getListSach();
-//						} else {
-//							JOptionPane.showMessageDialog(out, "Lỗi: Cập nhật sản phẩm thất bại");
-//						}
-//					}
-//
-//				}
+				if (txtMaNCC.getText().equals("") || txtTenNCC.getText().equals("") || txtDiaChi.getText().equals("")
+						|| txtSoDt.getText().equals("")) {
+					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
+				} else if (ktdulieu()) {
+					NhaCungCap ncc = getSelectedDataTable();
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng cần sửa", "Cảnh báo",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						boolean result = nhaCCDAO.capNhat(ncc);
+						if (result == true) {
+
+							modelNCC.setValueAt(ncc.getMaNCC(), row, 0);
+							modelNCC.setValueAt(ncc.getTenNCC(), row, 1);
+							modelNCC.setValueAt(ncc.getDiaChi(), row, 2);
+							modelNCC.setValueAt(ncc.getSoDienThoai(), row, 3);
+							JOptionPane.showMessageDialog(out, "Cập nhập thành công");
+							modelNCC.fireTableDataChanged();
+							sach_DAO.getListSach();
+						} else {
+							JOptionPane.showMessageDialog(out, "Lỗi: Cập nhật thất bại");
+						}
+					}
+
+				}
 			}
 
 		});
@@ -421,24 +386,33 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-//				SanPham sp = getSelectedDataTable();
-//				int row = table.getSelectedRow();
-//				try {
-//					if (row == -1) {
-//						JOptionPane.showMessageDialog(out, "Bạn chưa chọn sẩn phẩm cần xoá !!!");
-//					} else {
-//						int select;
-//						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá sản phẩm đã chọn ?", "Cảnh báo",
-//								JOptionPane.YES_NO_OPTION);
-//						if (select == JOptionPane.YES_OPTION) {
-//							sach_DAO.delete(sp);
-//							modelDSSach.removeRow(row);
-//							JOptionPane.showMessageDialog(out, "Xóa thành công");
-//						}
-//					}
-//				} catch (Exception e2) {
-//					JOptionPane.showMessageDialog(out, "Xóa thất bại");
-//				}
+				try {
+					NhaCungCap ncc = getSelectedDataTable();
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn sẩn phẩm cần xoá !!!");
+					} else {
+						int select;
+						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá nhà cung cấp đã chọn ?", "Cảnh báo",
+								JOptionPane.YES_NO_OPTION);
+						if (select == JOptionPane.YES_OPTION) {
+							boolean result = nhaCCDAO.delete(ncc);
+							if (result) {
+								modelNCC.removeRow(row);
+								JOptionPane.showMessageDialog(out, "Xóa thành công");
+								txtMaNCC.setText("");
+								txtTenNCC.setText("");
+								txtDiaChi.setText("");
+								txtSoDt.setText("");
+							} else {
+								JOptionPane.showMessageDialog(out, "Xóa thất bại");
+							}
+						}
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(out, "Lỗi! Xóa thất bại");
+
+				}
 			}
 		});
 		btnLamMoi.addActionListener(new ActionListener() {
@@ -446,44 +420,54 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-//				txtMaSach.setText("");
-//				txtTenSach.setText("");
-//				txtNXB.setText("");
-//				txtSoLuong.setText("");
-//				txtGiaNhap.setText("");
-//				txtGiaBan.setText("");
-//				cboListMaloai.setSelectedItem("Sách");
+				txtMaNCC.setText("");
+				txtTenNCC.setText("");
+				txtDiaChi.setText("");
+				txtSoDt.setText("");
+				txtNhapLieu.setText("");
+
 			}
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
 
+			
+
+		
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-//				if (txtNhapLieu.getText().equals("")) {
-//					JOptionPane.showMessageDialog(out, "Cần nhập dữ liệu sản phẩm cần tìm", "Cảnh báo",
-//							JOptionPane.WARNING_MESSAGE);
-//				} else {
-//					try {
-//						String key = "maSP";
-//						if (cboLoaiTimKiem.getSelectedItem().toString().equals("Mã Sách")) {
-//							key = "SanPham.MaSP";
-//						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Tên Sách")) {
-//							key = "SanPham.TenSP";
-//						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Nhà Xuất Bản")) {
-//							key = "NhaCungCap.TenNCC";
-//
-//						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Loại Sách")) {
-//							key = "LoaiSanPham.TenLoai";
-//						}
-//						dssachtim = sach_DAO.timKiemSach(key, txtNhapLieu.getText());
-//						renderDataTimKiem();
-//						isTimKiem = true;
-//					} catch (SQLException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//				}
+				if (txtNhapLieu.getText().equals("")) {
+					JOptionPane.showMessageDialog(out, "Cần nhập dữ liệu sản phẩm cần tìm", "Cảnh báo",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					try {
+						String key = "MaNCC";
+						if (cboLoaiTimKiem.getSelectedItem().toString().equalsIgnoreCase("Mã NCC")) {
+							key = "MaNCC";
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equalsIgnoreCase("Tên NCC")) {
+							key = "TenNCC";
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equalsIgnoreCase("Số điện thoại")) {
+							key = "SoDienThoai";
+
+						} 
+						dssachnccTim = nhaCCDAO.timKiem(key, txtNhapLieu.getText());
+						if (dssachnccTim.size() == 0) {
+							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu cần tìm");
+							table.clearSelection();
+							modelNCC.getDataVector().removeAllElements();
+							table.revalidate();
+							table.repaint();
+							isTimKiem = false;
+						} else {
+							renderDataTimKiem();
+							isTimKiem = true;
+						}	
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		btnLamMoiDuLieu.addActionListener(new ActionListener() {
@@ -491,32 +475,27 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-//				try {
-//					table.clearSelection();
-//
-//					modelDSSach.getDataVector().removeAllElements();
-//					renderData();
-//					isTimKiem = false;
-//				} catch (SQLException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				try {
+					table.clearSelection();
+
+					modelNCC.getDataVector().removeAllElements();
+					renderData();
+					isTimKiem = false;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		table.addMouseListener(this);
-		// DocDuLieuVaoModel(sach_DAO.getListSach());
-//		try {
-//			renderData();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		try {
-//			loadCboMaLoai();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+
+		try {
+			renderData();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 	}
 
@@ -527,14 +506,11 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-//		int row = table.getSelectedRow();
-//		txtMaSach.setText(modelDSSach.getValueAt(row, 0).toString());
-//		txtTenSach.setText(modelDSSach.getValueAt(row, 1).toString());
-//		txtNXB.setText(modelDSSach.getValueAt(row, 2).toString());
-//		txtSoLuong.setText(modelDSSach.getValueAt(row, 3).toString());
-//		txtGiaNhap.setText(modelDSSach.getValueAt(row, 4).toString());
-//		txtGiaBan.setText(modelDSSach.getValueAt(row, 5).toString());
-//		cboListMaloai.setSelectedItem(modelDSSach.getValueAt(row, 6).toString());
+		int row = table.getSelectedRow();
+		txtMaNCC.setText(modelNCC.getValueAt(row, 0).toString());
+		txtTenNCC.setText(modelNCC.getValueAt(row, 1).toString());
+		txtDiaChi.setText(modelNCC.getValueAt(row, 2).toString());
+		txtSoDt.setText(modelNCC.getValueAt(row, 3).toString());
 
 	}
 
@@ -569,97 +545,60 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 	}
 
 	public void renderData() throws SQLException {
+		table.clearSelection();
 
-		dssach = sach_DAO.getListSach();
+		modelNCC.getDataVector().removeAllElements();
+		dsncc = nhaCCDAO.getListNhaCungCap();
 
-		dssach.forEach(sach -> {
-			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+		dsncc.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
 		});
 	}
 
-//	private void loadCboMaLoai() throws SQLException {
-//		dsLoai = loaiDAO.getDanhSachLoaiSach();
-//		for (LoaiSanPham loai : dsLoai) {
-//			String ma = loai.getTenLoai();
-//			cboListMaloai.addItem(String.valueOf(ma));
-//		}
-//	}
 
-//	private SanPham getSelectedDataTable() {
-//		String masp = txtMaSach.getText().trim();
-//		String tensp = txtTenSach.getText().trim();
-//		String nxb = txtNXB.getText().trim();
-//		NhaCungCap ncc = new NhaCungCap();
-//		ncc = null;
-//		dsNCC = sach_DAO.getListNhaCungCap();
-//		for (NhaCungCap ncc1 : dsNCC) {
-//			if (nxb.equalsIgnoreCase(ncc1.getTenNCC())) {
-//				ncc = ncc1;
-//				break;
-//			}
-//		}
-//		if (ncc == null) {
-//			sach_DAO.createNCC(nxb);
-//			ncc = sach_DAO.getNCCByTenNCC(nxb);
-//		}
+	private NhaCungCap getSelectedDataTable() {
+		String mancc = txtMaNCC.getText().trim();
+		String tenncc = txtTenNCC.getText().trim();
+		String diachi = txtDiaChi.getText().trim();
+		String sdt = txtSoDt.getText().trim();
+		NhaCungCap ncc = new NhaCungCap(Integer.parseInt(mancc), tenncc, diachi, sdt);
+
+		return ncc;
+	}
+
 //
-//		String soluong = txtSoLuong.getText().trim();
-//		String giaNhap = txtGiaNhap.getText().trim();
-//		String giasp = txtGiaBan.getText().trim();
-//		String loaiSach = cboListMaloai.getSelectedItem().toString();
-//		LoaiSanPham loaisp = new LoaiSanPham();
-//		try {
-//			dsLoai = loaiDAO.getDanhSachLoaiSach();
-//			for (LoaiSanPham loai : dsLoai) {
-//				if (loaiSach.equals(loai.getTenLoai())) {
-//					loaisp = loai;
-//				} else
-//					loaiDAO.createLoaiSp(loaiSach);
+	private boolean ktdulieu() {
+
+		return true;
+
+	}
+
 //
-//			}
-//		} catch (SQLException e2) {
-//			// TODO Auto-generated catch block
-//			e2.printStackTrace();
-//		}
+	public boolean timma(int ma) {
+		int temp;
+		for (int i = 0; i < table.getRowCount(); i++) {
+			temp = (int) table.getValueAt(i, 0);
+			if (temp == ma) {
+				table.setRowSelectionInterval(i, i);
+				// scroll đến dòng được chọn
+				Rectangle cellRect = table.getCellRect(i, 0, true);
+				table.scrollRectToVisible(cellRect);
+				return true;
+			}
+		}
+		return false;
+	}
 //
-//		SanPham sp = new SanPham(Integer.parseInt(masp), tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
-//				Double.parseDouble(giasp), loaisp, ncc);
-//		return sp;
-//	}
-//
-//	private boolean ktdulieu() {
-//
-//		return true;
-//
-//	}
-//
-//	public boolean timma(int ma) {
-//		int temp;
-//		for (int i = 0; i < table.getRowCount(); i++) {
-//			temp = (int) table.getValueAt(i, 0);
-//			if (temp == ma) {
-//				table.setRowSelectionInterval(i, i);
-//				// scroll đến dòng được chọn
-//				Rectangle cellRect = table.getCellRect(i, 0, true);
-//				table.scrollRectToVisible(cellRect);
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//
-//	public void renderDataTimKiem() throws SQLException {
-//		table.clearSelection();
-//
-//		modelDSSach.getDataVector().removeAllElements();
-//
-//		dssachtim.forEach(sach -> {
-//			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-//					sach.getSoLuong(), sach.getGiaNhap(), sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
-//		});
-//
-//		table.revalidate();
-//		table.repaint();
-//	}
+	public void renderDataTimKiem() throws SQLException {
+		table.clearSelection();
+
+		modelNCC.getDataVector().removeAllElements();
+
+		dssachnccTim.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
+		});
+
+		table.revalidate();
+		table.repaint();
+	}
 }
