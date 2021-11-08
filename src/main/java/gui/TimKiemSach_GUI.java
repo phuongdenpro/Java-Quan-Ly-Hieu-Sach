@@ -39,7 +39,6 @@ public class TimKiemSach_GUI extends JFrame {
 	private JTextField txtTenKh, txtSdt, txtdiaChi;
 	private JCheckBox chkTenKh, chkSdt, chkDiaChi;
 	private JButton btnTimKiem, btnRefresh;
-	private DefaultTableModel modelKhachHang;
 	private JTable tblKetQua;
 	private ArrayList<KhachHang> dskh;
 	private JTextField txtLoaiSach;
@@ -50,6 +49,7 @@ public class TimKiemSach_GUI extends JFrame {
 	private JCheckBox chkTieu;
 	private JTextField txtNXB;
 	private JCheckBox chkNXB;
+	private DefaultTableModel modelSach;
 
 	/**
 	 * Launch the application.
@@ -205,9 +205,9 @@ public class TimKiemSach_GUI extends JFrame {
 
 		String[] cols = { "Mã sách", "Tên sách", "Nhà xuất bản", "Số lượng", "Giá nhập", "Giá bán",
 				"Loại Sách" };
-		modelKhachHang = new DefaultTableModel(cols, 0);
+		modelSach = new DefaultTableModel(cols, 0);
 		pnRightBottom.setLayout(new BorderLayout(0, 0));
-		tblKetQua = new JTable(modelKhachHang);
+		tblKetQua = new JTable(modelSach);
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
 
