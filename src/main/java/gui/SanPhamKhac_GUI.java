@@ -245,6 +245,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		pnGiaBan.add(txtGiaBan);
 
 		JPanel pnLoai = new JPanel();
+		FlowLayout fl_pnLoai = (FlowLayout) pnLoai.getLayout();
+		fl_pnLoai.setAlignment(FlowLayout.LEFT);
 		JLabel lblMaLoai = new JLabel("Loại sản phẩm:");
 		lblMaLoai.setPreferredSize(new Dimension(100, 14));
 		pnLoai.add(lblMaLoai);

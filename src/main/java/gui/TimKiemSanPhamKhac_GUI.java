@@ -140,6 +140,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 
 		JPanel pnTen = new JPanel();
 		FlowLayout fl_pnTen = (FlowLayout) pnTen.getLayout();
+		fl_pnTen.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnTen);
 
 		JLabel lblTen = new JLabel("Tên sản phẩm:");
@@ -156,6 +157,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 
 		JPanel pnNCC = new JPanel();
 		FlowLayout fl_pnCC = (FlowLayout) pnNCC.getLayout();
+		fl_pnCC.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnNCC);
 
 		JLabel lblNCC= new JLabel("Nhà cung cấp:");

@@ -158,6 +158,7 @@ public class TimKiemNCC_GUI extends JFrame {
 
 		JPanel pnSdt = new JPanel();
 		FlowLayout fl_pnNXB = (FlowLayout) pnSdt.getLayout();
+		fl_pnNXB.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnSdt);
 
 		JLabel lblSdt = new JLabel("Số điện thoại:");

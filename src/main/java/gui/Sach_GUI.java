@@ -244,6 +244,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnGiaNhap.add(txtGiaNhap);
 
 		JPanel pnGiaBan = new JPanel();
+		FlowLayout fl_pnGiaBan = (FlowLayout) pnGiaBan.getLayout();
+		fl_pnGiaBan.setAlignment(FlowLayout.LEFT);
 		JLabel lblGiaBan = new JLabel("Giá bán:");
 		lblGiaBan.setPreferredSize(new Dimension(100, 14));
 		pnGiaBan.add(lblGiaBan);
@@ -256,6 +258,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnGiaBan.add(txtGiaBan);
 
 		JPanel pnMaLoai = new JPanel();
+		FlowLayout fl_pnMaLoai = (FlowLayout) pnMaLoai.getLayout();
+		fl_pnMaLoai.setAlignment(FlowLayout.LEFT);
 		JLabel lblMaLoai = new JLabel("Loại sách:");
 		lblMaLoai.setPreferredSize(new Dimension(100, 14));
 		pnMaLoai.add(lblMaLoai);
