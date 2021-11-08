@@ -18,6 +18,7 @@ import dao.SanPhamDAO;
 import entity.LoaiSanPham;
 import entity.NhaCungCap;
 import entity.SanPham;
+import util.Currency;
 import util.Placeholder;
 
 import javax.swing.BoxLayout;
@@ -562,7 +563,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 		dsssp.forEach(sp -> {
 			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(), sp.getLoaiSanPham().getTenLoai() });
+					sp.getSoLuong(),  new Currency( (int) sp.getGiaNhap()).toString(),new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -628,7 +629,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 		dssptim.forEach(sp -> {
 			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(), sp.getLoaiSanPham().getTenLoai() });
+					sp.getSoLuong(), new Currency( (int) sp.getGiaNhap()).toString(),new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
 
 		table.revalidate();

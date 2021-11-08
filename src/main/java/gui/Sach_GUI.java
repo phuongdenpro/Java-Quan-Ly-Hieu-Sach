@@ -629,7 +629,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		dssach.forEach(sach -> {
 			modelDSSach.addRow(
 					new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(), sach.getSoLuong(),
-							(int) sach.getGiaNhap(), (int) sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+							new Currency( (int) sach.getGiaNhap()).toString(),new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -696,7 +696,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		dssachtim.forEach(sach -> {
 			modelDSSach.addRow(
 					new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(), sach.getSoLuong(),
-							(int) sach.getGiaNhap(), (int) sach.getGiaSp(), sach.getLoaiSanPham().getTenLoai() });
+							new Currency( (int) sach.getGiaNhap()).toString(),new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
 		});
 
 		table.revalidate();
