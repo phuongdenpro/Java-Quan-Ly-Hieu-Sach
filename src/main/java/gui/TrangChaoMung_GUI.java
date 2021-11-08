@@ -49,8 +49,8 @@ public class TrangChaoMung_GUI extends JFrame {
 		setBounds(0, 0, 1300, 700);
 		
 		contentPane = 
-				new JPanel();
-//				TrangChu_GUI.panelBackgroundImage("/images/bg2.jpg");
+//				new JPanel();
+				TrangChu_GUI.panelBackgroundImage("/images/bg2.jpg");
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
