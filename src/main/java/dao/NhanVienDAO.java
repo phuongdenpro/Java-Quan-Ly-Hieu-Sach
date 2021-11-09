@@ -107,13 +107,15 @@ public class NhanVienDAO extends ConnectDB{
 	    PreparedStatement stmt = null;
 		try {
 		
-		    String sql = "UPDATE NhanVien set tenNV = ?, soDienThoai = ?, diaChi = ? where maNV = ?";
+		    String sql = "UPDATE NhanVien set tenNV = ?, soDienThoai = ?, diaChi = ?,CaLamViec = ?,ChucNang = ? where maNV = ?";
 		    stmt = this.conn.prepareStatement(sql);
 		    
 		    stmt.setString(1, nv.getTenNv());
 		    stmt.setString(2, nv.getSoDienThoai());
 		    stmt.setString(3, nv.getDiaChi());
-		    stmt.setInt(4, nv.getMaNv());
+		    stmt.setInt(4, nv.getCaLamViec());
+		    stmt.setInt(5, nv.getChucNang());
+		    stmt.setInt(6, nv.getMaNv());
 		    
 		    int n = stmt.executeUpdate();
 
@@ -136,12 +138,11 @@ public class NhanVienDAO extends ConnectDB{
 	    PreparedStatement stmt = null;
 		try {
 		    String sql = "DELETE FROM NhanVien where maNV = ?";
-		    stmt = this.conn.prepareStatement(sql);
-		    
+		    stmt = this.conn.prepareStatement(sql);	    
 		    stmt.setInt(1, nv.getMaNv());
+		    System.out.println(sql);
 		    
-		    int n = stmt.executeUpdate();
-		    
+		    int n = stmt.executeUpdate();	    
 		    if(n == 0) {
 		    	return false;
 		    }
@@ -149,12 +150,12 @@ public class NhanVienDAO extends ConnectDB{
 		    // xoas tai khoan
 		    if(nv.getTaiKhoan() != null)
 		    	new TaiKhoanDAO().xoaTaiKhoan(nv.getTaiKhoan().getId());
-		    
-		    new TaiKhoanDAO().xoaTaiKhoan(nv.getMaTk());
+		    else
+		    	new TaiKhoanDAO().xoaTaiKhoan(nv.getMaTk());
 		    
 		    return true;
 		} catch (SQLException e) {
-		    e.printStackTrace();
+		    //e.printStackTrace();
 		} finally {
 		    try {
 		        stmt.close();

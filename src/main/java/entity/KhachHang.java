@@ -69,7 +69,12 @@ public class KhachHang {
 			this.hoTen = tmp.getHoTen();
 			this.soDienThoai = tmp.getSoDienThoai();
 			this.diaChi = tmp.getDiaChi();
-			this.maTk = tmp.getTaiKhoan().getId();
+			try {
+				this.maTk = tmp.getTaiKhoan().getId();
+			}catch(Exception ex) {
+				//ex.printStackTrace();
+			}
+			
 			// TODO: handle exception
 		}
 	}

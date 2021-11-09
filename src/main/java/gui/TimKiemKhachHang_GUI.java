@@ -202,40 +202,25 @@ public class TimKiemKhachHang_GUI extends JFrame {
 				String sdt = txtSdt.getText();
 				String diaChi = txtdiaChi.getText();
 				
-				if(!chkTenKh.isSelected() && !chkSdt.isSelected() && !chkDiaChi.isSelected()) {
-					JOptionPane.showMessageDialog(contentPane, "chưa chọn tìm kiếm, không tìm được");
-					modelKhachHang.setRowCount(0);
-					return;
-				}
-				
-				String where = "",whereTen = "",whereSdt ="", whereDiaChi="";
+				String where = "";
 				
 				boolean chonTen = chkTenKh.isSelected();
 				boolean chonSdt = chkSdt.isSelected();
 				boolean chonDiaChi = chkDiaChi.isSelected();
 				
-				if(chonTen) {
-					whereTen += " KhachHang.Hoten like N'"+ten+"'";
-					where = whereTen;
-				}
-				if(chonSdt)
-					whereSdt += " KhachHang.SoDienThoai like '"+sdt+"'";
-				if(chonDiaChi)  
-					whereDiaChi += " KhachHang.DiaChi like N'%"+diaChi+"%'";
-				//where = whereTen +"and"+ whereSdt+"and"+whereDiaChi;
+				if(chonTen) 
+					where += " KhachHang.Hoten like N'"+ten+"'";
+				else
+					where += " KhachHang.Hoten like N'%"+ten+"%'";
 				
-				if(!chonTen&& chonSdt&& !chonDiaChi)
-					where = whereSdt;
-				else if(!chonTen&& !chonSdt&& chonDiaChi)
-					where = whereDiaChi;
-				else if(chonTen&& chonSdt&& chonDiaChi)
-					where = whereTen +"and"+ whereSdt +"and"+ whereDiaChi;
-				else if(chonTen&& chonSdt && !chonDiaChi)
-					where = whereTen+ "and" +whereSdt;
-				else if(chonTen&& !chonSdt&& chonDiaChi)
-					where = whereTen +"and"+ whereDiaChi;
-				else if(!chonTen&& chonSdt&& chonDiaChi)
-					where = chonSdt+ "and"+ chonDiaChi;
+				if(chonSdt)
+					where += " and KhachHang.SoDienThoai like '"+sdt+"'";
+				else 
+					where += " and KhachHang.SoDienThoai like '%"+sdt+"%'";
+				if(chonDiaChi)  
+					where += " and KhachHang.DiaChi like N'"+diaChi+"'";
+				else 
+					where += " and KhachHang.DiaChi like N'%"+diaChi+"%'";
 				
 				System.out.println(where);
 				try {

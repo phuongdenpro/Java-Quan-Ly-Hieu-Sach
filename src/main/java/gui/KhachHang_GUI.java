@@ -53,7 +53,9 @@ public class KhachHang_GUI extends JFrame {
 	private JTable tblKhachHang;
 	private JTextField txtMaKh,txtTenKh,txtSdt,txtDiaChi;
 	private DefaultTableModel modelDSKH;
-	private JButton btnLamMoi,btnXoaKh,btnSuaKh;
+	private JButton btnLamMoi,btnXoaKh,btnSuaKh,btnTimKiem;
+	private DefaultComboBoxModel cboLoaiTimKiem;
+	private JComboBox cmbLoaiTimKiem;
 	ArrayList<KhachHang> dskh ;
 
 	/**
@@ -220,16 +222,15 @@ public class KhachHang_GUI extends JFrame {
 		pnTimKiem.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
 		pnRight.add(pnTimKiem, BorderLayout.NORTH);
 
-		DefaultComboBoxModel cboLoaiTimKiem = new DefaultComboBoxModel<String>();
-		JComboBox cmbLoaiTimKiem = new JComboBox(cboLoaiTimKiem);
+		cboLoaiTimKiem = new DefaultComboBoxModel<String>();
+		cmbLoaiTimKiem = new JComboBox(cboLoaiTimKiem);
 		cmbLoaiTimKiem.setToolTipText("tìm kiếm theo");
 		cmbLoaiTimKiem.setBackground(Color.WHITE);
 		cmbLoaiTimKiem.setPreferredSize(new Dimension(130, 22));
 		pnTimKiem.add(cmbLoaiTimKiem);
-		cboLoaiTimKiem.addElement((String) "Mã KH");
 		cboLoaiTimKiem.addElement((String) "Tên KH");
 		cboLoaiTimKiem.addElement((String) "Số điện thoại");
-		
+		cboLoaiTimKiem.addElement((String) "Địa chỉ");
 		
 		
 		txtNhapLieu = new JTextField();
@@ -238,7 +239,7 @@ public class KhachHang_GUI extends JFrame {
 		new Placeholder().placeholder(txtNhapLieu, "nhập liệu tìm kiếm");
 		txtNhapLieu.setColumns(30);
 		
-		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setPreferredSize(new Dimension(130, 25));
 		btnTimKiem.setBackground(Color.WHITE);
 		btnTimKiem.setIcon(new ImageIcon("data\\images\\search_16.png"));
@@ -359,9 +360,18 @@ public class KhachHang_GUI extends JFrame {
 						boolean kq;
 						try {
 							kq = new KhachHangDAO().xoaKhachHang(dskh.get(index));
-							renderData();
-							lamMoi();
-							setDisable();
+							System.out.println(kq);
+							if(kq) {
+								JOptionPane.showMessageDialog(contentPane, "xóa thành công");
+								renderData();
+								lamMoi();
+								setDisable();
+								return;
+							}else {
+								JOptionPane.showMessageDialog(contentPane, "không thể xóa khách hàng này");
+								return;
+							}
+							
 						}catch(Exception ex) {
 							ex.printStackTrace();
 						}
@@ -370,6 +380,40 @@ public class KhachHang_GUI extends JFrame {
 				
 			}});
 		
+		
+		btnTimKiem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(txtNhapLieu.getText().equals("")) 
+					JOptionPane.showMessageDialog(contentPane,"cần nhập dữ liệu tìm kiếm");
+					
+				String key = "";
+					
+				if(cboLoaiTimKiem.getSelectedItem().equals("Tên KH")) 
+					key = "HoTen";							
+				else if(cboLoaiTimKiem.getSelectedItem().equals("Số điện thoại")) 
+					key = "SoDienThoai";		
+				else if(cboLoaiTimKiem.getSelectedItem().equals("Địa chỉ")) 
+					key = "DiaChi";
+				String sql = " "+ key + " like " + "N'" +txtNhapLieu.getText()+ "'" ;
+				System.out.println(sql);
+				dskh = new ArrayList<KhachHang>();
+				try {
+					dskh = new KhachHangDAO().TimKiem(sql);
+					if(dskh == null) {
+						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy khách hàng nào");
+					}
+					else {
+						renderDataTimKiem(dskh);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}});
 	}
 
 	public void renderData() throws SQLException {
@@ -380,6 +424,18 @@ public class KhachHang_GUI extends JFrame {
 			System.out.println(kh.toString());
 			modelDSKH.addRow(new Object[] {kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi()});
 		}
+		tblKhachHang.revalidate();
+		tblKhachHang.repaint();
+	}
+	public void renderDataTimKiem(ArrayList<KhachHang> dskh) throws SQLException {
+		tblKhachHang.clearSelection();
+
+		modelDSKH.getDataVector().removeAllElements();
+
+		dskh.forEach(kh -> {
+			modelDSKH.addRow(new Object[] { kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi()});
+		});
+
 		tblKhachHang.revalidate();
 		tblKhachHang.repaint();
 	}

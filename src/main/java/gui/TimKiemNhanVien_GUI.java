@@ -200,47 +200,38 @@ public class TimKiemNhanVien_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(!chkTenNv.isSelected() && !chkSdt.isSelected() && !chkDiaChi.isSelected()) {
-					JOptionPane.showMessageDialog(contentPane, "chưa chọn tìm kiếm, không thể tìm");
-					modelNhanVien.setRowCount(0);
-					return;
-				}
-				
+//				if(!chkTenNv.isSelected() && !chkSdt.isSelected() && !chkDiaChi.isSelected()) {
+//					JOptionPane.showMessageDialog(contentPane, "chưa chọn tìm kiếm, không thể tìm");
+//					modelNhanVien.setRowCount(0);
+//					return;
+//				}
+//				
 				String ten = txtTenNv.getText();
 				String sdt = txtSdt.getText();
 				String diaChi = txtdiaChi.getText();
 				
-				String where = "",whereTen = "",whereSdt ="", whereDiaChi="";
+				String where = "";
 				
 				boolean chonTen = chkTenNv.isSelected();
 				boolean chonSdt = chkSdt.isSelected();
 				boolean chonDiaChi = chkDiaChi.isSelected();
 				
-				if(chonTen) {
-					whereTen = " NhanVien.TenNv like N'"+ten+"' ";
-					where = whereTen;
-				}	
+				if(chonTen) 
+					where += " NhanVien.TenNv like N'" + ten + "'";
+				else 
+					where  += " NhanVien.TenNv like N'%" + ten + "%'";
+				//
 				if(chonSdt)
-					whereSdt = " NhanVien.SoDienThoai like '"+sdt+"'";
+					where += " and NhanVien.SoDienThoai like '" + sdt + "'";
+				else 
+					where += " and NhanVien.SoDienThoai like '%" + sdt + "%'";
+				//
 				if(chonDiaChi)  
-					whereDiaChi = " NhanVien.DiaChi like N'%"+diaChi+"%'";
-				
-				if(!chonTen&& chonSdt&& !chonDiaChi)
-					where = whereSdt;
-				else if(!chonTen&& !chonSdt&& chonDiaChi)
-					where = whereDiaChi;
-				else if(chonTen&& chonSdt&& chonDiaChi)
-					where = whereTen + "and" + whereSdt + "and" + whereDiaChi;
-				else if(chonTen&& chonSdt && !chonDiaChi)
-					where = whereTen +"and"+ whereSdt;
-				else if(chonTen&& !chonSdt&& chonDiaChi)
-					where = whereTen + "and"+ whereDiaChi;
-				else if(!chonTen&& chonSdt&& chonDiaChi)
-					where = chonSdt+ "and"+ chonDiaChi;
-				
-				
+					where += " and NhanVien.DiaChi like N'" + diaChi + "'";
+				else
+					where += " and NhanVien.DiaChi like N'%" + diaChi + "%'";
 				System.out.println(where);
-				
+								
 				try {
 					dsnv = new NhanVienDAO().TimKiem(where);
 					if(dsnv == null) {
@@ -248,8 +239,7 @@ public class TimKiemNhanVien_GUI extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy nhân viên nào");
 						return;
 					}
-					renderDataTimKiem(dsnv);
-					
+					renderDataTimKiem(dsnv);					
 				}catch(SQLException ex) {
 					ex.printStackTrace();
 				}

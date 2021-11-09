@@ -175,7 +175,9 @@ public class KhachHangDAO extends ConnectDB{
 	public boolean xoaKhachHang(KhachHang kh) {
 		PreparedStatement stmt = null;
 		try {
-		String sql = "delete from dbo.KhachHang where maKH = ?";
+		String sql = " delete from dbo.KhachHang where maKH = ?";
+		System.out.println(sql);
+	
 			stmt = this.conn.prepareStatement(sql);
 			stmt.setInt(1, kh.getMaKh());
 			
@@ -189,7 +191,7 @@ public class KhachHangDAO extends ConnectDB{
 			new TaiKhoanDAO().xoaTaiKhoan(kh.getMaTk());
 			return true;
 		}catch(SQLException ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 		}finally {
 			try {
 				stmt.close();

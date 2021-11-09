@@ -3,6 +3,8 @@ package entity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class NhanVien {
 	private int maNv;
 	private String tenNv;
@@ -51,12 +53,14 @@ public class NhanVien {
 		this.taiKhoan = taiKhoan;
 	}
 	
-	public NhanVien(int maNv, String tenNv, String soDienThoai, String diaChi) {
+	public NhanVien(int maNv, String tenNv, String soDienThoai, String diaChi,int caLam,int chucNang) {
 		super();
 		this.maNv = maNv;
 		this.tenNv = tenNv;
 		this.soDienThoai = soDienThoai;
 		this.diaChi = diaChi;
+		this.caLamViec = caLam;
+		this.chucNang = chucNang;
 	}
 
 	
@@ -65,6 +69,8 @@ public class NhanVien {
 		this.tenNv = rs.getString("tenNv");
 		this.soDienThoai = rs.getString("soDienThoai");
 		this.diaChi = rs.getString("diaChi");
+		this.caLamViec = rs.getInt("CaLamViec");
+		this.chucNang = rs.getInt("ChucNang");
 		this.maTk = rs.getInt("TaiKhoanID");
 	}
 
