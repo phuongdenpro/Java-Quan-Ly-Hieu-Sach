@@ -247,6 +247,34 @@ public class NhaCungCapDAO extends ConnectDB {
     	
     	return dsncc;
     }
+	
+	public List<NhaCungCap> timKiemNCC2(String where) {
+		Statement stmt = null;
+		List<NhaCungCap> dsncc = new ArrayList<NhaCungCap>();
+		try {
+			String sql = "SELECT * FROM dbo.NhaCungCap where "+where;
+			System.out.println(sql);
+			stmt = this.conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+//	            	printResultSet(rs);
+				NhaCungCap hd = new NhaCungCap(rs);
+				// hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+				dsncc.add(hd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return dsncc;
+	}
 	public NhaCungCap getNCCByTenNCC(String tenNCC) {
 		PreparedStatement stmt = null;
 		try {

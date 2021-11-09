@@ -258,44 +258,51 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String where = "";
-				if (chkLoaiSach.isSelected()) {
-					where += "TenLoai like N'" + comboBoxLoai.getSelectedItem().toString() + "' and ";
-				} else {
-					where += "TenLoai like N'%" + comboBoxLoai.getSelectedItem().toString() + "%' and ";
-				}
+				if (comboBoxLoai.getSelectedItem().toString().equals("") && txtMaSach.getText().equals("")
+						&& txtTieu.getText().equals("") && comboBoxNXB.getSelectedItem().toString().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Lỗi, chưa nhập dữ liệu tìm kiếm");
 
-				if (chkMaSach.isSelected()) {
-					where += "MaSP like N'" + txtMaSach.getText() + "' and ";
 				} else {
-					where += "MaSP like N'%" + txtMaSach.getText() + "%' and ";
-				}
+					String where = "";
+					if (chkLoaiSach.isSelected()) {
+						where += "TenLoai like N'" + comboBoxLoai.getSelectedItem().toString() + "' and ";
+					} else {
+						where += "TenLoai like N'%" + comboBoxLoai.getSelectedItem().toString() + "%' and ";
+					}
 
-				if (chkTieu.isSelected()) {
-					where += "TenSP like N'" + txtTieu.getText() + "' and ";
-				} else {
-					where += "TenSP like N'%" + txtTieu.getText() + "%' and ";
-				}
-				if (chkNXB.isSelected()) {
-					where += "TenNCC like N'" + comboBoxNXB.getSelectedItem().toString() + "'";
-				} else {
-					where += "TenNCC like N'%" + comboBoxNXB.getSelectedItem().toString() + "%'";
-				}
+					if (chkMaSach.isSelected()) {
+						where += "MaSP like N'" + txtMaSach.getText() + "' and ";
+					} else {
+						where += "MaSP like N'%" + txtMaSach.getText() + "%' and ";
+					}
 
-				System.out.println(where);
+					if (chkTieu.isSelected()) {
+						where += "TenSP like N'" + txtTieu.getText() + "' and ";
+					} else {
+						where += "TenSP like N'%" + txtTieu.getText() + "%' and ";
+					}
+					if (chkNXB.isSelected()) {
+						where += "TenNCC like N'" + comboBoxNXB.getSelectedItem().toString() + "'";
+					} else {
+						where += "TenNCC like N'%" + comboBoxNXB.getSelectedItem().toString() + "%'";
+					}
 
-				dssachtim = sachDAO.timKiemSach2(where);
-				if (dssachtim.size() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "Không có sản phẩm phù hợp");
-					return;
-				} else {
-					try {
-						renderDataTimKiem();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					System.out.println(where);
+
+					dssachtim = sachDAO.timKiemSach2(where);
+					if (dssachtim.size() == 0) {
+						JOptionPane.showMessageDialog(contentPane, "Không có sản phẩm phù hợp");
+						return;
+					} else {
+						try {
+							renderDataTimKiem();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				}
+
 			}
 		});
 		try {

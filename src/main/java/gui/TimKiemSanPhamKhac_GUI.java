@@ -237,42 +237,48 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String where = "";
-				if (chkLoaiSP.isSelected()) {
-					where += "TenLoai like N'" + comboBoxLoai.getSelectedItem().toString() + "' and ";
-				} else {
-					where += "TenLoai like N'%" + comboBoxLoai.getSelectedItem().toString() + "%' and ";
-				}
+				if (comboBoxLoai.getSelectedItem().toString().equals("") && txtMaSP.getText().equals("")
+						&& txtTen.getText().equals("") && comboBoxNCC.getSelectedItem().toString().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Lỗi, chưa nhập dữ liệu tìm kiếm");
 
-				if (chkMaSP.isSelected()) {
-					where += "MaSP like N'" + txtMaSP.getText() + "' and ";
 				} else {
-					where += "MaSP like N'%" + txtMaSP.getText() + "%' and ";
-				}
+					String where = "";
+					if (chkLoaiSP.isSelected()) {
+						where += "TenLoai like N'" + comboBoxLoai.getSelectedItem().toString() + "' and ";
+					} else {
+						where += "TenLoai like N'%" + comboBoxLoai.getSelectedItem().toString() + "%' and ";
+					}
 
-				if (chkTen.isSelected()) {
-					where += "TenSP like N'" + txtTen.getText() + "' and ";
-				} else {
-					where += "TenSP like N'%" + txtTen.getText() + "%' and ";
-				}
-				if (chkNCC.isSelected()) {
-					where += "TenNCC like N'" + comboBoxNCC.getSelectedItem().toString() + "'";
-				} else {
-					where += "TenNCC like N'%" + comboBoxNCC.getSelectedItem().toString() + "%'";
-				}
+					if (chkMaSP.isSelected()) {
+						where += "MaSP like N'" + txtMaSP.getText() + "' and ";
+					} else {
+						where += "MaSP like N'%" + txtMaSP.getText() + "%' and ";
+					}
 
-				System.out.println(where);
+					if (chkTen.isSelected()) {
+						where += "TenSP like N'" + txtTen.getText() + "' and ";
+					} else {
+						where += "TenSP like N'%" + txtTen.getText() + "%' and ";
+					}
+					if (chkNCC.isSelected()) {
+						where += "TenNCC like N'" + comboBoxNCC.getSelectedItem().toString() + "'";
+					} else {
+						where += "TenNCC like N'%" + comboBoxNCC.getSelectedItem().toString() + "%'";
+					}
 
-				dssptim = sanphamDAO.timKiemSanPhamKhac2(where);
-				if (dssptim.size() == 0) {
-					JOptionPane.showMessageDialog(contentPane, "Không có sản phẩm phù hợp");
-					return;
-				} else {
-					try {
-						renderDataTimKiem();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					System.out.println(where);
+
+					dssptim = sanphamDAO.timKiemSanPhamKhac2(where);
+					if (dssptim.size() == 0) {
+						JOptionPane.showMessageDialog(contentPane, "Không có sản phẩm phù hợp");
+						return;
+					} else {
+						try {
+							renderDataTimKiem();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				}
 			}

@@ -189,15 +189,57 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				if (txtMaLoai.getText().equals("") && txtTenLoai.getText().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Lỗi, chưa nhập dữ liệu tìm kiếm");
+
+				} else {
+					
+					String where = "";
+					if (chkMaLoai.isSelected()) {
+						where += "MaLoai like N'" + txtMaLoai.getText() + "' and ";
+					} else {
+						where += "MaLoai like N'%" + txtMaLoai.getText() + "%' and ";
+					}
+
+					if (chkTenLoai.isSelected()) {
+						where += "TenLoai like N'" + txtTenLoai.getText() + "'";
+					} else {
+						where += "TenLoai like N'%" + txtTenLoai.getText() + "%'";
+					}
+					System.out.println(where);
+					dsloaitim = loaiDAO.timKiem2(where);
+					if (dsloaitim.size() == 0) {
+						JOptionPane.showMessageDialog(contentPane, "Không có danh mục phù hợp");
+						return;
+					} else {
+
+						try {
+							renderDataTimKiem();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
 			}
+			
 		});
 		btnRefresh.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				txtMaLoai.setText("");
+				txtTenLoai.setText("");
+				try {
+					tblKetQua.clearSelection();
+
+					modelDanhmuc.getDataVector().removeAllElements();
+					renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
