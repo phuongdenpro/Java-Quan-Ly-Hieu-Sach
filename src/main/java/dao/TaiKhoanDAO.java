@@ -252,13 +252,9 @@ public class TaiKhoanDAO extends ConnectDB{
             
             return n > 0; 
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         } finally {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            
         }
         
         return false;

@@ -86,8 +86,6 @@ public class LoaiSanPhamDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-//                System.out.println(rs);
-//            	printResultSet(rs);
             	LoaiSanPham loaiSp = new LoaiSanPham(rs);
             	loaiSp.setSanPhams(sanPhamDao.getListSanPhamByMaLoai(rs.getInt("maLoai")));
                 dataList.add(loaiSp);

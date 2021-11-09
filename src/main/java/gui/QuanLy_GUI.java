@@ -23,9 +23,10 @@ import entity.TaiKhoan;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class QuanLy_GUI extends JFrame {
-	
+
 	private KhachHang khachHang = null;
 	private NhanVien nhanVien = null;
 	/**
@@ -33,16 +34,15 @@ public class QuanLy_GUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
-	
+
 	private DangNhap_GUI dangNhapGUI = new DangNhap_GUI();
 	private DangKy_GUI dangKyGUI = new DangKy_GUI();
-	
+
 	private TrangChaoMung_GUI TrangChaoMungGUI = new TrangChaoMung_GUI();
 	private HoaDon_GUI hoaDonGUI = new HoaDon_GUI();
 	private TaoHoaDon_GUI taoHoaDonGUI;
 	private TimKiemHoaDon_GUI timKiemHoaDonGUI = new TimKiemHoaDon_GUI();
-	
+
 	private Sach_GUI SachGUI = new Sach_GUI();
 
 	private SanPhamKhac_GUI SanPhamKhacGUI = new SanPhamKhac_GUI();
@@ -55,7 +55,7 @@ public class QuanLy_GUI extends JFrame {
 	private ThongKeDungCuBanChay_GUI thongKeDCBCGUI = new ThongKeDungCuBanChay_GUI();
 	private ThongKeSachDaHet_GUI thongKeSPDBHGUI = new ThongKeSachDaHet_GUI();
 	private ThongKeDungCuDaHet_GUI thongKeDCDBHGUI = new ThongKeDungCuDaHet_GUI();
-	
+
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
 	private ThemKhachHang_GUI themKHGUI = new ThemKhachHang_GUI();
 	private MuaHang muaHangGUI;
@@ -65,13 +65,40 @@ public class QuanLy_GUI extends JFrame {
 	private ThongKeKHMuaNhieuNhat thongKeKHMuaNhieuGUI = new ThongKeKHMuaNhieuNhat();
 	private ThongKeKHMuaItNhat thongKeKHMuaItGUI = new ThongKeKHMuaItNhat();
 	
+	private NhaCungCap_GUI nhaCungCapGUI = new NhaCungCap_GUI();
+	private TimKiemNCC_GUI timKiemNCCGUI = new TimKiemNCC_GUI();
+
 	private NhanVien_GUI nhanVienGUI = new NhanVien_GUI();
 	private TaoTaiKhoan_GUI taoTaiKhoanGUI = new TaoTaiKhoan_GUI();
 	private TimKiemNhanVien_GUI timKiemNhanVienGUI = new TimKiemNhanVien_GUI();
 //	private ThongKe_GUI thongKeGUI = new ThongKe_GUI();
 	private ThongKe thongKeGUI = new ThongKe();
-	
-	private JMenuBar menuBar;
+
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu mnHoaDon = new JMenu();
+	private JMenuItem mntmQLHoaDon = new JMenuItem();
+	private JMenuItem mntmThemHoaDon = new JMenuItem();
+	private JMenuItem mntmTimKiemHD = new JMenuItem();
+	private JMenu mnKhachHang = new JMenu();
+	private JMenuItem mntmQuanLyKH = new JMenuItem();
+	private JMenuItem mntmThemKH = new JMenuItem();
+	private JMenuItem mntmMuaHang = new JMenuItem();
+	private JMenuItem mntmDonDatHang = new JMenuItem();
+	private JMenuItem mntmTimKiemKH = new JMenuItem();
+	private JMenuItem mntmThongKeKHTN = new JMenuItem();
+	private JMenuItem mntmThongKeKHMuaNhieu = new JMenuItem();
+	private JMenuItem mntmThongKeKHMuaIt = new JMenuItem();
+	private JMenuItem mntmTaoTaiKhoan = new JMenuItem();
+	private JMenuItem mntmQuanLyNhanVien = new JMenuItem();
+	private JMenuItem mntmThongKe = new JMenuItem();
+	private JMenuItem mntmQLSach = new JMenuItem();
+	private JMenuItem mntmQLSPKhac = new JMenuItem();
+	private JMenuItem mntmDanhMuc = new JMenuItem();
+	private JMenuItem mntmNhaCC = new JMenuItem();
+	private JMenuItem mntmThongKeSPBanChay = new JMenuItem();
+	private JMenuItem mntmThongKeDCBanChay = new JMenuItem();
+	private JMenuItem mntmThongKeSachBanHet = new JMenuItem();
+	private JMenuItem mntmThongKeDCBanHet = new JMenuItem();
 
 	/**
 	 * Launch the application.
@@ -91,19 +118,17 @@ public class QuanLy_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	public QuanLy_GUI() throws SQLException {
-		
-		
-		
+
 		setTitle("Quản lý hiệu sách");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setBounds(0, 0, 1320, 700);
+		setBounds(0, 0, 1350, 700);
+
 		
-		
-		menuGUI();
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
 //		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
@@ -123,127 +148,147 @@ public class QuanLy_GUI extends JFrame {
 //		menuBar.setVisible(true);
 		handleLogin();
 		handleRegister();
+		handleDangXuat();
 	}
-	
+
 	public void menuGUI() {
 		menuBar = new JMenuBar();
-		
+
 		this.setJMenuBar(menuBar);
 		menuBar.setVisible(false);
-		
+
 		JMenu mnTrangChu = new JMenu("Trang ch\u1EE7");
 		menuBar.add(mnTrangChu);
 		
-		JMenu mnHoaDon = new JMenu("Hóa đơn");
-		menuBar.add(mnHoaDon);
-		
-		JMenuItem mntmQLHoaDon = new JMenuItem("Quản lý hóa đơn");
-		mnHoaDon.add(mntmQLHoaDon);
-		
-		JMenuItem mntmThemHoaDon = new JMenuItem("Thêm hóa đơn");
-		mnHoaDon.add(mntmThemHoaDon);
-		
-		JMenuItem mntmTimKiemHD = new JMenuItem("Tìm kiếm hóa đơn");
-		mnHoaDon.add(mntmTimKiemHD);
+		if(nhanVien.getChucNang() != 2) {
+			mnHoaDon = new JMenu("Hóa đơn");
+			menuBar.add(mnHoaDon);
+	
+			mntmQLHoaDon = new JMenuItem("Quản lý hóa đơn");
+			mnHoaDon.add(mntmQLHoaDon);
+	
+			mntmThemHoaDon = new JMenuItem("Thêm hóa đơn");
+			mnHoaDon.add(mntmThemHoaDon);
+	
+			mntmTimKiemHD = new JMenuItem("Tìm kiếm hóa đơn");
+			mnHoaDon.add(mntmTimKiemHD);
+		}
 		
 		JMenu mnSanPham = new JMenu("Sản phẩm");
 		menuBar.add(mnSanPham);
 		
-		JMenuItem mntmQLSach = new JMenuItem("Quản lý sách");
-		mnSanPham.add(mntmQLSach);
-		
-		JMenuItem mntmQLSPKhac = new JMenuItem("Quản lý sản phẩm khác");
-		mnSanPham.add(mntmQLSPKhac);
-		
-		JMenuItem mntmDanhMuc = new JMenuItem("Quản lý loại sản phẩm");
-		mnSanPham.add(mntmDanhMuc);
+		if(nhanVien.getChucNang() != 1) {
+			mntmQLSach = new JMenuItem("Quản lý sách");
+			mnSanPham.add(mntmQLSach);
+	
+			mntmQLSPKhac = new JMenuItem("Quản lý sản phẩm khác");
+			mnSanPham.add(mntmQLSPKhac);
+	
+			mntmDanhMuc = new JMenuItem("Quản lý loại sản phẩm");
+			mnSanPham.add(mntmDanhMuc);
+	
+			mntmNhaCC = new JMenuItem("Quản lý nhà cung cấp");
+			mnSanPham.add(mntmNhaCC);
+		}
 		
 		JMenuItem mntmTimKiemSach = new JMenuItem("Tìm kiếm sách");
 		mnSanPham.add(mntmTimKiemSach);
-		
+
 		JMenuItem mntmTimKiemSPKhac = new JMenuItem("Tìm kiếm sản phẩm khác");
 		mnSanPham.add(mntmTimKiemSPKhac);
-		
+
 		JMenuItem mntmTimKiemDMSP = new JMenuItem("Tìm kiếm danh mục sản phẩm");
 		mnSanPham.add(mntmTimKiemDMSP);
-		
-		JMenuItem mntmThongKeSPBanChay = new JMenuItem("Thống kê sách bán chạy");
-		mnSanPham.add(mntmThongKeSPBanChay);
-		
-		JMenuItem mntmThongKeDCBanChay = new JMenuItem("Thống kê dụng cụ bán chạy");
-		mnSanPham.add(mntmThongKeDCBanChay);
-		
-		JMenuItem mntmThongKeSachBanHet = new JMenuItem("Thống kê sách đã hết");
-		mnSanPham.add(mntmThongKeSachBanHet);
-		
-		JMenuItem mntmThongKeDCBanHet = new JMenuItem("Thống kê dụng cụ đã hết");
-		mnSanPham.add(mntmThongKeDCBanHet);
-		
+
+		JMenuItem mntmTimKiemNCC = new JMenuItem("Tìm kiếm nhà cung cấp");
+		mnSanPham.add(mntmTimKiemNCC);
+
+		if(nhanVien.getChucNang() != 1) {
+			mntmThongKeSPBanChay = new JMenuItem("Thống kê sách bán chạy");
+			mnSanPham.add(mntmThongKeSPBanChay);
+	
+			mntmThongKeDCBanChay = new JMenuItem("Thống kê dụng cụ bán chạy");
+			mnSanPham.add(mntmThongKeDCBanChay);
+	
+			mntmThongKeSachBanHet = new JMenuItem("Thống kê sách đã hết");
+			mnSanPham.add(mntmThongKeSachBanHet);
+	
+			mntmThongKeDCBanHet = new JMenuItem("Thống kê dụng cụ đã hết");
+			mnSanPham.add(mntmThongKeDCBanHet);
+		}
+
 //		JMenu mnDanhMucSanPham = new JMenu("Danh mục sản phẩm");
 //		menuBar.add(mnDanhMucSanPham);
 		
-		JMenu mnKhachHang = new JMenu("Khách hàng");
-		menuBar.add(mnKhachHang);
+		if(nhanVien.getChucNang() != 2) {
+			mnKhachHang = new JMenu("Khách hàng");
+			menuBar.add(mnKhachHang);
+	
+			mntmQuanLyKH = new JMenuItem("Quản lý khách hàng");
+			mnKhachHang.add(mntmQuanLyKH);
+	
+			mntmThemKH = new JMenuItem("Thêm khách hàng");
+			mnKhachHang.add(mntmThemKH);
+	
+			mntmMuaHang = new JMenuItem("Mua hàng");
+			mnKhachHang.add(mntmMuaHang);
+	
+			mntmDonDatHang = new JMenuItem("Đơn đặt hàng");
+			mnKhachHang.add(mntmDonDatHang);
+	
+			mntmTimKiemKH = new JMenuItem("Tìm kiếm khách hàng");
+			mnKhachHang.add(mntmTimKiemKH);
+			
+			if(nhanVien.getChucNang() == 3) {
+				mntmThongKeKHTN = new JMenuItem("Thống kê mức độ mua hàng");
+				mnKhachHang.add(mntmThongKeKHTN);
 		
-		JMenuItem mntmQuanLyKH = new JMenuItem("Quản lý khách hàng");
-		mnKhachHang.add(mntmQuanLyKH);
+				mntmThongKeKHMuaNhieu = new JMenuItem("Thống kê khách hàng mua nhiều nhất");
+				mnKhachHang.add(mntmThongKeKHMuaNhieu);
 		
-		JMenuItem mntmThemKH = new JMenuItem("Thêm khách hàng");
-		mnKhachHang.add(mntmThemKH);
-		
-		JMenuItem mntmMuaHang = new JMenuItem("Mua hàng");
-		mnKhachHang.add(mntmMuaHang);
-		
-		JMenuItem mntmDonDatHang = new JMenuItem("Đơn đặt hàng");
-		mnKhachHang.add(mntmDonDatHang);
-		
-		JMenuItem mntmTimKiemKH = new JMenuItem("Tìm kiếm khách hàng");
-		mnKhachHang.add(mntmTimKiemKH);
-		
-		JMenuItem mntmThongKeKHTN = new JMenuItem("Thống kê mức độ mua hàng");
-		mnKhachHang.add(mntmThongKeKHTN);
-		
-		JMenuItem mntmThongKeKHMuaNhieu = new JMenuItem("Thống kê khách hàng mua nhiều nhất");
-		mnKhachHang.add(mntmThongKeKHMuaNhieu);
-		
-		JMenuItem mntmThongKeKHMuaIt = new JMenuItem("Thống kê khách hàng mua ít nhất");
-		mnKhachHang.add(mntmThongKeKHMuaIt);
-		
+				mntmThongKeKHMuaIt = new JMenuItem("Thống kê khách hàng mua ít nhất");
+				mnKhachHang.add(mntmThongKeKHMuaIt);
+			}
+		}
+
 		JMenu mnNhanVien = new JMenu("Nhân viên");
 		menuBar.add(mnNhanVien);
-		
-		JMenuItem mntmQuanLyNhanVien = new JMenuItem("Quản lý nhân viên");
-		mnNhanVien.add(mntmQuanLyNhanVien);
-		
+
+		if(nhanVien.getChucNang() == 3) {
+			mntmQuanLyNhanVien = new JMenuItem("Quản lý nhân viên");
+			mnNhanVien.add(mntmQuanLyNhanVien);
+		}
+
 		JMenuItem mntmTimKiemNV = new JMenuItem("Tìm kiếm nhân viên");
 		mnNhanVien.add(mntmTimKiemNV);
+
+		if(nhanVien.getChucNang() == 3) {
+			mntmTaoTaiKhoan = new JMenuItem("Tạo tài khoản");
+			mnNhanVien.add(mntmTaoTaiKhoan);
 		
-		JMenuItem mntmTaoTaiKhoan = new JMenuItem("Tạo tài khoản");
-		mnNhanVien.add(mntmTaoTaiKhoan);
-		
-		JMenuItem mntmThongKe = new JMenuItem("Thống kê");
-		mnNhanVien.add(mntmThongKe);
-		
-		
-		
-		
+			mntmThongKe = new JMenuItem("Thống kê");
+			mnNhanVien.add(mntmThongKe);
+		}
+
 		mnTrangChu.addMenuListener(new MenuListener() {
-			
+
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
 				renderMain(TrangChaoMungGUI.getContentPane(), "chaomung");
 			}
-			
+
 			@Override
-			public void menuDeselected(MenuEvent e) {}
-			
+			public void menuDeselected(MenuEvent e) {
+			}
+
 			@Override
-			public void menuCanceled(MenuEvent e) {}
+			public void menuCanceled(MenuEvent e) {
+			}
 		});
-		
+
 		mntmQLHoaDon.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -256,9 +301,9 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		mntmThemHoaDon.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -270,12 +315,12 @@ public class QuanLy_GUI extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			}
 		});
-		
+
 		mntmTimKiemHD.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) timKiemHoaDonGUI.getContentPane(), "timkiemhoadon");
@@ -287,9 +332,9 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		mntmQLSach.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) SachGUI.getContentPane(), "sanpham");
@@ -301,9 +346,9 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		mntmQLSPKhac.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -311,15 +356,23 @@ public class QuanLy_GUI extends JFrame {
 
 			}
 		});
-		
+
 		mntmDanhMuc.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) LoaiSanPhamGUI.getContentPane(), "danhmucsanpham");
 			}
 		});
-		
+
+		mntmNhaCC.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				renderMain((JPanel) nhaCungCapGUI.getContentPane(), "nhacungcap");
+			}
+		});
+
 		mntmTimKiemSach.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -327,9 +380,9 @@ public class QuanLy_GUI extends JFrame {
 				renderMain((JPanel) timKiemSachGUI.getContentPane(), "timkiemsach");
 			}
 		});
-		
+
 		mntmTimKiemSPKhac.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -338,9 +391,9 @@ public class QuanLy_GUI extends JFrame {
 				renderMain((JPanel) timKiemSPKhacGUI.getContentPane(), "timkiemspkhac");
 			}
 		});
-		
+
 		mntmTimKiemDMSP.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -349,11 +402,21 @@ public class QuanLy_GUI extends JFrame {
 			}
 		});
 		
-		mntmThongKeSPBanChay.addActionListener(new ActionListener() {
-			
+		mntmTimKiemNCC.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				// TODO Auto-generated method stub
+
+				renderMain((JPanel) timKiemNCCGUI.getContentPane(), "timkiemnhacungcap");
+			}
+		});
+
+		mntmThongKeSPBanChay.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
 				renderMain(thongKeSPBCGUI.getContentPane(), "thongkespbc");
 				try {
 					thongKeSPBCGUI.renderData();
@@ -363,11 +426,11 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		mntmThongKeDCBanChay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				renderMain(thongKeDCBCGUI.getContentPane(), "thongkedcbc");
 				try {
 					thongKeDCBCGUI.renderData();
@@ -377,10 +440,9 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
-		
+
 		mntmThongKeSachBanHet.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(thongKeSPDBHGUI.getContentPane(), "thongkespdbh");
@@ -392,9 +454,9 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		mntmThongKeDCBanHet.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(thongKeDCDBHGUI.getContentPane(), "thongkedcdbh");
@@ -406,27 +468,26 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
-		
+
 		mntmQuanLyKH.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(khachHangGUI.getContentPane(), "khachhang");
 			}
 		});
-		
+
 		mntmThemKH.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				themKHGUI.setVisible(true);
 				themKHGUI.setLocationRelativeTo(contentPane);
 			}
 		});
-		
+
 		mntmMuaHang.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				renderMain(muaHang.getContentPane(), "muahang");
@@ -437,9 +498,9 @@ public class QuanLy_GUI extends JFrame {
 //				trangChuGUI.setVisible(true);
 			}
 		});
-		
+
 		mntmDonDatHang.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(datHangGUI.getContentPane(), "dondathang");
@@ -451,117 +512,129 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		mntmTimKiemKH.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				renderMain((JPanel)timKiemKHGUI.getContentPane(), "dondathang");
+				renderMain((JPanel) timKiemKHGUI.getContentPane(), "dondathang");
 			}
 		});
-		
+
 		mntmThongKeKHTN.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				renderMain(thongKeKHTNGUI.getContentPane(), "thongkekhtn");
 			}
 		});
-		
+
 		mntmThongKeKHMuaNhieu.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				renderMain(thongKeKHMuaNhieuGUI.getContentPane(), "thongkekhmuanhieu");
 			}
 		});
-		
+
 		mntmThongKeKHMuaIt.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				renderMain(thongKeKHMuaItGUI.getContentPane(), "thongkekhmuait");
 			}
 		});
-		
+
 		mntmQuanLyNhanVien.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(nhanVienGUI.getContentPane(), "nhanvien");
-				
+
 			}
 		});
-		
+
 		mntmThongKe.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(thongKeGUI.getContentPane(), "thongke");
 			}
 		});
-		
+
 		mntmTimKiemNV.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				renderMain((JPanel)timKiemNhanVienGUI.getContentPane(), "timkiemnhanvien");
+				renderMain((JPanel) timKiemNhanVienGUI.getContentPane(), "timkiemnhanvien");
 			}
 		});
-		
+
 		mntmTaoTaiKhoan.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				taoTaiKhoanGUI.setVisible(true);
 				taoTaiKhoanGUI.setLocationRelativeTo(contentPane);
 			}
 		});
 
 	}
-	
+
 	public void renderMain(JPanel contentPane, String tab) {
 		this.remove(this.contentPane);
-        this.revalidate();
-        this.repaint();
-        this.contentPane = contentPane;
-        this.setContentPane(contentPane);
-        this.revalidate();
-        this.repaint();
-        
-        System.out.println("-> "+tab);
-		if(tab.equals("thongke")) {
-			
+		this.revalidate();
+		this.repaint();
+		this.contentPane = contentPane;
+		this.setContentPane(contentPane);
+		this.revalidate();
+		this.repaint();
+
+		System.out.println("-> " + tab);
+		if (tab.equals("thongke")) {
+
 		}
-		
+
 	}
-	
+
 	public void handleLogin() {
 		dangNhapGUI.btnDangNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(dangNhapGUI.checkPassword()) {
-						System.out.println("dang nhap thanh cong");
+					if (dangNhapGUI.checkPassword()) {
+						
 						TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan(dangNhapGUI.getTxtUserName().getText());
 						khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
 						System.out.println(khachHang);
 						
-						nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
-						System.out.println(nhanVien);
-						
+						if(dangNhapGUI.chkIsNhanVien.isSelected()) {
+							nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
+							
+							if(nhanVien == null) {
+								JOptionPane.showMessageDialog(contentPane, "Bạn không phải nhân viên vui lòng đăng nhập lại");
+								return;
+							}
+						}
 						muaHangGUI = new MuaHang(khachHang);
-						
-						if(nhanVien != null) {
+
+						if (nhanVien != null) {
 							taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
 							datHangGUI = new DatHang_GUI(nhanVien);
+							renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
+							menuGUI();
+							menuBar.setVisible(true);
+						}else {
+							MuaHang muaHang2GUI = new MuaHang(khachHang, true);
+							muaHang2GUI.setVisible(true);
+							setVisible(false);
 						}
-						renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
-						menuBar.setVisible(true);
-					}else {
+						dangNhapGUI.clear();
+						System.out.println("dang nhap thanh cong");
+					} else {
 						System.out.println("sai mat khau");
 					}
 				} catch (SQLException e1) {
@@ -570,27 +643,27 @@ public class QuanLy_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		dangNhapGUI.btnDangKy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	//			System.out.println("hi");
+				// System.out.println("hi");
 				renderMain(dangKyGUI.getContentPane(), "dangky");
 			}
 		});
 	}
-	
+
 	public void handleRegister() {
 		dangKyGUI.btnDangNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				renderMain(dangNhapGUI.getContentPane(), "login");
 			}
 		});
-		
+
 		dangKyGUI.btnDangKy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(dangKyGUI.dangKy()) {
+					if (dangKyGUI.dangKy()) {
 						renderMain(dangNhapGUI.getContentPane(), "login");
 					}
 				} catch (SQLException e1) {
@@ -601,6 +674,14 @@ public class QuanLy_GUI extends JFrame {
 		});
 	}
 	
+	public void handleDangXuat() {
+		TrangChaoMungGUI.btnDangXuat.addActionListener((e) -> {
+			this.khachHang = null;
+			this.nhanVien = null;
+			renderMain(dangNhapGUI.getContentPane(), "login");
+		});
+	}
+
 	public JPanel getContentPane() {
 		return this.contentPane;
 	}

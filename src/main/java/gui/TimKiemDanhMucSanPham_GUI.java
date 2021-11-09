@@ -2,49 +2,48 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import dao.KhachHangDAO;
+import entity.KhachHang;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Dimension;
+import javax.swing.JButton;
+import java.awt.Color;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.JTextComponent;
-
-import dao.LoaiSanPhamDAO;
-import entity.LoaiSanPham;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JRadioButton;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Dimension;
-
-public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener {
+public class TimKiemDanhMucSanPham_GUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextComponent lblTimKiem;
-	private JTextField textFieldTim;
-	private JLabel lbltieude;
-	private ArrayList<LoaiSanPham> dsloai;
-	private List<LoaiSanPham> dsloaitim;
-	private DefaultTableModel modelDSLoai;
-	private JTable tblDSLoai;
-	private boolean isTimKiem;
-	private LoaiSanPhamDAO loaiDAO;
+	private JButton btnTimKiem, btnRefresh;
+	private JTable tblKetQua;
+	private ArrayList<KhachHang> dskh;
+	private DefaultTableModel modelDanhmuc;
+	private JTextField txtMaLoai;
+	private JCheckBox chkMaLoai;
+	private JTextField txtTenLoai;
+	private JCheckBox chkTenLoai;
 
 	/**
 	 * Launch the application.
@@ -64,165 +63,136 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener 
 
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
 	 */
-	public TimKiemDanhMucSanPham_GUI() throws SQLException {
-		loaiDAO = new LoaiSanPhamDAO();
-		setResizable(false);
-		setTitle("Tìm kiếm loại sản phẩm");
+	public TimKiemDanhMucSanPham_GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setBounds(0, 0, 1300, 700);
-
+		setSize(1300, 700);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		contentPane.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 
-		ImageIcon icon1 = new ImageIcon("data/images/timkiem.png");
-		ImageIcon icon2 = new ImageIcon("data/images/search_16.png");
+		JPanel pnTieuDe = new JPanel();
+		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(10, 80));
-		contentPane.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JLabel lblTieuDe = new JLabel("Tìm kiếm danh mục");
+		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		pnTieuDe.add(lblTieuDe);
 
-		JPanel pannel_2 = new JPanel();
-		lbltieude = new JLabel("TÌM KIẾM DANH MỤC SẢN PHẨM");
-		lbltieude.setFont(new Font("Tahoma", Font.BOLD, 20));
-		pannel_2.add(lbltieude);
-		JPanel panel_1 = new JPanel();
-		panel.add(pannel_2);
-		panel.add(panel_1);
-//		JPanel panel_1 = new JPanel();
-//		panel.add(panel_1);
-		JLabel lblTimKiem = new JLabel();
-		lblTimKiem.setText("Search: ");
-		lblTimKiem.setIcon(icon1);
-		panel_1.add(lblTimKiem);
+		JPanel pnLeft = new JPanel();
+		pnLeft.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null),
+				new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
+		contentPane.add(pnLeft, BorderLayout.WEST);
+		pnLeft.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		textFieldTim = new JTextField();
-		panel_1.add(textFieldTim);
-		textFieldTim.setColumns(25);
+		JPanel pnThongTin = new JPanel();
+		pnLeft.add(pnThongTin);
+		pnThongTin.setLayout(new BoxLayout(pnThongTin, BoxLayout.Y_AXIS));
 
-		JRadioButton rdbtnMaLoai = new JRadioButton("Mã Loại");
-		panel_1.add(rdbtnMaLoai);
+		JPanel pnLblThongTin = new JPanel();
+		pnLblThongTin.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pnThongTin.add(pnLblThongTin);
 
-		JRadioButton rdbtnTenLoai = new JRadioButton("Tên Loại");
-		panel_1.add(rdbtnTenLoai);
+		JLabel lblThongTin = new JLabel("Thông tin tìm kiếm");
+		lblThongTin.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnLblThongTin.add(lblThongTin);
 
-		;
+		JPanel pnChuThich = new JPanel();
+		FlowLayout fl_pnChuThich = (FlowLayout) pnChuThich.getLayout();
+		fl_pnChuThich.setAlignment(FlowLayout.RIGHT);
+		pnThongTin.add(pnChuThich);
 
-		ButtonGroup rdbtnGroup = new ButtonGroup();
-		rdbtnGroup.add(rdbtnMaLoai);
-		rdbtnGroup.add(rdbtnTenLoai);
+		JLabel lblChuThich = new JLabel("Tìm kiếm chính xác");
+		pnChuThich.add(lblChuThich);
 
-		rdbtnMaLoai.setSelected(true);
-		JButton btnNewButton = new JButton("Tìm kiếm");
-		btnNewButton.setIcon(icon2);
-		btnNewButton.setBackground(Color.WHITE);
-		panel_1.add(btnNewButton);
+	
 
-		JButton btnLamMoiDuLieu = new JButton("Làm mới dữ liệu");
-		btnLamMoiDuLieu.setPreferredSize(new Dimension(150, 25));
-		btnLamMoiDuLieu.setBackground(Color.WHITE);
-		btnLamMoiDuLieu.setIcon(new ImageIcon("data\\images\\refresh.png"));
-		panel_1.add(btnLamMoiDuLieu);
-		
-		String[] cols = {"Mã Loại", "Tên Loại" };
-		 modelDSLoai = new DefaultTableModel(cols, 0);
-		 tblDSLoai = new JTable(modelDSLoai);
-		JScrollPane scrollPane = new JScrollPane(tblDSLoai);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		contentPane.add(scrollPane, BorderLayout.CENTER);
-		btnNewButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (textFieldTim.getText().equals("")) {
-					JOptionPane.showMessageDialog(contentPane, "Cần nhập dữ liệu danh mục cần tìm", "Cảnh báo",
-							JOptionPane.WARNING_MESSAGE);
-					textFieldTim.requestFocus();
-				} else {
-					try {
-						String key = "";
-						if (rdbtnMaLoai.isSelected()) {
-							key = "MaLoai";
-						} else if (rdbtnTenLoai.isSelected()) {
-							key = "TenLoai";
-						}
-						dsloaitim = loaiDAO.timKiem(key, textFieldTim.getText());
-						renderDataTimKiem();
-						isTimKiem = true;
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			}
-		});
-		btnLamMoiDuLieu.addActionListener(new ActionListener() {
-			
-			
+		JPanel pnMaLoai = new JPanel();
+		FlowLayout fl_pnMaLoai = (FlowLayout) pnMaLoai.getLayout();
+		fl_pnMaLoai.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnMaLoai);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				try {
-					tblDSLoai.clearSelection();
+		JLabel lblMaLoai = new JLabel("Mã loại:");
+		lblMaLoai.setPreferredSize(new Dimension(90, 14));
+		pnMaLoai.add(lblMaLoai);
 
-					modelDSLoai.getDataVector().removeAllElements();
-					renderData();
-					isTimKiem = false;
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			
-			}
-		});
-		try {
-			renderData();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		txtMaLoai = new JTextField();
+		txtMaLoai.setPreferredSize(new Dimension(190, 20));
+		txtMaLoai.setColumns(20);
+		pnMaLoai.add(txtMaLoai);
+		chkMaLoai = new JCheckBox("");
+		pnMaLoai.add(chkMaLoai);
+
+		JPanel pnTenLoai = new JPanel();
+		FlowLayout fl_pnTenLoai = (FlowLayout) pnTenLoai.getLayout();
+		fl_pnTenLoai.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnTenLoai);
+
+		JLabel lblTenLoai = new JLabel("Tên loại:");
+		lblTenLoai.setPreferredSize(new Dimension(90, 14));
+		pnTenLoai.add(lblTenLoai);
+
+		txtTenLoai = new JTextField();
+		txtTenLoai.setPreferredSize(new Dimension(200, 20));
+		pnTenLoai.add(txtTenLoai);
+		txtTenLoai.setColumns(20);
+
+		chkTenLoai = new JCheckBox("");
+		pnTenLoai.add(chkTenLoai);		
+
+		JPanel pnTim = new JPanel();
+		pnTim.setLayout(new FlowLayout());
+		pnThongTin.add(pnTim);
+
+		btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem.setBackground(Color.WHITE);
+		btnRefresh = new JButton("Làm mới");
+		btnRefresh.setBackground(Color.WHITE);
+
+		pnTim.add(btnTimKiem);
+		pnTim.add(btnRefresh);
+
+		JPanel pnRight = new JPanel();
+		pnRight.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null),
+				new BevelBorder(BevelBorder.LOWERED, null, null, null, null)));
+		contentPane.add(pnRight, BorderLayout.CENTER);
+		pnRight.setLayout(new BorderLayout(0, 0));
+
+		JPanel pnRightTop = new JPanel();
+		pnRight.add(pnRightTop, BorderLayout.NORTH);
+
+		JLabel lblKqTim = new JLabel("Kết quả tìm kiếm");
+		lblKqTim.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnRightTop.add(lblKqTim);
+
+		JPanel pnRightBottom = new JPanel();
+		pnRightBottom.setBorder(new LineBorder(SystemColor.activeCaption, 2));
+		pnRight.add(pnRightBottom);
+
+		String[] cols = { "Mã Loại", "Tên Loại" };
+		modelDanhmuc = new DefaultTableModel(cols, 0);
+		pnRightBottom.setLayout(new BorderLayout(0, 0));
+		tblKetQua = new JTable(modelDanhmuc);
+		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
+		pnRightBottom.add(srcTblKetQua);
+
+		addEvents();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	private void addEvents() {
 		// TODO Auto-generated method stub
-		
-	}
+		btnTimKiem.addActionListener(new ActionListener() {
 
-	public void renderData() throws SQLException {
-		// modelDSSach.getDataVector().removeAllElements();
-		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
-
-//		String stt = table.getValueAt(1, 0).toString();
-
-		dsloai.forEach(loai -> {
-			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}	
 		});
-
-	}
-	public void renderDataTimKiem() throws SQLException {
-		tblDSLoai.clearSelection();
-
-		modelDSLoai.getDataVector().removeAllElements();
-
-		dsloaitim.forEach(loai -> {
-			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
-		});
-
-		tblDSLoai.revalidate();
-		tblDSLoai.repaint();
 	}
 
-
-
-
-		
+	private void renderDataTimKiem(ArrayList<KhachHang> dskh) {
+		// TODO Auto-generated method stub
 	}
+
+}

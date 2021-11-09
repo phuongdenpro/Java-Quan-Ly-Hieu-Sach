@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,7 +56,6 @@ public class GioHang_GUI extends JFrame {
 	private DonDatHang donDatHang = null;
 	
 	private JPanel contentPane;
-	private JTextField textField;
 	private JTextField textField_1;
 	private int numberOfItem = 5;
 	public JMenuItem mntmQuanLy;
@@ -72,7 +73,7 @@ public class GioHang_GUI extends JFrame {
 
 	private JPanel pnItems;
 	private JTextField txtTongTien;
-	private JMenu mnNewMenu;
+	private JMenu mnMenu;
 	/**
 	 * Launch the application.
 	 */
@@ -95,8 +96,9 @@ public class GioHang_GUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public GioHang_GUI() throws SQLException {
-		this.khachHang = new KhachHangDAO().getKhachHang(2);
+		this.khachHang = new KhachHangDAO().getKhachHang(1);
 		GUI();
+		renderData();
 	}
 	
 	public GioHang_GUI(KhachHang khachHang) {
@@ -226,14 +228,14 @@ public class GioHang_GUI extends JFrame {
 		boxThongTin.add(pnThongTin);
 		pnThongTin.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		btnDatHang = new JButton("Đặt hàng", null);
+		btnDatHang = new JButton("Đặt hàng", new ImageIcon("data/images/check2_16.png"));
 		btnDatHang.setPreferredSize(new Dimension(150, 30));
 		btnDatHang.setIconTextGap(8);
 		btnDatHang.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnDatHang.setBackground(Color.WHITE);
 		pnThongTin.add(btnDatHang);
 		
-		btnTroVe = new JButton("Tiếp tục mua hàng", null);
+		btnTroVe = new JButton("Tiếp tục mua hàng", new ImageIcon("data/images/carts (1).png"));
 		btnTroVe.setPreferredSize(new Dimension(200, 30));
 		btnTroVe.setIconTextGap(8);
 		btnTroVe.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -283,7 +285,7 @@ public class GioHang_GUI extends JFrame {
 	}
 	
 	public void renderData() {
-		mnNewMenu.setText("Xin chào: "+this.khachHang.getHoTen());
+		mnMenu.setText("Xin chào: "+this.khachHang.getHoTen());
 		pnItems.removeAll();
 		donDatHang = null;
 		try {
@@ -325,55 +327,46 @@ public class GioHang_GUI extends JFrame {
 		panel.setBackground(Color.WHITE);
 		panelHeader.add(panel);
 		
-		JLabel lblNewLabel_2 = new JLabel("Hiệu Sách NPB");
-		lblNewLabel_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
-		lblNewLabel_2.setAlignmentX(1.0f);
-		panel.add(lblNewLabel_2);
+		JLabel lblLogo = new JLabel("Hiệu Sách NPB");
+		lblLogo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+		lblLogo.setAlignmentX(1.0f);
+		panel.add(lblLogo);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(null);
-		panel_1.setBackground(new Color(255, 255, 255));
-		panelHeader.add(panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		textField = new JTextField();
-		panel_1.add(textField);
-		textField.setColumns(20);
-		
-		JButton btnNewButton = new JButton("T\u00ECm ki\u1EBFm");
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setPreferredSize(new Dimension(100, 19));
-		panel_1.add(btnNewButton);
+		JPanel pnTimKiem = new JPanel();
+		pnTimKiem.setBorder(null);
+		pnTimKiem.setBackground(new Color(255, 255, 255));
+		panelHeader.add(pnTimKiem);
+		pnTimKiem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel_3.setBackground(Color.WHITE);
-		panelHeader.add(panel_3);
+		JPanel pbMenu = new JPanel();
+		pbMenu.setAlignmentX(Component.LEFT_ALIGNMENT);
+		pbMenu.setBackground(Color.WHITE);
+		panelHeader.add(pbMenu);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.WHITE);
-		panel_3.add(panel_2);
+		JPanel pnTroGiup = new JPanel();
+		pnTroGiup.setBackground(Color.WHITE);
+		pbMenu.add(pnTroGiup);
 		
 		ImageIcon icon_help = new ImageIcon("data/images/question.png");
 		lblHelp = new JLabel("trợ giúp        ");
 		lblHelp.setIcon(icon_help);
-		panel_2.add(lblHelp);
+		pnTroGiup.add(lblHelp);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);
 		menuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		panel_3.add(menuBar);
+		pbMenu.add(menuBar);
 		
-		mnNewMenu = new JMenu("Xin chào: Trần Văn Nhân");
-		menuBar.add(mnNewMenu);
+		mnMenu = new JMenu("Xin chào: Trần Văn Nhân");
+		menuBar.add(mnMenu);
 		
 		mntmGioHang = new JMenuItem("Giỏ hàng");
-		mnNewMenu.add(mntmGioHang);
+		mnMenu.add(mntmGioHang);
 		
 		mntmDangXuat = new JMenuItem("Thoát");
-		mnNewMenu.add(mntmDangXuat);
+		mnMenu.add(mntmDangXuat);
 		
 		return panelHeader;
 	}
@@ -401,10 +394,12 @@ public class GioHang_GUI extends JFrame {
 		pnItem.add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel(chiTietDDH.getSanPham().getTenSp());
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-		panel_3.add(lblNewLabel_1);
+		JLabel lblTenSp = new JLabel(chiTietDDH.getSanPham().getTenSp());
+		lblTenSp.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTenSp.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTenSp.setToolTipText(chiTietDDH.getSanPham().getTenSp());
+		panel_3.add(lblTenSp);
+		
 		
 		JPanel pnDonGia = new JPanel();
 		pnDonGia.setBackground(Color.WHITE);
@@ -493,36 +488,6 @@ public class GioHang_GUI extends JFrame {
 			}
 		});
 		
-//		txtSoLuong.addKeyListener(new KeyListener() {
-//			
-//			@Override
-//			public void keyTyped(KeyEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void keyReleased(KeyEvent e) {
-//				// TODO Auto-generated method stub
-//				try {
-//					int soLuong = Integer.parseInt(txtSoLuong.getText());
-//					if(soLuong <= 0) {
-//						txtSoLuong.setText("1");
-//					}
-//					System.out.println(soLuong);
-//				}catch (Exception e1) {
-//					// TODO: handle exception
-//					e1.printStackTrace();
-//				}
-//				
-//			}
-//			
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
 		
 		return pnItem;
 	}

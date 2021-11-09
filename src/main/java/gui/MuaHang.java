@@ -14,13 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import dao.DonDatHangDAO;
 import dao.KhachHangDAO;
 import entity.KhachHang;
 
 
 public class MuaHang extends JFrame{
 	private KhachHang khachHang;
-	
+	private boolean isPrimary = false;
 	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();;
 	private GioHang_GUI gioHangGUI = new GioHang_GUI();
 	private TimKiemTrangMuaHang_GUI timKiemGUI = new TimKiemTrangMuaHang_GUI();
@@ -41,6 +42,18 @@ public class MuaHang extends JFrame{
 		gioHangGUI = new GioHang_GUI(khachHang);
 		timKiemGUI.setKhachHang(khachHang);
 		renderGUI();
+	}
+	
+	public MuaHang(KhachHang khachHang, boolean isPrimary) throws SQLException {
+		this.khachHang = khachHang;
+		trangChuGUI = new TrangChu_GUI(khachHang);
+		gioHangGUI = new GioHang_GUI(khachHang);
+		timKiemGUI.setKhachHang(khachHang);
+		renderGUI();
+		this.isPrimary = isPrimary;
+		if(isPrimary) {
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+		}
 	}
 	
 	public void renderGUI() throws SQLException {
@@ -100,7 +113,10 @@ public class MuaHang extends JFrame{
 		});
 		trangChuGUI.mntmDangXuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				if(isPrimary == false)
+					setVisible(false);
+				else
+					System.exit(0);
 			}
 		});
 		trangChuGUI.btnTimKiem.addActionListener(new ActionListener() {
@@ -161,7 +177,10 @@ public class MuaHang extends JFrame{
 		});
 		gioHangGUI.mntmDangXuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				if(isPrimary == false)
+					setVisible(false);
+				else
+					System.exit(0);
 			}
 		});
 		gioHangGUI.btnDatHang.addActionListener(new ActionListener() {
@@ -176,11 +195,12 @@ public class MuaHang extends JFrame{
 				}
 				
 				try {
-					if(khachHang.xacNhanDatHang()) {
+					DonDatHangDAO donDatHangDao = new DonDatHangDAO();
+					if(donDatHangDao.xacNhanDatHang(khachHang.getMaKh())) {
 						JOptionPane.showMessageDialog(contentPane, "Đặt hàng thành công");
 						renderMain(trangChuGUI.getContentPane(), "trangchu");
 					}else {
-						JOptionPane.showMessageDialog(contentPane, "Sản phẩm đã hết");
+						JOptionPane.showMessageDialog(contentPane, donDatHangDao.getError());
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -217,36 +237,11 @@ public class MuaHang extends JFrame{
 		});
 	}
 	
-
-//	
-//	public void handleQuanLy() {
-//		quanLyGUI.addWindowListener(new WindowAdapter() {
-//	        //for closing
-//	        @Override
-//	        public void windowClosing(WindowEvent e) {
-//	            if(isVisible() == false) {
-//	            	System.exit(0);
-//	            }
-//	        }
-//	        //for closed
-//
-//	        @Override
-//	        public void windowClosed(WindowEvent e) {
-//	        }
-//	    });
-//	}
-	
+	public JPanel getContentPane() {
+		return contentPane;
+	}
 	
 	public static void main(String[] args) throws SQLException {
 		MuaHang quanLyHieuSach = new MuaHang();
-//		try{
-//            ConnectDB.getInstance().connect();
-//        }catch(SQLException e){
-//            e.printStackTrace();
-//        }
-//		KhachHangDAO khachHangDao = new KhachHangDAO();
-//		System.out.println("hello world");
-//		khachHangDao.getListKhachHang();
-		
 	}
 }

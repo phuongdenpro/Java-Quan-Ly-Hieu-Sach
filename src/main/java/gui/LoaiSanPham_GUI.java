@@ -266,7 +266,6 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 				} else if (ktdulieu()) {
 
 					String tenLoai = txtTenLoai.getText().trim();
-					LoaiSanPham loai = new LoaiSanPham(tenLoai);
 					try {
 						dsloai = loaiDAO.getDanhSachLoaiSanPham();
 					} catch (SQLException e2) {
@@ -283,14 +282,15 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 						}
 					}
 					if (re) {
-						try {
-							loaiDAO.createLoaiSp(tenLoai);
+						boolean result = loaiDAO.createLoaiSp(tenLoai);
+						if (result) {
 							LoaiSanPham loaisp = loaiDAO.getLoaiByTenLoai(tenLoai);
 							modelDSLoai.addRow(new Object[] { loaisp.getMaLoai(), loaisp.getTenLoai() });
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
+							JOptionPane.showMessageDialog(out, "Thêm danh mục thành công");
 
+						} else {
+							JOptionPane.showMessageDialog(out, "Thêm danh mục thất bại");
+						}
 					}
 				}
 			}
@@ -345,9 +345,10 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				LoaiSanPham loai = getSelectedDataTable();
-				int row = table.getSelectedRow();
+
 				try {
+					LoaiSanPham loai = getSelectedDataTable();
+					int row = table.getSelectedRow();
 					if (row == -1) {
 						JOptionPane.showMessageDialog(out, "Bạn chưa chọn danh mục sẩn phẩm cần xoá !!!");
 					} else {
@@ -355,13 +356,19 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 						select = JOptionPane.showConfirmDialog(out, "Bạn có muốn xoá danh mục sản phẩm đã chọn ?",
 								"Cảnh báo", JOptionPane.YES_NO_OPTION);
 						if (select == JOptionPane.YES_OPTION) {
-							loaiDAO.delete(loai);
-							modelDSLoai.removeRow(row);
-							JOptionPane.showMessageDialog(out, "Xóa thành công");
+							boolean result = loaiDAO.delete(loai);
+							if (result) {
+								modelDSLoai.removeRow(row);
+								JOptionPane.showMessageDialog(out, "Xóa thành công");
+								txtMaLoai.setText("");
+								txtTenLoai.setText("");
+							} else {
+								JOptionPane.showMessageDialog(out, "Xóa thất bại");
+							}
 						}
 					}
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(out, "Xóa thất bại");
+					JOptionPane.showMessageDialog(out, "Lỗi! Xóa thất bại");
 				}
 			}
 
@@ -393,8 +400,17 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 
 						}
 						dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
-						renderDataTimKiem();
-						isTimKiem = true;
+						if (dsloaitim.size() == 0) {
+							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu cần tìm");
+							table.clearSelection();
+							modelDSLoai.getDataVector().removeAllElements();
+							table.revalidate();
+							table.repaint();
+							isTimKiem = false;
+						} else {
+							renderDataTimKiem();
+							isTimKiem = true;
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -429,6 +445,9 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 
 	public void renderData() throws SQLException {
 		// modelDSSach.getDataVector().removeAllElements();
+		table.clearSelection();
+
+		modelDSLoai.getDataVector().removeAllElements();
 		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
 
 //		String stt = table.getValueAt(1, 0).toString();

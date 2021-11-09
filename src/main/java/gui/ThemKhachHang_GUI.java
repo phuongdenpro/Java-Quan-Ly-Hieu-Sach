@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.Dimension;
@@ -166,14 +168,14 @@ public class ThemKhachHang_GUI extends JFrame {
 		JPanel pnBtn = new JPanel();
 		pnThongTin.add(pnBtn);
 		
-		JButton btnTaoTk = new JButton("Tạo tài khoản");
+		JButton btnTaoTk = new JButton("Tạo tài khoản", new ImageIcon("data/images/blueAdd_16.png"));
 		btnTaoTk.setPreferredSize(new Dimension(150, 30));
 		btnTaoTk.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnTaoTk.setBackground(new Color(0, 250, 154));
 		btnTaoTk.setToolTipText("Tạo tài khoản mới");
 		pnBtn.add(btnTaoTk);
 		
-		JButton btnHuy = new JButton("Hủy");
+		JButton btnHuy = new JButton("Hủy", new ImageIcon("data/images/cancel_16.png"));
 		btnHuy.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnHuy.setPreferredSize(new Dimension(70, 30));
 		btnHuy.setBackground(new Color(255, 99, 71));
@@ -226,6 +228,12 @@ public class ThemKhachHang_GUI extends JFrame {
 			try {
 				if(new TaiKhoanDAO().themTaiKhoan(kh, txtTenTk.getText(), txtMatKhau.getText())) {
 					JOptionPane.showMessageDialog(contentPane, "Tạo tài khoản thành công");
+					txtHoTen.setText("");
+					txtSdt.setText("");
+					txtDiaChi.setText("");
+					txtTenTk.setText("");
+					txtMatKhau.setText("");
+					txtRePassword.setText("");
 					this.setVisible(false);
 					return;
 				}

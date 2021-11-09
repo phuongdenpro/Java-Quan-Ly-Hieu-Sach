@@ -71,13 +71,13 @@ public class KhachHang {
 			this.diaChi = tmp.getDiaChi();
 			try {
 				this.maTk = tmp.getTaiKhoan().getId();
+
 			}catch(Exception ex) {
 				//ex.printStackTrace();
 			}
 			
-			// TODO: handle exception
+			}
 		}
-	}
 	
 	public int getMaKh() {
 		return maKh;
@@ -141,7 +141,5 @@ public class KhachHang {
 				+ ", hoaDons=" + hoaDons + ", taiKhoan=" + taiKhoan + ", donDatHangs=" + donDatHangs + "]";
 	}
 	
-	public boolean xacNhanDatHang() throws SQLException {
-		return new DonDatHangDAO().xacNhanDatHang(this.maKh);
-	}
+	
 }

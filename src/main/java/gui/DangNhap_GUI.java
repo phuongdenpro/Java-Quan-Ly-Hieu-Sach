@@ -41,6 +41,7 @@ public class DangNhap_GUI extends JFrame {
 	public JButton btnDangKy;
 	private JLabel lblMsg;
 	private JCheckBox chcHienThiMatKhau;
+	public JCheckBox chkIsNhanVien;
 
 	/**
 	 * Launch the application.
@@ -93,20 +94,20 @@ public class DangNhap_GUI extends JFrame {
 		lblDangNhap.setBackground(new Color(255, 255, 255));
 		lblDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		
-		txtUserName = new JTextField("tranvannhan1911");
+		txtUserName = new JTextField("Tài khoản");
 		txtUserName.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		txtUserName.setBounds(41, 77, 398, 41);
 		panel.add(txtUserName);
 		txtUserName.setColumns(10);
-	//	new Placeholder().placeholder(txtUserName, "Tài khoản");
+		new Placeholder().placeholder(txtUserName, "Tài khoản");
 		
-		txtPassword = new JPasswordField("nhan3008");
+		txtPassword = new JPasswordField("Mật khẩu");
 		txtPassword.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		txtPassword.setEchoChar((char)0);
 		txtPassword.setBounds(41, 129, 398, 41);
 		panel.add(txtPassword);
 		txtPassword.setColumns(10);
-		//new Placeholder().placeholder(txtPassword, "Mật khẩu");
+		new Placeholder().placeholder(txtPassword, "Mật khẩu");
 		
 		btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
 		btnDangNhap.addActionListener(new ActionListener() {
@@ -127,6 +128,10 @@ public class DangNhap_GUI extends JFrame {
 		chcHienThiMatKhau = new JCheckBox("Hiển thị mật khẩu");
 		chcHienThiMatKhau.setBounds(315, 177, 124, 23);
 		panel.add(chcHienThiMatKhau);
+		
+		chkIsNhanVien = new JCheckBox("Đăng nhập với tư cách nhân viên");
+		chkIsNhanVien.setBounds(41, 177, 229, 23);
+		panel.add(chkIsNhanVien);
 		
 		chcHienThiMatKhau.addActionListener(new ActionListener() {
 
@@ -164,7 +169,10 @@ public class DangNhap_GUI extends JFrame {
         JOptionPane.showMessageDialog(contentPane, message);
     }
 	
-	
+	public void clear() {
+		txtPassword.setText("Tài khoản");
+		txtUserName.setText("Mật khẩu");
+	}
 	
 	public JPanel getContentPane() {
 		return this.contentPane;
@@ -189,6 +197,4 @@ public class DangNhap_GUI extends JFrame {
 	public void setTxtPassword(JPasswordField txtPassword) {
 		this.txtPassword = txtPassword;
 	}
-	
-	
 }

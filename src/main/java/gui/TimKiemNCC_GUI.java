@@ -33,19 +33,20 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TimKiemSanPhamKhac_GUI extends JFrame {
+public class TimKiemNCC_GUI extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField txtSdt;
+	private JCheckBox chkSdt, chkDiaChi;
 	private JButton btnTimKiem, btnRefresh;
+	private DefaultTableModel modelKhachHang;
 	private JTable tblKetQua;
 	private ArrayList<KhachHang> dskh;
-	private JCheckBox chkNCC;
-	private JCheckBox chkLoaiSP;
-	private JTextField txtMaSP;
-	private JCheckBox chkMaSP;
-	private JTextField txtTen;
-	private JCheckBox chkTen;
-	private DefaultTableModel modelSanPhamKhac;
+	private JCheckBox chkMaNCC;
+	private JTextField txtTenNCC;
+	private JCheckBox chkTenNCC;
+	private JTextField txtDiaChi;
+	private DefaultTableModel modelNCC;
 
 	/**
 	 * Launch the application.
@@ -54,7 +55,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TimKiemSanPhamKhac_GUI frame = new TimKiemSanPhamKhac_GUI();
+					TimKiemNCC_GUI frame = new TimKiemNCC_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,7 +67,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TimKiemSanPhamKhac_GUI() {
+	public TimKiemNCC_GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1300, 700);
 		contentPane = new JPanel();
@@ -77,7 +78,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		JPanel pnTieuDe = new JPanel();
 		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 
-		JLabel lblTieuDe = new JLabel("Tìm kiếm sản phẩm");
+		JLabel lblTieuDe = new JLabel("Tìm kiếm nhà cung cấp");
 		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		pnTieuDe.add(lblTieuDe);
 
@@ -107,69 +108,70 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		JLabel lblChuThich = new JLabel("Tìm kiếm chính xác");
 		pnChuThich.add(lblChuThich);
 
-		JPanel pnLoaiSP = new JPanel();
-		FlowLayout fl_pnLoaiSP = (FlowLayout) pnLoaiSP.getLayout();
-		fl_pnLoaiSP.setAlignment(FlowLayout.LEFT);
-		pnThongTin.add(pnLoaiSP);
+		JPanel pnMaNCC = new JPanel();
+		FlowLayout fl_pnMaNCC = (FlowLayout) pnMaNCC.getLayout();
+		fl_pnMaNCC.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnMaNCC);
 
-		JLabel lblLoaiSP = new JLabel("Loại sản phẩm: ");
-		lblLoaiSP.setPreferredSize(new Dimension(90, 14));
-		pnLoaiSP.add(lblLoaiSP);
+		JLabel lblMaNCC = new JLabel("Mã NCC: ");
+		lblMaNCC.setPreferredSize(new Dimension(80, 14));
+		pnMaNCC.add(lblMaNCC);
 
-		JComboBox comboBoxLoai = new JComboBox();
-		comboBoxLoai.setPreferredSize(new Dimension(204, 20));
-		pnLoaiSP.add(comboBoxLoai);
-		chkLoaiSP = new JCheckBox("");
-		pnLoaiSP.add(chkLoaiSP);
+		JComboBox comboMa = new JComboBox();
+		comboMa.setPreferredSize(new Dimension(202, 20));
+		pnMaNCC.add(comboMa);
+		chkMaNCC = new JCheckBox("");
+		pnMaNCC.add(chkMaNCC);
 
-		JPanel pnMaSP = new JPanel();
-		FlowLayout fl_pnMaSP = (FlowLayout) pnMaSP.getLayout();
-		fl_pnMaSP.setAlignment(FlowLayout.LEFT);
-		pnThongTin.add(pnMaSP);
+		JPanel pnTenNCC = new JPanel();
+		FlowLayout fl_pnTenNCC = (FlowLayout) pnTenNCC.getLayout();
+		fl_pnTenNCC.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnTenNCC);
 
-		JLabel lblMaSach = new JLabel("Mã sản phẩm:");
-		lblMaSach.setPreferredSize(new Dimension(90, 14));
-		pnMaSP.add(lblMaSach);
+		JLabel lblTenNCC = new JLabel("Tên NCC:");
+		lblTenNCC.setPreferredSize(new Dimension(80, 14));
+		pnTenNCC.add(lblTenNCC);
 
-		txtMaSP = new JTextField();
-		txtMaSP.setPreferredSize(new Dimension(190, 20));
-		txtMaSP.setColumns(20);
-		pnMaSP.add(txtMaSP);
-		chkMaSP = new JCheckBox("");
-		pnMaSP.add(chkMaSP);
+		txtTenNCC = new JTextField();
+		txtTenNCC.setPreferredSize(new Dimension(200, 20));
+		txtTenNCC.setColumns(20);
+		pnTenNCC.add(txtTenNCC);
+		chkTenNCC = new JCheckBox("");
+		pnTenNCC.add(chkTenNCC);
 
-		JPanel pnTen = new JPanel();
-		FlowLayout fl_pnTen = (FlowLayout) pnTen.getLayout();
-		fl_pnTen.setAlignment(FlowLayout.LEFT);
-		pnThongTin.add(pnTen);
+		JPanel pnDaiChi = new JPanel();
+		FlowLayout fl_pnDaiChi = (FlowLayout) pnDaiChi.getLayout();
+		fl_pnDaiChi.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnDaiChi);
 
-		JLabel lblTen = new JLabel("Tên sản phẩm:");
-		lblTen.setPreferredSize(new Dimension(90, 14));
-		pnTen.add(lblTen);
+		JLabel lblDiaChi = new JLabel("Địa chỉ:");
+		lblDiaChi.setPreferredSize(new Dimension(80, 14));
+		pnDaiChi.add(lblDiaChi);
 
-		txtTen = new JTextField();
-		txtTen.setPreferredSize(new Dimension(200, 20));
-		pnTen.add(txtTen);
-		txtTen.setColumns(20);
+		txtDiaChi = new JTextField();
+		txtDiaChi.setPreferredSize(new Dimension(200, 20));
+		pnDaiChi.add(txtDiaChi);
+		txtDiaChi.setColumns(20);
 
-		chkTen = new JCheckBox("");
-		pnTen.add(chkTen);
+		chkDiaChi = new JCheckBox("");
+		pnDaiChi.add(chkDiaChi);
 
-		JPanel pnNCC = new JPanel();
-		FlowLayout fl_pnCC = (FlowLayout) pnNCC.getLayout();
-		fl_pnCC.setAlignment(FlowLayout.LEFT);
-		pnThongTin.add(pnNCC);
+		JPanel pnSdt = new JPanel();
+		FlowLayout fl_pnNXB = (FlowLayout) pnSdt.getLayout();
+		fl_pnNXB.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnSdt);
 
-		JLabel lblNCC= new JLabel("Nhà cung cấp:");
-		lblNCC.setPreferredSize(new Dimension(90, 14));
-		pnNCC.add(lblNCC);
+		JLabel lblSdt = new JLabel("Số điện thoại:");
+		lblSdt.setPreferredSize(new Dimension(80, 14));
+		pnSdt.add(lblSdt);
 
-		JComboBox comboBoxNCC= new JComboBox();
-		comboBoxNCC.setPreferredSize(new Dimension(204, 20));
-		pnNCC.add(comboBoxNCC);
-		chkNCC = new JCheckBox("");
-		pnNCC.add(chkNCC);
-		
+		txtSdt = new JTextField();
+		txtSdt.setPreferredSize(new Dimension(200, 20));
+		pnSdt.add(txtSdt);
+		txtSdt.setColumns(20);
+
+		chkSdt = new JCheckBox("");
+		pnSdt.add(chkSdt);
 
 		JPanel pnTim = new JPanel();
 		pnTim.setLayout(new FlowLayout());
@@ -200,11 +202,10 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		pnRightBottom.setBorder(new LineBorder(SystemColor.activeCaption, 2));
 		pnRight.add(pnRightBottom);
 
-		String[] cols = { "Mã sản phẩm", "Tên sản phẩm", "Nhà cung cấp", "Số lượng", "Giá nhập", "Giá bán",
-				"Loại sản phẩm" };
-		modelSanPhamKhac = new DefaultTableModel(cols, 0);
+		String[] cols = { "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại" };
+		modelNCC = new DefaultTableModel(cols, 0);
 		pnRightBottom.setLayout(new BorderLayout(0, 0));
-		tblKetQua = new JTable(modelSanPhamKhac);
+		tblKetQua = new JTable(modelNCC);
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
 
