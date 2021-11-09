@@ -443,20 +443,7 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 		return this.contentPane;
 	}
 
-	public void renderData() throws SQLException {
-		// modelDSSach.getDataVector().removeAllElements();
-		table.clearSelection();
 
-		modelDSLoai.getDataVector().removeAllElements();
-		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
-
-//		String stt = table.getValueAt(1, 0).toString();
-
-		dsloai.forEach(loai -> {
-			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
-		});
-
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -525,6 +512,20 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 		return false;
 	}
 
+	public void renderData() throws SQLException {
+		// modelDSSach.getDataVector().removeAllElements();
+		table.clearSelection();
+
+		modelDSLoai.getDataVector().removeAllElements();
+		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
+
+//		String stt = table.getValueAt(1, 0).toString();
+
+		dsloai.forEach(loai -> {
+			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+		});
+
+	}
 	public void renderDataTimKiem() throws SQLException {
 		table.clearSelection();
 

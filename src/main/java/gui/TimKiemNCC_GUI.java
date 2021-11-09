@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dao.KhachHangDAO;
+import dao.NhaCungCapDAO;
 import entity.KhachHang;
+import entity.NhaCungCap;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,8 +34,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TimKiemNCC_GUI extends JFrame {
+public class TimKiemNCC_GUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtSdt;
@@ -47,6 +50,9 @@ public class TimKiemNCC_GUI extends JFrame {
 	private JCheckBox chkTenNCC;
 	private JTextField txtDiaChi;
 	private DefaultTableModel modelNCC;
+	private NhaCungCapDAO nhaCCDAO;
+	private ArrayList<NhaCungCap> dsncc;
+	private List<NhaCungCap> dsncctim;
 
 	/**
 	 * Launch the application.
@@ -66,8 +72,9 @@ public class TimKiemNCC_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public TimKiemNCC_GUI() {
+	public TimKiemNCC_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1300, 700);
 		contentPane = new JPanel();
@@ -75,6 +82,7 @@ public class TimKiemNCC_GUI extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
+		nhaCCDAO = new NhaCungCapDAO();
 		JPanel pnTieuDe = new JPanel();
 		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 
@@ -208,24 +216,38 @@ public class TimKiemNCC_GUI extends JFrame {
 		tblKetQua = new JTable(modelNCC);
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
+		renderData();
 
-		addEvents();
 	}
 
-	private void addEvents() {
-		// TODO Auto-generated method stub
-		btnTimKiem.addActionListener(new ActionListener() {
+	public void renderData() throws SQLException {
+		tblKetQua.clearSelection();
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}	
+		modelNCC.getDataVector().removeAllElements();
+		dsncc = nhaCCDAO.getListNhaCungCap();
+
+		dsncc.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
 		});
 	}
 
-	private void renderDataTimKiem(ArrayList<KhachHang> dskh) {
+	public void renderDataTimKiem() throws SQLException {
+		tblKetQua.clearSelection();
+
+		modelNCC.getDataVector().removeAllElements();
+
+		dsncctim.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
+		});
+
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+
 	}
 
 }

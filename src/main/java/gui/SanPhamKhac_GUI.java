@@ -561,18 +561,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		return this.contentPane;
 	}
 
-	public void renderData() throws SQLException {
-		// modelDSSach.getDataVector().removeAllElements();
-		table.clearSelection();
-
-		modelDSSanPham.getDataVector().removeAllElements();
-		dsssp = new SanPhamDAO().getListSanPhamKhac();
-
-		dsssp.forEach(sp -> {
-			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(),  new Currency( (int) sp.getGiaNhap()).toString(),new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
-		});
-	}
+	
 
 	private void loadCboMaLoai() throws SQLException {
 		dsLoai = new LoaiSanPhamDAO().getDanhSachLoaiSanPhamKhac();
@@ -629,6 +618,18 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		return false;
 	}
 
+	public void renderData() throws SQLException {
+		// modelDSSach.getDataVector().removeAllElements();
+		table.clearSelection();
+
+		modelDSSanPham.getDataVector().removeAllElements();
+		dsssp = new SanPhamDAO().getListSanPhamKhac();
+
+		dsssp.forEach(sp -> {
+			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
+					sp.getSoLuong(),  new Currency( (int) sp.getGiaNhap()).toString(),new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+		});
+	}
 	public void renderDataTimKiem() throws SQLException {
 		table.clearSelection();
 

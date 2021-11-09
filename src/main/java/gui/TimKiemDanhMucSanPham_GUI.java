@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dao.KhachHangDAO;
+import dao.LoaiSanPhamDAO;
 import entity.KhachHang;
+import entity.LoaiSanPham;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,8 +34,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TimKiemDanhMucSanPham_GUI extends JFrame {
+public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JButton btnTimKiem, btnRefresh;
@@ -44,6 +47,9 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 	private JCheckBox chkMaLoai;
 	private JTextField txtTenLoai;
 	private JCheckBox chkTenLoai;
+	private ArrayList<LoaiSanPham> dsloai;
+	private List<LoaiSanPham> dsloaitim;
+	private LoaiSanPhamDAO loaiDAO;
 
 	/**
 	 * Launch the application.
@@ -63,8 +69,9 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public TimKiemDanhMucSanPham_GUI() {
+	public TimKiemDanhMucSanPham_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1300, 700);
 		contentPane = new JPanel();
@@ -72,6 +79,7 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
+		loaiDAO = new LoaiSanPhamDAO();
 		JPanel pnTieuDe = new JPanel();
 		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 
@@ -113,11 +121,11 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 		pnThongTin.add(pnMaLoai);
 
 		JLabel lblMaLoai = new JLabel("Mã loại:");
-		lblMaLoai.setPreferredSize(new Dimension(90, 14));
+		lblMaLoai.setPreferredSize(new Dimension(70, 14));
 		pnMaLoai.add(lblMaLoai);
 
 		txtMaLoai = new JTextField();
-		txtMaLoai.setPreferredSize(new Dimension(190, 20));
+		txtMaLoai.setPreferredSize(new Dimension(200, 20));
 		txtMaLoai.setColumns(20);
 		pnMaLoai.add(txtMaLoai);
 		chkMaLoai = new JCheckBox("");
@@ -129,7 +137,7 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 		pnThongTin.add(pnTenLoai);
 
 		JLabel lblTenLoai = new JLabel("Tên loại:");
-		lblTenLoai.setPreferredSize(new Dimension(90, 14));
+		lblTenLoai.setPreferredSize(new Dimension(70, 14));
 		pnTenLoai.add(lblTenLoai);
 
 		txtTenLoai = new JTextField();
@@ -175,24 +183,60 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame {
 		tblKetQua = new JTable(modelDanhmuc);
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
-
-		addEvents();
-	}
-
-	private void addEvents() {
-		// TODO Auto-generated method stub
+		renderData();
 		btnTimKiem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
-			}	
+			}
 		});
+		btnRefresh.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
+		
 	}
 
-	private void renderDataTimKiem(ArrayList<KhachHang> dskh) {
+	
+
+	public void renderData() throws SQLException {
+		// modelDSSach.getDataVector().removeAllElements();
+		tblKetQua.clearSelection();
+
+		modelDanhmuc.getDataVector().removeAllElements();
+		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
+
+//		String stt = table.getValueAt(1, 0).toString();
+
+		dsloai.forEach(loai -> {
+			modelDanhmuc.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+		});
+
+	}
+	public void renderDataTimKiem() throws SQLException {
+		tblKetQua.clearSelection();
+
+		modelDanhmuc.getDataVector().removeAllElements();
+
+		dsloaitim.forEach(loai -> {
+			modelDanhmuc.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+		});
+
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -544,16 +544,7 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 
 	}
 
-	public void renderData() throws SQLException {
-		table.clearSelection();
-
-		modelNCC.getDataVector().removeAllElements();
-		dsncc = nhaCCDAO.getListNhaCungCap();
-
-		dsncc.forEach(ncc -> {
-			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
-		});
-	}
+	
 
 
 	private NhaCungCap getSelectedDataTable() {
@@ -589,6 +580,17 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 		return false;
 	}
 //
+	
+	public void renderData() throws SQLException {
+		table.clearSelection();
+
+		modelNCC.getDataVector().removeAllElements();
+		dsncc = nhaCCDAO.getListNhaCungCap();
+
+		dsncc.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
+		});
+	}
 	public void renderDataTimKiem() throws SQLException {
 		table.clearSelection();
 
