@@ -284,22 +284,22 @@ public class SanPhamDAO extends ConnectDB {
 	public boolean capNhat(SanPham sp) {
 		PreparedStatement stmt = null;
 		try {
-
-			String sql = "UPDATE dbo.SanPham set TenSp = ?, GiaSp = ?, GiaNhap = ?, SoLuong = ?, MaLoai = ?, MaNCC = ? where MaSP = ?";
+			String loai = " ";
+			if(sp.getLoaiSanPham() != null)
+				loai = " , MaLoai = "+ sp.getLoaiSanPham().getMaLoai()+" ";
+			
+			String ncc = " ";
+			if(sp.getNhaCungCap() != null)
+				ncc = " , MaNCC = "+ sp.getNhaCungCap().getMaNCC()+" ";
+			
+			
+			String sql = "UPDATE dbo.SanPham set TenSp = ?, GiaSp = ?, GiaNhap = ?, SoLuong = ?"+ loai + ncc +" where MaSP = ?";
 			stmt = this.conn.prepareStatement(sql);
 			stmt.setString(1, sp.getTenSp());
 			stmt.setDouble(2, sp.getGiaSp());
 			stmt.setDouble(3, sp.getGiaNhap());
 			stmt.setInt(4, sp.getSoLuong());
-			stmt.setInt(5, sp.getLoaiSanPham().getMaLoai());
-			stmt.setInt(6, sp.getNhaCungCap().getMaNCC());
-//			if(sp.getNhaCungCap() != null)
-//				stmt.setInt(5, sp.getNhaCungCap().getMaNCC());
-//			
-//			if(sp.getLoaiSanPham() != null)
-//				stmt.setInt(6, sp.getLoaiSanPham().getMaLoai());
-			
-			stmt.setInt(7, sp.getMaSp());
+			stmt.setInt(5, sp.getMaSp());
 			int n = stmt.executeUpdate();
 
 			return n > 0;

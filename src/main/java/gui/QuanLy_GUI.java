@@ -58,7 +58,7 @@ public class QuanLy_GUI extends JFrame {
 
 	private KhachHang_GUI khachHangGUI = new KhachHang_GUI();
 	private ThemKhachHang_GUI themKHGUI = new ThemKhachHang_GUI();
-	private MuaHang muaHangGUI;
+	private MuaHang muaHangGUI = new MuaHang();
 	private DatHang_GUI datHangGUI;
 	private TimKiemKhachHang_GUI timKiemKHGUI = new TimKiemKhachHang_GUI();
 	private ThongKeMucDoMuaHang_GUI thongKeKHTNGUI = new ThongKeMucDoMuaHang_GUI();
@@ -149,6 +149,7 @@ public class QuanLy_GUI extends JFrame {
 		handleLogin();
 		handleRegister();
 		handleDangXuat();
+		handleTrangMuaHang();
 	}
 
 	public void menuGUI() {
@@ -230,9 +231,6 @@ public class QuanLy_GUI extends JFrame {
 			mntmThemKH = new JMenuItem("Thêm khách hàng");
 			mnKhachHang.add(mntmThemKH);
 	
-			mntmMuaHang = new JMenuItem("Mua hàng");
-			mnKhachHang.add(mntmMuaHang);
-	
 			mntmDonDatHang = new JMenuItem("Đơn đặt hàng");
 			mnKhachHang.add(mntmDonDatHang);
 	
@@ -259,13 +257,17 @@ public class QuanLy_GUI extends JFrame {
 			mnNhanVien.add(mntmQuanLyNhanVien);
 		}
 
+
+		if(nhanVien.getChucNang() == 3) {
+			mntmTaoTaiKhoan = new JMenuItem("Thêm nhân viên");
+			mnNhanVien.add(mntmTaoTaiKhoan);
+		}
+
 		JMenuItem mntmTimKiemNV = new JMenuItem("Tìm kiếm nhân viên");
 		mnNhanVien.add(mntmTimKiemNV);
 
-		if(nhanVien.getChucNang() == 3) {
-			mntmTaoTaiKhoan = new JMenuItem("Tạo tài khoản");
-			mnNhanVien.add(mntmTaoTaiKhoan);
 		
+		if(nhanVien.getChucNang() == 3) {
 			mntmThongKe = new JMenuItem("Thống kê");
 			mnNhanVien.add(mntmThongKe);
 		}
@@ -486,19 +488,6 @@ public class QuanLy_GUI extends JFrame {
 			}
 		});
 
-		mntmMuaHang.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-//				renderMain(muaHang.getContentPane(), "muahang");
-				muaHangGUI.setVisible(true);
-				muaHangGUI.setLocationRelativeTo(contentPane);
-//				muaHangGUI.setAlwaysOnTop(true);
-//				muaHangGUI.setAlwaysOnTop(false);
-//				trangChuGUI.setVisible(true);
-			}
-		});
-
 		mntmDonDatHang.addActionListener(new ActionListener() {
 
 			@Override
@@ -619,17 +608,24 @@ public class QuanLy_GUI extends JFrame {
 								return;
 							}
 						}
-						muaHangGUI = new MuaHang(khachHang);
-
+						muaHangGUI.setKhachHang(khachHang);
+						muaHangGUI.setPrimary(false);
+						muaHangGUI.trangChuGUI.renderData();
+						muaHangGUI.gioHangGUI.renderData();
+						muaHangGUI.getContentPane().revalidate();
+						muaHangGUI.getContentPane().repaint();
+						
 						if (nhanVien != null) {
 							taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
 							datHangGUI = new DatHang_GUI(nhanVien);
 							renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
 							menuGUI();
 							menuBar.setVisible(true);
+							menuBar.revalidate();
+							menuBar.repaint();
 						}else {
-							MuaHang muaHang2GUI = new MuaHang(khachHang, true);
-							muaHang2GUI.setVisible(true);
+							muaHangGUI.setPrimary(true);
+							muaHangGUI.setVisible(true);
 							setVisible(false);
 						}
 						dangNhapGUI.clear();
@@ -649,6 +645,10 @@ public class QuanLy_GUI extends JFrame {
 				// System.out.println("hi");
 				renderMain(dangKyGUI.getContentPane(), "dangky");
 			}
+		});
+		
+		dangNhapGUI.btnThoat.addActionListener((e) -> {
+			System.exit(0);
 		});
 	}
 
@@ -678,8 +678,38 @@ public class QuanLy_GUI extends JFrame {
 		TrangChaoMungGUI.btnDangXuat.addActionListener((e) -> {
 			this.khachHang = null;
 			this.nhanVien = null;
+			dangXuat();
 			renderMain(dangNhapGUI.getContentPane(), "login");
 		});
+	}
+	
+	public void handleTrangMuaHang() {
+		muaHangGUI.trangChuGUI.mntmDangXuat.addActionListener((e) -> {
+			System.out.println("dang xuat");
+			this.khachHang = null;
+			this.nhanVien = null;
+			muaHangGUI.setKhachHang(null);
+			dangXuat();
+			renderMain(dangNhapGUI.getContentPane(), "login");
+			setVisible(true);
+			muaHangGUI.setVisible(false);
+		});
+		muaHangGUI.gioHangGUI.mntmDangXuat.addActionListener((e) -> {
+			System.out.println("dang xuat");
+			this.khachHang = null;
+			this.nhanVien = null;
+			muaHangGUI.setKhachHang(null);
+			dangXuat();
+			renderMain(dangNhapGUI.getContentPane(), "login");
+			setVisible(true);
+			muaHangGUI.setVisible(false);
+		});
+	}
+	
+	public void dangXuat() {
+		menuBar.setVisible(false);
+//		menuBar.revalidate();
+//		menuBar.repaint();
 	}
 
 	public JPanel getContentPane() {

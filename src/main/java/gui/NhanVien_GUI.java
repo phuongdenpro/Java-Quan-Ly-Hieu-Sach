@@ -48,6 +48,7 @@ import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.border.CompoundBorder;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 
 public class NhanVien_GUI extends JFrame {
 
@@ -61,8 +62,8 @@ public class NhanVien_GUI extends JFrame {
 	private JButton btnSuaNv,btnXoaNv,btnLamMoi,btnTimKiem;
 	private DefaultComboBoxModel cboLoaiTimKiem;
 	private JComboBox cmbLoaiTimKiem;
-	private JTextField txtCaLam;
-	private JTextField txtChucVu;
+	private JComboBox cboChucVu;
+	private JComboBox cboCaLam;
 	
 
 	/**
@@ -202,24 +203,28 @@ public class NhanVien_GUI extends JFrame {
 		lblCaLam.setPreferredSize(new Dimension(100, 14));
 		pnCaLam.add(lblCaLam);
 		
-		txtCaLam = new JTextField();
-		txtCaLam.setPreferredSize(new Dimension(7, 30));
-		txtCaLam.setColumns(20);
-		pnCaLam.add(txtCaLam);
-		
 		JPanel pnChucVu = new JPanel();
 		FlowLayout fl_pnChucVu = (FlowLayout) pnChucVu.getLayout();
 		fl_pnCaLam.setAlignment(FlowLayout.LEFT);
+		
+		cboCaLam = new JComboBox();
+		cboCaLam.setPreferredSize(new Dimension(222, 22));
+		pnCaLam.add(cboCaLam);
 		pnThongTinKh.add(pnChucVu);
+		cboCaLam.addItem((String) "Sáng");
+		cboCaLam.addItem((String) "Chiều");
 		
 		JLabel lblChucVu = new JLabel("Chức vụ");
+		lblChucVu.setHorizontalAlignment(SwingConstants.LEFT);
 		lblChucVu.setPreferredSize(new Dimension(100, 14));
 		pnChucVu.add(lblChucVu);
 		
-		txtChucVu = new JTextField();
-		txtChucVu.setPreferredSize(new Dimension(7, 30));
-		txtChucVu.setColumns(20);
-		pnChucVu.add(txtChucVu);
+		cboChucVu = new JComboBox();
+		cboChucVu.setPreferredSize(new Dimension(222, 22));
+		pnChucVu.add(cboChucVu);
+		cboChucVu.addItem((String) "Nhân viên bán hàng");
+		cboChucVu.addItem((String) "Nhân viên quản lý sản phẩm");
+		cboChucVu.addItem((String) "Người quản lý");
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		pnThongTinKh.add(verticalStrut);
@@ -231,19 +236,19 @@ public class NhanVien_GUI extends JFrame {
 		btnSuaNv = new JButton("Sửa");
 		btnSuaNv.setBackground(Color.WHITE);
 		btnSuaNv.setIcon(new ImageIcon("data\\images\\repairing-service.png"));
-		btnSuaNv.setIconTextGap(30);
+//		btnSuaNv.setIconTextGap(30);
 		pnChucNang.add(btnSuaNv);
 		
 		btnXoaNv = new JButton("Xóa");
 		btnXoaNv.setBackground(Color.WHITE);
 		btnXoaNv.setIcon(new ImageIcon("data\\images\\trash.png"));
-		btnXoaNv.setIconTextGap(10);
+//		btnXoaNv.setIconTextGap(10);
 		pnChucNang.add(btnXoaNv);
 		
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBackground(Color.WHITE);
 		btnLamMoi.setIcon(new ImageIcon("data\\images\\refresh.png"));
-		btnLamMoi.setIconTextGap(10);
+//		btnLamMoi.setIconTextGap(10);
 		pnChucNang.add(btnLamMoi);
 		
 		JPanel pnRight = new JPanel();
@@ -317,8 +322,9 @@ public class NhanVien_GUI extends JFrame {
 					txtTenNv.setText(nv.getTenNv());
 					txtSdt.setText(nv.getSoDienThoai());
 					txtDiaChi.setText(nv.getDiaChi());
-					txtCaLam.setText(String.valueOf(nv.getCaLamViec()));
-					txtChucVu.setText(String.valueOf(nv.getChucNang()));
+					
+					cboCaLam.setSelectedIndex(nv.getCaLamViec() - 1);
+					cboChucVu.setSelectedIndex(nv.getChucNang() - 1);
 				}
 			}
 		});
@@ -333,8 +339,8 @@ public class NhanVien_GUI extends JFrame {
 				String tenNV = txtTenNv.getText();
 				String sdt = txtSdt.getText();
 				String diaChi = txtDiaChi.getText();
-				int caLam = Integer.parseInt(txtCaLam.getText());
-				int chucVu = Integer.parseInt(txtChucVu.getText());
+				int caLam = cboCaLam.getSelectedIndex() + 1;
+				int chucVu = cboChucVu.getSelectedIndex() + 1;
 				
 				boolean ktSdt  = sdt.matches("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$");	
 				if(ktSdt == false) {
@@ -414,8 +420,8 @@ public class NhanVien_GUI extends JFrame {
 				txtTenNv.setText("");
 				txtSdt.setText("");
 				txtDiaChi.setText("");
-				txtCaLam.setText("");
-				txtChucVu.setText("");
+				cboCaLam.setSelectedIndex(0);
+				cboChucVu.setSelectedIndex(0);
 				try {
 					renderData();
 				} catch (SQLException e1) {
@@ -428,9 +434,10 @@ public class NhanVien_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(txtNhapLieu.getText().equals("")) 
+				if(txtNhapLieu.getText().equals("")) {
 					JOptionPane.showMessageDialog(contentPane,"cần nhập dữ liệu tìm kiếm");
-					
+					return;
+				}
 				String key = "";
 					
 				if(cboLoaiTimKiem.getSelectedItem().equals("Tên NV")) 
@@ -440,17 +447,16 @@ public class NhanVien_GUI extends JFrame {
 				else if(cboLoaiTimKiem.getSelectedItem().equals("Địa chỉ")) 
 					key = "DiaChi";
 				System.out.println(key);
-				String sql = " " + key + " like " + "N'" +txtNhapLieu.getText()+ "'" ;
+				String sql = " " + key + " like " + "N'%" +txtNhapLieu.getText()+ "%'" ;
 				System.out.println(sql);
 				dsnv = new ArrayList<NhanVien>();
 				try {
 					dsnv = new NhanVienDAO().TimKiem(sql);
-					if(dsnv == null) {
+					renderDataTimKiem(dsnv);
+					if(dsnv.size() == 0) {
 						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy nhân viên nào");
 					}
-					else {
-						renderDataTimKiem(dsnv);
-					}
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -464,8 +470,25 @@ public class NhanVien_GUI extends JFrame {
 		modelDSNV.setRowCount(0);
 		dsnv = new NhanVienDAO().getDSNV();
 		dsnv.forEach(nv -> {
-			modelDSNV.addRow
-				(new Object[] {nv.getMaNv(), nv.getTenNv(), nv.getSoDienThoai(), nv.getDiaChi(),nv.getCaLamViec(),nv.getChucNang()});
+			String caLamViec = "Sáng";
+			if(nv.getCaLamViec() == 2)
+				caLamViec = "Chiều";
+			
+			String chucNang = "Người quản lý";
+			if(nv.getChucNang() == 1)
+				chucNang = "Nhân viên bán hàng";
+			else if(nv.getChucNang() == 2)
+				chucNang = "Nhân viên quản lý sản phẩm";
+			
+			
+			modelDSNV.addRow(new Object[] {
+					nv.getMaNv(), 
+					nv.getTenNv(), 
+					nv.getSoDienThoai(), 
+					nv.getDiaChi(),
+					caLamViec,
+					chucNang
+			});
 		});
 		
 		tblNhanVien.revalidate();
@@ -477,8 +500,8 @@ public class NhanVien_GUI extends JFrame {
 		txtTenNv.setText("");
 		txtSdt.setText("");
 		txtDiaChi.setText("");
-		txtCaLam.setText("");
-		txtChucVu.setText("");
+		cboCaLam.setSelectedIndex(0);
+		cboChucVu.setSelectedIndex(0);
 	}
 	public void setDisable() {
 		btnSuaNv.setEnabled(false);
@@ -494,7 +517,24 @@ public class NhanVien_GUI extends JFrame {
 		modelDSNV.getDataVector().removeAllElements();
 
 		dsnv.forEach(nv -> {
-			modelDSNV.addRow(new Object[] { nv.getMaNv(),nv.getTenNv(),nv.getSoDienThoai(),nv.getDiaChi(),nv.getCaLamViec()});
+			String caLamViec = "Sáng";
+			if(nv.getCaLamViec() == 2)
+				caLamViec = "Chiều";
+			
+			String chucNang = "Người quản lý";
+			if(nv.getChucNang() == 1)
+				chucNang = "Nhân viên bán hàng";
+			else if(nv.getChucNang() == 2)
+				chucNang = "Nhân viên quản lý sản phẩm";
+			
+			modelDSNV.addRow(new Object[] {
+					nv.getMaNv(), 
+					nv.getTenNv(), 
+					nv.getSoDienThoai(), 
+					nv.getDiaChi(),
+					caLamViec,
+					chucNang
+			});
 		});
 
 		tblNhanVien.revalidate();

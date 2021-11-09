@@ -209,21 +209,12 @@ public class NhanVienDAO extends ConnectDB{
 			PreparedStatement stmt = this.conn.prepareStatement(sqlTimKiem, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = stmt.executeQuery();
 			
-			if(!result.first()) {
-				System.out.println("Không tìm thấy nhân viên nào");
-				return null;
-			}
-			do {
+			while(result.next()) {
 				
-				int ma = result.getInt("MaNv");
-				String ten = result.getString("TenNv");
-				String sdt = result.getString("SoDienThoai");
-				String diaChi = result.getString("DiaChi");
-				int caLam = result.getInt("CaLamViec");				
-				
-				NhanVien nv = new NhanVien(ma, ten, sdt, diaChi,caLam);
+				NhanVien nv = new NhanVien(result);
 				dsnv.add(nv);			
-			}while(result.next());
+			}
+			return dsnv;
 			
 		}catch(SQLException ex) {
 			ex.printStackTrace();

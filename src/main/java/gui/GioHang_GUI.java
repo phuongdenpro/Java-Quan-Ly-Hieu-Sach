@@ -74,6 +74,7 @@ public class GioHang_GUI extends JFrame {
 	private JPanel pnItems;
 	private JTextField txtTongTien;
 	private JMenu mnMenu;
+	public JMenuItem mntmThoat;
 	/**
 	 * Launch the application.
 	 */
@@ -160,7 +161,7 @@ public class GioHang_GUI extends JFrame {
 		lblMaKH.setPreferredSize(new Dimension(150, 20));
 		pnKH.add(lblMaKH);
 		
-		txtMaKH = new JTextField(String.valueOf(this.khachHang.getMaKh()));
+		txtMaKH = new JTextField();
 		txtMaKH.setEditable(false);
 		txtMaKH.setPreferredSize(new Dimension(30, 20));
 		pnKH.add(txtMaKH);
@@ -285,6 +286,11 @@ public class GioHang_GUI extends JFrame {
 	}
 	
 	public void renderData() {
+		txtMaKH.setText(String.valueOf(this.khachHang.getMaKh()));
+		txtTenKH.setText(this.khachHang.getHoTen());
+		txtDiaChi.setText(this.khachHang.getDiaChi());
+		txtSoDienThoai.setText(this.khachHang.getSoDienThoai());
+		txtTongTien.setText("0");
 		mnMenu.setText("Xin chào: "+this.khachHang.getHoTen());
 		pnItems.removeAll();
 		donDatHang = null;
@@ -365,8 +371,11 @@ public class GioHang_GUI extends JFrame {
 		mntmGioHang = new JMenuItem("Giỏ hàng");
 		mnMenu.add(mntmGioHang);
 		
-		mntmDangXuat = new JMenuItem("Thoát");
+		mntmDangXuat = new JMenuItem("Đăng xuất");
 		mnMenu.add(mntmDangXuat);
+		
+		mntmThoat = new JMenuItem("Thoát chương trình");
+		mnMenu.add(mntmThoat);
 		
 		return panelHeader;
 	}
@@ -496,4 +505,14 @@ public class GioHang_GUI extends JFrame {
 	public JPanel getContentPane() {
 		return this.contentPane;
 	}
+
+	public KhachHang getKhachHang() {
+		return khachHang;
+	}
+
+	public void setKhachHang(KhachHang khachHang) {
+		this.khachHang = khachHang;
+	}
+	
+	
 }

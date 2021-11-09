@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.border.EtchedBorder;
@@ -42,6 +43,7 @@ public class DangNhap_GUI extends JFrame {
 	private JLabel lblMsg;
 	private JCheckBox chcHienThiMatKhau;
 	public JCheckBox chkIsNhanVien;
+	public JButton btnThoat;
 
 	/**
 	 * Launch the application.
@@ -71,21 +73,32 @@ public class DangNhap_GUI extends JFrame {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenSize.width, screenSize.height);
 		
-		contentPane = 
-//				new JPanel(); 
-				TrangChu_GUI.panelBackgroundImage("/images/bg2.jpg");
+//		contentPane =  new JPanel(); 
+		contentPane = new JPanel() {  
+			public void paintComponent(Graphics g) {  
+				Image img = Toolkit.getDefaultToolkit().getImage(  
+						DangNhap_GUI.class.getResource("/images/bg2.jpg"));  
+				g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
+            }  
+		};
 		
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		btnThoat = new JButton("Thoát chương trình", new ImageIcon("data/images/shut-down.png"));
+		btnThoat.setBackground(Color.WHITE);
+		btnThoat.setBounds(1099, 600, 200, 40);
+		contentPane.add(btnThoat);
+		
+		
+		
 		JPanel panel = new JPanel();
 		panel.setBounds(424, 176, 479, 265);
 		panel.setBackground(new Color(0, 0, 0, 150));
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
 		
 		JLabel lblDangNhap = new JLabel("\u0110\u0103ng Nh\u1EADp");
 		lblDangNhap.setBounds(144, 11, 198, 49);
@@ -133,6 +146,8 @@ public class DangNhap_GUI extends JFrame {
 		chkIsNhanVien.setBounds(41, 177, 229, 23);
 		panel.add(chkIsNhanVien);
 		
+		
+		
 		chcHienThiMatKhau.addActionListener(new ActionListener() {
 
 			@Override
@@ -170,8 +185,8 @@ public class DangNhap_GUI extends JFrame {
     }
 	
 	public void clear() {
-		txtPassword.setText("Tài khoản");
-		txtUserName.setText("Mật khẩu");
+		txtUserName.setText("Tài khoản");
+		txtPassword.setText("Mật khẩu");
 	}
 	
 	public JPanel getContentPane() {

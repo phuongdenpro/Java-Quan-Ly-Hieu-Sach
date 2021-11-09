@@ -78,6 +78,8 @@ public class TrangChu_GUI extends JFrame {
 
 	private JMenu mnNewMenu;
 
+	public JMenuItem mntmThoat;
+
 	
 
 	public static void main(String[] args) {
@@ -205,8 +207,11 @@ public class TrangChu_GUI extends JFrame {
 		mntmGioHang = new JMenuItem("Giỏ hàng");
 		mnNewMenu.add(mntmGioHang);
 		
-		mntmDangXuat = new JMenuItem("Thoát");
+		mntmDangXuat = new JMenuItem("Đăng xuất");
 		mnNewMenu.add(mntmDangXuat);
+		
+		mntmThoat = new JMenuItem("Thoát chương trình");
+		mnNewMenu.add(mntmThoat);
 		
 		return panelHeader;
 	}

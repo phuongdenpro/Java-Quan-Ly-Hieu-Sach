@@ -214,8 +214,6 @@ public class DonDatHangDAO extends ConnectDB{
         		return false;
         	}
         	
-        	
-        	
         	Date now = new Date(new java.util.Date().getTime());
         	String sql = "UPDATE dbo.DonDatHang SET tinhTrang = 1, tongTien = ?, ngayDat = ? WHERE maKH = ? and tinhTrang = 0";
         	PreparedStatement prpStmt = this.conn.prepareStatement(sql);

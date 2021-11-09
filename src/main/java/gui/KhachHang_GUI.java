@@ -386,9 +386,10 @@ public class KhachHang_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(txtNhapLieu.getText().equals("")) 
+				if(txtNhapLieu.getText().equals("")) {
 					JOptionPane.showMessageDialog(contentPane,"cần nhập dữ liệu tìm kiếm");
-					
+					return;
+				}
 				String key = "";
 					
 				if(cboLoaiTimKiem.getSelectedItem().equals("Tên KH")) 
@@ -397,17 +398,16 @@ public class KhachHang_GUI extends JFrame {
 					key = "SoDienThoai";		
 				else if(cboLoaiTimKiem.getSelectedItem().equals("Địa chỉ")) 
 					key = "DiaChi";
-				String sql = " "+ key + " like " + "N'" +txtNhapLieu.getText()+ "'" ;
+				String sql = " "+ key + " like " + "N'%" +txtNhapLieu.getText()+ "%'" ;
 				System.out.println(sql);
 				dskh = new ArrayList<KhachHang>();
 				try {
 					dskh = new KhachHangDAO().TimKiem(sql);
-					if(dskh == null) {
+					renderDataTimKiem(dskh);
+					if(dskh.size() == 0) {
 						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy khách hàng nào");
 					}
-					else {
-						renderDataTimKiem(dskh);
-					}
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

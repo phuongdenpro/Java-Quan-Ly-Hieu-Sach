@@ -22,8 +22,8 @@ import entity.KhachHang;
 public class MuaHang extends JFrame{
 	private KhachHang khachHang;
 	private boolean isPrimary = false;
-	private TrangChu_GUI trangChuGUI = new TrangChu_GUI();;
-	private GioHang_GUI gioHangGUI = new GioHang_GUI();
+	public TrangChu_GUI trangChuGUI = new TrangChu_GUI();;
+	public GioHang_GUI gioHangGUI = new GioHang_GUI();
 	private TimKiemTrangMuaHang_GUI timKiemGUI = new TimKiemTrangMuaHang_GUI();
 //	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
 	private TroGiup_GUI troGiupGUI = new TroGiup_GUI();
@@ -31,8 +31,10 @@ public class MuaHang extends JFrame{
 	private JPanel contentPane = new JPanel();
 	
 	public MuaHang() throws SQLException {
-		
-		trangChuGUI.setKhachHang(new KhachHangDAO().getKhachHang(1));
+		this.khachHang = new KhachHangDAO().getKhachHang(1);
+		trangChuGUI.setKhachHang(khachHang);
+		gioHangGUI.setKhachHang(khachHang);
+		timKiemGUI.setKhachHang(khachHang);
 		renderGUI();
 	}
 	
@@ -111,7 +113,7 @@ public class MuaHang extends JFrame{
 				renderMain(gioHangGUI.getContentPane(), "giohang");
 			}
 		});
-		trangChuGUI.mntmDangXuat.addActionListener(new ActionListener() {
+		trangChuGUI.mntmThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isPrimary == false)
 					setVisible(false);
@@ -175,7 +177,7 @@ public class MuaHang extends JFrame{
 				renderMain(trangChuGUI.getContentPane(), "trangchu");
 			}
 		});
-		gioHangGUI.mntmDangXuat.addActionListener(new ActionListener() {
+		gioHangGUI.mntmThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isPrimary == false)
 					setVisible(false);
@@ -241,6 +243,27 @@ public class MuaHang extends JFrame{
 		return contentPane;
 	}
 	
+	
+	
+	public KhachHang getKhachHang() {
+		return khachHang;
+	}
+
+	public void setKhachHang(KhachHang khachHang) {
+		this.khachHang = khachHang;
+		trangChuGUI.setKhachHang(khachHang);
+		gioHangGUI.setKhachHang(khachHang);
+		timKiemGUI.setKhachHang(khachHang);
+	}
+
+	public boolean isPrimary() {
+		return isPrimary;
+	}
+
+	public void setPrimary(boolean isPrimary) {
+		this.isPrimary = isPrimary;
+	}
+
 	public static void main(String[] args) throws SQLException {
 		MuaHang quanLyHieuSach = new MuaHang();
 	}

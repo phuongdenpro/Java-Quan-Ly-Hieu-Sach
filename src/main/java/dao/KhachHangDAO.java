@@ -488,21 +488,18 @@ public class KhachHangDAO extends ConnectDB{
 			System.out.println(sqlTimKiem);
 			PreparedStatement stml = this.conn.prepareStatement(sqlTimKiem,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);	
 			ResultSet result = stml.executeQuery();
-			if(!result.first()) {
-				System.out.println("không tìm thấy khách hàng nào");
-				return null;
-			}
 			
 			int maKh; 
 			String ten, sdt, diaChi;
-			do {
+			while (result.next()) {
 				maKh = Integer.parseInt(result.getString("MaKH"));
 				ten = result.getString("HoTen");
 				sdt = result.getString("SoDienThoai");
 				diaChi = result.getString("DiaChi");
 				KhachHang kh = new KhachHang(maKh, ten, sdt, diaChi);
 				dskh.add(kh);
-			}while (result.next());
+			}
+			return dskh;
 				
 		}catch (SQLException ex) {
 			ex.printStackTrace();
