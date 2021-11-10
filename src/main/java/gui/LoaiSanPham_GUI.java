@@ -492,6 +492,20 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 	}
 
 	private boolean ktdulieu() {
+		String tenLoai = txtTenLoai.getText().trim();
+		if(tenLoai.equals("")){
+			JOptionPane.showMessageDialog(this, "Tên không được bỏ trống");
+			txtTenLoai.selectAll();
+			txtTenLoai.requestFocus();
+            return false;
+        }
+		
+		if(!tenLoai.matches("^[a-zA-Z0-9]{2,}$")){
+			JOptionPane.showMessageDialog(this, "Tên không được chứa kí tự đặc biết, và phải ít nhất là 2 ký tự");
+			txtTenLoai.selectAll();
+			txtTenLoai.requestFocus();
+            return false;
+        }
 
 		return true;
 
