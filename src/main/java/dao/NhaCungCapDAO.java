@@ -75,7 +75,7 @@ public class NhaCungCapDAO extends ConnectDB {
 		try {
 
 			String sql = "select DISTINCT NhaCungCap.MaNCC, NhaCungCap.TenNCC, NhaCungCap.DiaChi, NhaCungCap.SoDienThoai from dbo.NhaCungCap inner join  SanPham on SanPham.MaNCC = NhaCungCap.MaNCC inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai\r\n" + 
-					"where TenLoai like '%Sách%' OR TenLoai like N'%Truyện%'";
+					"where TenLoai like N'%Sách%' OR TenLoai like N'%Truyện%'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -101,7 +101,7 @@ public class NhaCungCapDAO extends ConnectDB {
 		try {
 
 			String sql = "select DISTINCT NhaCungCap.MaNCC, NhaCungCap.TenNCC, NhaCungCap.DiaChi, NhaCungCap.SoDienThoai from dbo.NhaCungCap inner join  SanPham on SanPham.MaNCC = NhaCungCap.MaNCC inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai\r\n" + 
-					"where TenLoai not like '%Sách%' AND TenLoai not like N'%Truyện%'";
+					"where TenLoai not like N'%Sách%' AND TenLoai not like N'%Truyện%'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);

@@ -620,13 +620,13 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			return false;
 		}
 		if (!giaNhap.matches("^[0-9]{1,}$")) {
-			JOptionPane.showMessageDialog(this, "Giá nhập phải là số");
+			JOptionPane.showMessageDialog(this, "Giá nhập không hợp lệ");
 			txtGiaNhap.selectAll();
 			txtGiaNhap.requestFocus();
 			return false;
 		}
 		if (!giaBan.matches("^[0-9]{1,}$")) {
-			JOptionPane.showMessageDialog(this, "Giá bán phải là số");
+			JOptionPane.showMessageDialog(this, "Giá bán không hợp lệ");
 			txtGiaBan.selectAll();
 			txtGiaBan.requestFocus();
 			return false;
