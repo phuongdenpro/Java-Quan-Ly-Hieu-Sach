@@ -761,12 +761,32 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		String soLuong = txtSoLuong.getText().trim();
 		String giaNhap = txtGiaNhap.getText().trim();
 		String giaBan = txtGiaBan.getText().trim();
+		String namXuatBan = txtNamXb.getText().trim();
+		String tacGia = txtTacGia.getText().trim();
 		if (tenSach.equals("")) {
 			JOptionPane.showMessageDialog(this, "Tên sách không được để trống");
 			txtTenSach.selectAll();
 			txtTenSach.requestFocus();
 			return false;
 		}
+		if (!tacGia.matches("^[^0-9]{2,25}$")) {
+			JOptionPane.showMessageDialog(this, "Tên tác giả không phải là số, ít nhất là 2 ký tự");
+			txtTacGia.selectAll();
+			txtTacGia.requestFocus();
+			return false;
+		}
+		if (!namXuatBan.matches("^[0-9]{4,}$")) {
+			JOptionPane.showMessageDialog(this, "Năm xuất bản phải là số có ít nhất 4 chữ số");
+			txtNamXb.selectAll();
+			txtNamXb.requestFocus();
+			return false;
+		}if (!soLuong.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Số lượng phải là số");
+			txtSoLuong.selectAll();
+			txtSoLuong.requestFocus();
+			return false;
+		}
+		
 		if (!soLuong.matches("^[0-9]{1,}$")) {
 			JOptionPane.showMessageDialog(this, "Số lượng phải là số");
 			txtSoLuong.selectAll();
