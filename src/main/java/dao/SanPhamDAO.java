@@ -212,6 +212,36 @@ public class SanPhamDAO extends ConnectDB {
 		return false;
 
 	}
+	public boolean createSach(SanPham sp) {
+		PreparedStatement statement = null;
+
+		try {
+			String sql = "insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(?, ?, ?, ?, ?, ?,?,?,?)";
+			statement = conn.prepareStatement(sql);
+			statement.setInt(1, sp.getNhaCungCap().getMaNCC());
+			statement.setInt(2, sp.getLoaiSanPham().getMaLoai());
+			statement.setString(3, sp.getTenSp());
+			statement.setDouble(4, sp.getGiaSp());
+			statement.setDouble(5, sp.getGiaNhap());
+			statement.setInt(6, sp.getSoLuong());
+			statement.setString(7, sp.getTacGia());
+			statement.setInt(8, sp.getSoTrang());
+			statement.setInt(9, sp.getNamXuatBan());
+			int n = statement.executeUpdate();
+
+			return n > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+
+	}
 
 	public ArrayList<NhaCungCap> getListNhaCungCap() {
 		ArrayList<NhaCungCap> dataList = new ArrayList<NhaCungCap>();
@@ -305,6 +335,42 @@ public class SanPhamDAO extends ConnectDB {
 			stmt.setDouble(3, sp.getGiaNhap());
 			stmt.setInt(4, sp.getSoLuong());
 			stmt.setInt(5, sp.getMaSp());
+			int n = stmt.executeUpdate();
+
+			return n > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	public boolean capNhatSach(SanPham sp) {
+		PreparedStatement stmt = null;
+		try {
+			String loai = " ";
+			if (sp.getLoaiSanPham() != null)
+				loai = " , MaLoai = " + sp.getLoaiSanPham().getMaLoai() + " ";
+
+			String ncc = " ";
+			if (sp.getNhaCungCap() != null)
+				ncc = " , MaNCC = " + sp.getNhaCungCap().getMaNCC() + " ";
+
+			String sql = "UPDATE dbo.SanPham set TenSp = ?, GiaSp = ?, GiaNhap = ?, SoLuong = ?, TacGia = ?, soTrang = ?, namXuatBan = ?" + loai + ncc
+					+ " where MaSP = ?";
+			stmt = this.conn.prepareStatement(sql);
+			stmt.setString(1, sp.getTenSp());
+			stmt.setDouble(2, sp.getGiaSp());
+			stmt.setDouble(3, sp.getGiaNhap());
+			stmt.setInt(4, sp.getSoLuong());
+			stmt.setString(5, sp.getTacGia());
+			stmt.setInt(6, sp.getSoTrang());
+			stmt.setInt(7, sp.getNamXuatBan());
+			stmt.setInt(8, sp.getMaSp());
 			int n = stmt.executeUpdate();
 
 			return n > 0;

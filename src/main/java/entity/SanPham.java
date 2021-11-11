@@ -43,6 +43,19 @@ public class SanPham {
 		this.nhaCungCap = nhaCungCap; 
 	}
 	
+	public SanPham(int maSp,String tenSp,int soLuong,double giaNhap, double giaSp, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap,String tacGia,int soTrang,int namXuatBan) {
+		super();
+		this.maSp = maSp;
+		this.tenSp = tenSp;
+		this.soLuong = soLuong;
+		this.giaNhap = giaNhap;
+		this.giaSp = giaSp;
+		this.loaiSanPham = loaiSanPham;
+		this.nhaCungCap = nhaCungCap; 
+		this.tacGia = tacGia;
+		this.soTrang = soTrang;
+		this.namXuatBan = namXuatBan;
+	}
 	public SanPham(ResultSet rs) throws SQLException {
 		this.maSp = rs.getInt("maSP");
 		this.tenSp = rs.getString("tenSP");

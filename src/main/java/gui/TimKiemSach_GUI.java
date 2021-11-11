@@ -65,6 +65,10 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 	private List<SanPham> dssachtim;
 	private JComboBox comboBoxNXB;
 	private JComboBox comboBoxLoai;
+	private JTextField txtTacGia;
+	private JCheckBox chkTacGia;
+	private JTextField txtNamXB;
+	private JCheckBox chkNamXB;
 
 	/**
 	 * Launch the application.
@@ -168,7 +172,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		fl_pnTieuDe.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnTieu);
 
-		JLabel lblTieu = new JLabel("Tiêu đề");
+		JLabel lblTieu = new JLabel("Tiêu đề:");
 		lblTieu.setPreferredSize(new Dimension(80, 14));
 		pnTieu.add(lblTieu);
 
@@ -179,6 +183,40 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 
 		chkTieu = new JCheckBox("");
 		pnTieu.add(chkTieu);
+
+		JPanel pnTacGia = new JPanel();
+		FlowLayout fl_pnTacGia = (FlowLayout) pnTacGia.getLayout();
+		fl_pnTacGia.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnTacGia);
+
+		JLabel lblTacGia = new JLabel("Tác giả:");
+		lblTacGia.setPreferredSize(new Dimension(80, 14));
+		pnTacGia.add(lblTacGia);
+
+		txtTacGia = new JTextField();
+		txtTacGia.setPreferredSize(new Dimension(200, 20));
+		pnTacGia.add(txtTacGia);
+		txtTacGia.setColumns(20);
+
+		chkTacGia = new JCheckBox("");
+		pnTacGia.add(chkTacGia);
+
+		JPanel pnNamXB = new JPanel();
+		FlowLayout fl_pnNamXB = (FlowLayout) pnNamXB.getLayout();
+		fl_pnNamXB.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnNamXB);
+
+		JLabel lblNamXB = new JLabel("Năm xuất bản:");
+		lblNamXB.setPreferredSize(new Dimension(80, 14));
+		pnNamXB.add(lblNamXB);
+
+		txtNamXB = new JTextField();
+		txtNamXB.setPreferredSize(new Dimension(200, 20));
+		pnNamXB.add(txtNamXB);
+		txtNamXB.setColumns(20);
+
+		chkNamXB = new JCheckBox("");
+		pnNamXB.add(chkNamXB);
 
 		JPanel pnNXB = new JPanel();
 		FlowLayout fl_pnNXB = (FlowLayout) pnNXB.getLayout();
@@ -225,7 +263,8 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnRightBottom.setBorder(new LineBorder(SystemColor.activeCaption, 2));
 		pnRight.add(pnRightBottom);
 
-		String[] cols = { "Mã sách", "Tên sách", "Nhà xuất bản", "Số lượng", "Giá nhập", "Giá bán", "Loại Sách" };
+		String[] cols = { "Mã sách", "Tên sách", "Tác giả", "Số trang", "Nhà xuất bản", "Năm xuất bản", "Số lượng",
+				"Giá nhập", "Giá bán", "Loại Sách" };
 		modelSach = new DefaultTableModel(cols, 0);
 		pnRightBottom.setLayout(new BorderLayout(0, 0));
 		tblKetQua = new JTable(modelSach);
@@ -238,6 +277,8 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 				// TODO Auto-generated method stub
 				txtMaSach.setText("");
 				txtTieu.setText("");
+				txtTacGia.setText("");
+				txtNamXB.setText("");
 				comboBoxLoai.setSelectedItem("");
 				comboBoxNXB.setSelectedItem("");
 				try {
@@ -259,7 +300,8 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (comboBoxLoai.getSelectedItem().toString().equals("") && txtMaSach.getText().equals("")
-						&& txtTieu.getText().equals("") && comboBoxNXB.getSelectedItem().toString().equals("")) {
+						&& txtTieu.getText().equals("") && comboBoxNXB.getSelectedItem().toString().equals("")
+						&& txtTacGia.getText().equals("") && txtNamXB.getText().equals("")) {
 					JOptionPane.showMessageDialog(contentPane, "Lỗi, chưa nhập dữ liệu tìm kiếm");
 
 				} else {
@@ -280,6 +322,17 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 						where += "TenSP like N'" + txtTieu.getText() + "' and ";
 					} else {
 						where += "TenSP like N'%" + txtTieu.getText() + "%' and ";
+					}
+
+					if (chkTacGia.isSelected()) {
+						where += "TacGia like N'" + txtTacGia.getText() + "' and ";
+					} else {
+						where += "TacGia like N'%" + txtTacGia.getText() + "%' and ";
+					}
+					if (chkNamXB.isSelected()) {
+						where += "namXuatBan like N'" + txtNamXB.getText() + "' and ";
+					} else {
+						where += "namXuatBan like N'%" + txtNamXB.getText() + "%' and ";
 					}
 					if (chkNXB.isSelected()) {
 						where += "TenNCC like N'" + comboBoxNXB.getSelectedItem().toString() + "'";
@@ -346,9 +399,10 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		dssach = sachDAO.getListSach();
 
 		dssach.forEach(sach -> {
-			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-					sach.getSoLuong(), new Currency((int) sach.getGiaNhap()).toString(),
-					new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
+			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
+					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
+					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					sach.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -358,9 +412,10 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		modelSach.getDataVector().removeAllElements();
 
 		dssachtim.forEach(sach -> {
-			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-					sach.getSoLuong(), new Currency((int) sach.getGiaNhap()).toString(),
-					new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
+			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
+					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
+					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					sach.getLoaiSanPham().getTenLoai() });
 		});
 
 		tblKetQua.revalidate();

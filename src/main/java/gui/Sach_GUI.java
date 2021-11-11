@@ -86,6 +86,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	// private ArrayList<entity.SanPham> dsSanpham;
 	private DefaultTableModel modelDSSach;
 	private JComboBox<String> cboListNCC;
+	private JTextField txtTacGia;
+	private JTextField txtSoTrang;
+	private JTextField txtNamXb;
 
 	/**
 	 * Launch the application.
@@ -181,7 +184,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 
 		txtMaSach = new JTextField();
 		txtMaSach.setEnabled(false);
-		txtMaSach.setPreferredSize(new Dimension(7, 30));
+		txtMaSach.setPreferredSize(new Dimension(7, 25));
 		pnMaSach.add(txtMaSach);
 		txtMaSach.setColumns(20);
 
@@ -195,11 +198,43 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnTenSach.add(lblTenSach);
 
 		txtTenSach = new JTextField();
-		txtTenSach.setPreferredSize(new Dimension(7, 30));
+		txtTenSach.setPreferredSize(new Dimension(7, 25));
 		txtTenSach.setColumns(20);
 		// PromptSupport.setPrompt("tên khách hàng", txtTenKh);
 //		new Placeholder().placeholder(txtTenKh, "tên khách hàng");
 		pnTenSach.add(txtTenSach);
+
+		JPanel pnTacGia = new JPanel();
+		FlowLayout fl_pnTacGia = (FlowLayout) pnTacGia.getLayout();
+		fl_pnTacGia.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnTacGia);
+
+		JLabel lblTacGia = new JLabel("Tác Giả:");
+		lblTacGia.setPreferredSize(new Dimension(100, 14));
+		pnTacGia.add(lblTacGia);
+
+		txtTacGia = new JTextField();
+		txtTacGia.setPreferredSize(new Dimension(7, 25));
+		txtTacGia.setColumns(20);
+		// PromptSupport.setPrompt("tên khách hàng", txtTenKh);
+//		new Placeholder().placeholder(txtTenKh, "tên khách hàng");
+		pnTacGia.add(txtTacGia);
+
+		JPanel pnSoTrang = new JPanel();
+		FlowLayout fl_pnSoTrang = (FlowLayout) pnSoTrang.getLayout();
+		fl_pnSoTrang.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnSoTrang);
+
+		JLabel lblSoTrang = new JLabel("Số trang:");
+		lblSoTrang.setPreferredSize(new Dimension(100, 14));
+		pnSoTrang.add(lblSoTrang);
+
+		txtSoTrang = new JTextField();
+		txtSoTrang.setPreferredSize(new Dimension(7, 25));
+		txtSoTrang.setColumns(20);
+		// PromptSupport.setPrompt("tên khách hàng", txtTenKh);
+//		new Placeholder().placeholder(txtTenKh, "tên khách hàng");
+		pnSoTrang.add(txtSoTrang);
 
 		JPanel pnNXB = new JPanel();
 		FlowLayout fl_pnNXB = (FlowLayout) pnNXB.getLayout();
@@ -212,10 +247,26 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 
 		cboListNCC = new JComboBox<String>();
 
-		cboListNCC.setPreferredSize(new Dimension(202, 30));
+		cboListNCC.setPreferredSize(new Dimension(202, 25));
 		cboListNCC.addItem("");
 
 		pnNXB.add(cboListNCC);
+
+		JPanel pnNamXB = new JPanel();
+		FlowLayout fl_pnNamXB = (FlowLayout) pnNamXB.getLayout();
+		fl_pnNamXB.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnNamXB);
+
+		JLabel lblNamXB = new JLabel("Năm xuất bản:");
+		lblNamXB.setPreferredSize(new Dimension(100, 14));
+		pnNamXB.add(lblNamXB);
+
+		txtNamXb = new JTextField();
+		txtNamXb.setPreferredSize(new Dimension(7, 25));
+		txtNamXb.setColumns(20);
+		// PromptSupport.setPrompt("tên khách hàng", txtTenKh);
+//		new Placeholder().placeholder(txtTenKh, "tên khách hàng");
+		pnNamXB.add(txtNamXb);
 
 		JPanel pnSoLuong = new JPanel();
 		FlowLayout fl_pnSoLuong = (FlowLayout) pnSoLuong.getLayout();
@@ -227,7 +278,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnSoLuong.add(lblSoLuong);
 
 		txtSoLuong = new JTextField();
-		txtSoLuong.setPreferredSize(new Dimension(7, 30));
+		txtSoLuong.setPreferredSize(new Dimension(7, 25));
 		txtSoLuong.setColumns(20);
 		// PromptSupport.setPrompt("09xx xxx xxx ", txtSdt);
 //		new Placeholder().placeholder(txtSdt, "09xx xxx xxx");
@@ -243,7 +294,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnGiaNhap.add(lblGiaNhap);
 
 		txtGiaNhap = new JTextField();
-		txtGiaNhap.setPreferredSize(new Dimension(7, 30));
+		txtGiaNhap.setPreferredSize(new Dimension(7, 25));
 		txtGiaNhap.setColumns(20);
 		// PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
 
@@ -257,7 +308,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnGiaBan.add(lblGiaBan);
 		pnThongTin.add(pnGiaBan);
 		txtGiaBan = new JTextField();
-		txtGiaBan.setPreferredSize(new Dimension(7, 30));
+		txtGiaBan.setPreferredSize(new Dimension(7, 25));
 		txtGiaBan.setColumns(20);
 		// txtGiaBan.setText(new Currency(a));
 		// PromptSupport.setPrompt("Số nhà, tên đường, tỉnh thành", txtDiaChi);
@@ -273,7 +324,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnThongTin.add(pnMaLoai);
 		cboListMaloai = new JComboBox<String>();
 
-		cboListMaloai.setPreferredSize(new Dimension(202, 30));
+		cboListMaloai.setPreferredSize(new Dimension(202, 25));
 		cboListMaloai.addItem("");
 //		cboListMaloai.setModel(new javax.swing.DefaultComboBoxModel<>());
 		// cboListMaloai.setSize(7, 30);
@@ -333,6 +384,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		cboLoaiTimKiem.addElement((String) "Tên Sách");
 		cboLoaiTimKiem.addElement((String) "Nhà Xuất Bản");
 		cboLoaiTimKiem.addElement((String) "Loại Sách");
+		cboLoaiTimKiem.addElement((String) "Tác Giả");
+		cboLoaiTimKiem.addElement((String) "Năm Xuất Bản");
 
 		txtNhapLieu = new JTextField();
 		txtNhapLieu.setPreferredSize(new Dimension(7, 25));
@@ -357,8 +410,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		pnRight.add(pnTableKh, BorderLayout.CENTER);
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 
-		String[] cols_dssach = { "Mã sách", "Tên sách", "Nhà xuất bản", "Số lượng", "Giá nhập", "Giá bán",
-				"Loại Sách" };
+		String[] cols_dssach = { "Mã sách", "Tên sách", "Tác giả", "Số trang", "Nhà xuất bản", "Năm xuất bản",
+				"Số lượng", "Giá nhập", "Giá bán", "Loại Sách" };
 
 		modelDSSach = new DefaultTableModel(cols_dssach, 0) {
 			// khóa không cho người dùng nhập trên table
@@ -385,7 +438,11 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 				} else if (ktdulieu()) {
 					int masp = sach_DAO.getSanPhamCuoiCung().getMaSp() + 1;
 					String tensp = txtTenSach.getText().trim();
+					String tacGia = txtTacGia.getText().trim();
+					String soTrang = txtSoTrang.getText().trim();
+					
 					String nxb = cboListNCC.getSelectedItem().toString();
+					String namXuatBan = txtNamXb.getText().trim();
 					NhaCungCap ncc = nhaCCDAO.getNCCByTenNCC(nxb);
 
 					String soluong = txtSoLuong.getText().trim();
@@ -393,17 +450,17 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 					String giasp = txtGiaBan.getText().trim();
 					String loaiSach = cboListMaloai.getSelectedItem().toString();
 					LoaiSanPham loaisp = loaiDAO.getLoaiByTenLoai(loaiSach);
-					SanPham sp = new SanPham(masp, tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
-							Double.parseDouble(giasp), loaisp, ncc);
-					if (timma(sp.getMaSp())) {
+					SanPham sach = new SanPham(masp, tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
+							Double.parseDouble(giasp), loaisp, ncc,tacGia,Integer.parseInt(soTrang),Integer.parseInt(namXuatBan));
+					if (timma(sach.getMaSp())) {
 						JOptionPane.showMessageDialog(out, "Mã đã tồn tại");
 					} else {
-						boolean result = sach_DAO.create(sp);
+						boolean result = sach_DAO.createSach(sach);
 						if (result) {
-							modelDSSach.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
-									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(),
-									new Currency((int) sp.getGiaNhap()).toString(),
-									new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+							modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
+									sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
+									new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+									sach.getLoaiSanPham().getTenLoai() });
 
 						} else {
 							JOptionPane.showMessageDialog(out, "Thêm sản phẩm thất bại");
@@ -429,16 +486,19 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng sản phẩm cần sửa", "Cảnh báo",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
-						boolean result = sach_DAO.capNhat(sp);
+						boolean result = sach_DAO.capNhatSach(sp);
 						if (result == true) {
 
 							modelDSSach.setValueAt(sp.getMaSp(), row, 0);
 							modelDSSach.setValueAt(sp.getTenSp(), row, 1);
-							modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
-							modelDSSach.setValueAt(sp.getSoLuong(), row, 3);
-							modelDSSach.setValueAt(new Currency((int) sp.getGiaNhap()).toString(), row, 4);
-							modelDSSach.setValueAt(new Currency((int) sp.getGiaSp()).toString(), row, 5);
-							modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
+							modelDSSach.setValueAt(sp.getTacGia(), row, 2);
+							modelDSSach.setValueAt(sp.getSoTrang(), row, 3);
+							modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 4);
+							modelDSSach.setValueAt(sp.getNamXuatBan(), row, 5);
+							modelDSSach.setValueAt(sp.getSoLuong(), row, 6);
+							modelDSSach.setValueAt(new Currency((int) sp.getGiaNhap()).toString(), row, 7);
+							modelDSSach.setValueAt(new Currency((int) sp.getGiaSp()).toString(), row, 8);
+							modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 9);
 							JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
 							modelDSSach.fireTableDataChanged();
 							sach_DAO.getListSach();
@@ -474,7 +534,10 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 								JOptionPane.showMessageDialog(out, "Xóa thành công");
 								txtMaSach.setText("");
 								txtTenSach.setText("");
+								txtTacGia.setText("");
+								txtSoTrang.setText("");
 								cboListNCC.setSelectedItem("");
+								txtNamXb.setText("");
 								txtSoLuong.setText("");
 								txtGiaNhap.setText("");
 								txtGiaBan.setText("");
@@ -497,6 +560,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 				// TODO Auto-generated method stub
 				txtMaSach.setText("");
 				txtTenSach.setText("");
+				txtTacGia.setText("");
+				txtSoTrang.setText("");
+				txtNamXb.setText("");
 				cboListNCC.setSelectedItem("");
 				txtSoLuong.setText("");
 				txtGiaNhap.setText("");
@@ -525,6 +591,10 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 
 						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Loại Sách")) {
 							key = "LoaiSanPham.TenLoai";
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Tác Giả")) {
+							key = "SanPham.TacGia";
+						} else if (cboLoaiTimKiem.getSelectedItem().toString().equals("Năm Xuất Bản")) {
+							key = "SanPham.namXuatBan";
 						}
 						dssachtim = sach_DAO.timKiemSach(key, txtNhapLieu.getText());
 						// dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
@@ -592,11 +662,14 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		int row = table.getSelectedRow();
 		txtMaSach.setText(modelDSSach.getValueAt(row, 0).toString());
 		txtTenSach.setText(modelDSSach.getValueAt(row, 1).toString());
-		cboListNCC.setSelectedItem(modelDSSach.getValueAt(row, 2).toString());
-		txtSoLuong.setText(modelDSSach.getValueAt(row, 3).toString());
-		txtGiaNhap.setText(modelDSSach.getValueAt(row, 4).toString().replaceAll("[^\\d.]", ""));
-		txtGiaBan.setText(modelDSSach.getValueAt(row, 5).toString().replaceAll("[^\\d.]", ""));
-		cboListMaloai.setSelectedItem(modelDSSach.getValueAt(row, 6).toString());
+		txtTacGia.setText(modelDSSach.getValueAt(row, 2).toString());
+		txtSoTrang.setText(modelDSSach.getValueAt(row, 3).toString());
+		cboListNCC.setSelectedItem(modelDSSach.getValueAt(row, 4).toString());
+		txtNamXb.setText(modelDSSach.getValueAt(row, 5).toString());
+		txtSoLuong.setText(modelDSSach.getValueAt(row, 6).toString());
+		txtGiaNhap.setText(modelDSSach.getValueAt(row, 7).toString().replaceAll("[^\\d.]", ""));
+		txtGiaBan.setText(modelDSSach.getValueAt(row, 8).toString().replaceAll("[^\\d.]", ""));
+		cboListMaloai.setSelectedItem(modelDSSach.getValueAt(row, 9).toString());
 
 	}
 
@@ -638,9 +711,10 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		dssach = sach_DAO.getListSach();
 
 		dssach.forEach(sach -> {
-			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-					sach.getSoLuong(), new Currency((int) sach.getGiaNhap()).toString(),
-					new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
+			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
+					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
+					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					sach.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -663,18 +737,22 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	private SanPham getSelectedDataTable() {
 		String masp = txtMaSach.getText().trim();
 		String tensp = txtTenSach.getText().trim();
-		// String nxb = txtNXB.getText().trim();
-		String ncc = cboListNCC.getSelectedItem().toString();
-		NhaCungCap nhacc = nhaCCDAO.getNCCByTenNCC(ncc);
+		String tacGia = txtTacGia.getText().trim();
+		String soTrang = txtSoTrang.getText().trim();
+		
+		String nxb = cboListNCC.getSelectedItem().toString();
+		String namXuatBan = txtNamXb.getText().trim();
+		NhaCungCap ncc = nhaCCDAO.getNCCByTenNCC(nxb);
+
 		String soluong = txtSoLuong.getText().trim();
 		String giaNhap = txtGiaNhap.getText().trim();
 		String giasp = txtGiaBan.getText().trim();
 		String loaiSach = cboListMaloai.getSelectedItem().toString();
 		LoaiSanPham loaisp = loaiDAO.getLoaiByTenLoai(loaiSach);
+		SanPham sach = new SanPham(Integer.parseInt(masp), tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
+				Double.parseDouble(giasp), loaisp, ncc,tacGia,Integer.parseInt(soTrang),Integer.parseInt(namXuatBan));
 
-		SanPham sp = new SanPham(Integer.parseInt(masp), tensp, Integer.parseInt(soluong), Double.parseDouble(giaNhap),
-				Double.parseDouble(giasp), loaisp, nhacc);
-		return sp;
+		return sach;
 
 	}
 
@@ -733,9 +811,10 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		modelDSSach.getDataVector().removeAllElements();
 
 		dssachtim.forEach(sach -> {
-			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
-					sach.getSoLuong(), new Currency((int) sach.getGiaNhap()).toString(),
-					new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
+			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
+					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
+					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					sach.getLoaiSanPham().getTenLoai() });
 		});
 
 		table.revalidate();
