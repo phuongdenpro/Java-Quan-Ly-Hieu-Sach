@@ -68,18 +68,18 @@ insert into LoaiSanPham (TenLoai) values(N'Thước kẻ');
 insert into LoaiSanPham (TenLoai) values(N'Máy tính cầm tay');
 
 -- San Pham
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(1, 2, N'Sách tiếng việt 1', 15000, 13000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(2, 2, N'Sách tiếng việt 2', 16000, 13000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(1, 2, N'Sách toán 1', 14500, 13000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(4, 2, N'Sách toán 2', 17000, 13000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(3, 2, N'Sách đạo đức 1', 17000, 13000, 50);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(1, 2, N'Sách tiếng việt 1', 15000, 13000, 50, N'Sở giáo dục', 200, 2020);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(2, 2, N'Sách tiếng việt 2', 16000, 13000, 50, N'Sở giáo dục', 150, 2020);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(1, 2, N'Sách toán 1', 14500, 13000, 50, N'Sở giáo dục', 140, 2021);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(4, 2, N'Sách toán 2', 17000, 13000, 50, N'Sở giáo dục', 170, 2021);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(3, 2, N'Sách đạo đức 1', 17000, 13000, 50, N'Sở giáo dục', 170, 2019);
 
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(3, 3, N'Truyện conan tập 1', 17500, 16000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(3, 3, N'Truyện conan tập 2', 17500, 16000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(3, 3, N'Truyện conan tập 3', 17500, 16000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(3, 3, N'Truyện doraemon tập 1', 18500, 16000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(3, 3, N'Truyện doraemon tập 2', 18500, 16000, 50);
-insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(3, 3, N'Truyện doraemon tập 3', 18500, 16000, 50);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(3, 3, N'Truyện conan tập 1', 17500, 16000, 50, 'Aoyama Gosho', 90, 2016);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(3, 3, N'Truyện conan tập 2', 17500, 16000, 50, 'Aoyama Gosho', 90, 2016);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(3, 3, N'Truyện conan tập 3', 17500, 16000, 50, 'Aoyama Gosho', 90, 2016);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(3, 3, N'Truyện doraemon tập 1', 18500, 16000, 50, 'Fujiko Fujio', 90, 2014);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(3, 3, N'Truyện doraemon tập 2', 18500, 16000, 50, 'Fujiko Fujio', 90, 2014);
+insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong, TacGia, soTrang, namXuatBan) values(3, 3, N'Truyện doraemon tập 3', 18500, 16000, 50, 'Fujiko Fujio', 90, 2014);
 
 insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(5, 5, N'Bút bi', 5000, 4500, 50);
 insert into SanPham (MaNCC, MaLoai, TenSp, GiaSp, GiaNhap, SoLuong) values(6, 5, N'Bút chì', 6000, 4500, 50);

@@ -542,11 +542,11 @@ public class SanPhamDAO extends ConnectDB {
 				soLuong = " and sum([ChiTietHoaDon].soLuong) >= " + minSoLuong + "\r\n";
 			}
 
-			String sql = "select SanPham.maSP, tenSP, maNCC, dongia, SanPham.MaLoai, TenLoai, sum([ChiTietHoaDon].soLuong) as soLuongDaBan\r\n"
+			String sql = "select SanPham.maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, dongia, SanPham.MaLoai, TenLoai, sum([ChiTietHoaDon].soLuong) as soLuongDaBan\r\n"
 					+ "from [HieuSach].[dbo].[ChiTietHoaDon]\r\n" + "inner join [HieuSach].[dbo].[SanPham]\r\n"
 					+ "on ChiTietHoaDon.maSP = SanPham.maSP\r\n" + "inner join [HieuSach].[dbo].[LoaiSanPham]\r\n"
 					+ "on LoaiSanPham.maLoai = SanPham.maLoai\r\n"
-					+ "group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia, SanPham.MaLoai, TenLoai\r\n"
+					+ "group by SanPham.maSP, SanPham.maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, dongia, SanPham.MaLoai, TenLoai\r\n"
 					+ "having " + loai + soLuong + "order by soLuongDaBan desc";
 			stmt = this.conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
@@ -588,15 +588,15 @@ public class SanPhamDAO extends ConnectDB {
 				soLuong = " and sum([ChiTietHoaDon].soLuong) >= " + minSoLuong + " ";
 			}
 
-			String sql = "select maSP, tenSP, maNCC, dongia, maLoai, tenLoai, sum(soLuongDaBan) as soLuongDaBan \r\n"
-					+ "from (select SanPham.maSP, tenSP, maNCC, [LoaiSanPham].MaLoai, tenLoai, dongia, ngayMua, sum([ChiTietHoaDon].soLuong) as soLuongDaBan \r\n"
+			String sql = "select maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, dongia, maLoai, tenLoai, sum(soLuongDaBan) as soLuongDaBan \r\n"
+					+ "from (select SanPham.maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, [LoaiSanPham].MaLoai, tenLoai, dongia, ngayMua, sum([ChiTietHoaDon].soLuong) as soLuongDaBan \r\n"
 					+ "	from [HieuSach].[dbo].[ChiTietHoaDon]\r\n" + "	inner join [HieuSach].[dbo].[SanPham]\r\n"
 					+ "	on ChiTietHoaDon.maSP = SanPham.maSP\r\n" + "	inner join [HieuSach].[dbo].[LoaiSanPham]\r\n"
 					+ "	on [LoaiSanPham].maLoai = SanPham.maLoai\r\n" + "	inner join [HieuSach].[dbo].[HoaDon]\r\n"
 					+ "	on ChiTietHoaDon.maHD = HoaDon.maHD\r\n"
-					+ "	group by SanPham.maSP, SanPham.maSP, tenSP, maNCC, dongia, ngayMua, [LoaiSanPham].maLoai, tenLoai\r\n"
+					+ "	group by SanPham.maSP, SanPham.maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, dongia, ngayMua, [LoaiSanPham].maLoai, tenLoai\r\n"
 					+ "	having ngayMua >= ? and ngayMua <= ? and " + loai + soLuong + ") as cthd\r\n"
-					+ "group by cthd.maSP, cthd.maSP, tenSP, maNCC, dongia, maLoai, tenLoai\r\n"
+					+ "group by cthd.maSP, cthd.maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, dongia, maLoai, tenLoai\r\n"
 					+ "order by soLuongDaBan desc";
 			System.out.println(sql);
 			stmt = this.conn.prepareStatement(sql);
