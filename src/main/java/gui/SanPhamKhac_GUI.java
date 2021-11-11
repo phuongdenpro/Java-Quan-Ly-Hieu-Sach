@@ -614,7 +614,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			return false;
 		}
 		if (!soLuong.matches("^[0-9]{1,}$")) {
-			JOptionPane.showMessageDialog(this, "Số lượng phải là số");
+			JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ");
 			txtSoLuong.selectAll();
 			txtSoLuong.requestFocus();
 			return false;
@@ -631,6 +631,16 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			txtGiaBan.requestFocus();
 			return false;
 		}
+		double nhap = Double.parseDouble(giaNhap);
+		double ban = Double.parseDouble(giaBan);
+		
+		if(nhap > ban) {
+			JOptionPane.showMessageDialog(this, "Giá bán phải lớn hơn giá nhập");
+			txtGiaBan.selectAll();
+			txtGiaBan.requestFocus();
+			return false;
+		}
+		
 		return true;
 
 	}
@@ -687,8 +697,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		txtTenSanPham.setText(modelDSSanPham.getValueAt(row, 1).toString());
 		cboListNCC.setSelectedItem(modelDSSanPham.getValueAt(row, 2).toString());
 		txtSoLuong.setText(modelDSSanPham.getValueAt(row, 3).toString());
-		txtGiaNhap.setText(modelDSSanPham.getValueAt(row, 4).toString().replaceAll("[^\\d.]", ""));
-		txtGiaBan.setText(modelDSSanPham.getValueAt(row, 5).toString().replaceAll("[^\\d.]", ""));
+		txtGiaNhap.setText(modelDSSanPham.getValueAt(row, 4).toString().replaceAll("[^\\d]", ""));
+		txtGiaBan.setText(modelDSSanPham.getValueAt(row, 5).toString().replaceAll("[^\\d]", ""));
 		cboListMaloai.setSelectedItem(modelDSSanPham.getValueAt(row, 6).toString());
 	}
 

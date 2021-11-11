@@ -30,6 +30,11 @@ public class MuaHang extends JFrame{
 	
 	private JPanel contentPane = new JPanel();
 	
+	public static void main(String[] args) throws SQLException {
+		MuaHang muaHangGUI = new MuaHang();
+		muaHangGUI.setVisible(true);
+	}
+	
 	public MuaHang() throws SQLException {
 		this.khachHang = new KhachHangDAO().getKhachHang(1);
 		trangChuGUI.setKhachHang(khachHang);
@@ -264,7 +269,5 @@ public class MuaHang extends JFrame{
 		this.isPrimary = isPrimary;
 	}
 
-	public static void main(String[] args) throws SQLException {
-		MuaHang quanLyHieuSach = new MuaHang();
-	}
+	
 }

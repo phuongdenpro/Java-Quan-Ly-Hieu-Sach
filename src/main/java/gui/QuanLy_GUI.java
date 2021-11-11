@@ -268,7 +268,7 @@ public class QuanLy_GUI extends JFrame {
 
 		
 		if(nhanVien.getChucNang() == 3) {
-			mntmThongKe = new JMenuItem("Thống kê");
+			mntmThongKe = new JMenuItem("Thống kê báo cáo");
 			mnNhanVien.add(mntmThongKe);
 		}
 

@@ -396,13 +396,7 @@ public class SanPhamDAO extends ConnectDB {
 			statement.setInt(1, sp.getMaSp());
 			n = statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+//			e.printStackTrace();
 		}
 		return n > 0;
 	}
