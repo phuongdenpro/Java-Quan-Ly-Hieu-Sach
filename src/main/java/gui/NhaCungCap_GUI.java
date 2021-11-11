@@ -430,10 +430,6 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
 
-			
-
-		
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
