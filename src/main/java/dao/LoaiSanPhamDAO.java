@@ -238,12 +238,12 @@ public class LoaiSanPhamDAO extends ConnectDB{
 	            statement.setInt(1, loai.getMaLoai());
 	            n = statement.executeUpdate();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
+//	            e.printStackTrace();
 	        } finally {
 	            try {
 	                statement.close();
 	            } catch (SQLException e) {
-	                e.printStackTrace();
+//	                e.printStackTrace();
 	            }
 	        }
 	        return n > 0;

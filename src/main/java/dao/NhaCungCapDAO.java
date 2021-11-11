@@ -205,7 +205,7 @@ public class NhaCungCapDAO extends ConnectDB {
 			statement.setInt(1, ncc.getMaNCC());
 			n = statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
