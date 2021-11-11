@@ -567,7 +567,7 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
         }
 		
 		if(!TenNCC.matches("^[^0-9]{2,25}$")){
-			JOptionPane.showMessageDialog(this,"Họ tên không được chứa chữ số, ít nhất là 2 ký tự");
+			JOptionPane.showMessageDialog(this,"Tên không được chứa số, ít nhất là 2 ký tự");
             return false;
         }
 		
