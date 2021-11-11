@@ -250,23 +250,30 @@ public class TrangChu_GUI extends JFrame {
 //		panel_9.setLayout(new GridLayout(0, 4));
 		ArrayList<SanPham> dsSanPham = loaiSanPham.getSanPhams();
 		for(int i=0; i<dsSanPham.size(); i++) {
-			if(dsSanPham.get(i).getSoLuong() != 0)
-				panel_9.add(this.item(dsSanPham.get(i)));
+			if(dsSanPham.get(i).getSoLuong() != 0) {
+				if(loaiSanPham.getTenLoai().toLowerCase().contains("sách") || loaiSanPham.getTenLoai().toLowerCase().contains("truyện")) {
+					panel_9.add(this.item(dsSanPham.get(i), true));
+				}else {
+					panel_9.add(this.item(dsSanPham.get(i), false));
+				}
+			}
 		}
 		
 	}
 	
 
-	public JPanel item(SanPham sanPham) {
+	public JPanel item(SanPham sanPham, boolean isSach) {
 		JPanel pnItem = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-//		pnItem.setBackground(color);
-//		pnItem.setSize(new Dimension(200, 300));
-		pnItem.setPreferredSize(new Dimension(200, 220));
+		if(!isSach)
+			pnItem.setPreferredSize(new Dimension(200, 220));
+		else
+			pnItem.setPreferredSize(new Dimension(200, 320));
 		pnItem.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		JLabel lbIcon = new JLabel();
 		lbIcon.setAlignmentX(CENTER_ALIGNMENT);
 		lbIcon.setPreferredSize(new Dimension(200, 100));
+		
 		ImageIcon imageProduct = new ImageIcon("data/product/default.png");
 		imageProduct = TrangChu_GUI.resizeIcon(imageProduct, new Dimension(199, 100));
 		lbIcon.setIcon(imageProduct);
@@ -274,8 +281,13 @@ public class TrangChu_GUI extends JFrame {
 		
 		JPanel pnInfo = new JPanel();
 //		pnInfo.setLayout(new BoxLayout(pnInfo, BoxLayout.Y_AXIS));
-		pnInfo.setPreferredSize(new Dimension(190, 100));
-		pnInfo.setLayout(new GridLayout(4, 0));
+		if(!isSach) {
+			pnInfo.setPreferredSize(new Dimension(190, 100));
+			pnInfo.setLayout(new GridLayout(4, 0));
+		}else {
+			pnInfo.setPreferredSize(new Dimension(190, 200));
+			pnInfo.setLayout(new GridLayout(7, 0));
+		}
 		pnItem.add(pnInfo);
 		
 		JLabel lbTenSanPham = new JLabel(sanPham.getTenSp());
@@ -289,6 +301,18 @@ public class TrangChu_GUI extends JFrame {
 		
 		JLabel lbSoLuong = new JLabel("Số lượng: " + sanPham.getSoLuong());
 		pnInfo.add(lbSoLuong);
+		
+		if(isSach) {
+			JLabel lbTacGia = new JLabel("Tác giả: " + sanPham.getTacGia());
+			pnInfo.add(lbTacGia);
+			
+			JLabel lbSoTrang = new JLabel("Số trang: " + sanPham.getSoTrang());
+			pnInfo.add(lbSoTrang);
+			
+			JLabel lbNamXuatBan = new JLabel("Năm xuất bản: " + sanPham.getNamXuatBan());
+			pnInfo.add(lbNamXuatBan);
+			
+		}
 		
 		JButton btnThemVaoGio = new JButton("Thêm vào giỏ", new ImageIcon("data/images/blueAdd_16.png"));
 		btnThemVaoGio.setBackground(Color.WHITE);

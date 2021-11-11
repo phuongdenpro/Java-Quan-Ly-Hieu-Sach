@@ -667,8 +667,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		cboListNCC.setSelectedItem(modelDSSach.getValueAt(row, 4).toString());
 		txtNamXb.setText(modelDSSach.getValueAt(row, 5).toString());
 		txtSoLuong.setText(modelDSSach.getValueAt(row, 6).toString());
-		txtGiaNhap.setText(modelDSSach.getValueAt(row, 7).toString().replaceAll("[^\\d.]", ""));
-		txtGiaBan.setText(modelDSSach.getValueAt(row, 8).toString().replaceAll("[^\\d.]", ""));
+		txtGiaNhap.setText(modelDSSach.getValueAt(row, 7).toString().replaceAll("[^\\d]", ""));
+		txtGiaBan.setText(modelDSSach.getValueAt(row, 8).toString().replaceAll("[^\\d]", ""));
 		cboListMaloai.setSelectedItem(modelDSSach.getValueAt(row, 9).toString());
 
 	}
@@ -780,19 +780,15 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			txtNamXb.selectAll();
 			txtNamXb.requestFocus();
 			return false;
-		}if (!soLuong.matches("^[0-9]{1,}$")) {
-			JOptionPane.showMessageDialog(this, "Số lượng phải là số");
+		}
+		if (!soLuong.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ");
 			txtSoLuong.selectAll();
 			txtSoLuong.requestFocus();
 			return false;
 		}
 		
-		if (!soLuong.matches("^[0-9]{1,}$")) {
-			JOptionPane.showMessageDialog(this, "Số lượng phải là số");
-			txtSoLuong.selectAll();
-			txtSoLuong.requestFocus();
-			return false;
-		}
+		
 		if (!giaNhap.matches("^[0-9]{1,}$")) {
 			JOptionPane.showMessageDialog(this, "Giá nhập phải là số");
 			txtGiaNhap.selectAll();
@@ -805,7 +801,16 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			txtGiaBan.requestFocus();
 			return false;
 		}
-
+		
+		double nhap = Double.parseDouble(giaNhap);
+		double ban = Double.parseDouble(giaBan);
+		
+		if(nhap > ban) {
+			JOptionPane.showMessageDialog(this, "Giá bán phải lớn hơn giá nhập");
+			txtGiaBan.selectAll();
+			txtGiaBan.requestFocus();
+			return false;
+		}
 		return true;
 
 	}

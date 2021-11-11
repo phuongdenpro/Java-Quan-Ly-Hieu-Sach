@@ -76,7 +76,7 @@ public class ThongKeSachDaHet_GUI extends JFrame {
 		contentPane.add(pnTable, BorderLayout.CENTER);
 		
 		pnTable.setLayout(new BorderLayout(0, 0));
-		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm", "Nhà xuất bản", "Đơn giá"};
+		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Tác giả", "Số trang", "Tác giả", "Loại sản phẩm", "Nhà xuất bản", "Đơn giá"};
 		modelDSSP = new DefaultTableModel(cols, 0);
 		tblDSSP = new JTable(modelDSSP);
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
@@ -104,6 +104,9 @@ public class ThongKeSachDaHet_GUI extends JFrame {
 			modelDSSP.addRow(new Object[] {
 					sp.getMaSp(),
 					sp.getTenSp(),
+					sp.getTacGia(),
+					sp.getSoTrang(),
+					sp.getNamXuatBan(),
 					sp.getLoaiSanPham().getTenLoai(),
 					sp.getNhaCungCap().getTenNCC(),
 					new Currency(sp.getGiaSp()).toString()

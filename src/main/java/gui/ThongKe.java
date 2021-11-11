@@ -33,6 +33,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
+import java.awt.Component;
 
 public class ThongKe extends JFrame {
 
@@ -92,6 +94,10 @@ public class ThongKe extends JFrame {
 	private int soLuongSach;
 
 	private int soLuongDungCu;
+
+	private JLabel lblTuNgay01;
+
+	private JLabel lblToiNgay01;
 	/**
 	 * Launch the application.
 	 */
@@ -175,6 +181,10 @@ public class ThongKe extends JFrame {
 		btnThongKe.setBackground(Color.WHITE);
 		panel_2.add(btnThongKe);
 		
+		JButton btnIn = new JButton("In báo cáo");
+		btnIn.setBackground(Color.WHITE);
+		panel_2.add(btnIn);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 0, 0, 0, (Color) new Color(0, 0, 0)));
 		contentPane.add(panel_1, BorderLayout.CENTER);
@@ -191,6 +201,34 @@ public class ThongKe extends JFrame {
 		panel_4.setBorder(new EmptyBorder(20, 0, 0, 0));
 		panel_7.add(panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
+		
+		JPanel pnItem00 = new JPanel();
+		FlowLayout flowLayout00 = (FlowLayout) pnItem00.getLayout();
+		flowLayout00.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem00);
+		
+		JLabel lblTuNgay00 = new JLabel("Từ ngày: ");
+		lblTuNgay00.setPreferredSize(new Dimension(300, 30));
+		lblTuNgay00.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem00.add(lblTuNgay00);
+		
+		lblTuNgay01 = new JLabel();
+		lblTuNgay01.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem00.add(lblTuNgay01);
+		
+		JPanel pnItem01 = new JPanel();
+		FlowLayout flowLayout01 = (FlowLayout) pnItem01.getLayout();
+		flowLayout01.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnItem01);
+		
+		JLabel lblToiNgay00 = new JLabel("Tới ngày: ");
+		lblToiNgay00.setPreferredSize(new Dimension(300, 30));
+		lblToiNgay00.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem01.add(lblToiNgay00);
+		
+		lblToiNgay01 = new JLabel();
+		lblToiNgay01.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnItem01.add(lblToiNgay01);
 		
 		JPanel pnItem1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) pnItem1.getLayout();
@@ -351,10 +389,14 @@ public class ThongKe extends JFrame {
 				dpToiNgay.btn.setEnabled(false);
 			}
 		});
+		
+		btnIn.addActionListener((e) -> {
+			JOptionPane.showMessageDialog(contentPane, "In báo cáo thành công");
+		});
 	}
 	
 	public void renderData() throws SQLException {
-		ls = new HoaDonDAO().chiTiet();
+		ls = new HoaDonDAO().chiTiet(Ngay.homNay(), Ngay.homNay());
 		
 		Map<String, Integer> mpHD = new HashMap<String, Integer>();
 		Map<String, Integer> mpKH = new HashMap<String, Integer>();
@@ -379,7 +421,9 @@ public class ThongKe extends JFrame {
 			doanhThu += donGia * soLuong;
 			soVon += giaNhap * soLuong;
 		});
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		lblTuNgay01.setText(sdf.format(Ngay.homNay()));
+		lblToiNgay01.setText(sdf.format(Ngay.homNay()));
 		lblTongSo.setText(String.valueOf(mpHD.size()));
 		lblKH.setText(String.valueOf(mpKH.size()));
 		lblSach.setText(String.valueOf(soLuongSach));
@@ -416,7 +460,9 @@ public class ThongKe extends JFrame {
 			doanhThu += donGia * soLuong;
 			soVon += giaNhap * soLuong;
 		});
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		lblTuNgay01.setText(sdf.format(tuNgay));
+		lblToiNgay01.setText(sdf.format(toiNgay));
 		lblTongSo.setText(String.valueOf(mpHD.size()));
 		lblKH.setText(String.valueOf(mpKH.size()));
 		lblSach.setText(String.valueOf(soLuongSach));
