@@ -408,7 +408,7 @@ public class SanPhamDAO extends ConnectDB {
 			System.out.println(key + " " + val);
 
 			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai like N'%Sách%'"
-					+ " OR TenLoai like N'%Truyện%') AND  " + key + " like N'" + val + "'";
+					+ " OR TenLoai like N'%Truyện%') AND  " + key + " like N'%" + val + "%'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rsSP = stmt.executeQuery(sql);
@@ -471,7 +471,7 @@ public class SanPhamDAO extends ConnectDB {
 			System.out.println(key + " " + val);
 
 			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai NOT like N'%Sách%'"
-					+ " AND TenLoai NOT like N'%Truyện%') AND  " + key + " like N'" + val + "'";
+					+ " AND TenLoai NOT like N'%Truyện%') AND  " + key + " like N'%" + val + "%'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rsSP = stmt.executeQuery(sql);
