@@ -544,16 +544,7 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 
 	}
 
-	public void renderData() throws SQLException {
-		table.clearSelection();
-
-		modelNCC.getDataVector().removeAllElements();
-		dsncc = nhaCCDAO.getListNhaCungCap();
-
-		dsncc.forEach(ncc -> {
-			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
-		});
-	}
+	
 
 
 	private NhaCungCap getSelectedDataTable() {
@@ -568,7 +559,27 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 
 //
 	private boolean ktdulieu() {
-
+		//String MaKH = txtMaNCC.getText().trim();
+		String TenNCC = txtTenNCC.getText().trim();
+		String DiaChiKH = txtDiaChi.getText().trim();
+		String Sdt = txtSoDt.getText().trim();
+		if(TenNCC.equals("")){
+			JOptionPane.showMessageDialog(this, "Tên không được bỏ trống");
+			txtTenNCC.selectAll();
+			txtTenNCC.requestFocus();
+            return false;
+        }
+		
+		if(!TenNCC.matches("^[^0-9]{2,25}$")){
+			JOptionPane.showMessageDialog(this,"Họ tên không được chứa chữ số, ít nhất là 2 ký tự");
+            return false;
+        }
+		
+		
+		if(!Sdt.matches("^0[0-9]{9}$")){
+			JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
+            return false;
+        }
 		return true;
 
 	}
@@ -589,6 +600,17 @@ public class NhaCungCap_GUI extends JFrame implements ActionListener, MouseListe
 		return false;
 	}
 //
+	
+	public void renderData() throws SQLException {
+		table.clearSelection();
+
+		modelNCC.getDataVector().removeAllElements();
+		dsncc = nhaCCDAO.getListNhaCungCap();
+
+		dsncc.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
+		});
+	}
 	public void renderDataTimKiem() throws SQLException {
 		table.clearSelection();
 

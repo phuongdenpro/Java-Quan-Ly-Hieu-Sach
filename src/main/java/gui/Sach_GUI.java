@@ -375,19 +375,19 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 
 		btnThem.addActionListener(new ActionListener() {
 
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (txtTenSach.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("") || txtSoLuong.getText().equals("")
-						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("") ||cboListMaloai.getSelectedItem().toString().equals("")) {
+				if (txtTenSach.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("")
+						|| txtSoLuong.getText().equals("") || txtGiaNhap.getText().equals("")
+						|| txtGiaBan.getText().equals("") || cboListMaloai.getSelectedItem().toString().equals("")) {
 					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
 				} else if (ktdulieu()) {
 					int masp = sach_DAO.getSanPhamCuoiCung().getMaSp() + 1;
 					String tensp = txtTenSach.getText().trim();
 					String nxb = cboListNCC.getSelectedItem().toString();
 					NhaCungCap ncc = nhaCCDAO.getNCCByTenNCC(nxb);
-					
+
 					String soluong = txtSoLuong.getText().trim();
 					String giaNhap = txtGiaNhap.getText().trim();
 					String giasp = txtGiaBan.getText().trim();
@@ -398,16 +398,19 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 					if (timma(sp.getMaSp())) {
 						JOptionPane.showMessageDialog(out, "Mã đã tồn tại");
 					} else {
-						boolean result =sach_DAO.create(sp);
-						if(result) {
-						modelDSSach.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-								sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(), sp.getLoaiSanPham().getTenLoai() });
+						boolean result = sach_DAO.create(sp);
+						if (result) {
+							modelDSSach.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
+									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(),
+									new Currency((int) sp.getGiaNhap()).toString(),
+									new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 
-					}else {
-						JOptionPane.showMessageDialog(out, "Thêm sản phẩm thất bại");
+						} else {
+							JOptionPane.showMessageDialog(out, "Thêm sản phẩm thất bại");
+						}
 					}
 				}
-			}}
+			}
 
 		});
 		btnSua.addActionListener(new ActionListener() {
@@ -415,14 +418,15 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (txtTenSach.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("") || txtSoLuong.getText().equals("")
-						|| txtGiaNhap.getText().equals("") || txtGiaBan.getText().equals("") ||cboListMaloai.getSelectedItem().toString().equals("")) {
+				if (txtTenSach.getText().equals("") || cboListNCC.getSelectedItem().toString().equals("")
+						|| txtSoLuong.getText().equals("") || txtGiaNhap.getText().equals("")
+						|| txtGiaBan.getText().equals("") || cboListMaloai.getSelectedItem().toString().equals("")) {
 					JOptionPane.showMessageDialog(out, "Thiếu dữ liệu đầu vào");
 				} else if (ktdulieu()) {
 					SanPham sp = getSelectedDataTable();
 					int row = table.getSelectedRow();
 					if (row == -1) {
-						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng cần sửa", "Cảnh báo",
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng sản phẩm cần sửa", "Cảnh báo",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
 						boolean result = sach_DAO.capNhat(sp);
@@ -432,8 +436,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 							modelDSSach.setValueAt(sp.getTenSp(), row, 1);
 							modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
 							modelDSSach.setValueAt(sp.getSoLuong(), row, 3);
-							modelDSSach.setValueAt(sp.getGiaNhap(), row, 4);
-							modelDSSach.setValueAt(sp.getGiaSp(), row, 5);
+							modelDSSach.setValueAt(new Currency((int) sp.getGiaNhap()).toString(), row, 4);
+							modelDSSach.setValueAt(new Currency((int) sp.getGiaSp()).toString(), row, 5);
 							modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
 							JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
 							modelDSSach.fireTableDataChanged();
@@ -523,7 +527,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 							key = "LoaiSanPham.TenLoai";
 						}
 						dssachtim = sach_DAO.timKiemSach(key, txtNhapLieu.getText());
-					//	dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
+						// dsloaitim = loaiDAO.timKiem(key, txtNhapLieu.getText());
 						if (dssachtim.size() == 0) {
 							JOptionPane.showMessageDialog(out, "Không tìm thấy dữ liệu theo yêu cầu cần tìm");
 							table.clearSelection();
@@ -634,9 +638,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		dssach = sach_DAO.getListSach();
 
 		dssach.forEach(sach -> {
-			modelDSSach.addRow(
-					new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(), sach.getSoLuong(),
-							new Currency( (int) sach.getGiaNhap()).toString(),new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
+			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
+					sach.getSoLuong(), new Currency((int) sach.getGiaNhap()).toString(),
+					new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -675,6 +679,34 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	}
 
 	private boolean ktdulieu() {
+		String tenSach = txtTenSach.getText().trim();
+		String soLuong = txtSoLuong.getText().trim();
+		String giaNhap = txtGiaNhap.getText().trim();
+		String giaBan = txtGiaBan.getText().trim();
+		if (tenSach.equals("")) {
+			JOptionPane.showMessageDialog(this, "Tên sách không được để trống");
+			txtTenSach.selectAll();
+			txtTenSach.requestFocus();
+			return false;
+		}
+		if (!soLuong.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Số lượng phải là số");
+			txtSoLuong.selectAll();
+			txtSoLuong.requestFocus();
+			return false;
+		}
+		if (!giaNhap.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Giá nhập phải là số");
+			txtGiaNhap.selectAll();
+			txtGiaNhap.requestFocus();
+			return false;
+		}
+		if (!giaBan.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Giá bán phải là số");
+			txtGiaBan.selectAll();
+			txtGiaBan.requestFocus();
+			return false;
+		}
 
 		return true;
 
@@ -701,9 +733,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		modelDSSach.getDataVector().removeAllElements();
 
 		dssachtim.forEach(sach -> {
-			modelDSSach.addRow(
-					new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(), sach.getSoLuong(),
-							new Currency( (int) sach.getGiaNhap()).toString(),new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
+			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getNhaCungCap().getTenNCC(),
+					sach.getSoLuong(), new Currency((int) sach.getGiaNhap()).toString(),
+					new Currency((int) sach.getGiaSp()).toString(), sach.getLoaiSanPham().getTenLoai() });
 		});
 
 		table.revalidate();

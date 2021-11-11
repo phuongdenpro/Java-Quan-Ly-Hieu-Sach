@@ -394,8 +394,9 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 						boolean result = sanphamDAO.create(sp);
 						if (result) {
 							modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
-									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaSp(),
-									sp.getLoaiSanPham().getTenLoai() });
+									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(),
+									new Currency((int) sp.getGiaNhap()).toString(),
+									new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 							JOptionPane.showMessageDialog(out, "Thêm thành công");
 
 						} else {
@@ -420,7 +421,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 					SanPham sp = getSelectedDataTable();
 					int row = table.getSelectedRow();
 					if (row == -1) {
-						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng cần sửa", "Cảnh báo",
+						JOptionPane.showMessageDialog(out, "Bạn chưa chọn dòng sản phẩm cần sửa", "Cảnh báo",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
 						boolean result = sanphamDAO.capNhat(sp);
@@ -430,8 +431,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 							modelDSSanPham.setValueAt(sp.getTenSp(), row, 1);
 							modelDSSanPham.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
 							modelDSSanPham.setValueAt(sp.getSoLuong(), row, 3);
-							modelDSSanPham.setValueAt(sp.getGiaNhap(), row, 4);
-							modelDSSanPham.setValueAt(sp.getGiaSp(), row, 5);
+							modelDSSanPham.setValueAt(new Currency((int) sp.getGiaNhap()).toString(), row, 4);
+							modelDSSanPham.setValueAt(new Currency((int) sp.getGiaSp()).toString(), row, 5);
 							modelDSSanPham.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
 							JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
 							modelDSSanPham.fireTableDataChanged();
@@ -561,19 +562,6 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		return this.contentPane;
 	}
 
-	public void renderData() throws SQLException {
-		// modelDSSach.getDataVector().removeAllElements();
-		table.clearSelection();
-
-		modelDSSanPham.getDataVector().removeAllElements();
-		dsssp = new SanPhamDAO().getListSanPhamKhac();
-
-		dsssp.forEach(sp -> {
-			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(),  new Currency( (int) sp.getGiaNhap()).toString(),new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
-		});
-	}
-
 	private void loadCboMaLoai() throws SQLException {
 		dsLoai = new LoaiSanPhamDAO().getDanhSachLoaiSanPhamKhac();
 		for (LoaiSanPham loai : dsLoai) {
@@ -609,7 +597,40 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 	}
 
 	private boolean ktdulieu() {
-
+		String tenSP = txtTenSanPham.getText().trim();
+		String soLuong = txtSoLuong.getText().trim();
+		String giaNhap = txtGiaNhap.getText().trim();
+		String giaBan = txtGiaBan.getText().trim();
+		if (tenSP.equals("")) {
+			JOptionPane.showMessageDialog(this, "Tên sản phẩm không được để trống");
+			txtTenSanPham.selectAll();
+			txtTenSanPham.requestFocus();
+			return false;
+		}
+		if (tenSP.length()<2) {
+			JOptionPane.showMessageDialog(this, "Tên phải ít nhất là 2 ký tự");
+			txtTenSanPham.selectAll();
+			txtTenSanPham.requestFocus();
+			return false;
+		}
+		if (!soLuong.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Số lượng phải là số");
+			txtSoLuong.selectAll();
+			txtSoLuong.requestFocus();
+			return false;
+		}
+		if (!giaNhap.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Giá nhập phải là số");
+			txtGiaNhap.selectAll();
+			txtGiaNhap.requestFocus();
+			return false;
+		}
+		if (!giaBan.matches("^[0-9]{1,}$")) {
+			JOptionPane.showMessageDialog(this, "Giá bán phải là số");
+			txtGiaBan.selectAll();
+			txtGiaBan.requestFocus();
+			return false;
+		}
 		return true;
 
 	}
@@ -629,6 +650,20 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		return false;
 	}
 
+	public void renderData() throws SQLException {
+		// modelDSSach.getDataVector().removeAllElements();
+		table.clearSelection();
+
+		modelDSSanPham.getDataVector().removeAllElements();
+		dsssp = new SanPhamDAO().getListSanPhamKhac();
+
+		dsssp.forEach(sp -> {
+			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
+					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
+					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+		});
+	}
+
 	public void renderDataTimKiem() throws SQLException {
 		table.clearSelection();
 
@@ -636,7 +671,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 		dssptim.forEach(sp -> {
 			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), new Currency( (int) sp.getGiaNhap()).toString(),new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
+					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
 
 		table.revalidate();

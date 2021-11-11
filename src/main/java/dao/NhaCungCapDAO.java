@@ -69,6 +69,60 @@ public class NhaCungCapDAO extends ConnectDB {
 		}
 		return dataList;
 	}
+	public ArrayList<NhaCungCap> getListNhaCungCapSach() {
+		ArrayList<NhaCungCap> dataList = new ArrayList<NhaCungCap>();
+		Statement stmt = null;
+		try {
+
+			String sql = "select DISTINCT NhaCungCap.MaNCC, NhaCungCap.TenNCC, NhaCungCap.DiaChi, NhaCungCap.SoDienThoai from dbo.NhaCungCap inner join  SanPham on SanPham.MaNCC = NhaCungCap.MaNCC inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai\r\n" + 
+					"where TenLoai like 'Sách%' OR TenLoai like N'Truyện%'";
+			stmt = this.conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+//				printResultSet(rs);
+				NhaCungCap ncc = new NhaCungCap(rs);
+				dataList.add(ncc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return dataList;
+	}
+	public ArrayList<NhaCungCap> getListNhaCungCapSanPhamKhac() {
+		ArrayList<NhaCungCap> dataList = new ArrayList<NhaCungCap>();
+		Statement stmt = null;
+		try {
+
+			String sql = "select DISTINCT NhaCungCap.MaNCC, NhaCungCap.TenNCC, NhaCungCap.DiaChi, NhaCungCap.SoDienThoai from dbo.NhaCungCap inner join  SanPham on SanPham.MaNCC = NhaCungCap.MaNCC inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai\r\n" + 
+					"where TenLoai not like 'Sách%' AND TenLoai not like N'Truyện%'";
+			stmt = this.conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+//				printResultSet(rs);
+				NhaCungCap ncc = new NhaCungCap(rs);
+				dataList.add(ncc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return dataList;
+	}
+	
+	
 
 	public boolean createNCC(String tenNCC) {
 		PreparedStatement statement = null;
@@ -193,6 +247,34 @@ public class NhaCungCapDAO extends ConnectDB {
     	
     	return dsncc;
     }
+	
+	public List<NhaCungCap> timKiemNCC2(String where) {
+		Statement stmt = null;
+		List<NhaCungCap> dsncc = new ArrayList<NhaCungCap>();
+		try {
+			String sql = "SELECT * FROM dbo.NhaCungCap where "+where;
+			System.out.println(sql);
+			stmt = this.conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+//	            	printResultSet(rs);
+				NhaCungCap hd = new NhaCungCap(rs);
+				// hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+				dsncc.add(hd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return dsncc;
+	}
 	public NhaCungCap getNCCByTenNCC(String tenNCC) {
 		PreparedStatement stmt = null;
 		try {

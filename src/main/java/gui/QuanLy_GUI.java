@@ -355,6 +355,12 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				renderMain((JPanel) SanPhamKhacGUI.getContentPane(), "sanphamkhac");
+				try {
+					SanPhamKhacGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
@@ -364,6 +370,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) LoaiSanPhamGUI.getContentPane(), "danhmucsanpham");
+				try {
+					LoaiSanPhamGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -372,6 +384,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain((JPanel) nhaCungCapGUI.getContentPane(), "nhacungcap");
+				try {
+					nhaCungCapGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -380,6 +398,12 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				renderMain((JPanel) timKiemSachGUI.getContentPane(), "timkiemsach");
+				try {
+					timKiemSachGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -391,6 +415,12 @@ public class QuanLy_GUI extends JFrame {
 				// TODO Auto-generated method stub
 
 				renderMain((JPanel) timKiemSPKhacGUI.getContentPane(), "timkiemspkhac");
+				try {
+					timKiemSPKhacGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -401,6 +431,12 @@ public class QuanLy_GUI extends JFrame {
 				// TODO Auto-generated method stub
 
 				renderMain((JPanel) timKiemDMSPGUI.getContentPane(), "timkiemdanhmucsanpham");
+				try {
+					timKiemDMSPGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -411,6 +447,12 @@ public class QuanLy_GUI extends JFrame {
 				// TODO Auto-generated method stub
 
 				renderMain((JPanel) timKiemNCCGUI.getContentPane(), "timkiemnhacungcap");
+				try {
+					timKiemNCCGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 

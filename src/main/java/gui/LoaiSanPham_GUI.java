@@ -443,20 +443,7 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 		return this.contentPane;
 	}
 
-	public void renderData() throws SQLException {
-		// modelDSSach.getDataVector().removeAllElements();
-		table.clearSelection();
 
-		modelDSLoai.getDataVector().removeAllElements();
-		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
-
-//		String stt = table.getValueAt(1, 0).toString();
-
-		dsloai.forEach(loai -> {
-			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
-		});
-
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -505,6 +492,20 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 	}
 
 	private boolean ktdulieu() {
+		String tenLoai = txtTenLoai.getText().trim();
+		if(tenLoai.equals("")){
+			JOptionPane.showMessageDialog(this, "Tên không được bỏ trống");
+			txtTenLoai.selectAll();
+			txtTenLoai.requestFocus();
+            return false;
+        }
+		
+		if(!tenLoai.matches("^[a-zA-Z0-9]{2,}$")){
+			JOptionPane.showMessageDialog(this, "Tên không được chứa kí tự đặc biết, và phải ít nhất là 2 ký tự");
+			txtTenLoai.selectAll();
+			txtTenLoai.requestFocus();
+            return false;
+        }
 
 		return true;
 
@@ -525,6 +526,20 @@ public class LoaiSanPham_GUI extends JFrame implements ActionListener, MouseList
 		return false;
 	}
 
+	public void renderData() throws SQLException {
+		// modelDSSach.getDataVector().removeAllElements();
+		table.clearSelection();
+
+		modelDSLoai.getDataVector().removeAllElements();
+		dsloai = new LoaiSanPhamDAO().getDanhSachLoaiSanPham();
+
+//		String stt = table.getValueAt(1, 0).toString();
+
+		dsloai.forEach(loai -> {
+			modelDSLoai.addRow(new Object[] { loai.getMaLoai(), loai.getTenLoai() });
+		});
+
+	}
 	public void renderDataTimKiem() throws SQLException {
 		table.clearSelection();
 

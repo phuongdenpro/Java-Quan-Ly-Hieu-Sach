@@ -177,6 +177,33 @@ public class LoaiSanPhamDAO extends ConnectDB{
     	
     	return dssp;
     }
+	public List<LoaiSanPham> timKiem2(String where) {
+		Statement stmt = null;
+		List<LoaiSanPham> dsloai = new ArrayList<LoaiSanPham>();
+		try {
+			String sql = "SELECT * FROM dbo.LoaiSanPham where "+where;
+			System.out.println(sql);
+			stmt = this.conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+//	            	printResultSet(rs);
+				LoaiSanPham hd = new LoaiSanPham(rs);
+				// hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+				dsloai.add(hd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return dsloai;
+	}
 	public boolean capNhat(LoaiSanPham loai) {
 		PreparedStatement stmt = null;
 		try {

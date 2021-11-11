@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dao.KhachHangDAO;
+import dao.NhaCungCapDAO;
 import entity.KhachHang;
+import entity.NhaCungCap;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,8 +34,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TimKiemNCC_GUI extends JFrame {
+public class TimKiemNCC_GUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtSdt;
@@ -47,6 +50,10 @@ public class TimKiemNCC_GUI extends JFrame {
 	private JCheckBox chkTenNCC;
 	private JTextField txtDiaChi;
 	private DefaultTableModel modelNCC;
+	private NhaCungCapDAO nhaCCDAO;
+	private ArrayList<NhaCungCap> dsncc;
+	private List<NhaCungCap> dsncctim;
+	private JTextField txtMaNCC;
 
 	/**
 	 * Launch the application.
@@ -66,8 +73,10 @@ public class TimKiemNCC_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @throws SQLException
 	 */
-	public TimKiemNCC_GUI() {
+	public TimKiemNCC_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1300, 700);
 		contentPane = new JPanel();
@@ -75,6 +84,7 @@ public class TimKiemNCC_GUI extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
+		nhaCCDAO = new NhaCungCapDAO();
 		JPanel pnTieuDe = new JPanel();
 		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 
@@ -117,9 +127,10 @@ public class TimKiemNCC_GUI extends JFrame {
 		lblMaNCC.setPreferredSize(new Dimension(80, 14));
 		pnMaNCC.add(lblMaNCC);
 
-		JComboBox comboMa = new JComboBox();
-		comboMa.setPreferredSize(new Dimension(202, 20));
-		pnMaNCC.add(comboMa);
+		txtMaNCC = new JTextField();
+		txtMaNCC.setPreferredSize(new Dimension(200, 20));
+		txtMaNCC.setColumns(20);
+		pnMaNCC.add(txtMaNCC);
 		chkMaNCC = new JCheckBox("");
 		pnMaNCC.add(chkMaNCC);
 
@@ -208,24 +219,112 @@ public class TimKiemNCC_GUI extends JFrame {
 		tblKetQua = new JTable(modelNCC);
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
-
-		addEvents();
-	}
-
-	private void addEvents() {
-		// TODO Auto-generated method stub
-		btnTimKiem.addActionListener(new ActionListener() {
+		renderData();
+		btnRefresh.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
-			}	
+				txtMaNCC.setText("");
+				txtTenNCC.setText("");
+				txtDiaChi.setText("");
+				txtSdt.setText("");
+				try {
+					tblKetQua.clearSelection();
+
+					modelNCC.getDataVector().removeAllElements();
+					renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+		});
+
+		btnTimKiem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (txtMaNCC.getText().equals("") && txtTenNCC.getText().equals("") && txtDiaChi.getText().equals("")
+						&& txtSdt.getText().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Lỗi, chưa nhập dữ liệu tìm kiếm");
+
+				} else {
+					
+					String where = "";
+					if (chkMaNCC.isSelected()) {
+						where += "MaNCC like N'" + txtMaNCC.getText() + "' and ";
+					} else {
+						where += "MaNCC like N'%" + txtMaNCC.getText() + "%' and ";
+					}
+
+					if (chkTenNCC.isSelected()) {
+						where += "TenNCC like N'" + txtTenNCC.getText() + "' and ";
+					} else {
+						where += "TenNCC like N'%" + txtTenNCC.getText() + "%' and ";
+					}
+
+					if (chkDiaChi.isSelected()) {
+						where += "DiaChi like N'" + txtDiaChi.getText() + "' and ";
+					} else {
+						where += "DiaChi like N'%" + txtDiaChi.getText() + "%' and ";
+					}
+					if (chkSdt.isSelected()) {
+						where += "SoDienThoai like N'" + txtSdt.getText() + "'";
+					} else {
+						where += "SoDienThoai like N'%" + txtSdt.getText() + "%'";
+					}
+
+					System.out.println(where);
+					dsncctim = nhaCCDAO.timKiemNCC2(where);
+					if (dsncctim.size() == 0) {
+						JOptionPane.showMessageDialog(contentPane, "Không có nhà cung cấp phù hợp");
+						return;
+					} else {
+
+						try {
+							renderDataTimKiem();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+
+		});
+
+	}
+
+	public void renderData() throws SQLException {
+		tblKetQua.clearSelection();
+
+		modelNCC.getDataVector().removeAllElements();
+		dsncc = nhaCCDAO.getListNhaCungCap();
+
+		dsncc.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
 		});
 	}
 
-	private void renderDataTimKiem(ArrayList<KhachHang> dskh) {
+	public void renderDataTimKiem() throws SQLException {
+		tblKetQua.clearSelection();
+
+		modelNCC.getDataVector().removeAllElements();
+
+		dsncctim.forEach(ncc -> {
+			modelNCC.addRow(new Object[] { ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChi(), ncc.getSoDienThoai() });
+		});
+
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+
 	}
 
 }

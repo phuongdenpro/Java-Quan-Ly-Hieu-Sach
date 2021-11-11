@@ -9,7 +9,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dao.KhachHangDAO;
+import dao.LoaiSanPhamDAO;
+import dao.NhaCungCapDAO;
+import dao.SanPhamDAO;
 import entity.KhachHang;
+import entity.LoaiSanPham;
+import entity.NhaCungCap;
+import entity.SanPham;
+import util.Currency;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,8 +39,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TimKiemSanPhamKhac_GUI extends JFrame {
+public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JButton btnTimKiem, btnRefresh;
@@ -46,6 +54,16 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 	private JTextField txtTen;
 	private JCheckBox chkTen;
 	private DefaultTableModel modelSanPhamKhac;
+	private ArrayList<SanPham> dsssp;
+	private List<SanPham> dssptim;
+	private SanPhamDAO sanphamDAO;
+	private LoaiSanPhamDAO loaiDAO;
+	private NhaCungCapDAO nhaCCDAO;
+	private ArrayList<LoaiSanPham> dsLoai;
+	private JComboBox comboBoxNCC;
+	private JComboBox comboBoxLoai;
+	private ArrayList<NhaCungCap> dsNCCSACH;
+	private ArrayList<NhaCungCap> dsNCC;
 
 	/**
 	 * Launch the application.
@@ -65,10 +83,15 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @throws SQLException
 	 */
-	public TimKiemSanPhamKhac_GUI() {
+	public TimKiemSanPhamKhac_GUI() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1300, 700);
+		sanphamDAO = new SanPhamDAO();
+		nhaCCDAO = new NhaCungCapDAO();
+		loaiDAO = new LoaiSanPhamDAO();
 		contentPane = new JPanel();
 		contentPane.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -116,7 +139,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		lblLoaiSP.setPreferredSize(new Dimension(90, 14));
 		pnLoaiSP.add(lblLoaiSP);
 
-		JComboBox comboBoxLoai = new JComboBox();
+		comboBoxLoai = new JComboBox();
 		comboBoxLoai.setPreferredSize(new Dimension(204, 20));
 		pnLoaiSP.add(comboBoxLoai);
 		chkLoaiSP = new JCheckBox("");
@@ -160,16 +183,15 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		fl_pnCC.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnNCC);
 
-		JLabel lblNCC= new JLabel("Nhà cung cấp:");
+		JLabel lblNCC = new JLabel("Nhà cung cấp:");
 		lblNCC.setPreferredSize(new Dimension(90, 14));
 		pnNCC.add(lblNCC);
 
-		JComboBox comboBoxNCC= new JComboBox();
+		comboBoxNCC = new JComboBox();
 		comboBoxNCC.setPreferredSize(new Dimension(204, 20));
 		pnNCC.add(comboBoxNCC);
 		chkNCC = new JCheckBox("");
 		pnNCC.add(chkNCC);
-		
 
 		JPanel pnTim = new JPanel();
 		pnTim.setLayout(new FlowLayout());
@@ -207,24 +229,132 @@ public class TimKiemSanPhamKhac_GUI extends JFrame {
 		tblKetQua = new JTable(modelSanPhamKhac);
 		JScrollPane srcTblKetQua = new JScrollPane(tblKetQua);
 		pnRightBottom.add(srcTblKetQua);
-
-		addEvents();
-	}
-
-	private void addEvents() {
-		// TODO Auto-generated method stub
+		renderData();
+		loadCboMaLoai();
+		loadCboNCC();
 		btnTimKiem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
-			}	
+				if (comboBoxLoai.getSelectedItem().toString().equals("") && txtMaSP.getText().equals("")
+						&& txtTen.getText().equals("") && comboBoxNCC.getSelectedItem().toString().equals("")) {
+					JOptionPane.showMessageDialog(contentPane, "Lỗi, chưa nhập dữ liệu tìm kiếm");
+
+				} else {
+					String where = "";
+					if (chkLoaiSP.isSelected()) {
+						where += "TenLoai like N'" + comboBoxLoai.getSelectedItem().toString() + "' and ";
+					} else {
+						where += "TenLoai like N'%" + comboBoxLoai.getSelectedItem().toString() + "%' and ";
+					}
+
+					if (chkMaSP.isSelected()) {
+						where += "MaSP like N'" + txtMaSP.getText() + "' and ";
+					} else {
+						where += "MaSP like N'%" + txtMaSP.getText() + "%' and ";
+					}
+
+					if (chkTen.isSelected()) {
+						where += "TenSP like N'" + txtTen.getText() + "' and ";
+					} else {
+						where += "TenSP like N'%" + txtTen.getText() + "%' and ";
+					}
+					if (chkNCC.isSelected()) {
+						where += "TenNCC like N'" + comboBoxNCC.getSelectedItem().toString() + "'";
+					} else {
+						where += "TenNCC like N'%" + comboBoxNCC.getSelectedItem().toString() + "%'";
+					}
+
+					System.out.println(where);
+
+					dssptim = sanphamDAO.timKiemSanPhamKhac2(where);
+					if (dssptim.size() == 0) {
+						JOptionPane.showMessageDialog(contentPane, "Không có sản phẩm phù hợp");
+						return;
+					} else {
+						try {
+							renderDataTimKiem();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+		btnRefresh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				txtMaSP.setText("");
+				txtTen.setText("");
+				comboBoxLoai.setSelectedItem("");
+				comboBoxNCC.setSelectedItem("");
+				try {
+					tblKetQua.clearSelection();
+
+					modelSanPhamKhac.getDataVector().removeAllElements();
+					renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 		});
 	}
 
-	private void renderDataTimKiem(ArrayList<KhachHang> dskh) {
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+
+	}
+
+	private void loadCboMaLoai() throws SQLException {
+		dsLoai = loaiDAO.getDanhSachLoaiSanPhamKhac();
+		for (LoaiSanPham loai : dsLoai) {
+			String ma = loai.getTenLoai();
+			comboBoxLoai.addItem(String.valueOf(ma));
+		}
+	}
+
+	private void loadCboNCC() throws SQLException {
+
+		dsNCC = nhaCCDAO.getListNhaCungCapSanPhamKhac();
+		for (NhaCungCap ncc : dsNCC) {
+			String ma = ncc.getTenNCC();
+			comboBoxNCC.addItem(String.valueOf(ma));
+		}
+	}
+
+	public void renderData() throws SQLException {
+		// modelDSSach.getDataVector().removeAllElements();
+		tblKetQua.clearSelection();
+
+		modelSanPhamKhac.getDataVector().removeAllElements();
+		dsssp = new SanPhamDAO().getListSanPhamKhac();
+
+		dsssp.forEach(sp -> {
+			modelSanPhamKhac.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
+					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
+					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+		});
+	}
+
+	public void renderDataTimKiem() throws SQLException {
+		tblKetQua.clearSelection();
+
+		modelSanPhamKhac.getDataVector().removeAllElements();
+
+		dssptim.forEach(sp -> {
+			modelSanPhamKhac.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
+					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
+					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+		});
+
+		tblKetQua.revalidate();
+		tblKetQua.repaint();
 	}
 
 }
