@@ -182,10 +182,10 @@ public class QuanLy_GUI extends JFrame {
 			mntmQLSach = new JMenuItem("Quản lý sách");
 			mnSanPham.add(mntmQLSach);
 	
-			mntmQLSPKhac = new JMenuItem("Quản lý sản phẩm khác");
+			mntmQLSPKhac = new JMenuItem("Quản lý dụng cụ học tập");
 			mnSanPham.add(mntmQLSPKhac);
 	
-			mntmDanhMuc = new JMenuItem("Quản lý loại sản phẩm");
+			mntmDanhMuc = new JMenuItem("Quản lý danh mục sản phẩm");
 			mnSanPham.add(mntmDanhMuc);
 	
 			mntmNhaCC = new JMenuItem("Quản lý nhà cung cấp");
@@ -195,7 +195,7 @@ public class QuanLy_GUI extends JFrame {
 		JMenuItem mntmTimKiemSach = new JMenuItem("Tìm kiếm sách");
 		mnSanPham.add(mntmTimKiemSach);
 
-		JMenuItem mntmTimKiemSPKhac = new JMenuItem("Tìm kiếm sản phẩm khác");
+		JMenuItem mntmTimKiemSPKhac = new JMenuItem("Tìm kiếm dụng cụ học tập");
 		mnSanPham.add(mntmTimKiemSPKhac);
 
 		JMenuItem mntmTimKiemDMSP = new JMenuItem("Tìm kiếm danh mục sản phẩm");
