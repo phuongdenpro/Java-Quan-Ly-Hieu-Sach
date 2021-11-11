@@ -25,7 +25,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
         
         try {
 
-            String sql = "SELECT * FROM dbo.LoaiSanPham where LoaiSanPham.TenLoai like N'Sách%' OR LoaiSanPham.TenLoai like N'Truyện%'";
+            String sql = "SELECT * FROM dbo.LoaiSanPham where LoaiSanPham.TenLoai like N'%Sách%' OR LoaiSanPham.TenLoai like N'%Truyện%'";
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -53,7 +53,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
         
         try {
 
-            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai NOT like N'Sách%' AND TenLoai NOT like N'Truyện%'";
+            String sql = "SELECT * FROM dbo.LoaiSanPham where TenLoai NOT like N'%Sách%' AND TenLoai NOT like N'%Truyện%'";
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -152,7 +152,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
         try {
         	System.out.println(key + " " + val);
 
-            String sql = "SELECT * FROM dbo.LoaiSanPham where "+ key +" like '"+ val + "'";
+            String sql = "SELECT * FROM dbo.LoaiSanPham where "+ key +" like N'%"+ val + "%'";
             stmt = this.conn.createStatement();
             
             ResultSet rsLoai = stmt.executeQuery(sql);
@@ -240,6 +240,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
 	        } catch (SQLException e) {
 //	            e.printStackTrace();
 	        } finally {
+
 	        }
 	        return n > 0;
 	    }
