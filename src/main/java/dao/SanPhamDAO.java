@@ -555,6 +555,9 @@ public class SanPhamDAO extends ConnectDB {
 //            	printResultSet(rs);
 				NhaCungCap ncc = new NhaCungCapDAO().getNhaCungCap(rs.getInt("maNCC"));
 				SanPham sp = new SanPham(rs.getInt("maSP"), rs.getString("tenSP"), rs.getDouble("donGia"), ncc);
+				sp.setTacGia(rs.getString("TacGia"));
+				sp.setSoTrang(rs.getInt("soTrang"));
+				sp.setNamXuatBan(rs.getInt("namXuatBan"));
 				kq.put(sp, rs.getInt("soLuongDaBan"));
 			}
 
@@ -608,6 +611,9 @@ public class SanPhamDAO extends ConnectDB {
 				printResultSet(rs);
 				NhaCungCap ncc = new NhaCungCapDAO().getNhaCungCap(rs.getInt("maNCC"));
 				SanPham sp = new SanPham(rs.getInt("maSP"), rs.getString("tenSP"), rs.getDouble("donGia"), ncc);
+				sp.setTacGia(rs.getString("TacGia"));
+				sp.setSoTrang(rs.getInt("soTrang"));
+				sp.setNamXuatBan(rs.getInt("namXuatBan"));
 				kq.put(sp, rs.getInt("soLuongDaBan"));
 			}
 

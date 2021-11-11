@@ -152,14 +152,36 @@ public class SanPham {
 	public void setChiTietDonDatHangs(ArrayList<ChiTietDonDatHang> chiTietDonDatHangs) {
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
 	}
+	
+	
 
+	public String getTacGia() {
+		return tacGia;
+	}
+	public void setTacGia(String tacGia) {
+		this.tacGia = tacGia;
+	}
+	public int getSoTrang() {
+		return soTrang;
+	}
+	public void setSoTrang(int soTrang) {
+		this.soTrang = soTrang;
+	}
+	public int getNamXuatBan() {
+		return namXuatBan;
+	}
+	public void setNamXuatBan(int namXuatBan) {
+		this.namXuatBan = namXuatBan;
+	}
 	@Override
 	public String toString() {
-		return "SanPham [maSp=" + maSp + ", tenSp=" + tenSp + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap + ", giaSp=" + giaSp + ", loaiSanPham=" + loaiSanPham + ", nhaCungCap="
-				+ nhaCungCap + ", chiTietHoaDons=" + chiTietHoaDons + ", chiTietDonDatHangs=" + chiTietDonDatHangs
-				+ "]";
+		return "SanPham [maSp=" + maSp + ", tenSp=" + tenSp + ", soLuong=" + soLuong + ", giaNhap=" + giaNhap
+				+ ", giaSp=" + giaSp + ", tacGia=" + tacGia + ", soTrang=" + soTrang + ", namXuatBan=" + namXuatBan
+				+ ", loaiSanPham=" + loaiSanPham + ", nhaCungCap=" + nhaCungCap + ", chiTietHoaDons=" + chiTietHoaDons
+				+ ", chiTietDonDatHangs=" + chiTietDonDatHangs + "]";
 	}
-
+	
+	
 	
 	
 	

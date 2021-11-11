@@ -137,7 +137,7 @@ public class ThongKeSachBanChay_GUI extends JFrame {
 		
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
-		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Nhà xuất bản", "Đơn giá", "Số lượng đã bán"};
+		String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Tác giả", "Số trang", "Năm xuất bản", "Nhà xuất bản", "Đơn giá", "Số lượng đã bán"};
 		modelDSSP = new DefaultTableModel(cols, 0);
 		tblDSSP = new JTable(modelDSSP);
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
@@ -233,6 +233,9 @@ public class ThongKeSachBanChay_GUI extends JFrame {
 			modelDSSP.addRow(new Object[] {
 				sp.getMaSp(),
 				sp.getTenSp(),
+				sp.getTacGia(),
+				sp.getSoTrang(),
+				sp.getNamXuatBan(),
 				sp.getNhaCungCap().getTenNCC(),
 				new Currency(sp.getGiaSp()).toString(),
 				soLuongDaBan
@@ -268,6 +271,9 @@ public class ThongKeSachBanChay_GUI extends JFrame {
 			modelDSSP.addRow(new Object[] {
 				sp.getMaSp(),
 				sp.getTenSp(),
+				sp.getTacGia(),
+				sp.getSoTrang(),
+				sp.getNamXuatBan(),
 				sp.getNhaCungCap().getTenNCC(),
 				new Currency(sp.getGiaSp()).toString(),
 				soLuongDaBan
