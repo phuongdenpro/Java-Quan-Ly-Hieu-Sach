@@ -667,8 +667,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		cboListNCC.setSelectedItem(modelDSSach.getValueAt(row, 4).toString());
 		txtNamXb.setText(modelDSSach.getValueAt(row, 5).toString());
 		txtSoLuong.setText(modelDSSach.getValueAt(row, 6).toString());
-		txtGiaNhap.setText(modelDSSach.getValueAt(row, 7).toString().replaceAll("[^\\d.]", ""));
-		txtGiaBan.setText(modelDSSach.getValueAt(row, 8).toString().replaceAll("[^\\d.]", ""));
+		txtGiaNhap.setText(modelDSSach.getValueAt(row, 7).toString().replaceAll("[^\\d]", ""));
+		txtGiaBan.setText(modelDSSach.getValueAt(row, 8).toString().replaceAll("[^\\d]", ""));
 		cboListMaloai.setSelectedItem(modelDSSach.getValueAt(row, 9).toString());
 
 	}
