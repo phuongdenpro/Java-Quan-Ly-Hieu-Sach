@@ -518,6 +518,7 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(khachHangGUI.getContentPane(), "khachhang");
+				
 			}
 		});
 
@@ -558,6 +559,12 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				renderMain(thongKeKHTNGUI.getContentPane(), "thongkekhtn");
+				try {
+					thongKeKHTNGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -567,6 +574,12 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				renderMain(thongKeKHMuaNhieuGUI.getContentPane(), "thongkekhmuanhieu");
+				try {
+					thongKeKHMuaNhieuGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -576,6 +589,12 @@ public class QuanLy_GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				renderMain(thongKeKHMuaItGUI.getContentPane(), "thongkekhmuait");
+				try {
+					thongKeKHMuaItGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -593,6 +612,12 @@ public class QuanLy_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				renderMain(thongKeGUI.getContentPane(), "thongke");
+				try {
+					thongKeGUI.renderData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 

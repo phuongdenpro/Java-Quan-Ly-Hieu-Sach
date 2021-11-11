@@ -233,6 +233,7 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 							renderDataTimKiem();
 						}else 
 							renderData();
+						JOptionPane.showMessageDialog(pnMain, "Xóa thành công");
 					}else {
 						JOptionPane.showMessageDialog(pnMain, "Có lỗi xảy ra");
 					}

@@ -203,7 +203,7 @@ public class NhanVienDAO extends ConnectDB{
 	public ArrayList<NhanVien> TimKiem(String where) {
 		// TODO Auto-generated method stub
 		ArrayList<NhanVien> dsnv = new ArrayList<NhanVien>();
-		String sqlTimKiem = "select * from dbo.NhanVien where"+ where;
+		String sqlTimKiem = "select * from dbo.NhanVien where "+ where;
 		System.out.println(sqlTimKiem);
 		try {
 			PreparedStatement stmt = this.conn.prepareStatement(sqlTimKiem, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);

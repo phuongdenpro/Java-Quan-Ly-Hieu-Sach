@@ -234,7 +234,7 @@ public class TimKiemNhanVien_GUI extends JFrame {
 								
 				try {
 					dsnv = new NhanVienDAO().TimKiem(where);
-					if(dsnv == null) {
+					if(dsnv.size() == 0) {
 						modelNhanVien.setRowCount(0);
 						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy nhân viên nào");
 						return;

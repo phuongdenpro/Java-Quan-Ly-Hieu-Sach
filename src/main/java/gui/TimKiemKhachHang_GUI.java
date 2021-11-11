@@ -225,7 +225,7 @@ public class TimKiemKhachHang_GUI extends JFrame {
 				System.out.println(where);
 				try {
 					dskh = new KhachHangDAO().TimKiem(where);
-					if(dskh==null) {
+					if(dskh.size() == 0) {
 						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy khách hàng nào");
 						modelKhachHang.setRowCount(0);
 						

@@ -138,6 +138,7 @@ public class TrangChu_GUI extends JFrame {
 	}
 	
 	public void renderData() throws SQLException {
+		panelContent.removeAll();
 		mnNewMenu.setText("Xin chào: "+this.khachHang.getHoTen());
 		loaiSPDao = new LoaiSanPhamDAO();
 		dslsp = loaiSPDao.getDanhSachLoaiSanPham();
@@ -147,7 +148,8 @@ public class TrangChu_GUI extends JFrame {
 				this.categoryGUI(dslsp.get(i));
 		}
 		
-		
+		panelContent.revalidate();
+		panelContent.repaint();
 	}
 
 	public JPanel headerGUI() {
