@@ -10,6 +10,10 @@ public class SanPham {
 	private int soLuong;
 	private double giaNhap;
 	private double giaSp;
+	private String tacGia;
+	private int soTrang;
+	private int namXuatBan;
+	
 	public LoaiSanPham loaiSanPham;
 	public NhaCungCap nhaCungCap;
 	public ArrayList<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
@@ -57,6 +61,12 @@ public class SanPham {
 		}catch (Exception e) {
 			
 		}	
+		try {
+			this.tacGia = rs.getString("tacGia");
+			this.soTrang = rs.getInt("soTrang");
+			this.namXuatBan = rs.getInt("namXuatBan");
+		}catch (Exception e) {
+		}
 	}
 
 	public SanPham() {

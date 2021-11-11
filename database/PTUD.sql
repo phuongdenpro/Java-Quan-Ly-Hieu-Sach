@@ -23,6 +23,9 @@ CREATE TABLE SanPham (
 	GiaSp float(10) NOT NULL, 
 	GiaNhap float(10) NOT NULL, 
 	SoLuong int default 0,
+	TacGia nvarchar(50) NULL, 
+	SoTrang int NULL,
+	NamXuatBan int NULL,
 	PRIMARY KEY (MaSP)
 );
 
