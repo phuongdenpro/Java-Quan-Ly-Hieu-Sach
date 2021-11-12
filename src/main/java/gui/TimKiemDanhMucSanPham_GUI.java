@@ -83,7 +83,7 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener{
 		JPanel pnTieuDe = new JPanel();
 		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 
-		JLabel lblTieuDe = new JLabel("Tìm kiếm danh mục");
+		JLabel lblTieuDe = new JLabel("Tìm kiếm danh mục sản phẩm");
 		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		pnTieuDe.add(lblTieuDe);
 

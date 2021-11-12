@@ -101,7 +101,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 	 * @throws SQLException
 	 */
 	public SanPhamKhac_GUI() throws SQLException {
-		setTitle("Quản Lý Sản Phẩm Khác");
+		setTitle("Quản Lý Dụng Cụ Học Tập");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -116,7 +116,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 		JPanel top = new JPanel();
 		top.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel title = new JLabel("QUẢN LÝ SẢN PHẨM KHÁC");
+		JLabel title = new JLabel("QUẢN LÝ DỤNG CỤ HỌC TẬP");
 		title.setFont(new Font("Tahoma", Font.BOLD, 20));
 		top.add(title);
 		// title.setHorizontalAlignment(ABORT);
@@ -620,13 +620,13 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			return false;
 		}
 		if (!giaNhap.matches("^[0-9]{1,}$")) {
-			JOptionPane.showMessageDialog(this, "Giá nhập phải là số");
+			JOptionPane.showMessageDialog(this, "Giá nhập không hợp lệ");
 			txtGiaNhap.selectAll();
 			txtGiaNhap.requestFocus();
 			return false;
 		}
 		if (!giaBan.matches("^[0-9]{1,}$")) {
-			JOptionPane.showMessageDialog(this, "Giá bán phải là số");
+			JOptionPane.showMessageDialog(this, "Giá bán không hợp lệ");
 			txtGiaBan.selectAll();
 			txtGiaBan.requestFocus();
 			return false;

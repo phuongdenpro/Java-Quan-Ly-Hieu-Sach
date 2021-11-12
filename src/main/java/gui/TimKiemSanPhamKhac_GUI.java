@@ -100,7 +100,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		JPanel pnTieuDe = new JPanel();
 		contentPane.add(pnTieuDe, BorderLayout.NORTH);
 
-		JLabel lblTieuDe = new JLabel("Tìm kiếm sản phẩm");
+		JLabel lblTieuDe = new JLabel("Tìm kiếm dụng cụ học tập");
 		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		pnTieuDe.add(lblTieuDe);
 
@@ -141,6 +141,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 
 		comboBoxLoai = new JComboBox();
 		comboBoxLoai.setPreferredSize(new Dimension(204, 20));
+		comboBoxLoai.addItem("");
 		pnLoaiSP.add(comboBoxLoai);
 		chkLoaiSP = new JCheckBox("");
 		pnLoaiSP.add(chkLoaiSP);
@@ -189,6 +190,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 
 		comboBoxNCC = new JComboBox();
 		comboBoxNCC.setPreferredSize(new Dimension(204, 20));
+		comboBoxNCC.addItem("");
 		pnNCC.add(comboBoxNCC);
 		chkNCC = new JCheckBox("");
 		pnNCC.add(chkNCC);

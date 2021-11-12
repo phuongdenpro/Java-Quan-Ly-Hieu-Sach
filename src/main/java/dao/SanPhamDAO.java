@@ -61,7 +61,7 @@ public class SanPhamDAO extends ConnectDB {
 		try {
 
 			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC\r\n"
-					+ "where TenLoai like '%Sách%' OR TenLoai like N'%Truyện%'";
+					+ "where TenLoai like N'%Sách%' OR TenLoai like N'%Truyện%'";
 			stmt = this.conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);

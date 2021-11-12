@@ -51,7 +51,6 @@ insert into NhanVien (TenNv, SoDienThoai, DiaChi, caLamViec, chucNang, TaiKhoanI
 -- Nha Cung Cap
 insert into NhaCungCap (tenNCC, DiaChi, SoDienThoai) values(N'Kim đồng', N'Hà Nội', '0987654321');
 insert into NhaCungCap (tenNCC, DiaChi, SoDienThoai) values(N'Thiên kim', N'Hà Nội', '0987654322');
-insert into NhaCungCap (tenNCC) values(N'Thiên Văn');
 insert into NhaCungCap (tenNCC, DiaChi, SoDienThoai) values(N'Hà Nội', N'Hà Nội', '0987654222');
 insert into NhaCungCap (tenNCC, DiaChi, SoDienThoai) values(N'Thiên Long', N'Hồ Chí Minh', '0987654324');
 insert into NhaCungCap (tenNCC, DiaChi, SoDienThoai) values(N'Long Hải', N'Ninh Bình', '0987654234');
