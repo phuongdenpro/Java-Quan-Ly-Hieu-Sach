@@ -98,6 +98,10 @@ public class ThongKe extends JFrame {
 	private JLabel lblTuNgay01;
 
 	private JLabel lblToiNgay01;
+
+	private JLabel lblCaKQ;
+
+	private JComboBox cboCaLam;
 	/**
 	 * Launch the application.
 	 */
@@ -176,6 +180,15 @@ public class ThongKe extends JFrame {
 		modelLimit.addElement(100);
 		modelLimit.addElement(500);
 		
+		JLabel lblCa = new JLabel("Ca: ");
+		panel_2.add(lblCa);
+		
+		cboCaLam = new JComboBox();
+		panel_2.add(cboCaLam);
+		cboCaLam.addItem((String) "Tất cả");
+		cboCaLam.addItem((String) "Sáng");
+		cboCaLam.addItem((String) "Chiều");
+		
 		JButton btnThongKe = new JButton("Thống kê", new ImageIcon("data/images/statistics.png"));
 
 		btnThongKe.setBackground(Color.WHITE);
@@ -229,6 +242,21 @@ public class ThongKe extends JFrame {
 		lblToiNgay01 = new JLabel();
 		lblToiNgay01.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		pnItem01.add(lblToiNgay01);
+		
+		JPanel pnCa = new JPanel();
+		FlowLayout flowLayout02 = (FlowLayout) pnCa.getLayout();
+		flowLayout02.setAlignment(FlowLayout.LEFT);
+		panel_4.add(pnCa);
+		
+		JLabel lblCa1 = new JLabel("Ca: ");
+		lblCa1.setPreferredSize(new Dimension(300, 30));
+		lblCa1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnCa.add(lblCa1);
+		
+		lblCaKQ = new JLabel();
+		lblCaKQ.setText("Tất cả");
+		lblCaKQ.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnCa.add(lblCaKQ);
 		
 		JPanel pnItem1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) pnItem1.getLayout();
@@ -332,7 +360,7 @@ public class ThongKe extends JFrame {
 	
 		btnThongKe.addActionListener((e) -> {
 			long ml=System.currentTimeMillis(); 
-	        ml = ml/86400000*86400000;
+//	        ml = ml/86400000*86400000;
 	        Date now = new Date(ml);
 	        
 			Date tuNgay = new Date(ml), toiNgay = new Date(ml); // hom nay
@@ -404,12 +432,11 @@ public class ThongKe extends JFrame {
 		soLuongDungCu = 0;
 		doanhThu = 0;
 		soVon = 0;
-		
+		System.out.println(ls.size());
 		ls.forEach(rs -> {
 			int donGia = Integer.parseInt(rs.get("donGia"));
 			int giaNhap = Integer.parseInt(rs.get("giaNhap"));
 			int soLuong = Integer.parseInt(rs.get("soLuong"));
-			
 			mpHD.put(rs.get("maHD"), 1);
 			mpKH.put(rs.get("maKH"), 1);
 			if(rs.get("tenLoai").toLowerCase().contains("sách") || rs.get("tenLoai").toLowerCase().contains("truyện"))
@@ -436,7 +463,7 @@ public class ThongKe extends JFrame {
 	
 	public void renderData(Date tuNgay, Date toiNgay) throws SQLException {
 		ls = new HoaDonDAO().chiTiet(tuNgay, toiNgay);
-		
+		System.out.println(ls.size());
 		Map<String, Integer> mpHD = new HashMap<String, Integer>();
 		Map<String, Integer> mpKH = new HashMap<String, Integer>();
 		soLuongSach = 0;
@@ -448,7 +475,17 @@ public class ThongKe extends JFrame {
 			int donGia = Integer.parseInt(rs.get("donGia"));
 			int giaNhap = Integer.parseInt(rs.get("giaNhap"));
 			int soLuong = Integer.parseInt(rs.get("soLuong"));
+			System.out.println("n" + rs.get("ngayMua"));
+			System.out.println(Ngay.stringToTimestamp(rs.get("ngayMua")));
+			System.out.println(Ngay.isSang(Ngay.stringToTimestamp(rs.get("ngayMua"))));
+			int sl = cboCaLam.getSelectedIndex();
 			
+			if(sl == 1 && Ngay.isSang(Ngay.stringToTimestamp(rs.get("ngayMua"))) == false) {
+				return;
+			}
+			if(sl == 2 && Ngay.isSang(Ngay.stringToTimestamp(rs.get("ngayMua"))) == true) {
+				return;
+			}
 			mpHD.put(rs.get("maHD"), 1);
 			mpKH.put(rs.get("maKH"), 1);
 			if(rs.get("tenLoai").toLowerCase().contains("sách") || rs.get("tenLoai").toLowerCase().contains("truyện"))
@@ -460,6 +497,7 @@ public class ThongKe extends JFrame {
 			doanhThu += donGia * soLuong;
 			soVon += giaNhap * soLuong;
 		});
+		lblCaKQ.setText((String) cboCaLam.getSelectedItem());
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		lblTuNgay01.setText(sdf.format(tuNgay));
 		lblToiNgay01.setText(sdf.format(toiNgay));

@@ -3,10 +3,14 @@ package entity;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import dao.KhachHangDAO;
 import dao.NhanVienDAO;
+import util.Ngay;
 
 public class HoaDon {
 	private int maHD;
@@ -15,6 +19,7 @@ public class HoaDon {
 	public NhanVien nhanVien;
 	public KhachHang khachHang;
 	public ArrayList<ChiTietHoaDon> chiTietHoaDons = new ArrayList<ChiTietHoaDon>();
+	private Timestamp nm;
 	
 	public HoaDon(int maHD, double tongTien, Date ngayMua, NhanVien nhanVien, KhachHang khachHang,
 			ArrayList<ChiTietHoaDon> chiTietHoaDons) {
@@ -41,6 +46,10 @@ public class HoaDon {
 	public HoaDon(ResultSet rs) throws SQLException {
 		this.maHD = rs.getInt("maHD");
 		this.ngayMua = rs.getDate("ngayMua");
+		
+		this.nm = rs.getTimestamp("ngayMua");
+	    
+
 		try {
 			this.nhanVien = new NhanVien(rs);
 		}catch (Exception e) {
@@ -73,9 +82,21 @@ public class HoaDon {
 	public Date getNgayMua() {
 		return ngayMua;
 	}
+	
+	public String getNgayMua2() {
+		return Ngay.convertTimeToString(nm);
+	}
 
 	public void setNgayMua(Date ngayMua) {
 		this.ngayMua = ngayMua;
+	}
+
+	public Timestamp getNm() {
+		return nm;
+	}
+
+	public void setNm(Timestamp nm) {
+		this.nm = nm;
 	}
 
 	public NhanVien getNhanVien() {

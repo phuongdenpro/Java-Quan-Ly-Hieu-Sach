@@ -43,7 +43,7 @@ CREATE TABLE HoaDon (
 	MaNV int NOT NULL, 
 	MaKH int NOT NULL, 
 	TongTien float(10) NOT NULL, 
-	NgayMua date default GETDATE(),
+	NgayMua datetime default GETDATE(),
 	PRIMARY KEY (MaHD)
 );
 

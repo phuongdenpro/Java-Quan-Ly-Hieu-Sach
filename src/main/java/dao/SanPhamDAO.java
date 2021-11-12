@@ -19,6 +19,7 @@ import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhaCungCap;
 import entity.SanPham;
+import util.Ngay;
 
 public class SanPhamDAO extends ConnectDB {
 
@@ -662,9 +663,12 @@ public class SanPhamDAO extends ConnectDB {
 					+ "group by cthd.maSP, cthd.maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, dongia, maLoai, tenLoai\r\n"
 					+ "order by soLuongDaBan desc";
 			System.out.println(sql);
+			System.out.println(Ngay.tuNgay(tuNgay));
+			System.out.println(Ngay.toiNgay(toiNgay));
 			stmt = this.conn.prepareStatement(sql);
-			stmt.setDate(1, tuNgay);
-			stmt.setDate(2, toiNgay);
+			stmt.setTimestamp(1, Ngay.tuNgay(tuNgay));
+            stmt.setTimestamp(2, Ngay.toiNgay(toiNgay));
+            
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {

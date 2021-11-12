@@ -156,7 +156,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 	
 		btnThongKe.addActionListener((e) -> {
 			long ml=System.currentTimeMillis(); 
-	        ml = ml/86400000*86400000;
+//	        ml = ml/86400000*86400000;
 	        Date now = new Date(ml);
 	        
 			Date tuNgay = new Date(ml), toiNgay = new Date(ml); // hom nay

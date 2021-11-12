@@ -13,6 +13,7 @@ import entity.KhachHang;
 import entity.NhanVien;
 import entity.NhaCungCap;
 import entity.SanPham;
+import util.Ngay;
 
 
 public class KhachHangDAO extends ConnectDB{
@@ -264,8 +265,8 @@ public class KhachHangDAO extends ConnectDB{
             		+ "order by tongTien desc";
             System.out.println(sql);
             stmt = this.conn.prepareStatement(sql);
-            stmt.setDate(1, d1);
-            stmt.setDate(2, d2);
+            stmt.setTimestamp(1, Ngay.tuNgay(d1));
+            stmt.setTimestamp(2, Ngay.toiNgay(d2));
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
@@ -328,8 +329,8 @@ public class KhachHangDAO extends ConnectDB{
             		+ "on HoaDon.maKH = KhachHang.maKH\r\n"
             		+ "where ngayMua >= ? and ngayMua <= ?)";
             stmt = this.conn.prepareStatement(sql);
-            stmt.setDate(1, d1);
-            stmt.setDate(2, d2);
+            stmt.setTimestamp(1, Ngay.tuNgay(d1));
+            stmt.setTimestamp(2, Ngay.toiNgay(d2));
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
@@ -436,8 +437,8 @@ public class KhachHangDAO extends ConnectDB{
             		+ tongTien
             		+ "order by tongTien";
             stmt = this.conn.prepareStatement(sql);
-            stmt.setDate(1, d1);
-            stmt.setDate(2, d2);
+            stmt.setTimestamp(1, Ngay.tuNgay(d1));
+            stmt.setTimestamp(2, Ngay.toiNgay(d2));
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {

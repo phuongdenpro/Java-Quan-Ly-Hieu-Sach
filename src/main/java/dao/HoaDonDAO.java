@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import entity.DonDatHang;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.SanPham;
+import util.Ngay;
 
 public class HoaDonDAO extends ConnectDB{
 	private String error = "";
@@ -61,7 +63,7 @@ public class HoaDonDAO extends ConnectDB{
         	}
         	
 //        	thêm hóa đơn
-            String sql = "INSERT INTO dbo.HoaDon (maNV, maKH, tongTien, ngayMua) values(?, ?, ?, ?)";
+            String sql = "INSERT INTO dbo.HoaDon (maNV, maKH, tongTien) values(?, ?, ?)";
             stmt = this.conn.prepareStatement(sql);
             stmt.setInt(1, hd.getNhanVien().getMaNv());
             
@@ -71,7 +73,6 @@ public class HoaDonDAO extends ConnectDB{
             	stmt.setNull(2, java.sql.Types.INTEGER);
             
             stmt.setDouble(3, hd.getTongTien());
-            stmt.setDate(4, hd.getNgayMua());
             
             int n = stmt.executeUpdate();
             if(n == 0) {
@@ -250,10 +251,11 @@ public class HoaDonDAO extends ConnectDB{
         			+ "on HoaDon.maHD = ChiTietHoaDon.maHD\r\n"
         			+ "inner join [HieuSach].[dbo].[SanPham]\r\n"
         			+ "on ChiTietHoaDon.maSP = SanPham.maSP\r\n"
-        			+ "where ngayMua = ?";
+        			+ "where ngayMua >= ? and ngayMua <= ?";
         	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
         	
-        	prpStmt.setDate(1, d);
+        	prpStmt.setTimestamp(1, Ngay.tuNgay(d));
+        	prpStmt.setTimestamp(2, Ngay.toiNgay(d));
             ResultSet rs = prpStmt.executeQuery();
                
             if(!rs.next())
@@ -273,10 +275,11 @@ public class HoaDonDAO extends ConnectDB{
 
         try {
         	String sql = "select sum(tongTien) as doanhThu from [HieuSach].[dbo].[HoaDon]\r\n"
-        			+ "where ngayMua = ?";
+        			+ "where ngayMua >= ? and ngayMua <= ?";
         	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
         	
-        	prpStmt.setDate(1, d);
+        	prpStmt.setTimestamp(1, Ngay.tuNgay(d));
+        	prpStmt.setTimestamp(2, Ngay.toiNgay(d));
             ResultSet rs = prpStmt.executeQuery();
                
             if(!rs.next())
@@ -313,7 +316,8 @@ public class HoaDonDAO extends ConnectDB{
             	Map<String, String> mp = new HashMap<String, String>();
             	mp.put("maHD", String.valueOf(rs.getInt("maHD")));
             	mp.put("maKH", String.valueOf(rs.getInt("maKH")));
-            	mp.put("ngayMua", String.valueOf(rs.getDate("ngayMua")));
+            	Timestamp ts = rs.getTimestamp("ngayMua");
+            	mp.put("ngayMua", Ngay.convertTimeToString(ts));
             	mp.put("TongTien", String.valueOf(rs.getInt("tongTien")));
             	mp.put("maSP", String.valueOf(rs.getInt("maSP")));
             	mp.put("soLuong", String.valueOf(rs.getInt("soLuong")));
@@ -349,15 +353,16 @@ public class HoaDonDAO extends ConnectDB{
         			+ "where ngayMua >= ? and ngayMua <= ?";
         	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
         	
-        	prpStmt.setDate(1, d1);
-        	prpStmt.setDate(2, d2);
+        	prpStmt.setTimestamp(1, Ngay.tuNgay(d1));
+        	prpStmt.setTimestamp(2, Ngay.toiNgay(d2));
             ResultSet rs = prpStmt.executeQuery();
             
             while(rs.next()) {
             	Map<String, String> mp = new HashMap<String, String>();
             	mp.put("maHD", String.valueOf(rs.getInt("maHD")));
             	mp.put("maKH", String.valueOf(rs.getInt("maKH")));
-            	mp.put("ngayMua", String.valueOf(rs.getDate("ngayMua")));
+            	Timestamp ts = rs.getTimestamp("ngayMua");
+            	mp.put("ngayMua", Ngay.convertTimeToString(ts));
             	mp.put("TongTien", String.valueOf(rs.getInt("tongTien")));
             	mp.put("maSP", String.valueOf(rs.getInt("maSP")));
             	mp.put("soLuong", String.valueOf(rs.getInt("soLuong")));

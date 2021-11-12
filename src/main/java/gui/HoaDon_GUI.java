@@ -342,7 +342,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 				hd.getKhachHang().getSoDienThoai(),
 				hd.getKhachHang().getDiaChi(),
 				new Currency(hd.tinhTongTien()).toString(),
-				hd.getNgayMua()
+				hd.getNgayMua2()
 			});
 		});
 		tableHD.revalidate();
@@ -385,7 +385,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 					hd.getKhachHang().getSoDienThoai(),
 					hd.getKhachHang().getDiaChi(),
 					new Currency(hd.tinhTongTien()).toString(),
-					hd.getNgayMua()
+					hd.getNgayMua2()
 				});
 		});
 		
