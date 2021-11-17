@@ -342,6 +342,11 @@ public class NhanVien_GUI extends JFrame {
 				int caLam = cboCaLam.getSelectedIndex() + 1;
 				int chucVu = cboChucVu.getSelectedIndex() + 1;
 				
+				if(tenNV.equals("")|| kiemTraSo(tenNV)) {
+					JOptionPane.showMessageDialog(contentPane, "Tên không hợp lệ");
+					return;
+				}
+				
 				boolean ktSdt  = sdt.matches("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$");	
 				if(ktSdt == false) {
 					JOptionPane.showMessageDialog(contentPane, "Số điện thoại không hợp lệ");
@@ -539,6 +544,15 @@ public class NhanVien_GUI extends JFrame {
 
 		tblNhanVien.revalidate();
 		tblNhanVien.repaint();
+	}
+	public boolean kiemTraSo(String ten) {
+		char arrTen[] = ten.toCharArray();
+		for(int i=0;i<ten.length();i++) {
+			String cTen = String.valueOf(arrTen[i]);
+			if(cTen.matches("[0-9]"))
+				return true;
+		}
+		return false;
 	}
 	
 	public JPanel getContentPane() {

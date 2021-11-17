@@ -323,6 +323,10 @@ public class KhachHang_GUI extends JFrame {
 				String sdt = txtSdt.getText();
 				String diaChi = txtDiaChi.getText();
 				
+				if(tenKh.equals("")|| kiemTraSo(tenKh)) {
+					JOptionPane.showMessageDialog(contentPane, "Tên không hợp lệ");
+					return;
+				}
 				//boolean ktTen = tenKh.ma
 				boolean ktSdt  = sdt.matches("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$");			
 				if (ktSdt == false) {
@@ -452,6 +456,15 @@ public class KhachHang_GUI extends JFrame {
 	public void setEnable() {
 		btnSuaKh.setEnabled(true);
 		btnXoaKh.setEnabled(true);
+	}
+	public boolean kiemTraSo(String ten) {
+		char arrTen[] = ten.toCharArray();
+		for(int i=0;i<ten.length();i++) {
+			String cTen = String.valueOf(arrTen[i]);
+			if(cTen.matches("[0-9]"))
+				return true;
+		}
+		return false;
 	}
 	public JPanel getContentPane() {
 		 return this.contentPane;
