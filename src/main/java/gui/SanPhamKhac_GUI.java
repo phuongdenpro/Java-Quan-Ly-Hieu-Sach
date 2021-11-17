@@ -78,6 +78,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 	private ArrayList<NhaCungCap> dsNCC;
 	private boolean isTimKiem = false;
 	private JComboBox<String> cboListNCC;
+	private DefaultComboBoxModel<String> modelMaLoai;
+	private DefaultComboBoxModel<String> modelNCC;
 
 	/**
 	 * Launch the application.
@@ -194,8 +196,9 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		JLabel lblNCC = new JLabel("Nhà cung cấp:");
 		lblNCC.setPreferredSize(new Dimension(100, 14));
 		pnnhaCC.add(lblNCC);
-		cboListNCC = new JComboBox<String>();
-
+		
+		modelNCC = new DefaultComboBoxModel<String>();
+		cboListNCC = new JComboBox<String>(modelNCC);
 		cboListNCC.setPreferredSize(new Dimension(202, 30));
 		cboListNCC.addItem("");
 
@@ -258,7 +261,9 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 		lblMaLoai.setPreferredSize(new Dimension(100, 14));
 		pnLoai.add(lblMaLoai);
 		pnThongTin.add(pnLoai);
-		cboListMaloai = new JComboBox<String>();
+		
+		modelMaLoai = new DefaultComboBoxModel<String>();
+		cboListMaloai = new JComboBox<String>(modelMaLoai);
 
 		cboListMaloai.setPreferredSize(new Dimension(202, 30));
 //		cboListMaloai.setModel(new javax.swing.DefaultComboBoxModel<>());
@@ -362,8 +367,7 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		loadCboMaLoai();
-		loadCboNCC();
+		
 		table.addMouseListener(this);
 		btnThem.addActionListener(new ActionListener() {
 
@@ -563,18 +567,20 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 	}
 
 	private void loadCboMaLoai() throws SQLException {
+		modelMaLoai.removeAllElements();
 		dsLoai = new LoaiSanPhamDAO().getDanhSachLoaiSanPhamKhac();
 		for (LoaiSanPham loai : dsLoai) {
 			String ma = loai.getTenLoai();
-			cboListMaloai.addItem(String.valueOf(ma));
+			modelMaLoai.addElement(String.valueOf(ma));
 		}
 	}
 
 	private void loadCboNCC() throws SQLException {
+		modelNCC.removeAllElements();
 		dsNCC = nCCDAO.getListNhaCungCap();
 		for (NhaCungCap ncc : dsNCC) {
 			String ma = ncc.getTenNCC();
-			cboListNCC.addItem(String.valueOf(ma));
+			modelNCC.addElement(String.valueOf(ma));
 		}
 	}
 
@@ -672,6 +678,9 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
 					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
+		
+		loadCboMaLoai();
+		loadCboNCC();
 	}
 
 	public void renderDataTimKiem() throws SQLException {

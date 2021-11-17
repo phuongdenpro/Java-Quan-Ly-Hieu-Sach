@@ -89,6 +89,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 	private JTextField txtTacGia;
 	private JTextField txtSoTrang;
 	private JTextField txtNamXb;
+	private DefaultComboBoxModel<String> modelMaLoai;
+	private DefaultComboBoxModel<String> modelNCC;
 
 	/**
 	 * Launch the application.
@@ -245,7 +247,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		lblNXB.setPreferredSize(new Dimension(100, 14));
 		pnNXB.add(lblNXB);
 
-		cboListNCC = new JComboBox<String>();
+		modelNCC = new DefaultComboBoxModel<String>();
+		cboListNCC = new JComboBox<String>(modelNCC);
 
 		cboListNCC.setPreferredSize(new Dimension(202, 25));
 		cboListNCC.addItem("");
@@ -322,7 +325,9 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		lblMaLoai.setPreferredSize(new Dimension(100, 14));
 		pnMaLoai.add(lblMaLoai);
 		pnThongTin.add(pnMaLoai);
-		cboListMaloai = new JComboBox<String>();
+		
+		modelMaLoai = new DefaultComboBoxModel<String>();
+		cboListMaloai = new JComboBox<String>(modelMaLoai);
 
 		cboListMaloai.setPreferredSize(new Dimension(202, 25));
 		cboListMaloai.addItem("");
@@ -641,14 +646,14 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			loadCboMaLoai();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		loadCboNCC();
+//		try {
+//			loadCboMaLoai();
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		loadCboNCC();
 
 	}
 
@@ -716,21 +721,26 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
 					sach.getLoaiSanPham().getTenLoai() });
 		});
+		
+		loadCboMaLoai();
+		loadCboNCC();
 	}
 
 	private void loadCboMaLoai() throws SQLException {
+		modelMaLoai.removeAllElements();
 		dsLoai = loaiDAO.getDanhSachLoaiSach();
 		for (LoaiSanPham loai : dsLoai) {
 			String ma = loai.getTenLoai();
-			cboListMaloai.addItem(String.valueOf(ma));
+			modelMaLoai.addElement(String.valueOf(ma));
 		}
 	}
 
 	private void loadCboNCC() throws SQLException {
+		modelNCC.removeAllElements();
 		dsNCC = nhaCCDAO.getListNhaCungCap();
 		for (NhaCungCap ncc : dsNCC) {
 			String ma = ncc.getTenNCC();
-			cboListNCC.addItem(String.valueOf(ma));
+			modelNCC.addElement(String.valueOf(ma));
 		}
 	}
 

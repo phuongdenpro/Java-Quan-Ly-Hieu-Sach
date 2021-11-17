@@ -140,7 +140,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		pnLoaiSP.add(lblLoaiSP);
 
 		comboBoxLoai = new JComboBox();
-		comboBoxLoai.setPreferredSize(new Dimension(204, 20));
+		comboBoxLoai.setPreferredSize(new Dimension(222, 20));
 		comboBoxLoai.addItem("");
 		pnLoaiSP.add(comboBoxLoai);
 		chkLoaiSP = new JCheckBox("");
@@ -189,7 +189,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		pnNCC.add(lblNCC);
 
 		comboBoxNCC = new JComboBox();
-		comboBoxNCC.setPreferredSize(new Dimension(204, 20));
+		comboBoxNCC.setPreferredSize(new Dimension(222, 20));
 		comboBoxNCC.addItem("");
 		pnNCC.add(comboBoxNCC);
 		chkNCC = new JCheckBox("");

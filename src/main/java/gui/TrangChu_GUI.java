@@ -144,7 +144,16 @@ public class TrangChu_GUI extends JFrame {
 		dslsp = loaiSPDao.getDanhSachLoaiSanPham();
 		
 		for(int i=0; i<dslsp.size(); i++) {
-			if(dslsp.get(i).getSanPhams().size() != 0)
+//			if(dslsp.get(i).getSanPhams().size() != 0)
+			boolean flag = false;
+			LoaiSanPham loaiSanPham = dslsp.get(i);
+			ArrayList<SanPham> dsSanPham = loaiSanPham.getSanPhams();
+			for(int j=0; j<dsSanPham.size(); j++) {
+				if(dsSanPham.get(j).getSoLuong() != 0) {
+					flag = true;
+				}
+			}
+			if(flag)
 				this.categoryGUI(dslsp.get(i));
 		}
 		
