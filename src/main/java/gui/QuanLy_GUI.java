@@ -175,47 +175,51 @@ public class QuanLy_GUI extends JFrame {
 			mnHoaDon.add(mntmTimKiemHD);
 		}
 		
-		JMenu mnSanPham = new JMenu("Sản phẩm");
+		JMenu mnSanPham = new JMenu("Sách");
 		menuBar.add(mnSanPham);
+		JMenu mnSanPhamKhac = new JMenu("Sản phẩm khác");
+		menuBar.add(mnSanPhamKhac);
 		
 		if(nhanVien.getChucNang() != 1) {
 			mntmQLSach = new JMenuItem("Quản lý sách");
 			mnSanPham.add(mntmQLSach);
 	
 			mntmQLSPKhac = new JMenuItem("Quản lý dụng cụ học tập");
-			mnSanPham.add(mntmQLSPKhac);
+			mnSanPhamKhac.add(mntmQLSPKhac);
 	
 			mntmDanhMuc = new JMenuItem("Quản lý danh mục sản phẩm");
-			mnSanPham.add(mntmDanhMuc);
+			mnSanPhamKhac.add(mntmDanhMuc);
 	
 			mntmNhaCC = new JMenuItem("Quản lý nhà cung cấp");
-			mnSanPham.add(mntmNhaCC);
+			mnSanPhamKhac.add(mntmNhaCC);
 		}
 		
 		JMenuItem mntmTimKiemSach = new JMenuItem("Tìm kiếm sách");
 		mnSanPham.add(mntmTimKiemSach);
 
 		JMenuItem mntmTimKiemSPKhac = new JMenuItem("Tìm kiếm dụng cụ học tập");
-		mnSanPham.add(mntmTimKiemSPKhac);
+		mnSanPhamKhac.add(mntmTimKiemSPKhac);
 
 		JMenuItem mntmTimKiemDMSP = new JMenuItem("Tìm kiếm danh mục sản phẩm");
-		mnSanPham.add(mntmTimKiemDMSP);
+		mnSanPhamKhac.add(mntmTimKiemDMSP);
 
 		JMenuItem mntmTimKiemNCC = new JMenuItem("Tìm kiếm nhà cung cấp");
-		mnSanPham.add(mntmTimKiemNCC);
+		mnSanPhamKhac.add(mntmTimKiemNCC);
 
+		
+		
 		if(nhanVien.getChucNang() != 1) {
 			mntmThongKeSPBanChay = new JMenuItem("Thống kê sách bán chạy");
 			mnSanPham.add(mntmThongKeSPBanChay);
 	
 			mntmThongKeDCBanChay = new JMenuItem("Thống kê dụng cụ bán chạy");
-			mnSanPham.add(mntmThongKeDCBanChay);
+			mnSanPhamKhac.add(mntmThongKeDCBanChay);
 	
 			mntmThongKeSachBanHet = new JMenuItem("Thống kê sách đã hết");
 			mnSanPham.add(mntmThongKeSachBanHet);
 	
 			mntmThongKeDCBanHet = new JMenuItem("Thống kê dụng cụ đã hết");
-			mnSanPham.add(mntmThongKeDCBanHet);
+			mnSanPhamKhac.add(mntmThongKeDCBanHet);
 		}
 
 //		JMenu mnDanhMucSanPham = new JMenu("Danh mục sản phẩm");
