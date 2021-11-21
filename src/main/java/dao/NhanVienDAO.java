@@ -52,7 +52,7 @@ public class NhanVienDAO extends ConnectDB{
 	    PreparedStatement stmt = null;
 		try {
 		
-		    String sql = "SELECT * FROM dbo.NhanVien";
+		    String sql = "select * from NhanVien nv join TaiKhoan tk on nv.TaiKhoanID = tk.ID";
 		    stmt = this.conn.prepareStatement(sql);
 		    ResultSet rs = stmt.executeQuery();
 

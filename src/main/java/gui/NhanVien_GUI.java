@@ -288,7 +288,7 @@ public class NhanVien_GUI extends JFrame {
 		pnRight.add(pnTableKh, BorderLayout.CENTER);
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 		
-		String[] cols_dskh = {"Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Địa chỉ","Ca làm","chức vụ"};
+		String[] cols_dskh = {"Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Địa chỉ","Ca làm","chức vụ","Tài khoản"};
 		modelDSNV = new DefaultTableModel(cols_dskh, 0);
 		tblNhanVien = new JTable(modelDSNV);
 		JScrollPane scrTableNhanVien = new JScrollPane(tblNhanVien);
@@ -492,7 +492,8 @@ public class NhanVien_GUI extends JFrame {
 					nv.getSoDienThoai(), 
 					nv.getDiaChi(),
 					caLamViec,
-					chucNang
+					chucNang,
+					nv.getTenTk()
 			});
 		});
 		
@@ -538,7 +539,8 @@ public class NhanVien_GUI extends JFrame {
 					nv.getSoDienThoai(), 
 					nv.getDiaChi(),
 					caLamViec,
-					chucNang
+					chucNang,
+					nv.getTenTk()
 			});
 		});
 

@@ -28,7 +28,7 @@ public class KhachHangDAO extends ConnectDB{
         Statement stmt = null;
         try {
 
-            String sql = "SELECT * FROM dbo.KhachHang";
+            String sql = "select * from KhachHang kh join TaiKhoan tk on kh.TaiKhoanID = tk.ID ";
             stmt = this.conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -81,7 +81,7 @@ public class KhachHangDAO extends ConnectDB{
         PreparedStatement stmt = null;
         try {
 
-            String sql = "SELECT * FROM dbo.KhachHang where MaKH = ?";
+            String sql = "select * from KhachHang kh join TaiKhoan tk on kh.TaiKhoanID = tk.ID where MaKH = ?";
             stmt = this.conn.prepareStatement(sql);
             stmt.setInt(1, maKH);
             ResultSet rs = stmt.executeQuery();
