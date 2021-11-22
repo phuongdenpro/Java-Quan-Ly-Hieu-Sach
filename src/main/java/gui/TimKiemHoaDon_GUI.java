@@ -242,7 +242,7 @@ public class TimKiemHoaDon_GUI extends JFrame {
 				hd.getKhachHang().getHoTen(), 
 				hd.getKhachHang().getSoDienThoai(),
 				hd.getKhachHang().getDiaChi(),
-				new Currency(hd.tinhTongTien()).toString(),
+				Currency.format(hd.tinhTongTien()).toString(),
 				hd.getNgayMua()
 			});
 		});

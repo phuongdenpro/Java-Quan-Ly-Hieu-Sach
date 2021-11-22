@@ -15,9 +15,12 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import dao.DonDatHangDAO;
+import dao.HoaDonDAO;
 import dao.NhanVienDAO;
 import entity.DonDatHang;
+import entity.HoaDon;
 import entity.NhanVien;
+import jdk.internal.vm.annotation.Contended;
 
 import javax.swing.border.EtchedBorder;
 
@@ -41,6 +44,8 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 	private JComboBox comboBox;
 	
 	private boolean isTimKiem = false;
+
+	private JButton btnSuaDDH;
 	
 	public DatHang_GUI() throws SQLException{
 		this.nhanVien = new NhanVienDAO().getNhanVienByMaNV(1);
@@ -106,7 +111,7 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 		modelDSSP = new DefaultTableModel(colsDSSP, 0);
 		tblDSSP = new JTable(modelDSSP);
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
-		scrollPane.setBounds(10, 367, 1254, 200);
+		scrollPane.setBounds(10, 375, 1254, 200);
 		panel_1.add(scrollPane);
 		
 //		DefaultCom
@@ -148,6 +153,12 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 		btnXoa.setIcon(new ImageIcon("data/images/cancel_16.png"));
 		panel_1.add(btnXoa);
 		
+		btnSuaDDH = new JButton("Sửa đơn đặt hàng");
+		btnSuaDDH.setBackground(Color.WHITE);
+		btnSuaDDH.setBounds(927, 29, 179, 25);
+		btnSuaDDH.setIcon(new ImageIcon("data/images/edit2_16.png"));
+		panel_1.add(btnSuaDDH);
+		
 		pnMain.addMouseListener(this);
 
 		try {
@@ -176,9 +187,22 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 				
 				if(dsddh.get(id).getTinhTrang() == 2)return ;
 				
+				int choose = JOptionPane.showConfirmDialog(pnMain, "Chắc chắn muốn thanh toán ?");
+				if(choose != 0)
+					return;
+				
 				try {
 					if(new DonDatHangDAO().thanhToan(dsddh.get(id).getMaDDH(), nhanVien)) {
-						JOptionPane.showMessageDialog(pnMain, "Thanh toán thành công");
+						int choose2 = JOptionPane.showConfirmDialog(pnMain, "Thanh toán thành công, bạn có muốn xuất hóa đơn không ?");
+						if(choose2 == 0) {
+							int maHD = new HoaDonDAO().getLastestMaHD();
+							HoaDon hd = new HoaDonDAO().getHD(maHD);
+							XuatHoaDon_GUI xuaHoaDonGUI = new XuatHoaDon_GUI();
+							xuaHoaDonGUI.setHoaDon(hd);
+							xuaHoaDonGUI.setVisible(true);
+							xuaHoaDonGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+						}
+						
 						if(isTimKiem) {
 							String key = "maDDH";
 							if(comboBox.getSelectedIndex() == 1) {
@@ -275,6 +299,34 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		});
+		
+		btnSuaDDH.addActionListener(e -> {
+			int idx = tableDonDat.getSelectedRow();
+			if(idx == -1) {
+				JOptionPane.showMessageDialog(pnMain, "Vui lòng chọn hóa đơn để sửa");
+				return;
+			}
+			
+			DonDatHang ddh = dsddh.get(idx);
+			if(ddh.getTinhTrang() == 2) {
+				JOptionPane.showMessageDialog(pnMain, "Đơn đặt hàng đã được thanh toán không thể sửa");
+				return;
+			}
+			
+			try {
+				ThemDonDatHang_GUI themDDHGUI = new ThemDonDatHang_GUI();
+				themDDHGUI.setDDH(ddh);
+				themDDHGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				themDDHGUI.setVisible(true);
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			
+			
+			
 		});
 	}
 	

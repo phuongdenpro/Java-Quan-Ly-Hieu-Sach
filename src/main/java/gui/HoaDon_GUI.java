@@ -26,7 +26,7 @@ import util.Currency;
 import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
-public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener {
+public class HoaDon_GUI extends JFrame{
 	private DefaultTableModel modelHD;
 	String[] colsHD = { "Mã hoá đơn", "Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ","Tổng tiền", "Ngày lập"};
 	public JPanel pnMain;
@@ -52,6 +52,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 	private JTextField txtTenKH;
 	private JTextField txtTimKiem;
 	private boolean isTimKiem = false;
+	private JButton btnXuatHoaDon;
 
 	public HoaDon_GUI() throws SQLException {
 		
@@ -150,10 +151,15 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		txtTongTien.setColumns(10);
 		
 		btnXoa = new JButton("Xóa");
-		btnXoa.setBounds(10, 247, 317, 35);
+		btnXoa.setBounds(10, 247, 154, 35);
 		pn.add(btnXoa);
 		btnXoa.setIcon(new ImageIcon("data/images/cancel_16.png"));
 		btnXoa.setBackground(Color.WHITE);
+		
+		btnXuatHoaDon = new JButton("Xuất hóa đơn");
+		btnXuatHoaDon.setBackground(Color.WHITE);
+		btnXuatHoaDon.setBounds(174, 247, 154, 35);
+		pn.add(btnXuatHoaDon);
 		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(
@@ -231,9 +237,6 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		btnLamMoi.setBackground(Color.WHITE);
 		btnLamMoi.setBounds(410, 29, 165, 25);
 		panel_1.add(btnLamMoi);
-		btnTimKiem.addActionListener(this);
-		tableHD.addMouseListener(this);
-		pnMain.addMouseListener(this);
 
 		renderData();
 		
@@ -272,59 +275,68 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		
 		btnXoa.addActionListener((e) -> {
 			int idx = tableHD.getSelectedRow();
-			if(idx != -1) {
-				int choose = JOptionPane.showConfirmDialog(pnMain, "Chắc chắn xóa ?");
-				if(choose == 0) {
-					try {
-						if(new HoaDonDAO().xoaHD(dshd.get(idx).getMaHD())) {
-							JOptionPane.showMessageDialog(pnMain, "Xóa thành công");
-							if(isTimKiem) {
-								String key = "maHD";
-								if(cboTimKiem.getSelectedIndex() == 1) {
-									key = "KhachHang.maKH";
-								}else if(cboTimKiem.getSelectedIndex() == 2) {
-									key = "KhachHang.HoTen";
-								}else if(cboTimKiem.getSelectedIndex() == 3) {
-									key = "KhachHang.soDienThoai";
-								}
-								
-								dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(key, txtTimKiem.getText());
-								renderDataTimKiem();
-							}else 
-								renderData();
-						}else {
-							JOptionPane.showMessageDialog(pnMain, "Xóa thất bại");
-						}
-					} catch (HeadlessException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+			if(idx == -1) {
+				JOptionPane.showMessageDialog(pnMain, "Vui lòng chọn hóa đơn để xóa");
+				return;
+			}
+			int choose = JOptionPane.showConfirmDialog(pnMain, "Chắc chắn xóa ?");
+			if(choose == 0) {
+				try {
+					if(new HoaDonDAO().xoaHD(dshd.get(idx).getMaHD())) {
+						JOptionPane.showMessageDialog(pnMain, "Xóa thành công");
+						clear();
+						
+						if(isTimKiem) {
+							String key = "maHD";
+							if(cboTimKiem.getSelectedIndex() == 1) {
+								key = "KhachHang.maKH";
+							}else if(cboTimKiem.getSelectedIndex() == 2) {
+								key = "KhachHang.HoTen";
+							}else if(cboTimKiem.getSelectedIndex() == 3) {
+								key = "KhachHang.soDienThoai";
+							}
+							
+							dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(key, txtTimKiem.getText());
+							renderDataTimKiem();
+						}else 
+							renderData();
+					}else {
+						JOptionPane.showMessageDialog(pnMain, "Xóa thất bại");
 					}
+				} catch (HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
+			
 		});
 		
 		btnLamMoi.addActionListener((e) -> {
 			try {
 				isTimKiem  = false;
 				
-				txtMaHD.setText("");
-				txtMaKH.setText("");
-				txtTenKH.setText("");
-				txtSdt.setText("");
-				txtDiaChi.setText("");
-				txtTongTien.setText("0");
+				clear();
 				
 				renderData();
-				tblDSSP.clearSelection();
-				modelDSSP.getDataVector().removeAllElements();
-				tblDSSP.revalidate();
-				tblDSSP.repaint();
 				
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
+		});
+		
+		btnXuatHoaDon.addActionListener((e) -> {
+			int idx = tableHD.getSelectedRow();
+			if(idx == -1) {
+				JOptionPane.showMessageDialog(pnMain, "Vui lòng chọn hóa đơn để xuất");
+				return;
+			}
+			
+			XuatHoaDon_GUI xuaHoaDonGUI = new XuatHoaDon_GUI();
+			xuaHoaDonGUI.setHoaDon(dshd.get(idx));
+			xuaHoaDonGUI.setVisible(true);
+			xuaHoaDonGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		});
 
 	}
@@ -341,7 +353,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 				hd.getKhachHang().getHoTen(), 
 				hd.getKhachHang().getSoDienThoai(),
 				hd.getKhachHang().getDiaChi(),
-				new Currency(hd.tinhTongTien()).toString(),
+				Currency.format(hd.tinhTongTien()),
 				hd.getNgayMua2()
 			});
 		});
@@ -355,7 +367,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 		txtTenKH.setText(hd.getKhachHang().getHoTen());
 		txtSdt.setText(hd.getKhachHang().getSoDienThoai());
 		txtDiaChi.setText(hd.getKhachHang().getDiaChi());
-		txtTongTien.setText(new Currency(hd.tinhTongTien()).toString());
+		txtTongTien.setText(Currency.format(hd.tinhTongTien()));
 		
 		tblDSSP.clearSelection();
 		modelDSSP.getDataVector().removeAllElements();
@@ -365,7 +377,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 				cthd.getSanPham().getTenSp(),
 				cthd.getDonGia(),
 				cthd.getSoLuong(),
-				new Currency(cthd.tinhThanhTien()).toString()
+				Currency.format(cthd.tinhThanhTien())
 			});
 		});
 		tblDSSP.revalidate();
@@ -384,7 +396,7 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 					hd.getKhachHang().getHoTen(), 
 					hd.getKhachHang().getSoDienThoai(),
 					hd.getKhachHang().getDiaChi(),
-					new Currency(hd.tinhTongTien()).toString(),
+					Currency.format(hd.tinhTongTien()),
 					hd.getNgayMua2()
 				});
 		});
@@ -396,38 +408,26 @@ public class HoaDon_GUI extends JFrame implements ActionListener, MouseListener 
 	public JPanel getContentPane() {
 		return this.pnMain;
 	}
+	
+	public void clear() {
+		tableHD.clearSelection();
+		tblDSSP.clearSelection();
+		modelDSSP.getDataVector().removeAllElements();
+		tblDSSP.revalidate();
+		tblDSSP.repaint();
+		
+		txtMaHD.setText("");
+		txtMaKH.setText("");
+		txtTenKH.setText("");
+		txtSdt.setText("");
+		txtDiaChi.setText("");
+		txtTongTien.setText("");
+		
+		
+	}
 
 	public static void main(String[] args) throws SQLException {
 		new HoaDon_GUI().setVisible(true);
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}	
 }

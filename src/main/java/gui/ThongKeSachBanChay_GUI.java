@@ -240,7 +240,7 @@ public class ThongKeSachBanChay_GUI extends JFrame {
 				sp.getSoTrang(),
 				sp.getNamXuatBan(),
 				sp.getNhaCungCap().getTenNCC(),
-				new Currency(sp.getGiaSp()).toString(),
+				Currency.format(sp.getGiaSp()).toString(),
 				soLuongDaBan
 			});
 			soLuongSP += soLuongDaBan; 
@@ -278,7 +278,7 @@ public class ThongKeSachBanChay_GUI extends JFrame {
 				sp.getSoTrang(),
 				sp.getNamXuatBan(),
 				sp.getNhaCungCap().getTenNCC(),
-				new Currency(sp.getGiaSp()).toString(),
+				Currency.format(sp.getGiaSp()).toString(),
 				soLuongDaBan
 			});
 			soLuongSP += soLuongDaBan;

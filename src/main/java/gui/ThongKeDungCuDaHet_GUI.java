@@ -106,7 +106,7 @@ public class ThongKeDungCuDaHet_GUI extends JFrame {
 					sp.getTenSp(),
 					sp.getLoaiSanPham().getTenLoai(),
 					sp.getNhaCungCap().getTenNCC(),
-					new Currency(sp.getGiaSp()).toString()
+					Currency.format(sp.getGiaSp()).toString()
 			});
 		});
 		lblSoLuongHet.setText(String.valueOf(dssp.size()));

@@ -9,12 +9,6 @@ import gui.QuanLy_GUI;
 public class Main{
 	
 	public static void main(String[] args) throws SQLException {
-//		QuanLy_GUI quanLyHieuSach = new QuanLy_GUI();
-//		KhachHangDAO khachHangDao = new KhachHangDAO();
-//		khachHangDao.getListKhachHang();
-		
-//		Date today = new Date;
-//		System.out.println(today);
-//		
+		QuanLy_GUI quanLyHieuSach = new QuanLy_GUI();
 	}
 }

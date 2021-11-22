@@ -232,7 +232,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 				sp.getMaSp(),
 				sp.getTenSp(),
 				sp.getNhaCungCap().getTenNCC(),
-				new Currency(sp.getGiaSp()).toString(),
+				Currency.format(sp.getGiaSp()).toString(),
 				soLuongDaBan
 			});
 			soLuongSP += soLuongDaBan;
@@ -267,7 +267,7 @@ public class ThongKeDungCuBanChay_GUI extends JFrame {
 				sp.getMaSp(),
 				sp.getTenSp(),
 				sp.getNhaCungCap().getTenNCC(),
-				new Currency(sp.getGiaSp()).toString(),
+				Currency.format(sp.getGiaSp()).toString(),
 				soLuongDaBan
 			});
 			soLuongSP += soLuongDaBan;

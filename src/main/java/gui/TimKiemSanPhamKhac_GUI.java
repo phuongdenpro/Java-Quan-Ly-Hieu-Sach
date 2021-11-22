@@ -339,8 +339,8 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 
 		dsssp.forEach(sp -> {
 			modelSanPhamKhac.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
-					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+					sp.getSoLuong(), Currency.format((int) sp.getGiaNhap()).toString(),
+					Currency.format((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -351,8 +351,8 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 
 		dssptim.forEach(sp -> {
 			modelSanPhamKhac.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
-					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+					sp.getSoLuong(), Currency.format((int) sp.getGiaNhap()).toString(),
+					Currency.format((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
 
 		tblKetQua.revalidate();

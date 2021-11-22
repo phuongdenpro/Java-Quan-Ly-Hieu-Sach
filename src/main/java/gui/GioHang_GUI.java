@@ -310,7 +310,7 @@ public class GioHang_GUI extends JFrame {
 					pnItems.add(this.itemGUI(chiTiet));
 					tongTien.set(tongTien.get() + chiTiet.getSoLuong()*chiTiet.getDonGia());
 				});
-				txtTongTien.setText(new Currency(tongTien.get()).toString());
+				txtTongTien.setText(Currency.format(tongTien.get()));
 			}else {
 				btnDatHang.setEnabled(false);
 				pnItems.add(new JLabel("Không có sản phẩm nào trong giỏ hàng"));
@@ -419,7 +419,7 @@ public class GioHang_GUI extends JFrame {
 		lblDonGia.setBackground(Color.WHITE);
 		pnDonGia.add(lblDonGia);
 		
-		JLabel donGia = new JLabel(new Currency(chiTietDDH.getDonGia()).toString());
+		JLabel donGia = new JLabel(Currency.format(chiTietDDH.getDonGia()));
 //		lblTongTien.setForeground(new Color(0, 206, 209));
 		donGia.setBackground(Color.WHITE);
 		pnDonGia.add(donGia);
@@ -447,7 +447,7 @@ public class GioHang_GUI extends JFrame {
 		lblNewLabel_4.setBackground(Color.WHITE);
 		panel_4.add(lblNewLabel_4);
 		
-		JLabel lblTongTien = new JLabel(new Currency(chiTietDDH.getDonGia()*chiTietDDH.getSoLuong()).toString());
+		JLabel lblTongTien = new JLabel(Currency.format(chiTietDDH.getDonGia()*chiTietDDH.getSoLuong()));
 		lblTongTien.setForeground(new Color(0, 206, 209));
 		lblTongTien.setBackground(Color.WHITE);
 		panel_4.add(lblTongTien);

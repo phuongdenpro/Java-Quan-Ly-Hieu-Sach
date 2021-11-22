@@ -464,7 +464,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 						if (result) {
 							modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
 									sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
-									new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+									Currency.format((int) sach.getGiaNhap()), Currency.format((int) sach.getGiaSp()),
 									sach.getLoaiSanPham().getTenLoai() });
 
 						} else {
@@ -501,8 +501,8 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 							modelDSSach.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 4);
 							modelDSSach.setValueAt(sp.getNamXuatBan(), row, 5);
 							modelDSSach.setValueAt(sp.getSoLuong(), row, 6);
-							modelDSSach.setValueAt(new Currency((int) sp.getGiaNhap()).toString(), row, 7);
-							modelDSSach.setValueAt(new Currency((int) sp.getGiaSp()).toString(), row, 8);
+							modelDSSach.setValueAt(Currency.format((int) sp.getGiaNhap()), row, 7);
+							modelDSSach.setValueAt(Currency.format((int) sp.getGiaSp()), row, 8);
 							modelDSSach.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 9);
 							JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
 							modelDSSach.fireTableDataChanged();
@@ -718,7 +718,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		dssach.forEach(sach -> {
 			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
 					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
-					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					Currency.format((int) sach.getGiaNhap()), Currency.format((int) sach.getGiaSp()),
 					sach.getLoaiSanPham().getTenLoai() });
 		});
 		
@@ -848,7 +848,7 @@ public class Sach_GUI extends JFrame implements ActionListener, MouseListener {
 		dssachtim.forEach(sach -> {
 			modelDSSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
 					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
-					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					Currency.format((int) sach.getGiaNhap()), Currency.format((int) sach.getGiaSp()),
 					sach.getLoaiSanPham().getTenLoai() });
 		});
 

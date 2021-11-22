@@ -24,7 +24,6 @@ public class MuaHang extends JFrame{
 	private boolean isPrimary = false;
 	public TrangChu_GUI trangChuGUI = new TrangChu_GUI();;
 	public GioHang_GUI gioHangGUI = new GioHang_GUI();
-	private TimKiemTrangMuaHang_GUI timKiemGUI = new TimKiemTrangMuaHang_GUI();
 //	private QuanLy_GUI quanLyGUI = new QuanLy_GUI();
 	private TroGiup_GUI troGiupGUI = new TroGiup_GUI();
 	
@@ -39,7 +38,6 @@ public class MuaHang extends JFrame{
 		this.khachHang = new KhachHangDAO().getKhachHang(1);
 		trangChuGUI.setKhachHang(khachHang);
 		gioHangGUI.setKhachHang(khachHang);
-		timKiemGUI.setKhachHang(khachHang);
 		renderGUI();
 	}
 	
@@ -47,7 +45,6 @@ public class MuaHang extends JFrame{
 		this.khachHang = khachHang;
 		trangChuGUI = new TrangChu_GUI(khachHang);
 		gioHangGUI = new GioHang_GUI(khachHang);
-		timKiemGUI.setKhachHang(khachHang);
 		renderGUI();
 	}
 	
@@ -55,7 +52,6 @@ public class MuaHang extends JFrame{
 		this.khachHang = khachHang;
 		trangChuGUI = new TrangChu_GUI(khachHang);
 		gioHangGUI = new GioHang_GUI(khachHang);
-		timKiemGUI.setKhachHang(khachHang);
 		renderGUI();
 		this.isPrimary = isPrimary;
 		if(isPrimary) {
@@ -126,23 +122,7 @@ public class MuaHang extends JFrame{
 					System.exit(0);
 			}
 		});
-		trangChuGUI.btnTimKiem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					timKiemGUI.renderData(trangChuGUI.txtTimKiem.getText());
-					if(timKiemGUI.dssp.size() == 0) {
-						JOptionPane.showMessageDialog(contentPane, "Không tìm thấy sản phẩm phù hợp");
-						return;
-					}
-					timKiemGUI.setVisible(true);
-					timKiemGUI.setLocationRelativeTo(contentPane);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
+		
 		
 		trangChuGUI.lblHelp.addMouseListener(new MouseListener() {
 
@@ -258,7 +238,6 @@ public class MuaHang extends JFrame{
 		this.khachHang = khachHang;
 		trangChuGUI.setKhachHang(khachHang);
 		gioHangGUI.setKhachHang(khachHang);
-		timKiemGUI.setKhachHang(khachHang);
 	}
 
 	public boolean isPrimary() {

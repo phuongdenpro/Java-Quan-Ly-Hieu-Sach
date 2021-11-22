@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import util.Ngay;
+
 public class DonDatHang {
 	private int maDDH;
 	private double tongTien;
@@ -22,6 +24,16 @@ public class DonDatHang {
 		this.tinhTrang = tinhTrang;
 		this.khachHang = khachHang;
 		this.chiTietDonDatHangs = chiTietDonDatHangs;
+	}
+	
+	public DonDatHang(KhachHang khachHang,
+			ArrayList<ChiTietDonDatHang> chiTietDonDatHangs) {
+		super();
+		this.ngayDat = Ngay.homNay();
+		this.tinhTrang = 0;
+		this.khachHang = khachHang;
+		this.chiTietDonDatHangs = chiTietDonDatHangs;
+		this.tongTien = tinhTongTien();
 	}
 	
 	public DonDatHang(ResultSet rs) throws SQLException {

@@ -62,7 +62,6 @@ public class TrangChu_GUI extends JFrame {
 	private KhachHang khachHang = null;
 	
 	private JPanel contentPane;
-	public JTextField txtTimKiem;
 	private JTextField textField_1;
 	private Container panelContent;
 
@@ -71,7 +70,6 @@ public class TrangChu_GUI extends JFrame {
 	public JMenuItem mntmGioHang;
 	public JMenuItem mntmDangXuat;
 	public JLabel lblHelp;
-	public JButton btnTimKiem;
 	
 	private LoaiSanPhamDAO loaiSPDao;
 	private ArrayList<LoaiSanPham> dslsp = new ArrayList<LoaiSanPham>();
@@ -180,15 +178,6 @@ public class TrangChu_GUI extends JFrame {
 		pnTimKiem.setBackground(new Color(255, 255, 255));
 		panelHeader.add(pnTimKiem);
 		pnTimKiem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		txtTimKiem = new JTextField();
-		pnTimKiem.add(txtTimKiem);
-		txtTimKiem.setColumns(20);
-		
-		btnTimKiem = new JButton("T\u00ECm ki\u1EBFm", new ImageIcon("data/images/search_16.png"));
-		btnTimKiem.setBackground(Color.WHITE);
-		btnTimKiem.setPreferredSize(new Dimension(150, 19));
-		pnTimKiem.add(btnTimKiem);
 		
 		
 		
@@ -307,7 +296,7 @@ public class TrangChu_GUI extends JFrame {
 		lbTenSanPham.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
 		pnInfo.add(lbTenSanPham);
 		
-		JLabel lbGia = new JLabel(new Currency(sanPham.getGiaSp()).toString());
+		JLabel lbGia = new JLabel(Currency.format(sanPham.getGiaSp()).toString());
 		pnInfo.add(lbGia);
 		
 		JLabel lbSoLuong = new JLabel("Số lượng: " + sanPham.getSoLuong());

@@ -98,6 +98,44 @@ public class DonDatHangDAO extends ConnectDB{
         return false;
     }
     
+//    nv
+
+    
+    public int taoDDH(DonDatHang ddh) {
+    	PreparedStatement stmt = null;
+        try {
+
+            String sql = "INSERT INTO dbo.DonDatHang (maKH, tongTien, tinhTrang) values(?, ?, 0)";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, ddh.getKhachHang().getMaKh());
+            stmt.setDouble(2, ddh.getTongTien());
+            int n = stmt.executeUpdate();
+            
+            if(n == 0)return -1;
+            ddh.setMaDDH(getID());
+            ddh.getChiTietDonDatHangs().forEach(ctddh -> {
+            	try {
+					new ChiTietDonDatHangDAO().themSanPhamVaoDonDatHang(ddh.getMaDDH(), ctddh.getSanPham(), ctddh.getSoLuong());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+            });
+            
+           
+            
+            return ddh.getMaDDH();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+    
     public DonDatHang getDonDatHang(int maKH) {
     	PreparedStatement stmt = null;
 
@@ -375,6 +413,68 @@ public class DonDatHangDAO extends ConnectDB{
     	return dsddh;
     }
     
+    public DonDatHang getDonDatHangChuaThanhToan(int maKH) {
+    	PreparedStatement stmt = null;
+
+        try {
+        	
+
+            String sql = "SELECT * FROM dbo.DonDatHang where maKH = ? and tinhTrang != 2";
+            stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, maKH);
+            ResultSet rsDDH = stmt.executeQuery();
+            
+//          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
+            if(!rsDDH.next()) {
+            	return null;
+            }
+//            printResultSet(rsDDH);
+            DonDatHang ddh = new DonDatHang(rsDDH);
+            
+            ddh.setChiTietDonDatHangs(new ChiTietDonDatHangDAO().getDSChiTietDDH(rsDDH.getInt("maDDH")));
+            
+            return ddh;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return null;
+    }
+    
+    public int getID() {
+    	PreparedStatement stmt = null;
+
+        try {
+        	
+
+            String sql = "SELECT top 1 maDDH FROM dbo.DonDatHang order by maDDH desc";
+            stmt = this.conn.prepareStatement(sql);
+            ResultSet rsDDH = stmt.executeQuery();
+            
+//          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
+            if(!rsDDH.next()) {
+            	return 1;
+            }
+//          
+            return rsDDH.getInt("maDDH");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    	
+    	return -1;
+    }
     
     
     public String getError() {

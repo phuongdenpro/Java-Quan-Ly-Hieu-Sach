@@ -421,7 +421,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		dssach.forEach(sach -> {
 			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
 					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
-					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					Currency.format((int) sach.getGiaNhap()).toString(), Currency.format((int) sach.getGiaSp()).toString(),
 					sach.getLoaiSanPham().getTenLoai() });
 		});
 	}
@@ -434,7 +434,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		dssachtim.forEach(sach -> {
 			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
 					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
-					new Currency((int) sach.getGiaNhap()).toString(), new Currency((int) sach.getGiaSp()).toString(),
+					Currency.format((int) sach.getGiaNhap()).toString(), Currency.format((int) sach.getGiaSp()).toString(),
 					sach.getLoaiSanPham().getTenLoai() });
 		});
 

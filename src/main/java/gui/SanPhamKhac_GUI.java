@@ -399,8 +399,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 						if (result) {
 							modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(),
 									sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(),
-									new Currency((int) sp.getGiaNhap()).toString(),
-									new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+									Currency.format((int) sp.getGiaNhap()),
+									Currency.format((int) sp.getGiaSp()), sp.getLoaiSanPham().getTenLoai() });
 							JOptionPane.showMessageDialog(out, "Thêm thành công");
 
 						} else {
@@ -435,8 +435,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 							modelDSSanPham.setValueAt(sp.getTenSp(), row, 1);
 							modelDSSanPham.setValueAt(sp.getNhaCungCap().getTenNCC(), row, 2);
 							modelDSSanPham.setValueAt(sp.getSoLuong(), row, 3);
-							modelDSSanPham.setValueAt(new Currency((int) sp.getGiaNhap()).toString(), row, 4);
-							modelDSSanPham.setValueAt(new Currency((int) sp.getGiaSp()).toString(), row, 5);
+							modelDSSanPham.setValueAt(Currency.format((int) sp.getGiaNhap()), row, 4);
+							modelDSSanPham.setValueAt(Currency.format((int) sp.getGiaSp()), row, 5);
 							modelDSSanPham.setValueAt(sp.getLoaiSanPham().getTenLoai(), row, 6);
 							JOptionPane.showMessageDialog(out, "Cập nhập sản phẩm thành công");
 							modelDSSanPham.fireTableDataChanged();
@@ -675,8 +675,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 		dsssp.forEach(sp -> {
 			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
-					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+					sp.getSoLuong(), Currency.format((int) sp.getGiaNhap()),
+					Currency.format((int) sp.getGiaSp()), sp.getLoaiSanPham().getTenLoai() });
 		});
 		
 		loadCboMaLoai();
@@ -690,8 +690,8 @@ public class SanPhamKhac_GUI extends JFrame implements ActionListener, MouseList
 
 		dssptim.forEach(sp -> {
 			modelDSSanPham.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), new Currency((int) sp.getGiaNhap()).toString(),
-					new Currency((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+					sp.getSoLuong(), Currency.format((int) sp.getGiaNhap()),
+					Currency.format((int) sp.getGiaSp()), sp.getLoaiSanPham().getTenLoai() });
 		});
 
 		table.revalidate();

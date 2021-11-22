@@ -289,14 +289,14 @@ public class ThongKeMucDoMuaHang_GUI extends JFrame {
 				kh.getSoDienThoai(),
 				kh.getDiaChi(),
 				mp.get("soLanMuaHang"),
-				new Currency(mp.get("tongTien")).toString(),
+				Currency.format(mp.get("tongTien")).toString(),
 			});
 			stt.set(stt.get()+1);
 			tongSoLanMua += mp.get("soLanMuaHang");
 			tongSoTien += mp.get("tongTien");
 		});
 		lblTongSo.setText(String.valueOf(tongSoLanMua));
-		lblTongSoTien.setText(new Currency(tongSoTien).toString());
+		lblTongSoTien.setText(Currency.format(tongSoTien).toString());
 		table.revalidate();
 		table.repaint();
 	}
@@ -319,14 +319,14 @@ public class ThongKeMucDoMuaHang_GUI extends JFrame {
 				kh.getSoDienThoai(),
 				kh.getDiaChi(),
 				mp.get("soLanMuaHang"),
-				new Currency(mp.get("tongTien")).toString(),
+				Currency.format(mp.get("tongTien")).toString(),
 			});
 			stt.set(stt.get()+1);
 			tongSoLanMua += mp.get("soLanMuaHang");
 			tongSoTien += mp.get("tongTien");
 		});
 		lblTongSo.setText(String.valueOf(tongSoLanMua));
-		lblTongSoTien.setText(new Currency(tongSoTien).toString());
+		lblTongSoTien.setText(Currency.format(tongSoTien).toString());
 		table.revalidate();
 		table.repaint();
 	}

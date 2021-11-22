@@ -41,6 +41,8 @@ public class ChiTietDonDatHangDAO extends ConnectDB{
         return false;
 	}
 	
+	
+	
 	public boolean xoaChiTietDonDatHang(int maSP, int maDDH) {
 		PreparedStatement stmt = null;
         try {
@@ -113,5 +115,33 @@ public class ChiTietDonDatHangDAO extends ConnectDB{
         }
         return dsDDH;
 	}
+	
+    public boolean themSanPhamVaoDonDatHang(int maDDH, SanPham sp, int soLuong) {
+        PreparedStatement stmt = null;
+
+        try {
+        	
+
+//          kiểm tra xem đã có sản phẩm đó trong đơn đặt hàng chưa
+        	String sql = "UPDATE dbo.ChiTietDonDatHang SET SoLuong = ? WHERE maDDH = ? and MaSP = ?";
+        	PreparedStatement prpStmt = this.conn.prepareStatement(sql);
+        	prpStmt.setInt(1, soLuong);
+        	prpStmt.setInt(2, maDDH);
+        	prpStmt.setInt(3, sp.getMaSp());
+            int n = prpStmt.executeUpdate();
+            
+            if(n == 0) { // chưa có sản phẩm đó trong đơn đặt hàng
+            	ChiTietDonDatHangDAO chiTietDDHDao = new ChiTietDonDatHangDAO();
+            	return chiTietDDHDao.themChiTietDonDatHang(sp, maDDH, soLuong);
+            }
+            return n > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            
+        }
+    	
+    	return false;
+    }
 
 }

@@ -104,6 +104,32 @@ public class HoaDonDAO extends ConnectDB{
 		return false;
 	}
 	
+	public HoaDon getHD(int maHD) {
+        int id = 0;
+        Statement stmt = null;
+        try {
+            String sql = "SELECT * FROM dbo.HoaDon where maHD = "+maHD;
+            stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            ResultSet rs = stmt.executeQuery(sql);
+            if(!rs.next())
+            	return null;
+            
+            HoaDon hd = new HoaDon(rs);
+        	hd.setChiTietHoaDons(new ChiTietHoaDonDAO().getDSChiTietHD(hd.getMaHD()));
+            return hd;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+	}
+	
 	public int getLastestMaHD() {
         int id = 0;
         Statement stmt = null;

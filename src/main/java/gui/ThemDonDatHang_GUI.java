@@ -34,10 +34,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import dao.ChiTietDonDatHangDAO;
+import dao.DonDatHangDAO;
 import dao.HoaDonDAO;
 import dao.KhachHangDAO;
 import dao.NhanVienDAO;
 import dao.SanPhamDAO;
+import entity.ChiTietDonDatHang;
 import entity.ChiTietHoaDon;
 import entity.DonDatHang;
 import entity.HoaDon;
@@ -51,7 +54,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import javax.swing.ScrollPaneConstants;
 
-public class TaoHoaDon_GUI extends JFrame {
+public class ThemDonDatHang_GUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtMaKH;
@@ -71,15 +74,21 @@ public class TaoHoaDon_GUI extends JFrame {
 	private JTable tblSach;
 	private JTable tblSPK;
 	
-	private NhanVien nhanVien = new NhanVienDAO().getNhanVienByMaNV(1);
 	private ArrayList<KhachHang> dskh;
 	private ArrayList<SanPham> dsSach;
 	private ArrayList<SanPham> dsSPKhac;
-	private ArrayList<ChiTietHoaDon> dscthd = new ArrayList<ChiTietHoaDon>();
+	private ArrayList<ChiTietDonDatHang> dsctddh = new ArrayList<ChiTietDonDatHang>();
 	private JTextField txtSoLuong;
 	private JButton btnThemHD; 
 	private JTextField txtTongTien;
 	private JTable tblSPTGH;
+	private int indexKH = -1;
+	private JButton btnSua;
+	private JButton btnLamMoi;
+	private JTextField txtMaDDH;
+	
+	private boolean onlyEdit;
+	private DonDatHang _ddh;
 
 	/**
 	 * Launch the application.
@@ -88,7 +97,7 @@ public class TaoHoaDon_GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TaoHoaDon_GUI frame = new TaoHoaDon_GUI();
+					ThemDonDatHang_GUI frame = new ThemDonDatHang_GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -101,12 +110,7 @@ public class TaoHoaDon_GUI extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public TaoHoaDon_GUI() throws SQLException {
-		GUI();
-	}
-	
-	public TaoHoaDon_GUI(NhanVien nhanVien) throws SQLException {
-		this.nhanVien = nhanVien;
+	public ThemDonDatHang_GUI() throws SQLException {
 		GUI();
 	}
 			
@@ -133,13 +137,28 @@ public class TaoHoaDon_GUI extends JFrame {
 		pnTTKH.setBorder(new EmptyBorder(40, 0, 0, 0));
 		pnThongTinKH2.add(pnTTKH, BorderLayout.NORTH);
 		
-		JLabel lblTTKH = new JLabel("Thông tin khách hàng");
+		JLabel lblTTKH = new JLabel("Thông tin đơn đặt hàng");
 		lblTTKH.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		pnTTKH.add(lblTTKH);
 		
 		JPanel pnThongTin = new JPanel();
 		pnThongTinKH2.add(pnThongTin, BorderLayout.CENTER);
 		pnThongTin.setLayout(new BoxLayout(pnThongTin, BoxLayout.Y_AXIS));
+		
+		JPanel pnMaKH_1 = new JPanel();
+		FlowLayout flowLayout_4 = (FlowLayout) pnMaKH_1.getLayout();
+		flowLayout_4.setAlignment(FlowLayout.LEFT);
+		pnThongTin.add(pnMaKH_1);
+		
+		JLabel lblMaDDH = new JLabel("Mã khách hàng");
+		lblMaDDH.setPreferredSize(new Dimension(100, 20));
+		pnMaKH_1.add(lblMaDDH);
+		
+		txtMaDDH = new JTextField();
+		txtMaDDH.setPreferredSize(new Dimension(7, 30));
+		txtMaDDH.setEditable(false);
+		txtMaDDH.setColumns(20);
+		pnMaKH_1.add(txtMaDDH);
 		
 		JPanel pnMaKH = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) pnMaKH.getLayout();
@@ -216,9 +235,17 @@ public class TaoHoaDon_GUI extends JFrame {
 		JPanel pnBtn = new JPanel();
 		pnThongTin.add(pnBtn);
 		
-		btnThemHD = new JButton("Thêm hóa đơn", new ImageIcon("data/images/blueAdd_16.png"));
+		btnThemHD = new JButton("Thêm đơn đặt", new ImageIcon("data/images/blueAdd_16.png"));
 		btnThemHD.setBackground(Color.WHITE);
 		pnBtn.add(btnThemHD);
+		
+		btnSua = new JButton("Sửa đơn đặt hàng", null);
+		btnSua.setBackground(Color.WHITE);
+		pnBtn.add(btnSua);
+		
+		btnLamMoi = new JButton("Làm mới", null);
+		btnLamMoi.setBackground(Color.WHITE);
+		pnBtn.add(btnLamMoi);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1);
@@ -330,22 +357,61 @@ public class TaoHoaDon_GUI extends JFrame {
 		renderData();
 		
 		cboKH.addActionListener((e) -> {
+			
 			int idx = cboKH.getSelectedIndex();
 			if(idx != -1) {
 				idx--;
+				
+				
 				if(idx == -1) {
 					txtMaKH.setText("");
 					txtSDT.setText("");
 					txtDiaChi.setText("");
+					indexKH = -1;
 					return;
 				}
+				
+				DonDatHang ddh = null;
+				if(indexKH != idx) {
+					
+					try {
+						ddh = new DonDatHangDAO().getDonDatHangChuaThanhToan(dskh.get(idx).getMaKh());
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				if(ddh != null) {
+					int choose = JOptionPane.showConfirmDialog(contentPane, "Phát hiện khách hàng "+ ddh.getKhachHang().getHoTen() +" có 1 đơn đặt hàng chưa thanh toán. Thay đổi khách hàng sẽ không lưu sản phẩm vừa thêm. Tiếp tục ?");
+					if(choose != 0) {
+						cboKH.setSelectedIndex(indexKH+1);
+						return;
+					}
+					
+					txtMaDDH.setText(String.valueOf(ddh.getMaDDH()));
+					modeSua();
+					
+					try {
+						dsctddh = new ChiTietDonDatHangDAO().getDSChiTietDDH(ddh.getMaDDH());
+						renderData();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+				
 				txtMaKH.setText(String.valueOf(dskh.get(idx).getMaKh()));
 				txtSDT.setText(dskh.get(idx).getSoDienThoai());
 				txtDiaChi.setText(dskh.get(idx).getDiaChi());
+				indexKH = idx;
 			}
 		});
 		
 		btnThemSP.addActionListener((e) -> {
+			if(cboKH.getSelectedIndex() <= 0) {
+				JOptionPane.showMessageDialog(contentPane, "Vui lòng chọn khách hàng trước khi thêm sản phẩm");
+				return;
+			}
 			
 			if(tblSach.getSelectedRow() == -1 && tblSPK.getSelectedRow() == -1) {
 				return;
@@ -377,15 +443,15 @@ public class TaoHoaDon_GUI extends JFrame {
 			
 //			kiểm tra xem đã có sp đó trong giỏ chưa
 			int vt = -1;
-			for(int i=0; i<dscthd.size(); i++) {
-				if(dscthd.get(i).getSanPham().getMaSp() == sp.getMaSp())
+			for(int i=0; i<dsctddh.size(); i++) {
+				if(dsctddh.get(i).getSanPham().getMaSp() == sp.getMaSp())
 					vt = i;
 			}
 			if(vt != -1) { // thêm số lượng
-				dscthd.get(vt).setSoLuong(dscthd.get(vt).getSoLuong() + soLuong);
+				dsctddh.get(vt).setSoLuong(dsctddh.get(vt).getSoLuong() + soLuong);
 			}else { // thêm sp
-				ChiTietHoaDon cthd = new ChiTietHoaDon(sp, soLuong, sp.getGiaSp());
-				dscthd.add(cthd);
+				ChiTietDonDatHang cthddh = new ChiTietDonDatHang(sp, soLuong, sp.getGiaSp());
+				dsctddh.add(cthddh);
 			}
 			tinhTongTien();
 			
@@ -401,6 +467,11 @@ public class TaoHoaDon_GUI extends JFrame {
 		
 		
 		btnBoSP.addActionListener((e) -> {
+			if(cboKH.getSelectedIndex() <= 0) {
+				JOptionPane.showMessageDialog(contentPane, "Vui lòng chọn khách hàng trước khi thêm sản phẩm");
+				return;
+			}
+			
 			int idx = tblSPTGH.getSelectedRow();
 			if(idx != -1) {
 				int soLuong = 0;
@@ -412,14 +483,14 @@ public class TaoHoaDon_GUI extends JFrame {
 					return;
 				}
 				
-				if(soLuong > dscthd.get(idx).getSoLuong()) {
+				if(soLuong > dsctddh.get(idx).getSoLuong()) {
 					JOptionPane.showMessageDialog(contentPane, "Số lượng không hợp lệ");
 					txtSoLuong.requestFocus();
 					return;
-				}else if(soLuong == dscthd.get(idx).getSoLuong()) {	
-					dscthd.remove(idx);
+				}else if(soLuong == dsctddh.get(idx).getSoLuong()) {	
+					dsctddh.remove(idx);
 				}else {
-					dscthd.get(idx).setSoLuong(dscthd.get(idx).getSoLuong() - soLuong);
+					dsctddh.get(idx).setSoLuong(dsctddh.get(idx).getSoLuong() - soLuong);
 				}
 				
 				tinhTongTien();
@@ -439,41 +510,74 @@ public class TaoHoaDon_GUI extends JFrame {
 				return;
 			}
 			
-			if(dscthd.size() == 0) {
+			if(dsctddh.size() == 0) {
 				JOptionPane.showMessageDialog(contentPane, "Vui lòng thêm hàng vào giỏ");
 				return;
 			}
 			
-			int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn tạo hóa đơn");
+			int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn đơn đặt hàng");
 			if(choose == 0) {
-				System.out.println(this.nhanVien);
-				HoaDon hd = new HoaDon(this.nhanVien, dskh.get(idx-1), dscthd);
-				System.out.println(hd.getNhanVien());
+				
+				DonDatHang ddh = new DonDatHang(dskh.get(idx-1), dsctddh);
 				try {
-					HoaDonDAO hoaDonDao = new HoaDonDAO();
-					if(hoaDonDao.themHoaDon(hd)) {
-						int choose2 = JOptionPane.showConfirmDialog(contentPane, "Đã thêm hóa đơn thành công, bạn có muốn xuất hóa đơn không ?");
-						if(choose2 == 0) {
-							XuatHoaDon_GUI xuaHoaDonGUI = new XuatHoaDon_GUI();
-							xuaHoaDonGUI.setHoaDon(hd);
-							xuaHoaDonGUI.setVisible(true);
-							xuaHoaDonGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-						}
-						dscthd.clear();
-						tinhTongTien();
-						try {
-							renderData();
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}else {
-						JOptionPane.showMessageDialog(contentPane, hoaDonDao.getError());
+					DonDatHangDAO donDatHangDao = new DonDatHangDAO();
+					int maDDH = donDatHangDao.taoDDH(ddh);
+					if(maDDH != -1) {
+						JOptionPane.showMessageDialog(contentPane, "Đã thêm đơn đặt hàng thành công");
+						txtMaDDH.setText(String.valueOf(maDDH));
+						modeSua();
+						return;
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
+				JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+			}
+		});
+		
+		btnSua.addActionListener((e) -> {
+			int idx = cboKH.getSelectedIndex(); 
+			if(idx <= 0) {
+				JOptionPane.showMessageDialog(contentPane, "Vui lòng chọn khách hàng");
+				return;
+			}
+			
+			if(dsctddh.size() == 0) {
+				JOptionPane.showMessageDialog(contentPane, "Vui lòng thêm hàng vào giỏ");
+				return;
+			}
+			
+			DonDatHang ddh = new DonDatHang(dskh.get(idx-1), dsctddh);
+			ddh.setMaDDH(Integer.parseInt(txtMaDDH.getText()));
+			dsctddh.forEach(ctddh -> {
+				try {
+					new ChiTietDonDatHangDAO().themSanPhamVaoDonDatHang(ddh.getMaDDH(), ctddh.getSanPham(), ctddh.getSoLuong());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			});
+			
+			JOptionPane.showMessageDialog(contentPane, "Sửa thành công");
+			return;
+			
+//			JOptionPane.showMessageDialog(contentPane, "Có lỗi xảy ra");
+		
+		});
+		
+		btnLamMoi.addActionListener(e -> {
+			
+			cboKH.setSelectedIndex(0);
+			modeThem();
+			dsctddh.clear();
+			tinhTongTien();
+			try {
+				renderData();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
 		
@@ -484,6 +588,8 @@ public class TaoHoaDon_GUI extends JFrame {
 		tblSPK.getSelectionModel().addListSelectionListener((x) -> {
 			tblSach.clearSelection();
 		});
+		
+		modeThem();
 	}
 	
 	public void renderKhachHang() throws SQLException {
@@ -506,15 +612,15 @@ public class TaoHoaDon_GUI extends JFrame {
 		modelSach.getDataVector().removeAllElements();
 		for(int i=0; i<dsSach.size(); i++) {
 			boolean flag = true;
-			for(int j=0; j<dscthd.size(); j++) {
-				if(dscthd.get(j).getSanPham().getMaSp() == dsSach.get(i).getMaSp()) {
-					dsSach.get(i).setSoLuong(dsSach.get(i).getSoLuong() - dscthd.get(j).getSoLuong());
+			for(int j=0; j<dsctddh.size(); j++) {
+				if(dsctddh.get(j).getSanPham().getMaSp() == dsSach.get(i).getMaSp()) {
+					dsSach.get(i).setSoLuong(dsSach.get(i).getSoLuong() - dsctddh.get(j).getSoLuong());
 				}
 			}
 			if(dsSach.get(i).getSoLuong() != 0) {
 				modelSach.addRow(new Object[] {
 						dsSach.get(i).getTenSp(), 
-						Currency.format(dsSach.get(i).getGiaSp()), 
+						Currency.format(dsSach.get(i).getGiaSp()).toString(), 
 						dsSach.get(i).getSoLuong(),
 						dsSach.get(i).getNhaCungCap().getTenNCC()
 					});
@@ -528,9 +634,9 @@ public class TaoHoaDon_GUI extends JFrame {
 		dsSPKhac = new SanPhamDAO().getListSanPhamKhac();
 		modelSPK.getDataVector().removeAllElements();
 		for(int i=0; i<dsSPKhac.size(); i++) {
-			for(int j=0; j<dscthd.size(); j++) {
-				if(dscthd.get(j).getSanPham().getMaSp() == dsSPKhac.get(i).getMaSp()) {
-					dsSPKhac.get(i).setSoLuong(dsSPKhac.get(i).getSoLuong() - dscthd.get(j).getSoLuong());
+			for(int j=0; j<dsctddh.size(); j++) {
+				if(dsctddh.get(j).getSanPham().getMaSp() == dsSPKhac.get(i).getMaSp()) {
+					dsSPKhac.get(i).setSoLuong(dsSPKhac.get(i).getSoLuong() - dsctddh.get(j).getSoLuong());
 				}
 			}
 			if(dsSPKhac.get(i).getSoLuong() != 0) {
@@ -550,7 +656,7 @@ public class TaoHoaDon_GUI extends JFrame {
 //		san pham trong don hang
 		tblSPTGH.clearSelection();
 		modelSPTGH.getDataVector().removeAllElements();
-		dscthd.forEach(cthd -> {
+		dsctddh.forEach(cthd -> {
 			modelSPTGH.addRow(new Object[] {cthd.getSanPham().getTenSp(), Currency.format(cthd.getDonGia()), cthd.getSoLuong(), Currency.format(cthd.tinhThanhTien())});
 		});
 		tblSPTGH.revalidate();
@@ -559,10 +665,59 @@ public class TaoHoaDon_GUI extends JFrame {
 	
 	public void tinhTongTien() {
 		double tongTien = 0;
-		for(int i=0; i<dscthd.size(); i++) {
-			tongTien += dscthd.get(i).tinhThanhTien();
+		for(int i=0; i<dsctddh.size(); i++) {
+			tongTien += dsctddh.get(i).tinhThanhTien();
 		}
 		txtTongTien.setText(Currency.format(tongTien));
+	}
+	
+	public void modeThem() {
+		txtMaDDH.setText("");
+		btnThemHD.setVisible(true);
+		btnSua.setVisible(false);
+		cboKH.setEnabled(true);
+		if(onlyEdit) {
+			cboKH.setEnabled(false);
+			btnLamMoi.setVisible(false);
+		}
+	}
+	
+	public void modeSua() {
+		btnThemHD.setVisible(false);
+		btnSua.setVisible(true);
+		cboKH.setEnabled(false);
+		if(onlyEdit)
+			btnLamMoi.setVisible(false);
+	}
+	
+	public void setOnlyEdit(boolean onlyEdit) {
+		this.onlyEdit = onlyEdit;
+	}
+	
+	public void setDDH(DonDatHang ddh) {
+		this._ddh = ddh;
+		this.onlyEdit = true;
+		txtMaDDH.setText(String.valueOf(ddh.getMaDDH()));
+		modeSua();
+		
+		for(int i=0; i<dskh.size(); i++) {
+			if(dskh.get(i).getMaKh() == ddh.getKhachHang().getMaKh()) {
+				indexKH = i;
+				cboKH.setSelectedIndex(i + 1);
+				break;
+			}
+		}
+		try {
+			dsctddh = new ChiTietDonDatHangDAO().getDSChiTietDDH(ddh.getMaDDH());
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			renderData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public JPanel getContentPane() {

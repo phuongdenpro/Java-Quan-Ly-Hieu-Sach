@@ -75,7 +75,7 @@ public class NhanVien {
 		this.maTk = rs.getInt("TaiKhoanID");
 		this.caLamViec = rs.getInt("caLamViec");
 		this.chucNang = rs.getInt("chucNang");
-		this.tenTk = rs.getString("TaiKhoan");
+//		this.tenTk = rs.getString("TaiKhoan");
 	}
 
 	public String getTenTk() {

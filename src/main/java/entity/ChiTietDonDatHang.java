@@ -32,6 +32,12 @@ public class ChiTietDonDatHang {
 		}
 	}
 
+	public ChiTietDonDatHang(SanPham sp, int soLuong, double donGia) {
+		this.sanPham = sp;
+		this.soLuong = soLuong;
+		this.donGia = donGia;
+	}
+
 	public int getId() {
 		return id;
 	}

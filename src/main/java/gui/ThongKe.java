@@ -455,9 +455,9 @@ public class ThongKe extends JFrame {
 		lblKH.setText(String.valueOf(mpKH.size()));
 		lblSach.setText(String.valueOf(soLuongSach));
 		lblDungCu.setText(String.valueOf(soLuongDungCu));
-		lblDoanhThu.setText(new Currency(doanhThu).toString());
-		lblVon.setText(new Currency(soVon).toString());
-		lblLoiNhuan.setText(new Currency(doanhThu - soVon).toString());
+		lblDoanhThu.setText(Currency.format(doanhThu).toString());
+		lblVon.setText(Currency.format(soVon).toString());
+		lblLoiNhuan.setText(Currency.format(doanhThu - soVon).toString());
 		
 	}
 	
@@ -505,9 +505,9 @@ public class ThongKe extends JFrame {
 		lblKH.setText(String.valueOf(mpKH.size()));
 		lblSach.setText(String.valueOf(soLuongSach));
 		lblDungCu.setText(String.valueOf(soLuongDungCu));
-		lblDoanhThu.setText(new Currency(doanhThu).toString());
-		lblVon.setText(new Currency(soVon).toString());
-		lblLoiNhuan.setText(new Currency(doanhThu - soVon).toString());
+		lblDoanhThu.setText(Currency.format(doanhThu).toString());
+		lblVon.setText(Currency.format(soVon).toString());
+		lblLoiNhuan.setText(Currency.format(doanhThu - soVon).toString());
 	}
 	
 

@@ -154,7 +154,7 @@ public class TimKiemTrangMuaHang_GUI extends JFrame {
 		modelTimKiem.getDataVector().removeAllElements();
 		
 		dssp.forEach(sp -> {
-			modelTimKiem.addRow(new Object[] {sp.getTenSp(), new Currency(sp.getGiaSp()).toString(), sp.getSoLuong()});
+			modelTimKiem.addRow(new Object[] {sp.getTenSp(), Currency.format(sp.getGiaSp()).toString(), sp.getSoLuong()});
 		});
 		tblTimKiem.revalidate();
 		tblTimKiem.repaint();

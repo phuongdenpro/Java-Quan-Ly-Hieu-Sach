@@ -109,7 +109,7 @@ public class ThongKeSachDaHet_GUI extends JFrame {
 					sp.getNamXuatBan(),
 					sp.getLoaiSanPham().getTenLoai(),
 					sp.getNhaCungCap().getTenNCC(),
-					new Currency(sp.getGiaSp()).toString()
+					Currency.format(sp.getGiaSp()).toString()
 			});
 		});
 		lblSoLuongHet.setText(String.valueOf(dssp.size()));
