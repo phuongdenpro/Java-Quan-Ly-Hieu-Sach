@@ -249,7 +249,7 @@ public class KhachHang_GUI extends JFrame {
 		pnRight.add(pnTableKh, BorderLayout.CENTER);
 		pnTableKh.setLayout(new BorderLayout(0, 0));
 		
-		String[] cols_dskh = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ"};
+		String[] cols_dskh = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ","Tài khoản"};
 		modelDSKH = new DefaultTableModel(cols_dskh, 0);
 		tblKhachHang = new JTable(modelDSKH);
 		JScrollPane scrTableKhachhang = new JScrollPane(tblKhachHang);
@@ -257,7 +257,7 @@ public class KhachHang_GUI extends JFrame {
 		scrTableKhachhang.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		pnTableKh.add(scrTableKhachhang);
 		
-		modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
+		//modelDSKH.addRow(new Object[]{"1", "Tran Van Nhan", "0987654321", "tranvannhan@gmail.com", "Thủ Đức, Hồ Chí Minh"});
 		
 		renderData();
 		addEvents();
@@ -285,7 +285,7 @@ public class KhachHang_GUI extends JFrame {
 					txtMaKh.setText(String.valueOf(kh.getMaKh()));
 					txtTenKh.setText(kh.getHoTen());
 					txtSdt.setText(kh.getSoDienThoai());	
-					txtDiaChi.setText(kh.getDiaChi());
+					txtDiaChi.setText(kh.getDiaChi()); 
 					
 				}
 			}
@@ -426,7 +426,7 @@ public class KhachHang_GUI extends JFrame {
 		dskh = new KhachHangDAO().getListKhachHang();
 		for (KhachHang kh: dskh) {
 			System.out.println(kh.toString());
-			modelDSKH.addRow(new Object[] {kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi()});
+			modelDSKH.addRow(new Object[] {kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi(),kh.getTenTk()});
 		}
 		tblKhachHang.revalidate();
 		tblKhachHang.repaint();
@@ -437,7 +437,7 @@ public class KhachHang_GUI extends JFrame {
 		modelDSKH.getDataVector().removeAllElements();
 
 		dskh.forEach(kh -> {
-			modelDSKH.addRow(new Object[] { kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi()});
+			modelDSKH.addRow(new Object[] { kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi(),kh.getTenTk()});
 		});
 
 		tblKhachHang.revalidate();
@@ -459,8 +459,9 @@ public class KhachHang_GUI extends JFrame {
 	}
 	public boolean kiemTraSo(String ten) {
 		char arrTen[] = ten.toCharArray();
+		String cTen;
 		for(int i=0;i<ten.length();i++) {
-			String cTen = String.valueOf(arrTen[i]);
+			cTen = String.valueOf(arrTen[i]);
 			if(cTen.matches("[0-9]"))
 				return true;
 		}

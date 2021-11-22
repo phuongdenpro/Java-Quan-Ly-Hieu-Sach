@@ -13,9 +13,18 @@ public class KhachHang {
 	private String soDienThoai;
 	private String diaChi;
 	private int maTk;
+	private String tenTk;
 	
 	
 	
+	public String getTenTk() {
+		return tenTk;
+	}
+
+	public void setTenTk(String tenTk) {
+		this.tenTk = tenTk;
+	}
+
 	public int getMaTk() {
 		return maTk;
 	}
@@ -63,6 +72,7 @@ public class KhachHang {
 			this.soDienThoai = rs.getString("SoDienThoai");
 			this.diaChi = rs.getString("DiaChi");
 			this.maTk = rs.getInt("TaiKhoanID");
+			this.tenTk = rs.getString("TaiKhoan");
 			
 		}catch (Exception e) {
 			KhachHang tmp = new KhachHangDAO().getKhachHang(this.maKh);
@@ -71,7 +81,7 @@ public class KhachHang {
 			this.diaChi = tmp.getDiaChi();
 			try {
 				this.maTk = tmp.getTaiKhoan().getId();
-
+				this.tenTk = tmp.getTaiKhoan().getTaiKhoan();
 			}catch(Exception ex) {
 				//ex.printStackTrace();
 			}

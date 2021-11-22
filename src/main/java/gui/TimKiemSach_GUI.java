@@ -65,10 +65,10 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 	private List<SanPham> dssachtim;
 	private JComboBox comboBoxNXB;
 	private JComboBox comboBoxLoai;
-	private JTextField txtTacGia;
 	private JCheckBox chkTacGia;
 	private JTextField txtNamXB;
 	private JCheckBox chkNamXB;
+	private JComboBox comboBoxTacGia;
 
 	/**
 	 * Launch the application.
@@ -145,7 +145,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnLoaiSach.add(lblLoaiSach);
 
 		comboBoxLoai = new JComboBox();
-		comboBoxLoai.setPreferredSize(new Dimension(222, 20));
+		comboBoxLoai.setPreferredSize(new Dimension(205, 20));
 		comboBoxLoai.addItem("");
 		pnLoaiSach.add(comboBoxLoai);
 		chkLoaiSach = new JCheckBox("");
@@ -193,10 +193,11 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		lblTacGia.setPreferredSize(new Dimension(80, 14));
 		pnTacGia.add(lblTacGia);
 
-		txtTacGia = new JTextField();
-		txtTacGia.setPreferredSize(new Dimension(200, 20));
-		pnTacGia.add(txtTacGia);
-		txtTacGia.setColumns(20);
+		comboBoxTacGia = new JComboBox();
+		comboBoxTacGia.setPreferredSize(new Dimension(205, 20));
+		comboBoxTacGia.addItem("");
+		pnTacGia.add(comboBoxTacGia);
+		
 
 		chkTacGia = new JCheckBox("");
 		pnTacGia.add(chkTacGia);
@@ -228,7 +229,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnNXB.add(lblNXB);
 
 		comboBoxNXB = new JComboBox();
-		comboBoxNXB.setPreferredSize(new Dimension(222, 20));
+		comboBoxNXB.setPreferredSize(new Dimension(205, 20));
 		comboBoxNXB.addItem("");
 		pnNXB.add(comboBoxNXB);
 		chkNXB = new JCheckBox("");
@@ -277,7 +278,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 				// TODO Auto-generated method stub
 				txtMaSach.setText("");
 				txtTieu.setText("");
-				txtTacGia.setText("");
+				comboBoxTacGia.setSelectedItem("");
 				txtNamXB.setText("");
 				comboBoxLoai.setSelectedItem("");
 				comboBoxNXB.setSelectedItem("");
@@ -301,7 +302,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 				// TODO Auto-generated method stub
 				if (comboBoxLoai.getSelectedItem().toString().equals("") && txtMaSach.getText().equals("")
 						&& txtTieu.getText().equals("") && comboBoxNXB.getSelectedItem().toString().equals("")
-						&& txtTacGia.getText().equals("") && txtNamXB.getText().equals("")) {
+						&& comboBoxTacGia.getSelectedItem().toString().equals("") && txtNamXB.getText().equals("")) {
 					JOptionPane.showMessageDialog(contentPane, "Lỗi, chưa nhập dữ liệu tìm kiếm");
 
 				} else {
@@ -325,9 +326,9 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 					}
 
 					if (chkTacGia.isSelected()) {
-						where += "TacGia like N'" + txtTacGia.getText() + "' and ";
+						where += "TacGia like N'" + comboBoxTacGia.getSelectedItem().toString() + "' and ";
 					} else {
-						where += "TacGia like N'%" + txtTacGia.getText() + "%' and ";
+						where += "TacGia like N'%" + comboBoxTacGia.getSelectedItem().toString() + "%' and ";
 					}
 					if (chkNamXB.isSelected()) {
 						where += "namXuatBan like N'" + txtNamXB.getText() + "' and ";
@@ -366,6 +367,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		}
 		loadCboNCC();
 		loadCboMaLoai();
+		loadCboTacGia();
 
 	}
 
@@ -390,6 +392,24 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		}
 
 	}
+	
+	public boolean isExisted(Object obj, JComboBox jbox) {
+	    for (int i = 0, c = jbox.getItemCount(); i < c; ++i)
+	    if (obj.equals(jbox.getItemAt(i))) 
+	    		return true;
+	    return false;
+	}
+	
+	private void loadCboTacGia() throws SQLException {
+		dssach = sachDAO.getListSach();
+		for (SanPham sach : dssach) {
+			if(!isExisted(sach.getTacGia(), comboBoxTacGia)){
+				comboBoxTacGia.addItem(String.valueOf(sach.getTacGia()));
+		}}
+
+	}
+	
+	
 
 	public void renderData() throws SQLException {
 		tblKetQua.clearSelection();

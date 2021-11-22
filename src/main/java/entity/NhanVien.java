@@ -11,6 +11,7 @@ public class NhanVien {
 	private String soDienThoai;
 	private String diaChi;
 	private int maTk;
+	private String tenTk;
 	
 	public int getMaTk() {
 		return maTk;
@@ -74,6 +75,15 @@ public class NhanVien {
 		this.maTk = rs.getInt("TaiKhoanID");
 		this.caLamViec = rs.getInt("caLamViec");
 		this.chucNang = rs.getInt("chucNang");
+		this.tenTk = rs.getString("TaiKhoan");
+	}
+
+	public String getTenTk() {
+		return tenTk;
+	}
+
+	public void setTenTk(String tenTk) {
+		this.tenTk = tenTk;
 	}
 
 	public NhanVien(int ma, String ten, String sdt, String diaChi2, int caLam) {
