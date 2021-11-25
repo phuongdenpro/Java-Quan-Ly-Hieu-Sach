@@ -156,7 +156,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		pnMaSP.add(lblMaSach);
 
 		txtMaSP = new JTextField();
-		txtMaSP.setPreferredSize(new Dimension(190, 20));
+
 		txtMaSP.setColumns(20);
 		pnMaSP.add(txtMaSP);
 		chkMaSP = new JCheckBox("");
@@ -172,7 +172,6 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		pnTen.add(lblTen);
 
 		txtTen = new JTextField();
-		txtTen.setPreferredSize(new Dimension(200, 20));
 		pnTen.add(txtTen);
 		txtTen.setColumns(20);
 
