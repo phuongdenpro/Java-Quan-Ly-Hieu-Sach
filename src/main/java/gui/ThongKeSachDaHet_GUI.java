@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
@@ -85,15 +87,30 @@ public class ThongKeSachDaHet_GUI extends JFrame {
 		JPanel panel_1 = new JPanel();
 		pnTable.add(panel_1, BorderLayout.SOUTH);
 		
+		JPanel pnThongKeChung = new JPanel();
+		panel_1.add(pnThongKeChung);
+		
 		JLabel lblSk = new JLabel("Số lượng sách đã hết: ");
 		lblSk.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_1.add(lblSk);
+		pnThongKeChung.add(lblSk);
 		
 		lblSoLuongHet = new JLabel("0");
 		lblSoLuongHet.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_1.add(lblSoLuongHet);
+		pnThongKeChung.add(lblSoLuongHet);
+		
+		JPanel panel_6 = new JPanel();
+		panel_1.add(panel_6);
+		
+		JButton btnInBaoCao = new JButton("In báo cáo");
+		btnInBaoCao.setBackground(Color.WHITE);
+		panel_6.add(btnInBaoCao);
 		
 		renderData();
+		
+		btnInBaoCao.addActionListener(e -> {
+			JOptionPane.showMessageDialog(contentPane, "In báo cáo thành công");
+			
+		});
 	}
 	
 	public void renderData() throws SQLException {

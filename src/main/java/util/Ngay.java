@@ -41,6 +41,20 @@ public class Ngay {
 			
 	}
 	
+	public static Pair<Date, Date> getRangeMonth(int thang, int nam){
+		Date tuNgay = new Date(nam - 1900, thang-1, 1);
+		Date toiNgay = new Date(nam - 1900, thang-1, getSoNgayTrongThang(thang, nam));
+		
+		return Pair.createPair(tuNgay, toiNgay);
+	}
+	
+	public static Pair<Date, Date> getRangeYear(int nam){
+		Date tuNgay = new Date(nam, 0, 1);
+		Date toiNgay = new Date(nam, 11, 31);
+		
+		return Pair.createPair(tuNgay, toiNgay);
+	}
+	
 	public static Date _1ThangQua() {	
 		if(now.getMonth() == 0)
 			return new Date(now.getYear()-1, 12, now.getDate());
@@ -95,13 +109,13 @@ public class Ngay {
 		return ts;
 	}
 	
-	public static boolean isSang(Timestamp ts) {
+	public static boolean getCa(Timestamp ts) {
 		int hours = ts.getHours();
 //		ts.getTime
 		System.out.println(hours);
-		if(hours < 12)
+		if(hours > 4 && hours < 16) // ca sang
 			return true;
-		
+		// ca toi
 		return false;
 	}
 	
@@ -123,7 +137,7 @@ public class Ngay {
 	public static void main(String[] args) {
 		System.out.println(Ngay.stringToTimestamp("10-11-2021 21:30:50"));
 		System.out.println(Ngay.tuNgay(Ngay.homNay()));
-		System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 12:01:00")));
-		System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 23:59:59")));
+//		System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 12:01:00")));
+//		System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 23:59:59")));
 	}
 }

@@ -452,8 +452,11 @@ public class TaoHoaDon_GUI extends JFrame {
 				try {
 					HoaDonDAO hoaDonDao = new HoaDonDAO();
 					if(hoaDonDao.themHoaDon(hd)) {
+						
+						
 						int choose2 = JOptionPane.showConfirmDialog(contentPane, "Đã thêm hóa đơn thành công, bạn có muốn xuất hóa đơn không ?");
 						if(choose2 == 0) {
+							hd.setMaHD(hoaDonDao.getLastestMaHD());
 							XuatHoaDon_GUI xuaHoaDonGUI = new XuatHoaDon_GUI();
 							xuaHoaDonGUI.setHoaDon(hd);
 							xuaHoaDonGUI.setVisible(true);

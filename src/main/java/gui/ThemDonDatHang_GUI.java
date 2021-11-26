@@ -150,7 +150,7 @@ public class ThemDonDatHang_GUI extends JFrame {
 		flowLayout_4.setAlignment(FlowLayout.LEFT);
 		pnThongTin.add(pnMaKH_1);
 		
-		JLabel lblMaDDH = new JLabel("Mã khách hàng");
+		JLabel lblMaDDH = new JLabel("Mã hóa đơn");
 		lblMaDDH.setPreferredSize(new Dimension(100, 20));
 		pnMaKH_1.add(lblMaDDH);
 		

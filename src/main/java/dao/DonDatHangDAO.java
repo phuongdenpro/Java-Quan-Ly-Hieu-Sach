@@ -419,7 +419,7 @@ public class DonDatHangDAO extends ConnectDB{
         try {
         	
 
-            String sql = "SELECT * FROM dbo.DonDatHang where maKH = ? and tinhTrang != 2";
+            String sql = "SELECT * FROM dbo.DonDatHang where maKH = ? and tinhTrang == 1";
             stmt = this.conn.prepareStatement(sql);
             stmt.setInt(1, maKH);
             ResultSet rsDDH = stmt.executeQuery();

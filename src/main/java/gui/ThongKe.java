@@ -15,6 +15,7 @@ import entity.KhachHang;
 import entity.SanPham;
 import util.Currency;
 import util.Ngay;
+import util.Pair;
 import util.Placeholder;
 
 import javax.swing.JTabbedPane;
@@ -139,7 +140,7 @@ public class ThongKe extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thống kê báo cáo");
+		JLabel lblNewLabel_2 = new JLabel("Thống kê doanh thu");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_3.add(lblNewLabel_2);
 		
@@ -157,28 +158,56 @@ public class ThongKe extends JFrame {
 		modelLoai.addElement("Ngày hôm nay");
 		modelLoai.addElement("Ngày hôm qua");
 		modelLoai.addElement("7 ngày qua");
-		modelLoai.addElement("1 tháng qua");
-		modelLoai.addElement("1 năm qua");
+		modelLoai.addElement("Theo tháng");
+		modelLoai.addElement("Theo năm");
+		
+//		thang nam, tuy chinh
+		JPanel pnTextField = new JPanel();
+		panel_2.add(pnTextField);
+		pnTextField.setVisible(false);
+		
+		JPanel pnThang = new JPanel();
+		pnTextField.add(pnThang);
+		
+		JLabel lblThang = new JLabel("Tháng: ");
+		pnThang.add(lblThang);
+		
+		JComboBox cboThang = new JComboBox();
+		pnThang.add(cboThang);
+		for(int i=1; i<=12; i++)
+			cboThang.addItem("Tháng "+i);
+		cboThang.setSelectedIndex(Ngay.homNay().getMonth());
+		
+		JPanel pnNam = new JPanel();
+		pnTextField.add(pnNam);
+		
+		JLabel lblNam = new JLabel("Năm: ");
+		pnNam.add(lblNam);
+		
+		JComboBox cboNam = new JComboBox();
+		pnNam.add(cboNam);
+		for(int i=2015; i<=Ngay.homNay().getYear() + 1900; i++)
+			cboNam.addItem("Năm "+i);
+		cboNam.setSelectedIndex(cboNam.getItemCount() - 1);
+		
+		
+		JPanel pbTuyChinh = new JPanel();
+		panel_2.add(pbTuyChinh);
 		
 		JLabel lblTuNgay = new JLabel("Từ ngày:  ");
-		panel_2.add(lblTuNgay);
+		pbTuyChinh.add(lblTuNgay);
 		
 		
 		dpTuNgay = new kDatePicker();
-		panel_2.add(dpTuNgay);
+		pbTuyChinh.add(dpTuNgay);
 		
 		JLabel lblToiNgay = new JLabel("Tới ngày");
-		panel_2.add(lblToiNgay);
+		pbTuyChinh.add(lblToiNgay);
 		
 		dpToiNgay = new kDatePicker();
-		panel_2.add(dpToiNgay);
+		pbTuyChinh.add(dpToiNgay);
 		
-		modelLimit = new DefaultComboBoxModel<Integer>();
-		modelLimit.addElement(10);
-		modelLimit.addElement(25);
-		modelLimit.addElement(50);
-		modelLimit.addElement(100);
-		modelLimit.addElement(500);
+//		thang nam, tuy chinh
 		
 		JLabel lblCa = new JLabel("Ca: ");
 		panel_2.add(lblCa);
@@ -187,7 +216,7 @@ public class ThongKe extends JFrame {
 		panel_2.add(cboCaLam);
 		cboCaLam.addItem((String) "Tất cả");
 		cboCaLam.addItem((String) "Sáng");
-		cboCaLam.addItem((String) "Chiều");
+		cboCaLam.addItem((String) "Tối");
 		
 		JButton btnThongKe = new JButton("Thống kê", new ImageIcon("data/images/statistics.png"));
 
@@ -356,7 +385,10 @@ public class ThongKe extends JFrame {
 		lblLoiNhuan.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		pnItem6.add(lblLoiNhuan);
 		
+		
 		renderData();
+		
+	
 	
 		btnThongKe.addActionListener((e) -> {
 			long ml=System.currentTimeMillis(); 
@@ -391,11 +423,21 @@ public class ThongKe extends JFrame {
 				tuNgay = Ngay.homQua();
 				toiNgay = Ngay.homQua();
 			}else if(cboLoaiTK.getSelectedIndex() == 3) { // 7 ngay qua
+				toiNgay = Ngay.homNay();
 				tuNgay = Ngay._7NgayQua();
-			}else if(cboLoaiTK.getSelectedIndex() == 4) { // 1 thang qua
-				tuNgay = Ngay._1ThangQua();
-			}else if(cboLoaiTK.getSelectedIndex() == 5) { // 1 nam qua
-				tuNgay = Ngay._1NamQua();
+			}else if(cboLoaiTK.getSelectedIndex() == 4) { // theo thang
+				int thang = cboThang.getSelectedIndex() + 1;
+				int nam = cboNam.getSelectedIndex() + 2015;
+				
+				Pair<Date, Date> range = Ngay.getRangeMonth(thang, nam);
+				tuNgay = range.getElement0();
+				toiNgay = range.getElement1();
+			}else if(cboLoaiTK.getSelectedIndex() == 5) { // theo nam
+				int nam = cboNam.getSelectedIndex() + 2015;
+				
+				Pair<Date, Date> range = Ngay.getRangeYear(nam);
+				tuNgay = range.getElement0();
+				toiNgay = range.getElement1();
 			}
 			
 //			
@@ -410,11 +452,21 @@ public class ThongKe extends JFrame {
 		
 		cboLoaiTK.addActionListener((e) -> {
 			if(cboLoaiTK.getSelectedIndex() == 0) {
-				dpTuNgay.btn.setEnabled(true);
-				dpToiNgay.btn.setEnabled(true);
+				pbTuyChinh.setVisible(true);
+				pnTextField.setVisible(false);
+			}else if(cboLoaiTK.getSelectedIndex() == 4){ // thang
+				pnTextField.setVisible(true);
+				pbTuyChinh.setVisible(false);
+				pnThang.setVisible(true);
+				pnNam.setVisible(true);
+			}else if(cboLoaiTK.getSelectedIndex() == 5){ // thang
+				pnTextField.setVisible(true);
+				pbTuyChinh.setVisible(false);
+				pnThang.setVisible(false);
+				pnNam.setVisible(true);
 			}else {
-				dpTuNgay.btn.setEnabled(false);
-				dpToiNgay.btn.setEnabled(false);
+				pnTextField.setVisible(false);
+				pbTuyChinh.setVisible(false);
 			}
 		});
 		
@@ -477,13 +529,13 @@ public class ThongKe extends JFrame {
 			int soLuong = Integer.parseInt(rs.get("soLuong"));
 			System.out.println("n" + rs.get("ngayMua"));
 			System.out.println(Ngay.stringToTimestamp(rs.get("ngayMua")));
-			System.out.println(Ngay.isSang(Ngay.stringToTimestamp(rs.get("ngayMua"))));
+			System.out.println(Ngay.getCa(Ngay.stringToTimestamp(rs.get("ngayMua"))));
 			int sl = cboCaLam.getSelectedIndex();
 			
-			if(sl == 1 && Ngay.isSang(Ngay.stringToTimestamp(rs.get("ngayMua"))) == false) {
+			if(sl == 1 && Ngay.getCa(Ngay.stringToTimestamp(rs.get("ngayMua"))) == false) {
 				return;
 			}
-			if(sl == 2 && Ngay.isSang(Ngay.stringToTimestamp(rs.get("ngayMua"))) == true) {
+			if(sl == 2 && Ngay.getCa(Ngay.stringToTimestamp(rs.get("ngayMua"))) == true) {
 				return;
 			}
 			mpHD.put(rs.get("maHD"), 1);
