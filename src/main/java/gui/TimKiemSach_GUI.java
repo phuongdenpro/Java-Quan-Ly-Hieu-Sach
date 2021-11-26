@@ -145,7 +145,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnLoaiSach.add(lblLoaiSach);
 
 		comboBoxLoai = new JComboBox();
-		comboBoxLoai.setPreferredSize(new Dimension(205, 20));
+		comboBoxLoai.setPreferredSize(new Dimension(222, 20));
 		comboBoxLoai.addItem("");
 		pnLoaiSach.add(comboBoxLoai);
 		chkLoaiSach = new JCheckBox("");
@@ -161,7 +161,6 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnMaSach.add(lblMaSach);
 
 		txtMaSach = new JTextField();
-		txtMaSach.setPreferredSize(new Dimension(200, 20));
 		txtMaSach.setColumns(20);
 		pnMaSach.add(txtMaSach);
 		chkMaSach = new JCheckBox("");
@@ -177,7 +176,6 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnTieu.add(lblTieu);
 
 		txtTieu = new JTextField();
-		txtTieu.setPreferredSize(new Dimension(200, 20));
 		pnTieu.add(txtTieu);
 		txtTieu.setColumns(20);
 
@@ -194,7 +192,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnTacGia.add(lblTacGia);
 
 		comboBoxTacGia = new JComboBox();
-		comboBoxTacGia.setPreferredSize(new Dimension(205, 20));
+		comboBoxTacGia.setPreferredSize(new Dimension(222, 20));
 		comboBoxTacGia.addItem("");
 		pnTacGia.add(comboBoxTacGia);
 		
@@ -212,7 +210,6 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnNamXB.add(lblNamXB);
 
 		txtNamXB = new JTextField();
-		txtNamXB.setPreferredSize(new Dimension(200, 20));
 		pnNamXB.add(txtNamXB);
 		txtNamXB.setColumns(20);
 
@@ -229,7 +226,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnNXB.add(lblNXB);
 
 		comboBoxNXB = new JComboBox();
-		comboBoxNXB.setPreferredSize(new Dimension(205, 20));
+		comboBoxNXB.setPreferredSize(new Dimension(222, 20));
 		comboBoxNXB.addItem("");
 		pnNXB.add(comboBoxNXB);
 		chkNXB = new JCheckBox("");
