@@ -15,6 +15,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+
 import javax.swing.BoxLayout;
 import java.awt.Component;
 import javax.swing.Box;
@@ -26,7 +32,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class XuatHoaDon_GUI extends JFrame {
+public class XuatHoaDon_GUI extends JFrame implements Printable{
 
 	private JPanel contentPane;
 	private DefaultTableModel modelDSSP;
@@ -40,6 +46,8 @@ public class XuatHoaDon_GUI extends JFrame {
 	private JLabel lblNgayLap;
 	private JLabel lblTongTien;
 	private double tongTien;
+	private JButton btnInHoaDon;
+	private JPanel pnFoot;
 	
 	/**
 	 * Launch the application.
@@ -66,146 +74,164 @@ public class XuatHoaDon_GUI extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		contentPane.add(panel, BorderLayout.NORTH);
 		
 		JLabel lblNewLabel = new JLabel("Hóa đơn");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		panel.add(lblNewLabel);
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		JPanel pnMain = new JPanel();
+		contentPane.add(pnMain, BorderLayout.CENTER);
+		pnMain.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_2 = new JPanel();
-		panel_1.add(panel_2);
-		panel_2.setLayout(new BorderLayout(0, 0));
+		JPanel pnMain2 = new JPanel();
+		pnMain.add(pnMain2);
+		pnMain2.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, BorderLayout.NORTH);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
+		JPanel pnThongTinChung = new JPanel();
+		pnMain2.add(pnThongTinChung, BorderLayout.NORTH);
+		pnThongTinChung.setLayout(new BoxLayout(pnThongTinChung, BoxLayout.Y_AXIS));
 		
-		JPanel panel_4 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel_3.add(panel_4);
+		JPanel pbMaHD = new JPanel();
+		pbMaHD.setBackground(Color.WHITE);
+		FlowLayout fl_pbMaHD = (FlowLayout) pbMaHD.getLayout();
+		fl_pbMaHD.setAlignment(FlowLayout.LEFT);
+		pnThongTinChung.add(pbMaHD);
 		
 		JLabel lbllMaHD = new JLabel("Mã hóa đơn: ");
 		lbllMaHD.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lbllMaHD.setPreferredSize(new Dimension(200, 25));
-		panel_4.add(lbllMaHD);
+		pbMaHD.add(lbllMaHD);
 		
 		lblMaHD = new JLabel("1");
 		lblMaHD.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4.add(lblMaHD);
+		pbMaHD.add(lblMaHD);
 		
-		JPanel panel_4_7 = new JPanel();
-		FlowLayout flowLayout_6 = (FlowLayout) panel_4_7.getLayout();
-		flowLayout_6.setAlignment(FlowLayout.LEFT);
-		panel_3.add(panel_4_7);
+		JPanel pnNV = new JPanel();
+		pnNV.setBackground(Color.WHITE);
+		FlowLayout fl_pnNV = (FlowLayout) pnNV.getLayout();
+		fl_pnNV.setAlignment(FlowLayout.LEFT);
+		pnThongTinChung.add(pnNV);
 		
 		JLabel lblNhnVinBn = new JLabel("Nhân viên bán: ");
 		lblNhnVinBn.setPreferredSize(new Dimension(200, 25));
 		lblNhnVinBn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_7.add(lblNhnVinBn);
+		pnNV.add(lblNhnVinBn);
 		
 		lblNhanVien = new JLabel("Trần Văn Nhân");
 		lblNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_7.add(lblNhanVien);
+		pnNV.add(lblNhanVien);
 		
-		JPanel panel_4_2 = new JPanel();
-		FlowLayout flowLayout_2 = (FlowLayout) panel_4_2.getLayout();
-		flowLayout_2.setAlignment(FlowLayout.LEFT);
-		panel_3.add(panel_4_2);
+		JPanel pnKH = new JPanel();
+		pnKH.setBackground(Color.WHITE);
+		FlowLayout fl_pnKH = (FlowLayout) pnKH.getLayout();
+		fl_pnKH.setAlignment(FlowLayout.LEFT);
+		pnThongTinChung.add(pnKH);
 		
 		JLabel lblTnKhchHng = new JLabel("Tên khách hàng:");
 		lblTnKhchHng.setPreferredSize(new Dimension(200, 25));
 		lblTnKhchHng.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_2.add(lblTnKhchHng);
+		pnKH.add(lblTnKhchHng);
 		
 		lblTenKH = new JLabel("Trần Văn Nhân");
 		lblTenKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_2.add(lblTenKH);
+		pnKH.add(lblTenKH);
 		
-		JPanel panel_4_3 = new JPanel();
-		FlowLayout flowLayout_3 = (FlowLayout) panel_4_3.getLayout();
-		flowLayout_3.setAlignment(FlowLayout.LEFT);
-		panel_3.add(panel_4_3);
+		JPanel pnSDT = new JPanel();
+		pnSDT.setBackground(Color.WHITE);
+		FlowLayout fl_pnSDT = (FlowLayout) pnSDT.getLayout();
+		fl_pnSDT.setAlignment(FlowLayout.LEFT);
+		pnThongTinChung.add(pnSDT);
 		
 		JLabel lblSinThoi = new JLabel("Số điện thoại: ");
 		lblSinThoi.setPreferredSize(new Dimension(200, 25));
 		lblSinThoi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_3.add(lblSinThoi);
+		pnSDT.add(lblSinThoi);
 		
 		lblSDT = new JLabel("0987654321");
 		lblSDT.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_3.add(lblSDT);
+		pnSDT.add(lblSDT);
 		
-		JPanel panel_4_4 = new JPanel();
-		FlowLayout flowLayout_4 = (FlowLayout) panel_4_4.getLayout();
-		flowLayout_4.setAlignment(FlowLayout.LEFT);
-		panel_3.add(panel_4_4);
+		JPanel pnDiaChi = new JPanel();
+		pnDiaChi.setBackground(Color.WHITE);
+		FlowLayout fl_pnDiaChi = (FlowLayout) pnDiaChi.getLayout();
+		fl_pnDiaChi.setAlignment(FlowLayout.LEFT);
+		pnThongTinChung.add(pnDiaChi);
 		
 		JLabel lblaCh = new JLabel("Địa chỉ: ");
 		lblaCh.setPreferredSize(new Dimension(200, 25));
 		lblaCh.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_4.add(lblaCh);
+		pnDiaChi.add(lblaCh);
 		
 		lblDiaChi = new JLabel("Bình chiểu");
 		lblDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_4.add(lblDiaChi);
+		pnDiaChi.add(lblDiaChi);
 		
-		JPanel panel_4_5 = new JPanel();
-		FlowLayout flowLayout_5 = (FlowLayout) panel_4_5.getLayout();
-		flowLayout_5.setAlignment(FlowLayout.LEFT);
-		panel_3.add(panel_4_5);
+		JPanel pnNgayDat = new JPanel();
+		pnNgayDat.setBackground(Color.WHITE);
+		FlowLayout fl_pnNgayDat = (FlowLayout) pnNgayDat.getLayout();
+		fl_pnNgayDat.setAlignment(FlowLayout.LEFT);
+		pnThongTinChung.add(pnNgayDat);
 		
 		JLabel lblNgyt = new JLabel("Ngày đặt");
 		lblNgyt.setPreferredSize(new Dimension(200, 25));
 		lblNgyt.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_5.add(lblNgyt);
+		pnNgayDat.add(lblNgyt);
 		
 		lblNgayLap = new JLabel("11/11/2021");
 		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_5.add(lblNgayLap);
+		pnNgayDat.add(lblNgayLap);
 		
-		JPanel panel_6 = new JPanel();
-		panel_2.add(panel_6);
+		JPanel pnDSSP = new JPanel();
+		pnMain2.add(pnDSSP);
 		
 		String[] cols = {"Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền"};
 		modelDSSP = new DefaultTableModel(cols, 0);
-		panel_6.setLayout(new BorderLayout(0, 0));
+		pnDSSP.setLayout(new BorderLayout(0, 0));
 		tblDSSP = new JTable(modelDSSP);
+		tblDSSP.setGridColor(Color.WHITE);
+		tblDSSP.setBackground(Color.WHITE);
 		JScrollPane scrollPane = new JScrollPane(tblDSSP);
-		panel_6.add(scrollPane);
+		scrollPane.getViewport().setBackground(Color.WHITE);
+		scrollPane.setBackground(Color.WHITE);
+		pnDSSP.add(scrollPane);
 		
-		JPanel panel_5 = new JPanel();
-		panel_2.add(panel_5, BorderLayout.SOUTH);
+		pnFoot = new JPanel();
+		pnFoot.setBackground(Color.WHITE);
+		pnMain2.add(pnFoot, BorderLayout.SOUTH);
 		
-		JPanel panel_4_6 = new JPanel();
-		panel_5.add(panel_4_6);
+		JPanel pnTongTien = new JPanel();
+		pnTongTien.setBackground(Color.WHITE);
+		pnFoot.add(pnTongTien);
 		
 		JLabel lbllMaHD_6 = new JLabel("Tổng tiền");
 		lbllMaHD_6.setPreferredSize(new Dimension(200, 25));
 		lbllMaHD_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_6.add(lbllMaHD_6);
+		pnTongTien.add(lbllMaHD_6);
 		
 		lblTongTien = new JLabel("100.000 VNĐ");
 		lblTongTien.setPreferredSize(new Dimension(120, 25));
 		lblTongTien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panel_4_6.add(lblTongTien);
+		pnTongTien.add(lblTongTien);
 		
-		JButton btnInHoaDon = new JButton("In hóa đơn");
+		btnInHoaDon = new JButton("In hóa đơn");
 		btnInHoaDon.setBackground(Color.WHITE);
-		panel_5.add(btnInHoaDon);
+		pnFoot.add(btnInHoaDon);
 		
 		btnInHoaDon.addActionListener(e -> {
-			JOptionPane.showMessageDialog(contentPane, "In thành công");
-			
+			pnFoot.remove(btnInHoaDon);
+			printFrame();
+			JOptionPane.showMessageDialog(contentPane, "Đã hoàn tất tác vụ");
+			pnFoot.add(btnInHoaDon);
+			pnFoot.revalidate();
+			pnFoot.repaint();
 		});
 	}
 	
@@ -236,6 +262,32 @@ public class XuatHoaDon_GUI extends JFrame {
 	public void setHoaDon(HoaDon hd) {
 		this.hd = hd;
 		renderData();
+	}
+	
+	private void printFrame(){
+	    PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+	    printerJob.setPrintable(this);
+
+	    // pop up a dialog box for the end user to fine tune the options.
+	    if (printerJob.printDialog()) {
+	        try {
+	            // render the component onto the printer or print queue.
+	            printerJob.print();
+	        } catch ( PrinterException e ) {
+	            System.out.println( "Error printing: " + e );
+            }
+        }
+    }
+
+	@Override
+	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+		if ( pageIndex > 0 ){
+			return Printable.NO_SUCH_PAGE;
+        }
+		graphics.translate(50, 0);
+		print(graphics);
+		return Printable.PAGE_EXISTS;
 	}
 
 }
