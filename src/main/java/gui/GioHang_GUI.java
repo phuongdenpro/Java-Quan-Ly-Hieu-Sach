@@ -474,7 +474,7 @@ public class GioHang_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn xóa ?");
-				System.out.println(choose);
+//				//System.out.println(choose);
 				
 				if(choose == 0) {
 					try {

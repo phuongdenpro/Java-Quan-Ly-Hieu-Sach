@@ -276,7 +276,7 @@ public class TimKiemNCC_GUI extends JFrame implements ActionListener {
 						where += "SoDienThoai like N'%" + txtSdt.getText() + "%'";
 					}
 
-					System.out.println(where);
+					//System.out.println(where);
 					dsncctim = nhaCCDAO.timKiemNCC2(where);
 					if (dsncctim.size() == 0) {
 						JOptionPane.showMessageDialog(contentPane, "Không có nhà cung cấp phù hợp");

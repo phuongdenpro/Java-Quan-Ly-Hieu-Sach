@@ -112,7 +112,7 @@ public class Ngay {
 	public static boolean getCa(Timestamp ts) {
 		int hours = ts.getHours();
 //		ts.getTime
-		System.out.println(hours);
+		//System.out.println(hours);
 		if(hours > 4 && hours < 16) // ca sang
 			return true;
 		// ca toi
@@ -135,9 +135,9 @@ public class Ngay {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(Ngay.stringToTimestamp("10-11-2021 21:30:50"));
-		System.out.println(Ngay.tuNgay(Ngay.homNay()));
-//		System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 12:01:00")));
-//		System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 23:59:59")));
+		//System.out.println(Ngay.stringToTimestamp("10-11-2021 21:30:50"));
+		//System.out.println(Ngay.tuNgay(Ngay.homNay()));
+//		//System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 12:01:00")));
+//		//System.out.println(Ngay.isSang(Ngay.stringToTimestamp("10-11-2021 23:59:59")));
 	}
 }

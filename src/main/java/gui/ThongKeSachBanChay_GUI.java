@@ -241,9 +241,9 @@ public class ThongKeSachBanChay_GUI extends Printer {
 	            } catch (ParseException e1) {
 	                e1.printStackTrace();
 	            }
-//	            System.out.println(now);
-	            System.out.println(tuNgay);
-	            System.out.println(toiNgay);
+//	            //System.out.println(now);
+	            //System.out.println(tuNgay);
+	            //System.out.println(toiNgay);
 	            
 	            if(tuNgay.after(now)){
 	                JOptionPane.showMessageDialog(contentPane, "Từ ngày không hợp lệ");
@@ -279,7 +279,7 @@ public class ThongKeSachBanChay_GUI extends Printer {
 				tuNgay = range.getElement0();
 				toiNgay = range.getElement1();
 			}
-			System.out.println("Thong ke sach ban chay " + tuNgay +" " + toiNgay);
+			//System.out.println("Thong ke sach ban chay " + tuNgay +" " + toiNgay);
 			
 		    try {
 				renderData(tuNgay, toiNgay);
@@ -346,17 +346,17 @@ public class ThongKeSachBanChay_GUI extends Printer {
 		long soNgay = Ngay.tinhKhoangNgay(tuNgay, toiNgay);
 		int minSoLuong = 0;
 		if(soNgay <= 3) {
-			minSoLuong = 5; 
+			minSoLuong = 20; 
 		}else if(soNgay <= 7)
-			minSoLuong = 15;
-		else if(soNgay <= 15)
 			minSoLuong = 30;
+		else if(soNgay <= 15)
+			minSoLuong = 50;
 		else if(soNgay <= 30)
-			minSoLuong = 60;
-		else if(soNgay <= 100)
 			minSoLuong = 100;
-		else
+		else if(soNgay <= 100)
 			minSoLuong = 200;
+		else
+			minSoLuong = 300;
 
 		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay, true, minSoLuong);
 		tblDSSP.clearSelection();

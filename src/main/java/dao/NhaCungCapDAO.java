@@ -220,14 +220,14 @@ public class NhaCungCapDAO extends ConnectDB {
     	Statement stmt = null;
     	List<NhaCungCap> dsncc = new ArrayList<NhaCungCap>();
         try {
-        	System.out.println(key + " " + val);
+//        	//System.out.println(key + " " + val);
 
             String sql = "SELECT * FROM dbo.NhaCungCap where "+ key +" like N'%"+ val + "%'";
             stmt = this.conn.createStatement();
             
             ResultSet rsNCC = stmt.executeQuery(sql);
             
-//            System.out.println(rsSP.getStatement().toString());
+//            //System.out.println(rsSP.getStatement().toString());
             
             while(rsNCC.next()) {
 //            	printResultSet(rsSP);
@@ -253,7 +253,7 @@ public class NhaCungCapDAO extends ConnectDB {
 		List<NhaCungCap> dsncc = new ArrayList<NhaCungCap>();
 		try {
 			String sql = "SELECT * FROM dbo.NhaCungCap where "+where;
-			System.out.println(sql);
+//			//System.out.println(sql);
 			stmt = this.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 

@@ -38,7 +38,7 @@ public class SanPhamDAO extends ConnectDB {
 
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-//                System.out.println(rs);
+//                //System.out.println(rs);
 //				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
@@ -66,8 +66,8 @@ public class SanPhamDAO extends ConnectDB {
 
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-//                System.out.println(rs);
-				printResultSet(rs);
+//                //System.out.println(rs);
+//				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
 			}
@@ -94,7 +94,7 @@ public class SanPhamDAO extends ConnectDB {
 
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-//                System.out.println(rs);
+//                //System.out.println(rs);
 //				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
@@ -406,7 +406,7 @@ public class SanPhamDAO extends ConnectDB {
 		Statement stmt = null;
 		List<SanPham> dssp = new ArrayList<SanPham>();
 		try {
-			System.out.println(key + " " + val);
+//			//System.out.println(key + " " + val);
 
 			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai like N'%Sách%'"
 					+ " OR TenLoai like N'%Truyện%') AND  " + key + " like N'%" + val + "%'";
@@ -414,7 +414,7 @@ public class SanPhamDAO extends ConnectDB {
 
 			ResultSet rsSP = stmt.executeQuery(sql);
 
-//	            System.out.println(rsSP.getStatement().toString());
+//	            //System.out.println(rsSP.getStatement().toString());
 
 			while (rsSP.next()) {
 //	            	printResultSet(rsSP);
@@ -442,7 +442,7 @@ public class SanPhamDAO extends ConnectDB {
 		try {
 			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where "
 					+ where + " and (TenLoai like N'%Sách%'\r\n" + "	 OR TenLoai like N'%Truyện%')";
-			System.out.println(sql);
+//			//System.out.println(sql);
 			stmt = this.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -469,7 +469,7 @@ public class SanPhamDAO extends ConnectDB {
 		Statement stmt = null;
 		List<SanPham> dssp = new ArrayList<SanPham>();
 		try {
-			System.out.println(key + " " + val);
+//			//System.out.println(key + " " + val);
 
 			String sql = "SELECT * FROM dbo.SanPham inner join loaiSanPham on SanPham.MaLoai = loaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where (TenLoai NOT like N'%Sách%'"
 					+ " AND TenLoai NOT like N'%Truyện%') AND  " + key + " like N'%" + val + "%'";
@@ -477,7 +477,7 @@ public class SanPhamDAO extends ConnectDB {
 
 			ResultSet rsSP = stmt.executeQuery(sql);
 
-//	            System.out.println(rsSP.getStatement().toString());
+//	            //System.out.println(rsSP.getStatement().toString());
 
 			while (rsSP.next()) {
 //	            	printResultSet(rsSP);
@@ -505,7 +505,7 @@ public class SanPhamDAO extends ConnectDB {
 		try {
 			String sql = "SELECT * FROM dbo.SanPham inner join LoaiSanPham on SanPham.MaLoai = LoaiSanPham.MaLoai inner join NhaCungCap on SanPham.MaNCC = NhaCungCap.MaNCC where "
 					+ where + " and (TenLoai not like N'%Sách%'\r\n" + "	 and TenLoai not like N'%Truyện%')";
-			System.out.println(sql);
+//			//System.out.println(sql);
 			stmt = this.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -662,9 +662,9 @@ public class SanPhamDAO extends ConnectDB {
 					+ "	having ngayMua >= ? and ngayMua <= ? and " + loai + soLuong + ") as cthd\r\n"
 					+ "group by cthd.maSP, cthd.maSP, tenSP, TacGia, soTrang, namXuatBan, maNCC, dongia, maLoai, tenLoai\r\n"
 					+ "order by soLuongDaBan desc";
-			System.out.println(sql);
-			System.out.println(Ngay.tuNgay(tuNgay));
-			System.out.println(Ngay.toiNgay(toiNgay));
+//			//System.out.println(sql);
+//			//System.out.println(Ngay.tuNgay(tuNgay));
+//			//System.out.println(Ngay.toiNgay(toiNgay));
 			stmt = this.conn.prepareStatement(sql);
 			stmt.setTimestamp(1, Ngay.tuNgay(tuNgay));
             stmt.setTimestamp(2, Ngay.toiNgay(toiNgay));
@@ -672,7 +672,7 @@ public class SanPhamDAO extends ConnectDB {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				printResultSet(rs);
+//				printResultSet(rs);
 				NhaCungCap ncc = new NhaCungCapDAO().getNhaCungCap(rs.getInt("maNCC"));
 				SanPham sp = new SanPham(rs.getInt("maSP"), rs.getString("tenSP"), rs.getDouble("donGia"), ncc);
 				sp.setTacGia(rs.getString("TacGia"));
@@ -733,7 +733,7 @@ public class SanPhamDAO extends ConnectDB {
 			stmt.setString(1, "%" + keyword + "%");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-//                System.out.println(rs);
+//                //System.out.println(rs);
 //				printResultSet(rs);
 				SanPham sanPham = new SanPham(rs);
 				dataList.add(sanPham);
@@ -778,8 +778,8 @@ public class SanPhamDAO extends ConnectDB {
 
 	public static void main(String[] args) throws SQLException {
 		SanPhamDAO sanPhamDao = new SanPhamDAO();
-//    	System.out.println(sanPhamDao.getListSanPham());
-		System.out.println(sanPhamDao.getListSach());
+//    	//System.out.println(sanPhamDao.getListSanPham());
+//		//System.out.println(sanPhamDao.getListSach());
 		// sanPhamDao.createNCC("phuong");
 	}
 }

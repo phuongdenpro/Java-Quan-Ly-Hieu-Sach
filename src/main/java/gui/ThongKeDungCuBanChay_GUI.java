@@ -330,17 +330,17 @@ public class ThongKeDungCuBanChay_GUI extends Printer {
 		long soNgay = Ngay.tinhKhoangNgay(tuNgay, toiNgay);
 		int minSoLuong = 0;
 		if(soNgay <= 3) {
-			minSoLuong = 5; 
+			minSoLuong = 20; 
 		}else if(soNgay <= 7)
-			minSoLuong = 15;
-		else if(soNgay <= 15)
 			minSoLuong = 30;
+		else if(soNgay <= 15)
+			minSoLuong = 50;
 		else if(soNgay <= 30)
-			minSoLuong = 60;
-		else if(soNgay <= 100)
 			minSoLuong = 100;
-		else
+		else if(soNgay <= 100)
 			minSoLuong = 200;
+		else
+			minSoLuong = 300;
 
 		dssp = new SanPhamDAO().thongKeSPBanChay(tuNgay, toiNgay, false, minSoLuong);
 		tblDSSP.clearSelection();

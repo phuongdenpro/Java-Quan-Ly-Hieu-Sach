@@ -338,7 +338,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 						where += "TenNCC like N'%" + comboBoxNXB.getSelectedItem().toString() + "%'";
 					}
 
-					System.out.println(where);
+					//System.out.println(where);
 
 					dssachtim = sachDAO.timKiemSach2(where);
 					if (dssachtim.size() == 0) {

@@ -135,21 +135,6 @@ public class QuanLy_GUI extends JFrame {
 		
 		contentPane = dangNhapGUI.getContentPane();
 		renderMain(dangNhapGUI.getContentPane(), "dangnhap");
-//		TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan("admin");
-//		khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
-//		System.out.println(khachHang);
-//		
-//		nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
-//		System.out.println(nhanVien);
-//		
-//		muaHangGUI = new MuaHang(khachHang);
-//		
-//		if(nhanVien != null) {
-//			taoHoaDonGUI = new TaoHoaDon_GUI(nhanVien);
-//			datHangGUI = new DatHang_GUI(nhanVien);
-//		}
-//		renderMain(TrangChaoMungGUI.getContentPane(), "chao mung");
-//		menuBar.setVisible(true);
 		handleLogin();
 		handleRegister();
 		handleDangXuat();
@@ -693,7 +678,7 @@ public class QuanLy_GUI extends JFrame {
 		this.revalidate();
 		this.repaint();
 
-		System.out.println("-> " + tab);
+		//System.out.println("-> " + tab);
 		if (tab.equals("thongke")) {
 
 		}
@@ -708,7 +693,7 @@ public class QuanLy_GUI extends JFrame {
 						
 						TaiKhoan taiKhoan = new TaiKhoanDAO().getTaiKhoan(dangNhapGUI.getTxtUserName().getText());
 						khachHang = new KhachHangDAO().getKhachHangByMaTK(taiKhoan.getId());
-						System.out.println(khachHang);
+//						//System.out.println(khachHang);
 						
 						if(dangNhapGUI.chkIsNhanVien.isSelected()) {
 							nhanVien = new NhanVienDAO().getNhanVienByMaTK(taiKhoan.getId());
@@ -739,9 +724,9 @@ public class QuanLy_GUI extends JFrame {
 //							setVisible(false);
 //						}
 						dangNhapGUI.clear();
-						System.out.println("dang nhap thanh cong");
+						//System.out.println("dang nhap thanh cong");
 					} else {
-						System.out.println("sai mat khau");
+						//System.out.println("sai mat khau");
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -752,7 +737,7 @@ public class QuanLy_GUI extends JFrame {
 
 		dangNhapGUI.btnDangKy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// System.out.println("hi");
+				// //System.out.println("hi");
 				renderMain(dangKyGUI.getContentPane(), "dangky");
 			}
 		});
@@ -795,7 +780,7 @@ public class QuanLy_GUI extends JFrame {
 	
 	public void handleTrangMuaHang() {
 		muaHangGUI.trangChuGUI.mntmDangXuat.addActionListener((e) -> {
-			System.out.println("dang xuat");
+			//System.out.println("dang xuat");
 			this.khachHang = null;
 			this.nhanVien = null;
 			muaHangGUI.setKhachHang(null);
@@ -805,7 +790,7 @@ public class QuanLy_GUI extends JFrame {
 			muaHangGUI.setVisible(false);
 		});
 		muaHangGUI.gioHangGUI.mntmDangXuat.addActionListener((e) -> {
-			System.out.println("dang xuat");
+			//System.out.println("dang xuat");
 			this.khachHang = null;
 			this.nhanVien = null;
 			muaHangGUI.setKhachHang(null);

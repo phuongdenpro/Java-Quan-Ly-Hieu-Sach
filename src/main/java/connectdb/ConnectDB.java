@@ -12,7 +12,7 @@ public class ConnectDB {
         String password = "sapassword";
         String url = "jdbc:sqlserver://" + severName + ":1433;databaseName=" + databaseName;
         this.conn = DriverManager.getConnection(url, username, password);
-        System.out.println(conn);
+        //System.out.println(conn);
     }
 
     public void disconnect() {
@@ -48,7 +48,7 @@ public class ConnectDB {
     }
     
     public void printResultSet(ResultSet rs) {
-    	System.out.println(resultSetToString(rs));
+    	//System.out.println(resultSetToString(rs));
     }
 
     public static void main(String[] args) throws SQLException {

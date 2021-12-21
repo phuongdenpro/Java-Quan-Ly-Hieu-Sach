@@ -66,7 +66,7 @@ public class TaiKhoanDAO extends ConnectDB{
             if(n == 0)
                 return false;
             
-//            System.out.println(getLatestID());
+//            //System.out.println(getLatestID());
             
             KhachHangDAO khachHangDao = new KhachHangDAO();
             if(!khachHangDao.themKhachHang(kh, getLatestID())) 
@@ -101,7 +101,7 @@ public class TaiKhoanDAO extends ConnectDB{
             if(n == 0)
                 return false;
             
-//            System.out.println(getLatestID());
+//            //System.out.println(getLatestID());
             
             if(!new NhanVienDAO().themNhanVien(nv, getLatestID())) 
             	return false;
@@ -263,6 +263,6 @@ public class TaiKhoanDAO extends ConnectDB{
 	public static void main(String[] args) throws SQLException {
 		TaiKhoanDAO taiKhoanDao = new TaiKhoanDAO();
 		KhachHang kh = new KhachHang("Trần Văn Nhân", "0987654321", "Thủ đức");
-		System.out.println(taiKhoanDao.themTaiKhoan(kh, "nhan12345769", "nhan123456"));
+//		//System.out.println(taiKhoanDao.themTaiKhoan(kh, "nhan12345769", "nhan123456"));
 	}
 }

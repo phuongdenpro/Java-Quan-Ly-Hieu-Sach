@@ -230,7 +230,7 @@ public class TimKiemNhanVien_GUI extends JFrame {
 					where += " and NhanVien.DiaChi like N'" + diaChi + "'";
 				else
 					where += " and NhanVien.DiaChi like N'%" + diaChi + "%'";
-				System.out.println(where);
+				//System.out.println(where);
 								
 				try {
 					dsnv = new NhanVienDAO().TimKiem(where);

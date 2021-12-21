@@ -387,19 +387,18 @@ public class ThongKeKHMuaNhieuNhat extends Printer {
 		long soNgay = Ngay.tinhKhoangNgay(tuNgay, toiNgay);
 		int minTongTien = 0;
 		if(soNgay <= 3) {
-			minTongTien = 100000; 
+			minTongTien = 200000; 
 		}else if(soNgay <= 7)
-			minTongTien = 200000;
+			minTongTien = 400000;
 		else if(soNgay <= 15)
-			minTongTien = 500000;
-		else if(soNgay <= 30)
 			minTongTien = 1000000;
-		else if(soNgay <= 100)
-			minTongTien = 1500000;
-		else
+		else if(soNgay <= 30)
 			minTongTien = 2000000;
+		else if(soNgay <= 100)
+			minTongTien = 3000000;
+		else
+			minTongTien = 4000000;
 		
-		System.out.println(tuNgay + " "+ toiNgay);
 		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHTN(tuNgay, toiNgay, limit, minTongTien);
 		
 		table.clearSelection();

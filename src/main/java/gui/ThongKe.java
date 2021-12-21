@@ -492,7 +492,7 @@ public class ThongKe extends Printer {
 		soLuongDungCu = 0;
 		doanhThu = 0;
 		soVon = 0;
-		System.out.println(ls.size());
+		//System.out.println(ls.size());
 		ls.forEach(rs -> {
 			int donGia = Integer.parseInt(rs.get("donGia"));
 			int giaNhap = Integer.parseInt(rs.get("giaNhap"));
@@ -523,7 +523,7 @@ public class ThongKe extends Printer {
 	
 	public void renderData(Date tuNgay, Date toiNgay) throws SQLException {
 		ls = new HoaDonDAO().chiTiet(tuNgay, toiNgay);
-		System.out.println(ls.size());
+		//System.out.println(ls.size());
 		Map<String, Integer> mpHD = new HashMap<String, Integer>();
 		Map<String, Integer> mpKH = new HashMap<String, Integer>();
 		soLuongSach = 0;
@@ -535,9 +535,9 @@ public class ThongKe extends Printer {
 			int donGia = Integer.parseInt(rs.get("donGia"));
 			int giaNhap = Integer.parseInt(rs.get("giaNhap"));
 			int soLuong = Integer.parseInt(rs.get("soLuong"));
-			System.out.println("n" + rs.get("ngayMua"));
-			System.out.println(Ngay.stringToTimestamp(rs.get("ngayMua")));
-			System.out.println(Ngay.getCa(Ngay.stringToTimestamp(rs.get("ngayMua"))));
+			//System.out.println("n" + rs.get("ngayMua"));
+			//System.out.println(Ngay.stringToTimestamp(rs.get("ngayMua")));
+			//System.out.println(Ngay.getCa(Ngay.stringToTimestamp(rs.get("ngayMua"))));
 			int sl = cboCaLam.getSelectedIndex();
 			
 			if(sl == 1 && Ngay.getCa(Ngay.stringToTimestamp(rs.get("ngayMua"))) == false) {

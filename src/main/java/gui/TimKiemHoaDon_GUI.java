@@ -201,7 +201,7 @@ public class TimKiemHoaDon_GUI extends JFrame {
 				where += "KhachHang.DiaChi like N'%" + txtDiaChi.getText() + "%'";
 			}
 			
-			System.out.println(where);
+			//System.out.println(where);
 			
 			try {
 				dshd = (ArrayList<HoaDon>) new HoaDonDAO().timKiem(where);

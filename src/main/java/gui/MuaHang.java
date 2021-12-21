@@ -84,7 +84,7 @@ public class MuaHang extends JFrame{
 //        this.add(this.contentPane);
         
         
-        System.out.println("-> "+tab);
+        //System.out.println("-> "+tab);
 //		if(tab.equals("dangnhap")) {
 //			handleLogin();
 //			loginGUI.requestFocus();
@@ -129,7 +129,7 @@ public class MuaHang extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				renderMain(troGiupGUI.getContenPane(), "trogiup");
-//				System.out.println(quanLyGUI.get());
+//				//System.out.println(quanLyGUI.get());
 			}
 
 			@Override

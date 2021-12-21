@@ -364,7 +364,7 @@ public class KhachHang_GUI extends JFrame {
 						boolean kq;
 						try {
 							kq = new KhachHangDAO().xoaKhachHang(dskh.get(index));
-							System.out.println(kq);
+//							//System.out.println(kq);
 							if(kq) {
 								JOptionPane.showMessageDialog(contentPane, "xóa thành công");
 								renderData();
@@ -403,7 +403,7 @@ public class KhachHang_GUI extends JFrame {
 				else if(cboLoaiTimKiem.getSelectedItem().equals("Địa chỉ")) 
 					key = "DiaChi";
 				String sql = " "+ key + " like " + "N'%" +txtNhapLieu.getText()+ "%'" ;
-				System.out.println(sql);
+//				//System.out.println(sql);
 				dskh = new ArrayList<KhachHang>();
 				try {
 					dskh = new KhachHangDAO().TimKiem(sql);
@@ -425,7 +425,7 @@ public class KhachHang_GUI extends JFrame {
 		dskh = new ArrayList<KhachHang>();
 		dskh = new KhachHangDAO().getListKhachHang();
 		for (KhachHang kh: dskh) {
-			System.out.println(kh.toString());
+//			//System.out.println(kh.toString());
 			modelDSKH.addRow(new Object[] {kh.getMaKh(),kh.getHoTen(),kh.getSoDienThoai(),kh.getDiaChi(),kh.getTenTk()});
 		}
 		tblKhachHang.revalidate();

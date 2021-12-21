@@ -222,7 +222,7 @@ public class TimKiemKhachHang_GUI extends JFrame {
 				else 
 					where += " and KhachHang.DiaChi like N'%"+diaChi+"%'";
 				
-				System.out.println(where);
+				//System.out.println(where);
 				try {
 					dskh = new KhachHangDAO().TimKiem(where);
 					if(dskh.size() == 0) {

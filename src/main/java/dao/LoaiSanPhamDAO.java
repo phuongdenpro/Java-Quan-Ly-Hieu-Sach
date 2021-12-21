@@ -29,7 +29,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-//                System.out.println(rs);
+//                //System.out.println(rs);
 //            	printResultSet(rs);
             	LoaiSanPham loaiSp = new LoaiSanPham(rs);
             	loaiSp.setSanPhams(sanPhamDao.getListSanPhamByMaLoai(rs.getInt("maLoai")));
@@ -57,7 +57,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-//                System.out.println(rs);
+//                //System.out.println(rs);
 //            	printResultSet(rs);
             	LoaiSanPham loaiSp = new LoaiSanPham(rs);
             	loaiSp.setSanPhams(sanPhamDao.getListSanPhamByMaLoai(rs.getInt("maLoai")));
@@ -150,14 +150,14 @@ public class LoaiSanPhamDAO extends ConnectDB{
     	Statement stmt = null;
     	List<LoaiSanPham> dssp = new ArrayList<LoaiSanPham>();
         try {
-        	System.out.println(key + " " + val);
+//        	//System.out.println(key + " " + val);
 
             String sql = "SELECT * FROM dbo.LoaiSanPham where "+ key +" like N'%"+ val + "%'";
             stmt = this.conn.createStatement();
             
             ResultSet rsLoai = stmt.executeQuery(sql);
             
-            System.out.println(rsLoai.getStatement().toString());
+//            //System.out.println(rsLoai.getStatement().toString());
             
             while(rsLoai.next()) {
 //            	printResultSet(rsLoai);
@@ -182,7 +182,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
 		List<LoaiSanPham> dsloai = new ArrayList<LoaiSanPham>();
 		try {
 			String sql = "SELECT * FROM dbo.LoaiSanPham where "+where;
-			System.out.println(sql);
+//			//System.out.println(sql);
 			stmt = this.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -247,7 +247,7 @@ public class LoaiSanPhamDAO extends ConnectDB{
 	
 	public static void main(String[] args) throws SQLException {
 		LoaiSanPhamDAO loaiSanPhamDAO = new LoaiSanPhamDAO();
-		System.out.println(loaiSanPhamDAO.getDanhSachLoaiSanPham());
+//		//System.out.println(loaiSanPhamDAO.getDanhSachLoaiSanPham());
 	}
 
 }

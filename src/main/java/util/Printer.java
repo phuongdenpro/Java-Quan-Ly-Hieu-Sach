@@ -22,7 +22,7 @@ public class Printer extends JFrame implements Printable{
 	            // render the component onto the printer or print queue.
 	            printerJob.print();
 	        } catch ( PrinterException e ) {
-	            System.out.println( "Error printing: " + e );
+	            //System.out.println( "Error printing: " + e );
             }
         }
     }

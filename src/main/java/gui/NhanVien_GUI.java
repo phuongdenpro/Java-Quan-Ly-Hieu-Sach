@@ -395,7 +395,7 @@ public class NhanVien_GUI extends JFrame {
 						tblNhanVien.clearSelection();
 						try {
 							boolean kq = new NhanVienDAO().xoaNV(dsnv.get(index));
-							System.out.println(kq);
+//							//System.out.println(kq);
 							if(kq) {
 								JOptionPane.showMessageDialog(contentPane, "Xóa thành công");
 								renderData();
@@ -451,9 +451,9 @@ public class NhanVien_GUI extends JFrame {
 					key = "SoDienThoai";		
 				else if(cboLoaiTimKiem.getSelectedItem().equals("Địa chỉ")) 
 					key = "DiaChi";
-				System.out.println(key);
+//				//System.out.println(key);
 				String sql = " " + key + " like " + "N'%" +txtNhapLieu.getText()+ "%'" ;
-				System.out.println(sql);
+//				//System.out.println(sql);
 				dsnv = new ArrayList<NhanVien>();
 				try {
 					dsnv = new NhanVienDAO().TimKiem(sql);

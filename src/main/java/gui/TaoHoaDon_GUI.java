@@ -446,9 +446,9 @@ public class TaoHoaDon_GUI extends JFrame {
 			
 			int choose = JOptionPane.showConfirmDialog(contentPane, "Chắc chắn tạo hóa đơn");
 			if(choose == 0) {
-				System.out.println(this.nhanVien);
+				//System.out.println(this.nhanVien);
 				HoaDon hd = new HoaDon(this.nhanVien, dskh.get(idx-1), dscthd);
-				System.out.println(hd.getNhanVien());
+				//System.out.println(hd.getNhanVien());
 				try {
 					HoaDonDAO hoaDonDao = new HoaDonDAO();
 					if(hoaDonDao.themHoaDon(hd)) {
@@ -497,7 +497,7 @@ public class TaoHoaDon_GUI extends JFrame {
 		cboKH.setSelectedIndex(0);
 		
 		dskh.forEach(kh -> {
-//			System.out.println(kh.getHoTen());
+//			//System.out.println(kh.getHoTen());
 			modelKH.addElement("#"+ kh.getMaKh()+ " " + kh.getHoTen());
 		});
 		cboKH.revalidate();

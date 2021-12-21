@@ -600,7 +600,7 @@ public class ThemDonDatHang_GUI extends JFrame {
 		cboKH.setSelectedIndex(0);
 		
 		dskh.forEach(kh -> {
-//			System.out.println(kh.getHoTen());
+//			//System.out.println(kh.getHoTen());
 			modelKH.addElement("#"+ kh.getMaKh()+ " " + kh.getHoTen());
 		});
 		cboKH.revalidate();

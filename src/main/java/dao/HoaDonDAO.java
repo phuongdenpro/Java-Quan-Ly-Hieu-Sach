@@ -183,7 +183,7 @@ public class HoaDonDAO extends ConnectDB{
     	Statement stmt = null;
     	List<HoaDon> dshd = new ArrayList<HoaDon>();
         try {
-        	System.out.println(key + " " + val);
+//        	//System.out.println(key + " " + val);
 
             String sql = "SELECT * FROM dbo.HoaDon inner join dbo.KhachHang on dbo.HoaDon.maKH = dbo.KhachHang.maKH where "+ key +" like N'%"+ val + "%'";
             stmt = this.conn.createStatement();
@@ -215,7 +215,7 @@ public class HoaDonDAO extends ConnectDB{
     	List<HoaDon> dshd = new ArrayList<HoaDon>();
         try {
             String sql = "SELECT * FROM dbo.HoaDon inner join dbo.KhachHang on dbo.HoaDon.maKH = dbo.KhachHang.maKH where "+ where;
-            System.out.println(sql);
+//            //System.out.println(sql);
             stmt = this.conn.createStatement();
             
             ResultSet rs = stmt.executeQuery(sql);

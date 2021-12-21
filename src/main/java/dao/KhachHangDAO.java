@@ -177,7 +177,7 @@ public class KhachHangDAO extends ConnectDB{
 		PreparedStatement stmt = null;
 		try {
 		String sql = " delete from dbo.KhachHang where maKH = ?";
-		System.out.println(sql);
+//		//System.out.println(sql);
 	
 			stmt = this.conn.prepareStatement(sql);
 			stmt.setInt(1, kh.getMaKh());
@@ -263,14 +263,13 @@ public class KhachHangDAO extends ConnectDB{
             		+ "group by KhachHang.maKH, HoTen, SoDienThoai, DiaChi\r\n"
             		+ tongTien
             		+ "order by tongTien desc";
-            System.out.println(sql);
+
             stmt = this.conn.prepareStatement(sql);
             stmt.setTimestamp(1, Ngay.tuNgay(d1));
             stmt.setTimestamp(2, Ngay.toiNgay(d2));
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-//            	printResultSet(rs);
             	KhachHang kh = new KhachHang(rs);
             	Map<String, Integer> mp = new HashMap<String, Integer>();
             	mp.put("soLanMuaHang", rs.getInt("soLanMuaHang"));
@@ -302,7 +301,6 @@ public class KhachHangDAO extends ConnectDB{
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-//            	printResultSet(rs);
             	KhachHang kh = new KhachHang(rs);
             	kq.add(kh);
             }
@@ -334,7 +332,6 @@ public class KhachHangDAO extends ConnectDB{
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-//            	printResultSet(rs);
             	KhachHang kh = new KhachHang(rs);
             	kq.add(kh);
             }
@@ -486,7 +483,6 @@ public class KhachHangDAO extends ConnectDB{
 		
 		try {
 			String sqlTimKiem = "select * from KhachHang where" + where ;
-			System.out.println(sqlTimKiem);
 			PreparedStatement stml = this.conn.prepareStatement(sqlTimKiem,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);	
 			ResultSet result = stml.executeQuery();
 			

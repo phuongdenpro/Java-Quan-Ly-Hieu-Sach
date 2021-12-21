@@ -171,7 +171,7 @@ public class DatHang_GUI extends JFrame implements ActionListener, MouseListener
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				System.out.println(tableDonDat.getSelectedRow());
+//				//System.out.println(tableDonDat.getSelectedRow());
 				renderSSSP(tableDonDat.getSelectedRow());
 			}
 		});

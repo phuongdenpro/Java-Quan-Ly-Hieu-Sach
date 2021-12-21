@@ -38,7 +38,7 @@ public class DonDatHangDAO extends ConnectDB{
             stmt.setInt(1, maKH);
             ResultSet rsDDH = stmt.executeQuery();
             
-//            System.out.println(rsDDH.next());
+//            //System.out.println(rsDDH.next());
 //          kiểm tra xem đã có đơn đặt hàng chưa đặt của khách hàng đó không
             if(!rsDDH.next()) {
 //				Chưa có đơn -> Tạo mới
@@ -215,7 +215,7 @@ public class DonDatHangDAO extends ConnectDB{
         	
         	ddh.tinhTongTien();
         	List<ChiTietDonDatHang> dsctdh = ddh.getChiTietDonDatHangs();
-//        	System.out.println(dsctdh);
+//        	//System.out.println(dsctdh);
         	AtomicBoolean flag = new AtomicBoolean();
         	flag.set(true);
         	
@@ -385,14 +385,14 @@ public class DonDatHangDAO extends ConnectDB{
     	Statement stmt = null;
     	List<DonDatHang> dsddh = new ArrayList<DonDatHang>();
         try {
-        	System.out.println(key + " " + val);
+//        	//System.out.println(key + " " + val);
 
             String sql = "SELECT * FROM dbo.DonDatHang inner join dbo.KhachHang on dbo.DonDatHang.maKH = dbo.KhachHang.maKH where dbo.DonDatHang.tinhTrang != 0 and "+ key +" like N'%"+ val + "%'";
             stmt = this.conn.createStatement();
             
             ResultSet rsDDH = stmt.executeQuery(sql);
             
-//            System.out.println(rsDDH.getStatement().toString());
+//            //System.out.println(rsDDH.getStatement().toString());
             
             while(rsDDH.next()) {
 //            	printResultSet(rsDDH);
@@ -486,7 +486,7 @@ public class DonDatHangDAO extends ConnectDB{
 //    	SanPham sp = new SanPhamDAO().getSanPham(17);
     	DonDatHangDAO DDHDao = new DonDatHangDAO();
 //    	
-//    	System.out.println(DDHDao.themSanPhamVaoDonDatHang(sp, 1, 1));
-    	System.out.println(DDHDao.timKiem("soDienThoai", "0987654222"));
+//    	//System.out.println(DDHDao.themSanPhamVaoDonDatHang(sp, 1, 1));
+//    	//System.out.println(DDHDao.timKiem("soDienThoai", "0987654222"));
 	}
 }

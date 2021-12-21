@@ -267,7 +267,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 						where += "TenNCC like N'%" + comboBoxNCC.getSelectedItem().toString() + "%'";
 					}
 
-					System.out.println(where);
+					//System.out.println(where);
 
 					dssptim = sanphamDAO.timKiemSanPhamKhac2(where);
 					if (dssptim.size() == 0) {

@@ -206,7 +206,7 @@ public class TimKiemDanhMucSanPham_GUI extends JFrame implements ActionListener{
 					} else {
 						where += "TenLoai like N'%" + txtTenLoai.getText() + "%'";
 					}
-					System.out.println(where);
+					//System.out.println(where);
 					dsloaitim = loaiDAO.timKiem2(where);
 					if (dsloaitim.size() == 0) {
 						JOptionPane.showMessageDialog(contentPane, "Không có danh mục phù hợp");

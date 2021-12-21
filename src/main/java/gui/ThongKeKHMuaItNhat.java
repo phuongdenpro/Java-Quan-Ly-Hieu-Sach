@@ -396,7 +396,7 @@ public class ThongKeKHMuaItNhat extends Printer {
 		else
 			maxTongTien = 1000000;
 		
-		System.out.println(tuNgay + " "+ toiNgay);
+		//System.out.println(tuNgay + " "+ toiNgay);
 		Map<KhachHang, Map<String, Integer>> dskh = new KhachHangDAO().thongKeKHMuaIt(tuNgay, toiNgay, limit, maxTongTien);
 		
 		table.clearSelection();

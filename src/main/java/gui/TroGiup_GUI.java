@@ -159,7 +159,7 @@ public class TroGiup_GUI extends JFrame {
 					pnRight.revalidate();
 					pnRight.repaint();
 					int id = Integer.parseInt(((JLabel)e.getSource()).getText().substring(0, 1)) - 1;
-					System.out.println(id);
+					//System.out.println(id);
 					pnContent = pnTraLoi.get(id);
 					pnRight.add(pnContent);
 					pnRight.revalidate();
