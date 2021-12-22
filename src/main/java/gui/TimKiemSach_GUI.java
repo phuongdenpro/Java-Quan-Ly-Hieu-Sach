@@ -262,7 +262,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		pnRight.add(pnRightBottom);
 
 		String[] cols = { "Mã sách", "Tên sách", "Tác giả", "Số trang", "Nhà xuất bản", "Năm xuất bản", "Số lượng",
-				"Giá nhập", "Giá bán", "Loại Sách" };
+				 "Giá bán", "Loại Sách" };
 		modelSach = new DefaultTableModel(cols, 0);
 		pnRightBottom.setLayout(new BorderLayout(0, 0));
 		tblKetQua = new JTable(modelSach);
@@ -418,7 +418,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		dssach.forEach(sach -> {
 			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
 					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
-					Currency.format((int) sach.getGiaNhap()).toString(), Currency.format((int) sach.getGiaSp()).toString(),
+					 Currency.format((int) sach.getGiaSp()).toString(),
 					sach.getLoaiSanPham().getTenLoai() });
 		});
 	}
@@ -431,7 +431,7 @@ public class TimKiemSach_GUI extends JFrame implements ActionListener {
 		dssachtim.forEach(sach -> {
 			modelSach.addRow(new Object[] { sach.getMaSp(), sach.getTenSp(), sach.getTacGia(), sach.getSoTrang(),
 					sach.getNhaCungCap().getTenNCC(), sach.getNamXuatBan(), sach.getSoLuong(),
-					Currency.format((int) sach.getGiaNhap()).toString(), Currency.format((int) sach.getGiaSp()).toString(),
+					 Currency.format((int) sach.getGiaSp()).toString(),
 					sach.getLoaiSanPham().getTenLoai() });
 		});
 

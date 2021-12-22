@@ -223,8 +223,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		pnRightBottom.setBorder(new LineBorder(SystemColor.activeCaption, 2));
 		pnRight.add(pnRightBottom);
 
-		String[] cols = { "Mã sản phẩm", "Tên sản phẩm", "Nhà cung cấp", "Số lượng", "Giá nhập", "Giá bán",
-				"Loại sản phẩm" };
+		String[] cols = { "Mã sản phẩm", "Tên sản phẩm", "Nhà cung cấp", "Số lượng", "Giá bán", "Loại sản phẩm" };
 		modelSanPhamKhac = new DefaultTableModel(cols, 0);
 		pnRightBottom.setLayout(new BorderLayout(0, 0));
 		tblKetQua = new JTable(modelSanPhamKhac);
@@ -267,7 +266,7 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 						where += "TenNCC like N'%" + comboBoxNCC.getSelectedItem().toString() + "%'";
 					}
 
-					//System.out.println(where);
+					// System.out.println(where);
 
 					dssptim = sanphamDAO.timKiemSanPhamKhac2(where);
 					if (dssptim.size() == 0) {
@@ -337,9 +336,9 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		dsssp = new SanPhamDAO().getListSanPhamKhac();
 
 		dsssp.forEach(sp -> {
-			modelSanPhamKhac.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), Currency.format((int) sp.getGiaNhap()).toString(),
-					Currency.format((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+			modelSanPhamKhac
+					.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(),
+							Currency.format((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
 	}
 
@@ -349,9 +348,9 @@ public class TimKiemSanPhamKhac_GUI extends JFrame implements ActionListener {
 		modelSanPhamKhac.getDataVector().removeAllElements();
 
 		dssptim.forEach(sp -> {
-			modelSanPhamKhac.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(),
-					sp.getSoLuong(), Currency.format((int) sp.getGiaNhap()).toString(),
-					Currency.format((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
+			modelSanPhamKhac
+					.addRow(new Object[] { sp.getMaSp(), sp.getTenSp(), sp.getNhaCungCap().getTenNCC(), sp.getSoLuong(),
+							Currency.format((int) sp.getGiaSp()).toString(), sp.getLoaiSanPham().getTenLoai() });
 		});
 
 		tblKetQua.revalidate();
